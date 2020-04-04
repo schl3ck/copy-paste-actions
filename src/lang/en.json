@@ -1,0 +1,26 @@
+{
+  "mainMenu": {
+    "selectShortcuts": {
+      "title": "Select Shortcuts",
+      "description": "Search for Shortcuts to select which will be processed"
+    },
+    "editSnippets": {
+      "title": "Edit Snippets",
+      "description": "Edit your saved Snippets and clipboard items"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "description": "Change how this Shortcut operates"
+    },
+    "help": {
+      "title": "Help",
+      "description": "If you are lost, start here"
+    }
+  },
+  "selectShortcuts": {
+    "title": "Select Shortcuts",
+    "searchPlaceholder": "Enter search term",
+    "toMainMenu": "Back",
+    "continueProcessing": "Process Shortcuts"
+  }
+}

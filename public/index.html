@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +8,22 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>CopyPaste Actions</title>
   </head>
+
   <body>
     <noscript>
       <strong>We're sorry but CopyPaste Actions doesn't work properly with JavaScript disabled. Please enable it to continue.</strong>
     </noscript>
+    <script type="application/zip" id="datastore">
+      <%= require("@/assets/shortcutImages.txt").default %>
+    </script>
+    <script type="text/json" id="preferences">
+      <%= JSON.stringify(require("@/assets/preferences.json")) %>
+    </script>
+    <script type="text/json" id="language">
+      <%= JSON.stringify(require("@/lang/en.json")) %>
+    </script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+
 </html>
