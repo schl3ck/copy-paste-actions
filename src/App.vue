@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <div class="sticky-app">
+    <div v-if="showMainTitle" class="sticky-app">
       <h1 class="text-warning">
         <FontAwesomeIcon icon="clipboard"></FontAwesomeIcon> {{ preferences["Shortcut Name"] }}
       </h1>
@@ -37,6 +37,10 @@ export default {
     /** @returns {object} */
     preferences() {
       return this.$store.state.preferences;
+    },
+    /** @returns {boolean} */
+    showMainTitle() {
+      return this.$store.state.showMainTitle;
     }
   }
 };

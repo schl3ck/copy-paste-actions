@@ -12,7 +12,8 @@ export default new Vuex.Store({
     preferences: {
 
     },
-    language: {}
+    language: {},
+    showMainTitle: true
   },
   mutations: {
     shortcuts(state, data) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     language(state, data) {
       state.language = data;
+    },
+    showMainTitle(state, data) {
+      state.showMainTitle = data;
     }
   },
   actions: {

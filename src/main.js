@@ -5,23 +5,45 @@ import "bootstrap.reboot";
 import "jquery";
 import "bootstrap.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faHammer, faPencilAlt, faCogs, faQuestion, faClipboard, faCheck, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+  faHammer,
+  faPencilAlt,
+  faCogs,
+  faQuestion,
+  faClipboard,
+  faCheck,
+  faChevronLeft,
+  faBars
+} from "@fortawesome/free-solid-svg-icons";
 
 import store from "./store/index";
 
-library.add(faHammer, faPencilAlt, faCogs, faQuestion, faClipboard, faCheck, faChevronLeft);
+library.add(
+  faHammer,
+  faPencilAlt,
+  faCogs,
+  faQuestion,
+  faClipboard,
+  faCheck,
+  faChevronLeft,
+  faBars
+);
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 
 // load data from HTML file
-store.dispatch("loadShortcuts");
+const loadShortcuts = store.dispatch("loadShortcuts");
 store.dispatch("loadPreferences");
 store.dispatch("loadLanguage");
 
-new Vue({
+const root = new Vue({
   store,
   render: h => h(App)
 }).$mount("#app");
+
+loadShortcuts.then(() => {
+  root.$emit("loadShortcutsFinished");
+});

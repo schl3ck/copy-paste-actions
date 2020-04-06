@@ -21,6 +21,10 @@
     "title": "Select Shortcuts",
     "searchPlaceholder": "Enter search term",
     "toMainMenu": "Back",
-    "continueProcessing": "Process Shortcuts"
+    "continueProcessing": "Process Shortcuts",
+    "numberOfShortcutsSelected": "$n Shortcuts selected",
+    "showSelected": "Toggle showing all selected Shortcuts",
+    "nothingSelected": "No Shortcuts selected",
+    "loading": "Loading..."
   }
 }

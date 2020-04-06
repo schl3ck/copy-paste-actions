@@ -1,32 +1,55 @@
 <template>
   <div>
+    <!-- TODO: some Shortcuts have no image... probably due to their name and storing them in a .zip file -->
     <div class="sticky">
       <h2>{{ lang.title }}</h2>
       <div class="list-group list-group-custom-flush">
-        <input class="list-group-item no-rounded-bottom border-bottom" type="text" v-model="searchText"
-          :placeholder="lang.searchPlaceholder"
-          ref="input"
-          autofocus>
+        <div class="list-group-item no-rounded-bottom border-bottom p-0">
+          <div class="input-group flex-row">
+            <input class="input-group-form-control" type="text"
+              v-model="searchText"
+              :placeholder="lang.searchPlaceholder"
+              ref="input">
+            <div class="input-group-append">
+              <!-- TODO: BUG or FEATURE?: if the shortcuts are filtered by search and all are selected,
+              the button switches incorrectly to all shortcuts, and then back to the selected shortcuts -->
+              <button type="button" class="btn" @click="showSelectedShortcuts">
+                <FontAwesomeIcon icon="bars" class="mr-1"></FontAwesomeIcon>
+                <span class="sr-only">{{ lang.showSelected }}</span>
+                <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
+                <span class="badge badge-pill badge-primary">{{ selectedCount }}</span>
+                <span class="sr-only">{{ langNumberOfShortcutsSelected.after }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="list-group list-group-custom-flush no-rounded-top">
-      <a
-        v-for="shortcut in filteredShortcuts"
-        :key="shortcut.name"
-        class="list-group-item list-group-item-action d-flex align-items-center"
-        @click="toggleSelection(shortcut)">
-        <FontAwesomeIcon
-          icon="check"
-          class="text-primary mr-2 fa-1o5x"
-          :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-        <img :src="'data:image/png;base64,' + shortcut.image" class="mr-2">
-        <span v-html="shortcut.escapedName"></span>
-      </a>
+    <div class="list-group list-group-custom-flush no-rounded-top" ref="list">
+      <div v-if="filteredShortcuts && filteredShortcuts.length">
+        <a
+          v-for="shortcut in filteredShortcuts"
+          :key="shortcut.name"
+          class="list-group-item list-group-item-action d-flex align-items-center"
+          @click="toggleSelection(shortcut)">
+          <FontAwesomeIcon
+            icon="check"
+            class="text-primary mr-2 fa-1o5x"
+            :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
+          <img :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon">
+          <span v-html="shortcut.escapedName"></span>
+        </a>
+      </div>
+      <div v-else>
+        <div class="list-group-item text-center">
+          <i>{{ filteredShortcuts === null ? lang.loading : lang.nothingSelected }}</i>
+        </div>
+      </div>
     </div>
 
-    <div class="btn-group btn-group-lg fixed-bottom" role="group">
+    <div class="btn-group btn-group-lg fixed-bottom" role="toolbar" ref="toolbar">
       <!-- TODO: link to actions -->
-      <button type="button" class="btn btn-light" @click="$root.$emit('navigate', 'MainMenu')">
+      <button type="button" class="btn btn-light" @click="toMainMenu">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
       </button>
       <button type="button" class="btn" :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
@@ -53,15 +76,18 @@ export default {
   created() {
     // TODO: make debounce time a preference?
     this.debouncedSearch = debounce(this.search, 400);
-    this.fuse = new Fuse(this.shortcuts, {
-      includeMatches: true,
-      keys: ["name"],
-      threshold: 0.4
-    });
-    this.search("");
+    this.$store.commit("showMainTitle", false);
+
+    if (this.shortcuts.length) {
+      this.init();
+    } else {
+      this.filteredShortcuts = null;
+      this.$root.$once("loadShortcutsFinished", this.init.bind(this));
+    }
   },
   mounted() {
-    // this.$refs.input.focus();
+    const height = this.$refs.toolbar.clientHeight;
+    this.$refs.list.style.paddingBottom = height + "px";
   },
   computed: {
     /** @returns {object} */
@@ -72,26 +98,48 @@ export default {
     lang() {
       return this.$store.state.language.selectShortcuts;
     },
+    /** @returns { {before: string, after: string} } */
+    langNumberOfShortcutsSelected() {
+      const str = this.lang.numberOfShortcutsSelected;
+      const match = str.match(/^((?:[^$]|\$[^n])*?) ?\$n ?(.*)/);
+      return {
+        before: match ? match[1] : "",
+        after: match ? match[2] : str
+      };
+    },
     /** @returns {boolean} */
     hasSelection() {
       return this.shortcuts.some(s => s.selected);
+    },
+    /** @returns {number} */
+    selectedCount() {
+      return this.shortcuts.filter(s => s.selected).length;
     }
   },
   methods: {
-    search(value) {
+    init() {
+      this.fuse = new Fuse(this.shortcuts, {
+        includeMatches: true,
+        keys: ["name"],
+        threshold: 0.4
+      });
+      this.search("");
+    },
+    escape(value) {
       const map = {
         "<": "&lt;",
         ">": "&gt;",
         '"': "&quot;",
         "&": "&amp;"
       };
-      const escape = str => str.replace(/[<>"&]/g, m => map[m]);
-
+      return value.replace(/[<>"&]/g, m => map[m]);
+    },
+    search(value) {
       if (value) {
         this.filteredShortcuts = this.fuse.search(value).map(shortcut => {
           const item = shortcut.item;
           const name = shortcut.item.name;
-          item.escapedName = escape(name);
+          item.escapedName = this.escape(name);
           if (!shortcut.matches) {
             return item;
           }
@@ -108,7 +156,7 @@ export default {
               // range starts here
               res += '<u class="text-danger">';
             }
-            res += escape(name[i]);
+            res += this.escape(name[i]);
             if (curIndices[1] === i) {
               // range ends here
               res += "</u>";
@@ -124,13 +172,38 @@ export default {
         });
       } else {
         this.filteredShortcuts = this.shortcuts.map(s => {
-          s.escapedName = escape(s.name);
+          s.escapedName = this.escape(s.name);
           return s;
         });
       }
     },
     toggleSelection(shortcut) {
       shortcut.selected = !shortcut.selected;
+    },
+    toMainMenu() {
+      this.$store.commit("showMainTitle", true);
+      this.$root.$emit("navigate", "MainMenu");
+      window.scrollTo({
+        left: 0,
+        top: 0,
+        behavior: "auto"
+      });
+    },
+    showSelectedShortcuts() {
+      const allSelected = this.shortcuts
+        .filter(s => s.selected)
+        .map(s => {
+          s.escapedName = this.escape(s.name);
+          return s;
+        });
+      if (
+        this.filteredShortcuts.every(s => s.selected) &&
+        this.filteredShortcuts.length === allSelected.length
+      ) {
+        this.search("");
+      } else {
+        this.filteredShortcuts = allSelected;
+      }
     }
   },
   watch: {
@@ -167,6 +240,20 @@ export default {
   bottom: 0;
   z-index: 108;
   background: white;
+  padding-bottom: 1rem;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.input-group-form-control {
+  flex: 1 1 0%;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  padding: 0.375rem 0.75rem;
 }
 
 @media (max-width: 575px) {
