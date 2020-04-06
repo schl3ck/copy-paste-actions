@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import JSZip from "jszip";
 import { assign, flatten, groupBy, map, values } from "lodash";
+import Fuse from "fuse.js";
 
 Vue.use(Vuex);
 
@@ -70,6 +71,28 @@ export default new Vuex.Store({
       shortcuts = map(values(groupBy(flatten(shortcuts), "name")), (i) => {
         return assign({ selected: false }, ...i);
       });
+      let noImage = shortcuts.filter(s => !s.image);
+      let noSize = shortcuts.filter(s => !s.size);
+      if (noImage.length || noSize.length) {
+        if (noImage.length === noSize.length) {
+          const fuse = new Fuse(noImage, {
+            keys: ["name"],
+            threshold: 0.2
+          });
+          for (const i of noSize) {
+            const match = fuse.search(i.name);
+            if (match.length) {
+              match[0].item.image = i.image;
+              shortcuts.splice(shortcuts.indexOf(i), 1);
+            }
+          }
+          noImage = shortcuts.filter(s => !s.image);
+          noSize = shortcuts.filter(s => !s.size);
+        }
+        if (noImage.length || noSize.length) {
+          console.warn(`There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`, noImage, noSize);
+        }
+      }
       commit("shortcuts", shortcuts);
     },
     loadPreferences({ commit }) {

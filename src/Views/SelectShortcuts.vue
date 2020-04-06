@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- TODO: some Shortcuts have no image... probably due to their name and storing them in a .zip file -->
     <div class="sticky">
       <h2>{{ lang.title }}</h2>
       <div class="list-group list-group-custom-flush">
