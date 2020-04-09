@@ -11,7 +11,8 @@
               ref="input">
             <div class="input-group-append">
               <!-- TODO: BUG or FEATURE?: if the shortcuts are filtered by search and all are selected,
-              the button switches incorrectly to all shortcuts, and then back to the selected shortcuts -->
+              the button switches incorrectly to all shortcuts, and then back to the selected shortcuts
+              FIXME: create second list with all selected and switch between them, maybe with an animation -->
               <button type="button" class="btn" @click="showSelectedShortcuts">
                 <FontAwesomeIcon icon="bars" class="mr-1"></FontAwesomeIcon>
                 <span class="sr-only">{{ lang.showSelected }}</span>
@@ -37,6 +38,7 @@
             :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
           <img :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon">
           <span v-html="shortcut.escapedName"></span>
+          <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
         </a>
       </div>
       <div v-else>
@@ -47,12 +49,11 @@
     </div>
 
     <div class="btn-group btn-group-lg fixed-bottom" role="toolbar" ref="toolbar">
-      <!-- TODO: link to actions -->
       <button type="button" class="btn btn-light" @click="toMainMenu">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
       </button>
       <button type="button" class="btn" :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
-        :disabled="!hasSelection">
+        :disabled="!hasSelection" @click="toProcessShortcuts">
         <FontAwesomeIcon icon="hammer"></FontAwesomeIcon> {{ lang.continueProcessing }}
       </button>
     </div>
@@ -62,6 +63,7 @@
 <script>
 import Fuse from "fuse.js";
 import { debounce } from "lodash";
+import { openApp } from "@/utils/openApp";
 
 export default {
   name: "SelectShortcuts",
@@ -100,10 +102,10 @@ export default {
     /** @returns { {before: string, after: string} } */
     langNumberOfShortcutsSelected() {
       const str = this.lang.numberOfShortcutsSelected;
-      const match = str.match(/^((?:[^$]|\$[^n])*?) ?\$n ?(.*)/);
+      const parts = (" " + str + " ").split("$number", 2); // ensure that there are 2 parts every time
       return {
-        before: match ? match[1] : "",
-        after: match ? match[2] : str
+        before: parts && parts.length ? parts[0].trim() : "",
+        after: parts && parts.length ? parts[1].trim() : str.trim()
       };
     },
     /** @returns {boolean} */
@@ -203,6 +205,53 @@ export default {
       } else {
         this.filteredShortcuts = allSelected;
       }
+    },
+    toProcessShortcuts() {
+      let selected = this.shortcuts.filter(s => s.selected);
+      if (selected.length === 0) return;
+
+      // if selected shortcuts are bigger than 3 MB
+      let size = selected.reduce((acc, i) => acc + i.size, 0);
+      if (size > 3 * 1024 * 1024) {
+        size = Math.round((size / (1024 * 1024)) * 100) / 100;
+        if (
+          !confirm(this.lang.shortcutsSizeLarge.replace("$size", size + " MB"))
+        ) {
+          return;
+        }
+      }
+
+      selected = selected.map(s => s.name);
+
+      openApp(this.$root, {
+        closePage: false, // TODO: change
+        actions: [
+          "Preferences.get",
+          "Shortcuts.getNames",
+          "Shortcuts.getFiles",
+          "Snippets.get",
+          "Clipboard.get",
+          "Build.processShortcuts"
+        ],
+        data: [
+          {
+            name: "selectedShortcuts.json",
+            content: JSON.stringify({ selected })
+          }
+        ]
+      });
+    }
+  },
+  filters: {
+    fileSize(size) {
+      let unit = " B";
+      const units = [" kB", "MB", "GB"];
+      while (units.length && size >= 1024) {
+        size /= 1024;
+        unit = units.shift();
+      }
+
+      return Math.round(size * 100) / 100 + unit;
     }
   },
   watch: {

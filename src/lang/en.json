@@ -22,9 +22,13 @@
     "searchPlaceholder": "Enter search term",
     "toMainMenu": "Back",
     "continueProcessing": "Process Shortcuts",
-    "numberOfShortcutsSelected": "$n Shortcuts selected",
+    "numberOfShortcutsSelected": "$number Shortcuts selected",
     "showSelected": "Toggle showing all selected Shortcuts",
     "nothingSelected": "No Shortcuts selected",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?"
+  },
+  "openApp": {
+    "buildingUrl": "Building URL to open Shortcuts..."
   }
 }

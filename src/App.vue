@@ -11,13 +11,16 @@
 </template>
 
 <script>
-import MainMenu from "@/Views/MainMenu.vue";
-import SelectShortcuts from "@/Views/SelectShortcuts.vue";
+import Vue from "vue";
+import MainMenu from "@/views/MainMenu.vue";
+import SelectShortcuts from "@/views/SelectShortcuts.vue";
+import OpenApp from "@/views/OpenApp.vue";
 
 export default {
   name: "App",
   components: {
     MainMenu,
+    OpenApp,
     SelectShortcuts
   },
   data() {
@@ -31,6 +34,13 @@ export default {
 
     this.$root.$on("navigate", componentName => {
       this.componentToDisplay = componentName;
+      // call that with a slight delay so that Vue has mounted the component
+      Vue.nextTick(() => {
+        const comp = this.$children.find(
+          c => c.$options.name === componentName
+        );
+        this.$root.$emit("navigated", comp);
+      });
     });
   },
   computed: {
