@@ -33,6 +33,7 @@ library.add(
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
+Vue.config.performace = process.env.NODE_ENV === "development";
 
 // load data from HTML file
 const loadShortcuts = store.dispatch("loadShortcuts");

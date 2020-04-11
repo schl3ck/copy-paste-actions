@@ -18,6 +18,7 @@ export default {
     };
   },
   created() {
+    this.$store.commit("showMainTitle", true);
     const self = this;
     this.menuItems = [
       {

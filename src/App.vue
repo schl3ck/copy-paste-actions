@@ -33,6 +33,11 @@ export default {
     if (component) this.componentToDisplay = component;
 
     this.$root.$on("navigate", componentName => {
+      window.scrollTo({
+        left: 0,
+        top: 0,
+        behavior: "auto"
+      });
       this.componentToDisplay = componentName;
       // call that with a slight delay so that Vue has mounted the component
       Vue.nextTick(() => {

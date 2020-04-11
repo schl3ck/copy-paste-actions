@@ -10,10 +10,8 @@
               :placeholder="lang.searchPlaceholder"
               ref="input">
             <div class="input-group-append">
-              <!-- TODO: BUG or FEATURE?: if the shortcuts are filtered by search and all are selected,
-              the button switches incorrectly to all shortcuts, and then back to the selected shortcuts
-              FIXME: create second list with all selected and switch between them, maybe with an animation -->
-              <button type="button" class="btn" @click="showSelectedShortcuts">
+              <!-- TODO: show selected shortcuts without marking the matched letters -->
+              <button type="button" class="btn" @click="showSelected = !showSelected">
                 <FontAwesomeIcon icon="bars" class="mr-1"></FontAwesomeIcon>
                 <span class="sr-only">{{ lang.showSelected }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
@@ -26,11 +24,31 @@
       </div>
     </div>
     <div class="list-group list-group-custom-flush no-rounded-top" ref="list">
-      <div v-if="filteredShortcuts && filteredShortcuts.length">
+      <div v-show="showSelected && filteredShortcuts && filteredShortcuts.length">
+        <div v-show="selectedShortcutsDisplay.length === 0" class="list-group-item text-center">
+          <i>{{ lang.nothingSelected }}</i>
+        </div>
+        <template v-show="selectedShortcutsDisplay.length > 0">
+          <a
+            v-for="shortcut in selectedShortcutsDisplay"
+            :key="shortcut.name"
+            class="list-group-item list-group-item-action d-flex align-items-center"
+            @click="toggleSelection(shortcut)">
+            <FontAwesomeIcon
+              icon="check"
+              class="text-primary mr-2 fa-1o5x"
+              :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
+            <img :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon">
+            <span>{{ shortcut.name }}</span>
+            <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
+          </a>
+        </template>
+      </div>
+      <div v-show="!showSelected && filteredShortcuts && filteredShortcuts.length">
         <a
           v-for="shortcut in filteredShortcuts"
           :key="shortcut.name"
-          class="list-group-item list-group-item-action d-flex align-items-center"
+          class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer"
           @click="toggleSelection(shortcut)">
           <FontAwesomeIcon
             icon="check"
@@ -41,15 +59,15 @@
           <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
         </a>
       </div>
-      <div v-else>
+      <div v-show="!showSelected && !(filteredShortcuts && filteredShortcuts.length)">
         <div class="list-group-item text-center">
-          <i>{{ filteredShortcuts === null ? lang.loading : lang.nothingSelected }}</i>
+          <i>{{ lang.loading }}</i>
         </div>
       </div>
     </div>
 
     <div class="btn-group btn-group-lg fixed-bottom" role="toolbar" ref="toolbar">
-      <button type="button" class="btn btn-light" @click="toMainMenu">
+      <button type="button" class="btn btn-light" @click="$root.$emit('navigate', 'MainMenu')">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
       </button>
       <button type="button" class="btn" :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
@@ -71,7 +89,9 @@ export default {
     return {
       searchText: "",
       filteredShortcuts: [],
-      fuse: null
+      selectedShortcutsDisplay: [],
+      fuse: null,
+      showSelected: false
     };
   },
   created() {
@@ -112,9 +132,13 @@ export default {
     hasSelection() {
       return this.shortcuts.some(s => s.selected);
     },
+    /** @returns {object[]} */
+    selectedShortcuts() {
+      return this.shortcuts.filter(s => s.selected);
+    },
     /** @returns {number} */
     selectedCount() {
-      return this.shortcuts.filter(s => s.selected).length;
+      return this.selectedShortcuts.length;
     }
   },
   methods: {
@@ -181,31 +205,6 @@ export default {
     toggleSelection(shortcut) {
       shortcut.selected = !shortcut.selected;
     },
-    toMainMenu() {
-      this.$store.commit("showMainTitle", true);
-      this.$root.$emit("navigate", "MainMenu");
-      window.scrollTo({
-        left: 0,
-        top: 0,
-        behavior: "auto"
-      });
-    },
-    showSelectedShortcuts() {
-      const allSelected = this.shortcuts
-        .filter(s => s.selected)
-        .map(s => {
-          s.escapedName = this.escape(s.name);
-          return s;
-        });
-      if (
-        this.filteredShortcuts.every(s => s.selected) &&
-        this.filteredShortcuts.length === allSelected.length
-      ) {
-        this.search("");
-      } else {
-        this.filteredShortcuts = allSelected;
-      }
-    },
     toProcessShortcuts() {
       let selected = this.shortcuts.filter(s => s.selected);
       if (selected.length === 0) return;
@@ -257,6 +256,11 @@ export default {
   watch: {
     searchText(newV) {
       this.debouncedSearch(newV);
+    },
+    showSelected(newV) {
+      if (newV) {
+        this.selectedShortcutsDisplay = this.selectedShortcuts;
+      }
     }
   }
 };
@@ -277,6 +281,10 @@ export default {
 .list-group-item.no-rounded-bottom {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .fa-1o5x {
