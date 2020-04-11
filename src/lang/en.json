@@ -29,6 +29,9 @@
     "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?"
   },
   "openApp": {
-    "buildingUrl": "Building URL to open Shortcuts..."
+    "buildingUrl": "Building URL to open Shortcuts...",
+    "done": "Done",
+    "openApp": "Open Shortcuts",
+    "toMainMenu": "Back to Main Menu"
   }
 }

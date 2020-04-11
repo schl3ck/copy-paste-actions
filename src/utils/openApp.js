@@ -25,7 +25,9 @@ export function openApp(root, options) {
 
   async function navigated(OpenApp) {
     const zip = new JSZip();
-    zip.file("actions.txt", options.actions.join("\n"));
+    zip.file("actions.txt", options.actions.join("\n"), {
+      createFolders: false
+    });
     if (options.data && options.data.length) {
       for (const item of options.data) {
         const options = {
@@ -60,17 +62,25 @@ export function openApp(root, options) {
     //   }, 50);
     // }, 1000);
 
-    if (options.closePage) {
-      setInterval(() => {
-        window.close();
-      }, 250);
-    } else if (options.toMainMenu) {
-      setTimeout(() => {
-        root.$emit("navigate", "MainMenu");
-      }, 2000);
+    if (root.$store.state.preferences.Preferences.autoOpenApp) {
+      openNow();
+    } else {
+      OpenApp.$once("open-app", openNow);
     }
-    setTimeout(() => {
-      location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
-    }, 100);
+
+    function openNow() {
+      if (options.closePage) {
+        setInterval(() => {
+          window.close();
+        }, 250);
+      } else if (options.toMainMenu) {
+        setTimeout(() => {
+          root.$emit("navigate", "MainMenu");
+        }, 2000);
+      }
+      setTimeout(() => {
+        location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
+      }, 100);
+    }
   }
 }
