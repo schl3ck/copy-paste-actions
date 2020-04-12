@@ -5,10 +5,12 @@
   "Storage": "iCloud",
   "Preferences Version": 0,
   "Default Preferences": {
-    "autoOpenApp": false
+    "autoOpenApp": false,
+    "closePageTimeout": 3000
   },
   "Preferences": {
-    "autoOpenApp": false
+    "autoOpenApp": false,
+    "closePageTimeout": 3000
   },
   "componentToDisplay": "OpenApp"
 }

@@ -28,10 +28,13 @@
           <span class="status-label">{{ status }}</span>
         </div>
       </transition>
-      <!-- FIXME: when closing the page, give the user some time to click this button and abort the closing -->
+    </div>
+    <div v-if="closingIn" class="fixed-top text-center mt-2" role="alert">
+      {{ closingIn }}
+      <button class="badge badge-pill badge-secondary" @click="cancelTimeout">{{ lang.cancel }}</button>
     </div>
     <div class="fixed-bottom">
-      <button class="btn btn-outline-primary btn-block" @click="$root.$emit('navigate', 'MainMenu')">
+      <button class="btn btn-outline-primary btn-block" @click="toMainMenu">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
       </button>
     </div>
@@ -45,12 +48,36 @@ export default {
     return {
       status: "",
       percent: null,
-      done: false
+      done: false,
+      secondsBeforeTimeout: null,
+      timeoutIds: [],
+      options: {
+        closePage: false,
+        toMainMenu: false
+      }
     };
   },
   created() {
     this.$store.commit("showMainTitle", false);
     this.status = this.lang.buildingUrl;
+
+    this.$on("open-app", () => {
+      this.secondsBeforeTimeout = Math.round(
+        this.preferences.Preferences.closePageTimeout / 1000
+      );
+      this.timeoutIds.push(
+        setInterval(() => {
+          this.secondsBeforeTimeout--;
+          if (this.secondsBeforeTimeout <= 0) {
+            this.timeoutIds.forEach(id => clearInterval(id));
+            this.timeoutIds = [];
+          }
+        }, 1000)
+      );
+    });
+  },
+  destroyed() {
+    this.timeoutIds.forEach(id => clearTimeout(id));
   },
   computed: {
     /** @returns {object} */
@@ -60,6 +87,30 @@ export default {
     /** @returns {object} */
     preferences() {
       return this.$store.state.preferences;
+    },
+    /** @returns {string} */
+    closingIn() {
+      return this.secondsBeforeTimeout === null
+        ? ""
+        : this.secondsBeforeTimeout <= 0
+          ? this.lang.closingNow
+          : (this.options.closePage
+            ? this.lang.closingIn
+            : this.options.toMainMenu
+              ? this.lang.returningToMainMenuIn
+              : ""
+          ).replace("$seconds", this.secondsBeforeTimeout);
+    }
+  },
+  methods: {
+    cancelTimeout(listenAgain = true) {
+      this.timeoutIds.forEach(id => clearTimeout(id));
+      this.$emit("open-cancel", listenAgain);
+      this.secondsBeforeTimeout = null;
+    },
+    toMainMenu() {
+      this.cancelTimeout(false);
+      this.$root.$emit("navigate", "MainMenu");
     }
   }
 };

@@ -24,6 +24,8 @@ export function openApp(root, options) {
   root.$emit("navigate", "OpenApp");
 
   async function navigated(OpenApp) {
+    OpenApp.options = options;
+
     const zip = new JSZip();
     zip.file("actions.txt", options.actions.join("\n"), {
       createFolders: false
@@ -63,24 +65,42 @@ export function openApp(root, options) {
     // }, 1000);
 
     if (root.$store.state.preferences.Preferences.autoOpenApp) {
+      OpenApp.$emit("open-app");
       openNow();
     } else {
       OpenApp.$once("open-app", openNow);
     }
 
     function openNow() {
-      if (options.closePage) {
-        setInterval(() => {
+      const ids = [];
+      const close = () => {
+        ids.push(setInterval(() => {
           window.close();
-        }, 250);
-      } else if (options.toMainMenu) {
-        setTimeout(() => {
-          root.$emit("navigate", "MainMenu");
-        }, 2000);
-      }
-      setTimeout(() => {
-        location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
-      }, 100);
+        }, 250));
+      };
+      const mainMenu = () => {
+        root.$emit("navigate", "MainMenu");
+      };
+      const timeout = (callback) => {
+        ids.push(
+          setTimeout(
+            callback,
+            root.$store.state.preferences.Preferences.closePageTimeout
+          )
+        );
+      };
+
+      const action = options.closePage ? close : options.toMainMenu ? mainMenu : null;
+      OpenApp.$once("open-cancel", (listenAgain) => {
+        ids.forEach((id) => clearTimeout(id));
+        if (listenAgain) {
+          OpenApp.$once("open-app", openNow);
+        }
+      });
+      timeout(() => {
+        // location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
+        action && action();
+      });
     }
   }
 }
