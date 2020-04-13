@@ -12,5 +12,5 @@
     "autoOpenApp": false,
     "closePageTimeout": 3000
   },
-  "componentToDisplay": "OpenApp"
+  "componentToDisplay": "MainMenu"
 }

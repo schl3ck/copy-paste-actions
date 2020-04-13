@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="container">
     <div v-if="showMainTitle" class="sticky-app">
-      <h1 class="text-warning">
+      <span class="title text-warning">
         <FontAwesomeIcon icon="clipboard"></FontAwesomeIcon> {{ preferences["Shortcut Name"] }}
-      </h1>
+      </span>
       <hr>
     </div>
     <component :is="componentToDisplay"></component>
@@ -67,5 +67,21 @@ export default {
   top: 0;
   z-index: 100;
   background: white;
+  padding-top: 0.5rem;
+}
+
+.title {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: 1.55rem;
+
+  @media (min-width: 375px) {
+    font-size: 1.95rem;
+    font-weight: 500;
+  }
+  @media (min-width: 576px) {
+    font-size: 2.5rem;
+  }
 }
 </style>

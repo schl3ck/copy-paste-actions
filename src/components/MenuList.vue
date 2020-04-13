@@ -3,38 +3,36 @@ import MenuItem from "@/components/MenuItem.vue";
 
 export default {
   name: "MenuList",
-  /**
-   * @type {{title: string, description: string, icon: string, iconColor?: string, click: () => void}}
-   */
+  functional: true,
   props: {
+    /**
+     * @type {{title: string, description: string, icon: string, iconColor?: string, click: () => void}[]}
+     */
     items: Array,
     columns: Number
   },
-  components: {
-    MenuItem
-  },
-  render(createElement) {
-    if (!this.items) return;
+  render(createElement, context) {
+    if (!context.props.items) return;
 
-    const cards = this.items.map(i => {
+    const cards = context.props.items.map(i => {
       return createElement(
         "div",
         {
-          class: "col-md"
+          class: "col-md mb-2 card",
+          on: {
+            click: i.click
+          }
         },
         [
-          createElement("MenuItem", {
-            props: i,
-            on: {
-              click: i.click
-            }
+          createElement(MenuItem, {
+            props: i
           })
         ]
       );
     });
 
     const nodes = [];
-    const columns = this.columns || 2;
+    const columns = context.props.columns || 2;
     let currentChildren = [];
 
     const addToNodes = () => {
@@ -42,14 +40,14 @@ export default {
         createElement(
           "div",
           {
-            class: "row mb-4"
+            class: "row no-gutters"
           },
           currentChildren
         )
       );
     };
 
-    for (let i = 0; i < this.items.length; i++) {
+    for (let i = 0; i < context.props.items.length; i++) {
       currentChildren.push(cards[i]);
       if (i % columns === columns - 1) {
         addToNodes();
@@ -63,3 +61,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.row {
+  margin: 0 -0.25rem;
+}
+.col-md {
+  margin: 0 0.25rem;
+}
+</style>
