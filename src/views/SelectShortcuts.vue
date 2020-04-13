@@ -296,7 +296,10 @@ export default {
   bottom: 0;
   z-index: 108;
   background: white;
-  padding-bottom: 1rem;
+}
+.btn-group-lg > .btn {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .icon {
