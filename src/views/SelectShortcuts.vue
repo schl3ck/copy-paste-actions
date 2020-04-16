@@ -66,10 +66,7 @@
       </div>
     </div>
 
-    <div class="btn-group btn-group-lg fixed-bottom" role="toolbar" ref="toolbar">
-      <button type="button" class="btn btn-light" @click="$root.$emit('navigate', 'MainMenu')">
-        <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
-      </button>
+    <div class="fixed-bottom" ref="toolbar">
       <button type="button" class="btn" :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
         :disabled="!hasSelection" @click="toProcessShortcuts">
         <FontAwesomeIcon icon="hammer"></FontAwesomeIcon> {{ lang.continueProcessing }}
