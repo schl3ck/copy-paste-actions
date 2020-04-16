@@ -67,7 +67,7 @@
     </div>
 
     <div class="fixed-bottom" ref="toolbar">
-      <button type="button" class="btn" :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
+      <button type="button" class="btn btn-block" :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
         :disabled="!hasSelection" @click="toProcessShortcuts">
         <FontAwesomeIcon icon="hammer"></FontAwesomeIcon> {{ lang.continueProcessing }}
       </button>
