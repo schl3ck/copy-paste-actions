@@ -4,7 +4,7 @@
       <transition name="fade">
         <div v-if="done" class="position-absolute w-100 d-flex flex-column align-items-center" key="doneBlock">
           <FontAwesomeIcon icon="check" class="text-success fa-3x text-center"></FontAwesomeIcon>
-          <button v class="btn btn-success btn-lg" @click="$emit('open-app')">{{ lang.openApp }}</button>
+          <button v class="btn btn-success btn-lg" @click="openNow">{{ lang.openApp }}</button>
         </div>
         <div v-else class="w-100 d-flex flex-column align-items-center" key="processingBlock">
           <div class="w-75 margin text-center status-icon">
@@ -54,7 +54,9 @@ export default {
       options: {
         closePage: false,
         toMainMenu: false
-      }
+      },
+      base64: "",
+      restoringState: false
     };
   },
   created() {
@@ -75,9 +77,13 @@ export default {
         }, 1000)
       );
     });
+    // listen for the next navigate event, then save the future current state
+    this.$root.$once("navigate", this.onNavigate);
   },
   destroyed() {
     this.timeoutIds.forEach(id => clearTimeout(id));
+    // if the user switched away using the browser history, remove the listener to replace the history state
+    this.$root.$off("navigate", this.onNavigate);
   },
   computed: {
     /** @returns {object} */
@@ -111,6 +117,59 @@ export default {
     toMainMenu() {
       this.cancelTimeout(false);
       this.$root.$emit("navigate", "MainMenu");
+    },
+    openNow() {
+      const close = () => {
+        this.timeoutIds.push(
+          setInterval(() => {
+            window.close();
+          }, 250)
+        );
+      };
+      const mainMenu = () => {
+        this.$root.$emit("navigate", "MainMenu");
+      };
+      const timeout = callback => {
+        this.timeoutIds.push(
+          setTimeout(callback, this.preferences.Preferences.closePageTimeout)
+        );
+      };
+
+      const action = this.options.closePage
+        ? close
+        : this.options.toMainMenu
+          ? mainMenu
+          : null;
+      timeout(() => {
+        // location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
+        action && action();
+      });
+    },
+    onNavigate() {
+      window.history.replaceState(
+        {
+          componentToDisplay: "OpenApp",
+          data: {
+            restoringState: true,
+            status: this.status,
+            done: this.done,
+            base64: this.base64,
+            options: this.options
+          }
+        },
+        ""
+      );
+    }
+  },
+  watch: {
+    base64(newV) {
+      if (
+        newV &&
+        !this.restoringState &&
+        this.preferences.Preferences.autoOpenApp
+      ) {
+        this.openNow();
+      }
     }
   }
 };

@@ -81,7 +81,7 @@
 <script>
 import Fuse from "fuse.js";
 import { debounce } from "lodash";
-import { openApp } from "@/utils/openApp";
+import { navigateAndBuildZip } from "@/utils/openApp";
 
 export default {
   name: "SelectShortcuts",
@@ -222,7 +222,7 @@ export default {
 
       selected = selected.map(s => s.name);
 
-      openApp(this.$root, {
+      navigateAndBuildZip(this.$root, {
         closePage: false, // TODO: change
         actions: [
           "Preferences.get",

@@ -29,24 +29,17 @@ export default {
     };
   },
   created() {
-    const component = this.$store.state.preferences.componentToDisplay;
-    if (component) this.componentToDisplay = component;
-
-    this.$root.$on("navigate", componentName => {
-      window.scrollTo({
-        left: 0,
-        top: 0,
-        behavior: "auto"
-      });
-      this.componentToDisplay = componentName;
-      // call that with a slight delay so that Vue has mounted the component
-      Vue.nextTick(() => {
-        const comp = this.$children.find(
-          c => c.$options.name === componentName
-        );
-        this.$root.$emit("navigated", comp);
-      });
+    this.$root.$on("navigate", this.navigate);
+    window.addEventListener("popstate", event => {
+      const comp =
+        (event && event.state && event.state.componentToDisplay) ||
+        this.preferences.componentToDisplay;
+      this.navigate(comp, event.state);
     });
+
+    const component = this.preferences.componentToDisplay;
+    // "navigate" to the predefined page to push a state onto the history stack
+    if (component) this.$root.$emit("navigate", component);
   },
   computed: {
     /** @returns {object} */
@@ -56,6 +49,33 @@ export default {
     /** @returns {boolean} */
     showMainTitle() {
       return this.$store.state.showMainTitle;
+    }
+  },
+  methods: {
+    /** @param {string} componentName */
+    navigate(componentName, popstate) {
+      this.componentToDisplay = componentName;
+      // call that with a slight delay so that Vue has mounted the component
+      Vue.nextTick(() => {
+        const comp = this.$children.find(
+          c => c.$options.name === componentName
+        );
+        if (!popstate) {
+          window.scrollTo({
+            left: 0,
+            top: 0,
+            behavior: "auto"
+          });
+          window.history.pushState(
+            { componentToDisplay: componentName },
+            componentName
+          );
+        }
+        if (popstate && popstate.data) {
+          Object.assign(comp, popstate.data);
+        }
+        this.$root.$emit("navigated." + componentName, comp);
+      });
     }
   }
 };

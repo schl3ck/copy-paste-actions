@@ -12,7 +12,7 @@ import JSZip from "jszip";
  * @param {string | ArrayBuffer | Uint8Array | Buffer | Blob} options.data[].content Content of the file
  * @param {object} [options.data[].zipOptions] Options for JSZip @see https://stuk.github.io/jszip/documentation/api_jszip/file_data.html
  */
-export function openApp(root, options) {
+export function navigateAndBuildZip(root, options) {
   if (!root) {
     throw new TypeError("Missing parameter 'root'");
   }
@@ -20,7 +20,7 @@ export function openApp(root, options) {
     throw new TypeError("Missing property 'actions'");
   }
 
-  root.$once("navigated", navigated);
+  root.$once("navigated.OpenApp", navigated);
   root.$emit("navigate", "OpenApp");
 
   async function navigated(OpenApp) {
@@ -52,6 +52,7 @@ export function openApp(root, options) {
       OpenApp.percent = metadata.percent;
     });
     OpenApp.done = true;
+    OpenApp.base64 = base64;
 
     // setTimeout(() => {
     //   OpenApp.percent = 0;
@@ -63,44 +64,5 @@ export function openApp(root, options) {
     //     }
     //   }, 50);
     // }, 1000);
-
-    if (root.$store.state.preferences.Preferences.autoOpenApp) {
-      OpenApp.$emit("open-app");
-      openNow();
-    } else {
-      OpenApp.$once("open-app", openNow);
-    }
-
-    function openNow() {
-      const ids = [];
-      const close = () => {
-        ids.push(setInterval(() => {
-          window.close();
-        }, 250));
-      };
-      const mainMenu = () => {
-        root.$emit("navigate", "MainMenu");
-      };
-      const timeout = (callback) => {
-        ids.push(
-          setTimeout(
-            callback,
-            root.$store.state.preferences.Preferences.closePageTimeout
-          )
-        );
-      };
-
-      const action = options.closePage ? close : options.toMainMenu ? mainMenu : null;
-      OpenApp.$once("open-cancel", (listenAgain) => {
-        ids.forEach((id) => clearTimeout(id));
-        if (listenAgain) {
-          OpenApp.$once("open-app", openNow);
-        }
-      });
-      timeout(() => {
-        // location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
-        action && action();
-      });
-    }
   }
 }
