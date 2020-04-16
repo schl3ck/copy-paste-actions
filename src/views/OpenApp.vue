@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
-      <transition name="fade">
+      <transition :name="restoringState ? '' : 'fade'">
         <div v-if="done" class="position-absolute w-100 d-flex flex-column align-items-center" key="doneBlock">
           <FontAwesomeIcon icon="check" class="text-success fa-3x text-center"></FontAwesomeIcon>
           <button v class="btn btn-success btn-lg" @click="openNow">{{ lang.openApp }}</button>
         </div>
         <div v-else class="w-100 d-flex flex-column align-items-center" key="processingBlock">
           <div class="w-75 margin text-center status-icon">
-            <transition name="fade">
+            <transition :name="restoringState ? '' : 'fade'">
               <div v-if="percent === null" key="spinner" class="position-absolute spinner-container">
                 <span class="spinner-border text-primary position-relative" role="status"></span>
               </div>
@@ -34,7 +34,7 @@
       <button class="badge badge-pill badge-secondary" @click="cancelTimeout">{{ lang.cancel }}</button>
     </div>
     <div class="fixed-bottom">
-      <button class="btn btn-outline-primary btn-block" @click="toMainMenu">
+      <button class="btn btn-outline-primary btn-block btn-lg" @click="toMainMenu">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
       </button>
     </div>
