@@ -1,0 +1,38 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test Starter All",
+      "program": "${workspaceFolder}/test/test-starter.js",
+      "internalConsoleOptions": "openOnSessionStart",
+      "args": [
+        "-a"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test Starter Analyser",
+      "program": "${workspaceFolder}/test/test-starter.js",
+      "internalConsoleOptions": "openOnSessionStart",
+      "args": [
+        "analyser"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test Starter Merger",
+      "program": "${workspaceFolder}/test/test-starter.js",
+      "internalConsoleOptions": "openOnSessionStart",
+      "args": [
+        "merger"
+      ]
+    }
+  ]
+}

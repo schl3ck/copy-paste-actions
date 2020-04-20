@@ -1,0 +1,221 @@
+{
+	// Place your CopyPaste Tests workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Analyser require context": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserRequireContext",
+		"description": "Insert the required variables for analyser test files",
+		"body": [
+			"let context = require(\"./$1\");",
+			"/* eslint-disable no-unused-vars */",
+			"let _ = context._,",
+			"script = context.script,",
+			"genUUID = context.genUUID,",
+			"extractUUIDs = context.extractUUIDs,",
+			"ShortcutBuilder = context.ShortcutBuilder,",
+			"getParamForScript = context.getParamForScript,",
+			"expectReturnObject = context.expectReturnObject,",
+			"uniquePermutations = context.uniquePermutations,",
+			"allPossibleScriptParams = context.allPossibleScriptParams,",
+			"constructActionsToRemove = context.constructActionsToRemove;$0",
+			"/* eslint-enable no-unused-vars */"
+		]
+	},
+	"Describe block with iteration of allPossibleScriptParams": {
+		"scope": "javascript,typescript",
+		"prefix": "describeAllPossibleScriptParams",
+		"description": "Insert describe function with iteration over allPossibleScriptParams generating the it function",
+		"body": [
+			"describe(\"$1\", function() {",
+			"\tfor (const params of allPossibleScriptParams) {",
+			"\t\tit(JSON.stringify(params), function() {",
+			"\t\t\t$0",
+			"\t\t});",
+			"\t}",
+			"});"
+		]
+	},
+	"Analyser Shortcut Builder": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserShortcutBuilder",
+		"description": "Inserts the ShortcutBuilder with some default actions, the script calling",
+		"body": [
+			"let sct = new ShortcutBuilder();",
+			"sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: \":cpa:\\n$1\" });",
+			"sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });",
+			"$0",
+			"let dict = getParamForScript(sct);",
+			"_.assign(dict, params);",
+			"let res = JSON.parse(script(dict)[0]);",
+			""
+		]
+	},
+	"Analyser Actions To Remove Switch": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserActionsToRemoveSwitch",
+		"description": "Inserts a switch to assign to actionsToRemove different values based on params.cleanUp",
+		"body": [
+			"let actionsToRemove;",
+			"switch (params.cleanUp) {",
+			"\tcase 0:",
+			"\t\tactionsToRemove = [$1];",
+			"\t\tbreak;",
+			"\tcase 1:",
+			"\t\tactionsToRemove = [$1 $2];",
+			"\t\tbreak;",
+			"\tcase 2:",
+			"\t\tactionsToRemove = [$3 $1 $2];",
+			"\t\tbreak;",
+			"}",
+			"$0"
+		]
+	},
+	"Analyser Expect Result": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserExpectResult",
+		"description": "Inserts a default expected object",
+		"body": [
+			"expectReturnObject(res, {",
+			"\trequires: { clipboard: ${1|false,true|}, snippets: ${2|false,true|} },",
+			"\tsavesTo: { clipboard: ${3|false,true|}, snippets: ${4|false,true|} },",
+			"\tnItems: $5,",
+			"\twarnings: [$6],",
+			"\tshortcuts: [",
+			"\t\t$0",
+			"\t]",
+			"});"
+		]
+	},
+	"Analyser Expect Shortcut Block": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserExpectShortcutBlock",
+		"description": "Inserts a default shortcut object into the expected object",
+		"body": [
+			"{",
+			"\tname: ${1|getParamForScript(sct).shortcuts.name,\"\"|},",
+			"\trequires: { clipboard: ${2|false,true|}, snippets: ${3|false,true|} },",
+			"\tsavesTo: { clipboard: ${4|false,true|}, snippets: ${5|false,true|} },",
+			"\tactionsToRemove: constructActionsToRemove(${6|actionsToRemove,params.cleanUp === 2 ? [] : []|}),$0",
+			"\tuuids: extractUUIDs(sct.getActions()),",
+			"\tinserts: [],",
+			"\tsnippets: []",
+			"}"
+		]
+	},
+	"Analyser Snippet Block": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserSnippetBlock",
+		"description": "Inserts a Snippet object from the Analyser script",
+		"body": [
+			"{",
+			"\tname: \"$1\",",
+			"\tisClipboard: ${2|false,true|},",
+			"\tnewShortcut: \"$3\",",
+			"\tnumberOfActions: $4,",
+			"\tuuids: extractUUIDs(sct.getActions($5)),",
+			"\tactions: sct.getActions($5)",
+			"}$0"
+		]
+	},
+	"Analyser Insert Block": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserInsertBlock",
+		"description": "Inserts an Insert object from the Analyser script",
+		"body": [
+			"{",
+			"\tid: $1,",
+			"\tname: \"$2\",",
+			"\tposition: $3,",
+			"\tisClipboard: ${4|false,true|}",
+			"}$0",
+		]
+	},
+	"Merger ShortcutBuilder": {
+		"scope": "javascript,typescript",
+		"prefix": "mergerShortcutBuilder",
+		"description": "Inserts a template for the ShortcutBuilder",
+		"body": [
+			"const ${1:sct} = new ShortcutBuilder();",
+			"$1.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });",
+			"$1.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });",
+			"$1.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });",
+			"$0"
+		]
+	},
+	"Merger Dict": {
+		"scope": "javascript,typescript",
+		"prefix": "mergerDict",
+		"description": "Inserts a template for the dict that is required by the merger script",
+		"body": [
+			"/** @type {Parameters<typeof script>[0]} */",
+			"const dict = {",
+			"\tshortcuts: [",
+			"\t\t$0",
+			"\t]",
+			"};"
+		]
+	},
+	"Merger Dict Shortcut": {
+		"scope": "javascript,typescript",
+		"prefix": "mergerDictShortcut",
+		"description": "Inserts a shortcut template object for the dict that is required by the merger script",
+		"body": [
+			"{",
+			"\tname: \"$1\",",
+			"\tinserts: [$0],",
+			"\tactionsToRemove: [],",
+			"\tuuids: extractUUIDs(${2:sct}.getActions()),",
+			"\tshortcut: $2.build(true)",
+			"}"
+		]
+	},
+	"Merger Dict Insert": {
+		"scope": "javascript,typescript",
+		"prefix": "mergerDictInsert",
+		"description": "Inserts a shortcut template object for the dict that is required by the merger script",
+		"body": [
+			"{",
+			"\tid: $1,",
+			"\tposition: $2,",
+			"\tactions: ${3:insert}.build(true),",
+			"\tuuids: extractUUIDs($3.getActions())",
+			"}"
+		]
+	},
+	"Merger Expect Result": {
+		"scope": "javascript,typescript",
+		"prefix": "mergerExpectResult",
+		"description": "Inserts the call to the merger script and the call to test the result",
+		"body": [
+			"const res = script(dict);",
+			"expectResult(res, [",
+			"\t$0",
+			"]);"
+		]
+	},
+	"Merger Expect Result Shortcut": {
+		"scope": "javascript,typescript",
+		"prefix": "mergerExpectResultShortcut",
+		"description": "Inserts a template object of an expected shortcut",
+		"body": [
+			"{",
+			"\tname: \"$1\",",
+			"\tshortcut: ${2:sct}.build(true)",
+			"}$0"
+		]
+	}
+}
