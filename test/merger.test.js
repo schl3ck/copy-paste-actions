@@ -6,7 +6,7 @@ const ShortcutBuilder = require("./shortcutBuilder");
 const genUUID = ShortcutBuilder.genUUID;
 const { constructActionsToRemove, extractUUIDs } = require("./utils");
 
-const script = require("../src/utils/merger");
+const script = require("../src/utils/merger.worker");
 
 /**
  *

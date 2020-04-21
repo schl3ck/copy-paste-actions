@@ -24,7 +24,7 @@ const ShortcutBuilder = require("../shortcutBuilder");
 const uniquePermutations = require("../uniquePermutations");
 const { constructActionsToRemove, extractUUIDs } = require("../utils");
 
-const script = require("../../src/utils/analyser");
+const script = require("../../src/utils/analyser.worker");
 
 const possibleScriptParams = {
   excludeAllCPAComments: [false, true],

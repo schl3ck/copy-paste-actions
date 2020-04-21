@@ -18,6 +18,16 @@ module.exports = {
       .use("raw-loader")
       .loader("raw-loader");
 
+    config.module.rule("worker")
+      .test(/\.worker\.js$/i)
+      .use("worker-loader")
+      .loader("worker-loader")
+      .tap(options => {
+        options = options || {};
+        options.inline = true;
+        return options;
+      });
+
     if (process.env.NODE_ENV === "production") {
       config.plugin("html")
         .tap((args) => {

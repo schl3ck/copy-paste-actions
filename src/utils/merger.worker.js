@@ -32,7 +32,7 @@ function castArray(obj) {
  * @param {InputDict} dict
  * @returns { {shortcuts: {name: string, shortcut: string}[]} }
  */
-module.exports = function(dict) {
+function merge(dict) {
   const res = {};
   const finishedShortcuts = [];
 
@@ -76,6 +76,8 @@ module.exports = function(dict) {
       idsToExclude.push(insert.id);
     });
 
+    updatePercentage(50);
+
     let merged = [];
     let modified = false;
     shortcut.shortcut.WFWorkflowActions.forEach((action, i) => {
@@ -114,3 +116,26 @@ module.exports = function(dict) {
 
   return res;
 };
+
+/* istanbul ignore next reason: don't test this wrapper for Web Workers */
+try {
+  self.addEventListener("message", (event) => {
+    const result = merge(event.data);
+    self.postMessage({ finished: true, data: result });
+  });
+} catch (err) {
+  module.exports = merge;
+}
+
+/**
+ * Notifies the parent of this Web Worker of a percentage update
+ * @param {number} percent Number between 0 and 100
+ */
+/* istanbul ignore next reason: don't test communication with Web Worker parent */
+function updatePercentage(percent) {
+  try {
+    self.postMessage(percent);
+  } catch (err) {
+    // nothing
+  }
+}

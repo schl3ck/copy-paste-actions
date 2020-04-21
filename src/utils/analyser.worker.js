@@ -77,7 +77,7 @@ ActionRange.prototype.isValid = function() {
 /**
  * @param {InputDict} dict
  */
-module.exports = function(dict) {
+function analyse(dict) {
   /*
   comment format:
 
@@ -306,6 +306,8 @@ module.exports = function(dict) {
   let insertIdMax = -1;
   const warnings = [];
 
+  updatePercentage(1);
+
   dict.shortcuts.forEach((shortcut) => {
     const buf = Buffer.from(shortcut.shortcut, "base64");
     const shortcutName = shortcut.name;
@@ -395,6 +397,8 @@ module.exports = function(dict) {
      */
     const actionsToRemove = [];
 
+    updatePercentage(10);
+
     // sort after names & if it's complete & if it has a valid function
     comments.forEach((action) => {
       const text = action.WFWorkflowActionParameters.WFCommentActionText.trim().split("\n");
@@ -476,7 +480,15 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
       });
     }); // end comments.forEach()
 
-    names.forEach((comments) => {
+    /** amount of percent each name has */
+    const percentagePart = 70 / names.size;
+    names.forEach((comments, nameIndex) => {
+      // update percentage from 20 up to 90, but 90 won't be reached here because nameIndex will never be equal to
+      // names.size
+      /** the starting percentage of the current iteration */
+      const basePercentage = 20 + percentagePart * nameIndex;
+      updatePercentage(basePercentage);
+
       // reindex actions to ignore current function comments, only when not already all were excluded
       if (!dict.excludeAllCPAComments) {
         (function() {
@@ -802,6 +814,8 @@ finished before reaching the current function.`,
         }
       }); // end comments.forEach()
 
+      updatePercentage(basePercentage + percentagePart * 0.5);
+
       if (current.snippet === true) current.snippet = null;
       if (current.snippet && !current.snippet.finished) {
         current.snippet.finished = evaluateLeftovers(current.snippet, modifiedActions.length - 1);
@@ -980,6 +994,8 @@ finished before reaching the current function.`,
         inserts.push(insert);
       }); // end current.inserts.forEach()
     }); // end names.forEach()
+
+    updatePercentage(90);
 
     // clean actions again from their indices
     actions.forEach((a) => {
@@ -1205,4 +1221,27 @@ function evaluateLeftovers(snippetOrInsert, modifiedIndex) {
   }
 
   return false;
+}
+
+/* istanbul ignore next reason: don't test this wrapper for Web Workers */
+try {
+  self.addEventListener("message", (event) => {
+    const result = analyse(event.data);
+    self.postMessage({ finished: true, data: result });
+  });
+} catch (err) {
+  module.exports = analyse;
+}
+
+/**
+ * Notifies the parent of this Web Worker of a percentage update
+ * @param {number} percent Number between 0 and 100
+ */
+/* istanbul ignore next reason: don't test communication with Web Worker parent */
+function updatePercentage(percent) {
+  try {
+    self.postMessage(percent);
+  } catch (err) {
+    // nothing
+  }
 }

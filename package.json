@@ -44,7 +44,8 @@
     "raw-loader": "^4.0.0",
     "sass": "^1.25.0",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "worker-loader": "^2.0.0"
   },
   "nyc": {
     "include": [
