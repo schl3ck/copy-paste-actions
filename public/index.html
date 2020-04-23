@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="icon" href="<%= require('./favicon.png') %>">
     <title>CopyPaste Actions</title>
   </head>
 
@@ -13,8 +13,9 @@
     <noscript>
       <strong>We're sorry but CopyPaste Actions doesn't work properly with JavaScript disabled. Please enable it to continue.</strong>
     </noscript>
+    <% if (NODE_ENV == "development") { %>
     <script type="application/zip" id="datastore">
-      <%= require("@/assets/shortcutImages.txt").default %>
+      <%= require("@/assets/shortcutInput.txt").default %>
     </script>
     <script type="text/json" id="preferences">
       <%= JSON.stringify(require("@/assets/preferences.json")) %>
@@ -22,8 +23,14 @@
     <script type="text/json" id="language">
       <%= JSON.stringify(require("@/lang/en.json")) %>
     </script>
+    <% } %><!-- split here -->
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <% if (NODE_ENV == "production") {
+        for (const asset of Object.keys(compilation.assets).filter(asset => !asset.endsWith(".map"))) { %>
+    <script><%= compilation.assets[asset].source().replace(/<\/script/g, "</scri\pt") %></script>
+    <%  }
+       } %>
   </body>
 
 </html>

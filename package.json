@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && node scripts/postbuild.js",
     "lint": "vue-cli-service lint",
     "test": "node test/test-starter.js",
     "coverage": "nyc npm test"
@@ -38,12 +38,12 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.2",
-    "html-webpack-inline-source-plugin": "0.0.10",
     "mocha": "^7.1.1",
     "nyc": "^15.0.1",
     "raw-loader": "^4.0.0",
     "sass": "^1.25.0",
     "sass-loader": "^8.0.2",
+    "url-loader": "^4.1.0",
     "vue-template-compiler": "^2.6.11",
     "worker-loader": "^2.0.0"
   },

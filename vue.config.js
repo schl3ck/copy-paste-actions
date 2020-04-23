@@ -28,17 +28,34 @@ module.exports = {
         return options;
       });
 
+    config.module.rule("url")
+      .test(/\.(png|jpg|ico|gif)$/i)
+      .use("url-loader")
+      .loader("url-loader")
+      .tap(options => {
+        options = options || {};
+        options.limit = 1024 * 1024 * 10; // 10 MB
+        return options;
+      });
+
+    config.plugin("copy")
+      .tap(args => {
+        const options = args[0][0] || {};
+        options.ignore = options.ignore || [];
+        options.ignore.push("favicon.png");
+        return args;
+      });
+
     if (process.env.NODE_ENV === "production") {
       config.plugin("html")
-        .tap((args) => {
-          return {
-            ...args,
-            inlineSource: "\\..+$" // inline everything
-          };
+        .tap(args => {
+          const options = args[0] = args[0] || {};
+          options.inject = false;
+          options.minify = options.minify || {};
+          options.minify.collapseWhitespace = false;
+          options.minify.removeComments = false;
+          return args;
         });
-      config.plugin("inline-source")
-        .use(require.resolve("html-webpack-inline-source-plugin"))
-        .after("html");
 
       config.resolve.alias
         .set("bootstrap.css$", "bootstrap/dist/css/bootstrap.min.css")

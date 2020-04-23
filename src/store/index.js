@@ -6,9 +6,19 @@ import Fuse from "fuse.js";
 
 Vue.use(Vuex);
 
+/**
+ * @typedef {object} Shortcut
+ * @property {string} name
+ * @property {boolean} selected
+ * @property {string} [escapedName]
+ * @property {string} [image]
+ * @property {Uint8Array} [data]
+ * @property {number} [size]
+ */
+
 export default new Vuex.Store({
   state: {
-    /** @type {{name: string, selected: boolean, escapedName?: string, image?: string, data?: Uint8Array, size?: number}[]} */
+    /** @type {Shortcut[]} */
     shortcuts: [],
     preferences: {
 
@@ -90,7 +100,12 @@ export default new Vuex.Store({
           noSize = shortcuts.filter(s => !s.size);
         }
         if (noImage.length || noSize.length) {
-          console.warn(`There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`, noImage, noSize);
+          /* eslint-disable-next-line no-console */
+          console.warn(
+            `There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`,
+            noImage,
+            noSize
+          );
         }
       }
       commit("shortcuts", shortcuts);

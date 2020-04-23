@@ -141,7 +141,9 @@ export default {
           ? mainMenu
           : null;
       timeout(() => {
-        // location.href = `workflow://run-workflow?name=${encodeURIComponent(root.$store.state.preferences["Shortcut Name"])}&input=text&text=${base64}`;
+        location.href = `workflow://run-workflow?name=${encodeURIComponent(
+          this.$store.state.preferences["Shortcut Name"]
+        )}&input=text&text=${this.base64}`;
         action && action();
       });
     },

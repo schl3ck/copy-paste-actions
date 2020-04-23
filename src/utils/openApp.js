@@ -10,7 +10,8 @@ import JSZip from "jszip";
  * @param {object[]} [options.data] Array of files that are passed as data to the Shortcut
  * @param {string} options.data[].name Filename
  * @param {string | ArrayBuffer | Uint8Array | Buffer | Blob} options.data[].content Content of the file
- * @param {object} [options.data[].zipOptions] Options for JSZip @see https://stuk.github.io/jszip/documentation/api_jszip/file_data.html
+ * @param {object} [options.data[].zipOptions] Options for JSZip
+ * @see https://stuk.github.io/jszip/documentation/api_jszip/file_data.html
  */
 export function navigateAndBuildZip(root, options) {
   if (!root) {
