@@ -24,7 +24,8 @@ export default new Vuex.Store({
 
     },
     language: {},
-    showMainTitle: true
+    showMainTitle: true,
+    showBackButton: false
   },
   mutations: {
     shortcuts(state, data) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     showMainTitle(state, data) {
       state.showMainTitle = data;
+    },
+    showBackButton(state, data) {
+      state.showBackButton = data;
     }
   },
   actions: {

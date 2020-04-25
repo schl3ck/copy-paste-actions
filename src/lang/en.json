@@ -1,4 +1,5 @@
 {
+  "toMainMenu": "Back to Main Menu",
   "mainMenu": {
     "selectShortcuts": {
       "title": "Select Shortcuts",
@@ -20,7 +21,6 @@
   "selectShortcuts": {
     "title": "Select Shortcuts",
     "searchPlaceholder": "Enter search term",
-    "toMainMenu": "Back",
     "continueProcessing": "Process Shortcuts",
     "numberOfShortcutsSelected": "$number Shortcuts selected",
     "showSelected": "Toggle showing all selected Shortcuts",
@@ -32,7 +32,6 @@
     "buildingUrl": "Building URL to open Shortcuts...",
     "done": "Done",
     "openApp": "Open Shortcuts",
-    "toMainMenu": "Back to Main Menu",
     "closingIn": "Closing page in $seconds s",
     "closingNow": "Closing page now...",
     "returningToMainMenuIn": "Returning to Main Menu in $seconds s",

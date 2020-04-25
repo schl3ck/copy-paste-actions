@@ -19,6 +19,8 @@ export default {
   },
   created() {
     this.$store.commit("showMainTitle", true);
+    this.$store.commit("showBackButton", false);
+
     const self = this;
     this.menuItems = [
       {

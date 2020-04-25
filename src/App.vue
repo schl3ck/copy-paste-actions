@@ -7,6 +7,11 @@
       <hr>
     </div>
     <component :is="componentToDisplay"></component>
+    <div v-if="showBackButton" class="fixed-bottom">
+      <button class="btn btn-outline-primary btn-block btn-lg" @click="toMainMenu">
+        <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -49,6 +54,14 @@ export default {
     /** @returns {boolean} */
     showMainTitle() {
       return this.$store.state.showMainTitle;
+    },
+    /** @returns {boolean} */
+    showBackButton() {
+      return this.$store.state.showBackButton;
+    },
+    /** @returns {object} */
+    lang() {
+      return this.$store.state.language;
     }
   },
   methods: {
@@ -76,6 +89,10 @@ export default {
         }
         this.$root.$emit("navigated." + componentName, comp);
       });
+    },
+    toMainMenu() {
+      this.$root.$emit("toMainMenu");
+      this.$root.$emit("navigate", "MainMenu");
     }
   }
 };

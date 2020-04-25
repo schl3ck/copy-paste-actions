@@ -25,18 +25,13 @@
               </div>
             </transition>
           </div>
-          <span class="status-label">{{ status }}</span>
+          <span class="status-label">{{ lang.buildingUrl }}</span>
         </div>
       </transition>
     </div>
     <div v-if="closingIn" class="fixed-top text-center mt-2" role="alert">
       {{ closingIn }}
       <button class="badge badge-pill badge-secondary" @click="cancelTimeout">{{ lang.cancel }}</button>
-    </div>
-    <div class="fixed-bottom">
-      <button class="btn btn-outline-primary btn-block btn-lg" @click="toMainMenu">
-        <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
-      </button>
     </div>
   </div>
 </template>
@@ -46,7 +41,6 @@ export default {
   name: "OpenApp",
   data() {
     return {
-      status: "",
       percent: null,
       done: false,
       secondsBeforeTimeout: null,
@@ -61,7 +55,7 @@ export default {
   },
   created() {
     this.$store.commit("showMainTitle", false);
-    this.status = this.lang.buildingUrl;
+    this.$store.commit("showBackButton", true);
 
     this.$on("open-app", () => {
       this.secondsBeforeTimeout = Math.round(
@@ -114,10 +108,6 @@ export default {
       this.$emit("open-cancel", listenAgain);
       this.secondsBeforeTimeout = null;
     },
-    toMainMenu() {
-      this.cancelTimeout(false);
-      this.$root.$emit("navigate", "MainMenu");
-    },
     openNow() {
       const close = () => {
         this.timeoutIds.push(
@@ -153,7 +143,6 @@ export default {
           componentToDisplay: "OpenApp",
           data: {
             restoringState: true,
-            status: this.status,
             done: this.done,
             base64: this.base64,
             options: this.options

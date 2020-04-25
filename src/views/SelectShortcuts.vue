@@ -96,6 +96,7 @@ export default {
     // TODO: make debounce time a preference?
     this.debouncedSearch = debounce(this.search, 400);
     this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", false);
 
     if (this.shortcuts.length) {
       this.init();
