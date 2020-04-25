@@ -38,7 +38,12 @@ function merge(dict) {
 
   dict.shortcuts = castArray(dict.shortcuts);
 
-  dict.shortcuts.forEach(function(shortcut) {
+  const percentagePerShortcut = 100 / dict.shortcuts.length;
+
+  dict.shortcuts.forEach((shortcut, shortcutIndex) => {
+    const basePercentage = percentagePerShortcut * shortcutIndex;
+    updatePercentage(basePercentage);
+
     const idsToExclude = [];
     const insertIntoShortcut = [];
 
@@ -76,7 +81,7 @@ function merge(dict) {
       idsToExclude.push(insert.id);
     });
 
-    updatePercentage(50);
+    updatePercentage(basePercentage + percentagePerShortcut * 0.5);
 
     let merged = [];
     let modified = false;

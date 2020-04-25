@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>419/419</span>
+                <span class='fraction'>420/420</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>388/388</span>
+                <span class='fraction'>389/389</span>
             </div>
         
             
@@ -1304,8 +1304,11 @@
 <a name='L1245'></a><a href='#L1245'>1245</a>
 <a name='L1246'></a><a href='#L1246'>1246</a>
 <a name='L1247'></a><a href='#L1247'>1247</a>
-<a name='L1248'></a><a href='#L1248'>1248</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L1248'></a><a href='#L1248'>1248</a>
+<a name='L1249'></a><a href='#L1249'>1249</a>
+<a name='L1250'></a><a href='#L1250'>1250</a>
+<a name='L1251'></a><a href='#L1251'>1251</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1615,6 +1618,9 @@
 <span class="cline-any cline-yes">48330x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48330x</span>
+<span class="cline-any cline-yes">48373x</span>
+<span class="cline-any cline-yes">48373x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48373x</span>
 <span class="cline-any cline-yes">48373x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2552,7 +2558,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// use CommonJS import for the tests
-const { Buffer } = require("buffer");
+// Buffer is globally available
 const bplist = require("./bplist");
 &nbsp;
 /*
@@ -2609,7 +2615,7 @@ ActionRange.prototype.isValid = function() {
 /** @typedef {object} InputDict
  * @property {object[]} shortcuts
  * @property {string} shortcuts[].name Name of Shortcut
- * @property {string} shortcuts[].shortcut base64 encoded bplist
+ * @property {Buffer} shortcuts[].shortcut
  * @property {boolean} excludeAllCPAComments wheter or not to include cpa comments in other snippets/selections
  *
  * `true`: do not include
@@ -2859,10 +2865,13 @@ function analyse(dict) {
   let insertIdMax = -1;
   const warnings = [];
 &nbsp;
-  updatePercentage(1);
+  const percentPerShortcut = 100 / dict.shortcuts.length;
 &nbsp;
-  dict.shortcuts.forEach((shortcut) =&gt; {
-    const buf = Buffer.from(shortcut.shortcut, "base64");
+  dict.shortcuts.forEach((shortcut, shortcutIndex) =&gt; {
+    const basePercentage = percentPerShortcut * shortcutIndex;
+    updatePercentage(basePercentage);
+&nbsp;
+    const buf = shortcut.shortcut;
     const shortcutName = shortcut.name;
 &nbsp;
     shortcut = bplist.parse(buf)[0];
@@ -2950,7 +2959,7 @@ function analyse(dict) {
      */
     const actionsToRemove = [];
 &nbsp;
-    updatePercentage(10);
+    updatePercentage(basePercentage + percentPerShortcut * 0.1);
 &nbsp;
     // sort after names &amp; if it's complete &amp; if it has a valid function
     comments.forEach((action) =&gt; {
@@ -3034,13 +3043,13 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
     }); // end comments.forEach()
 &nbsp;
     /** amount of percent each name has */
-    const percentagePart = 70 / names.size;
+    const percentagePerName = percentPerShortcut * 0.7 / names.size;
     names.forEach((comments, nameIndex) =&gt; {
       // update percentage from 20 up to 90, but 90 won't be reached here because nameIndex will never be equal to
       // names.size
       /** the starting percentage of the current iteration */
-      const basePercentage = 20 + percentagePart * nameIndex;
-      updatePercentage(basePercentage);
+      const basePercentageNames = basePercentage + percentPerShortcut * 0.2 + percentagePerName * nameIndex;
+      updatePercentage(basePercentageNames);
 &nbsp;
       // reindex actions to ignore current function comments, only when not already all were excluded
       if (!dict.excludeAllCPAComments) {
@@ -3367,7 +3376,7 @@ finished before reaching the current function.`,
         }
       }); // end comments.forEach()
 &nbsp;
-      updatePercentage(basePercentage + percentagePart * 0.5);
+      updatePercentage(basePercentageNames + percentagePerName * 0.5);
 &nbsp;
       if (current.snippet === true) current.snippet = null;
       if (current.snippet &amp;&amp; !current.snippet.finished) {
@@ -3548,7 +3557,7 @@ finished before reaching the current function.`,
       }); // end current.inserts.forEach()
     }); // end names.forEach()
 &nbsp;
-    updatePercentage(90);
+    updatePercentage(basePercentage + percentPerShortcut * 0.9);
 &nbsp;
     // clean actions again from their indices
     actions.forEach((a) =&gt; {
@@ -3805,7 +3814,7 @@ function updatePercentage(percent) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Apr 21 2020 23:31:46 GMT+0200 (GMT+02:00)
+                at Sun Apr 26 2020 00:34:11 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="prettify.js"></script>

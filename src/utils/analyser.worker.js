@@ -306,8 +306,11 @@ function analyse(dict) {
   let insertIdMax = -1;
   const warnings = [];
 
-  updatePercentage(1);
+  const percentPerShortcut = 100 / dict.shortcuts.length;
 
+  dict.shortcuts.forEach((shortcut, shortcutIndex) => {
+    const basePercentage = percentPerShortcut * shortcutIndex;
+    updatePercentage(basePercentage);
 
     const buf = shortcut.shortcut;
     const shortcutName = shortcut.name;
@@ -397,7 +400,7 @@ function analyse(dict) {
      */
     const actionsToRemove = [];
 
-    updatePercentage(10);
+    updatePercentage(basePercentage + percentPerShortcut * 0.1);
 
     // sort after names & if it's complete & if it has a valid function
     comments.forEach((action) => {
@@ -481,13 +484,13 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
     }); // end comments.forEach()
 
     /** amount of percent each name has */
-    const percentagePart = 70 / names.size;
+    const percentagePerName = percentPerShortcut * 0.7 / names.size;
     names.forEach((comments, nameIndex) => {
       // update percentage from 20 up to 90, but 90 won't be reached here because nameIndex will never be equal to
       // names.size
       /** the starting percentage of the current iteration */
-      const basePercentage = 20 + percentagePart * nameIndex;
-      updatePercentage(basePercentage);
+      const basePercentageNames = basePercentage + percentPerShortcut * 0.2 + percentagePerName * nameIndex;
+      updatePercentage(basePercentageNames);
 
       // reindex actions to ignore current function comments, only when not already all were excluded
       if (!dict.excludeAllCPAComments) {
@@ -814,7 +817,7 @@ finished before reaching the current function.`,
         }
       }); // end comments.forEach()
 
-      updatePercentage(basePercentage + percentagePart * 0.5);
+      updatePercentage(basePercentageNames + percentagePerName * 0.5);
 
       if (current.snippet === true) current.snippet = null;
       if (current.snippet && !current.snippet.finished) {
@@ -995,7 +998,7 @@ finished before reaching the current function.`,
       }); // end current.inserts.forEach()
     }); // end names.forEach()
 
-    updatePercentage(90);
+    updatePercentage(basePercentage + percentPerShortcut * 0.9);
 
     // clean actions again from their indices
     actions.forEach((a) => {
