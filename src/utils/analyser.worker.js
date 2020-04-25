@@ -1,5 +1,5 @@
 // use CommonJS import for the tests
-const { Buffer } = require("buffer");
+// Buffer is globally available
 const bplist = require("./bplist");
 
 /*
@@ -56,7 +56,7 @@ ActionRange.prototype.isValid = function() {
 /** @typedef {object} InputDict
  * @property {object[]} shortcuts
  * @property {string} shortcuts[].name Name of Shortcut
- * @property {string} shortcuts[].shortcut base64 encoded bplist
+ * @property {Buffer} shortcuts[].shortcut
  * @property {boolean} excludeAllCPAComments wheter or not to include cpa comments in other snippets/selections
  *
  * `true`: do not include
@@ -308,8 +308,8 @@ function analyse(dict) {
 
   updatePercentage(1);
 
-  dict.shortcuts.forEach((shortcut) => {
-    const buf = Buffer.from(shortcut.shortcut, "base64");
+
+    const buf = shortcut.shortcut;
     const shortcutName = shortcut.name;
 
     shortcut = bplist.parse(buf)[0];

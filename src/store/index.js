@@ -72,10 +72,10 @@ export default new Vuex.Store({
             };
           }));
         } else if (relativePath.endsWith(".shortcut") || relativePath.endsWith(".wflow")) {
-          proms.push(file.async("uint8array").then((content) => {
+          proms.push(file.async("nodebuffer").then((content) => {
             return {
               name: relativePath.replace(/\.(shortcut|wflow)$/, ""),
-              shortcut: content
+              data: content
             };
           }));
         }

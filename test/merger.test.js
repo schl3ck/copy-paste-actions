@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const { expect } = require("chai");
 const bplist = require("../src/utils/bplist");
-const { Buffer } = require("buffer");
 const ShortcutBuilder = require("./shortcutBuilder");
 const genUUID = ShortcutBuilder.genUUID;
 const { constructActionsToRemove, extractUUIDs } = require("./utils");
@@ -73,7 +72,7 @@ describe("Merger", function() {
           inserts: [],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -106,7 +105,7 @@ describe("Merger", function() {
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -139,7 +138,7 @@ describe("Merger", function() {
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -150,7 +149,7 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build(true)
+        shortcut: sct.build()
       }
     ]);
   });
@@ -181,7 +180,7 @@ describe("Merger", function() {
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -192,7 +191,7 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build(true)
+        shortcut: sct.build()
       }
     ]);
   });
@@ -222,7 +221,7 @@ describe("Merger", function() {
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -233,7 +232,7 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build(true)
+        shortcut: sct.build()
       }
     ]);
   });
@@ -269,7 +268,7 @@ describe("Merger", function() {
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -286,7 +285,7 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build(true)
+        shortcut: sct.build()
       }
     ]);
   });
@@ -305,7 +304,7 @@ describe("Merger", function() {
           inserts: [],
           actionsToRemove: constructActionsToRemove([0]),
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -316,7 +315,7 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build(true)
+        shortcut: sct.build()
       }
     ]);
   });
@@ -344,7 +343,7 @@ describe("Merger", function() {
           ],
           actionsToRemove: constructActionsToRemove(null, [0]),
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };
@@ -355,7 +354,7 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build(true)
+        shortcut: sct.build()
       }
     ]);
   });
@@ -376,7 +375,7 @@ describe("Merger", function() {
           inserts: [],
           actionsToRemove: constructActionsToRemove(null, [0]),
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build(true)
+          shortcut: sct.build()
         }
       ]
     };

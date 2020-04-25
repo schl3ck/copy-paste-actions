@@ -19,6 +19,10 @@ import {
 
 import store from "./store/index";
 
+// make buffer globally available
+import { Buffer } from "buffer";
+window.Buffer = Buffer;
+
 library.add(
   faHammer,
   faPencilAlt,

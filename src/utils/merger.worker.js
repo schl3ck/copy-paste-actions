@@ -1,6 +1,6 @@
 // use CommonJS import for the tests
+// Buffer is globally available
 const { v4: genUUID } = require("uuid");
-const { Buffer } = require("buffer");
 const bplist = require("./bplist");
 
 /**
@@ -20,7 +20,7 @@ const bplist = require("./bplist");
  * @property {object[]} shortcuts[].actionsToRemove
  * @property {number} shortcuts[].actionsToRemove[].actions 0-based index of action
  * @property {number[]} shortcuts[].actionsToRemove[].excludedBy array of ids
- * @property {string} shortcuts[].shortcut base64 encoded bplist
+ * @property {Buffer} shortcuts[].shortcut base64 encoded bplist
  */
 
 function castArray(obj) {
@@ -42,7 +42,7 @@ function merge(dict) {
     const idsToExclude = [];
     const insertIntoShortcut = [];
 
-    shortcut.shortcut = bplist.parse(Buffer.from(shortcut.shortcut, "base64"))[0];
+    shortcut.shortcut = bplist.parse(shortcut.shortcut)[0];
     shortcut.inserts = castArray(shortcut.inserts);
     shortcut.uuids.groups = castArray(shortcut.uuids.groups);
     shortcut.uuids.vars = castArray(shortcut.uuids.vars);

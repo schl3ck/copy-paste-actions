@@ -68,7 +68,7 @@ function getParamForScript(shortcut) {
   if (shortcut instanceof ShortcutBuilder) {
     shortcut = {
       name: "Test Shortcut",
-      shortcut: shortcut.build(true)
+      shortcut: shortcut.build()
     };
   }
 

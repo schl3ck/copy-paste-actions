@@ -1407,7 +1407,7 @@ module.exports = function() {
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
           dict.shortcuts.push({
             name: j,
-            shortcut: sct.build(true)
+            shortcut: sct.build()
           });
           const ins = [];
           const snips = [];
