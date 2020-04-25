@@ -6,11 +6,19 @@
   "Preferences Version": 0,
   "Default Preferences": {
     "autoOpenApp": false,
-    "closePageTimeout": 3000
+    "closePageTimeout": 3000,
+    "excludeAllCPAComments": true,
+    "cleanUp": 1,
+    "commentMarker": ":cpa:",
+    "defaultNewShortcutName": "Untitled Shortcut"
   },
   "Preferences": {
     "autoOpenApp": false,
-    "closePageTimeout": 3000
+    "closePageTimeout": 3000,
+    "excludeAllCPAComments": true,
+    "cleanUp": 1,
+    "commentMarker": ":cpa:",
+    "defaultNewShortcutName": "Untitled Shortcut"
   },
-  "componentToDisplay": "MainMenu"
+  "componentToDisplay": "ProcessShortcuts"
 }

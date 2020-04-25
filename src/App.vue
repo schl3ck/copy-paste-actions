@@ -20,13 +20,15 @@ import Vue from "vue";
 import MainMenu from "@/views/MainMenu.vue";
 import SelectShortcuts from "@/views/SelectShortcuts.vue";
 import OpenApp from "@/views/OpenApp.vue";
+import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
 
 export default {
   name: "App",
   components: {
     MainMenu,
+    SelectShortcuts,
     OpenApp,
-    SelectShortcuts
+    ProcessShortcuts
   },
   data() {
     return {

@@ -36,5 +36,9 @@
     "closingNow": "Closing page now...",
     "returningToMainMenuIn": "Returning to Main Menu in $seconds s",
     "cancel": "Cancel"
+  },
+  "processShortcuts": {
+    "processing": "Processing...",
+    "noShortcuts": "No shortcuts to process"
   }
 }
