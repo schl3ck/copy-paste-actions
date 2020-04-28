@@ -4,7 +4,6 @@
       :restoringState="restoringState"
       :done="done"
       :percent="percent"
-      :showDoneButton="true"
       :doneButtonLabel="lang.openApp"
       :statusLabel="lang.buildingUrl"
       @doneButtonClick="openNow"></ProcessBar>

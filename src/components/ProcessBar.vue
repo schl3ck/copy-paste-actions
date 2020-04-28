@@ -2,12 +2,12 @@
   <div class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
     <transition :name="props.restoringState ? '' : 'fade'">
       <div
-        v-if="props.done && props.showDoneButton"
+        v-if="props.done"
         class="position-absolute w-100 d-flex flex-column align-items-center"
         key="doneBlock">
         <FontAwesomeIcon icon="check" class="text-success fa-3x text-center"></FontAwesomeIcon>
         <button
-          v class="btn btn-success btn-lg"
+          class="btn btn-success btn-lg"
           @click="listeners.doneButtonClick">
           {{ props.doneButtonLabel }}
         </button>
@@ -44,7 +44,6 @@ export default {
     restoringState: Boolean,
     done: Boolean,
     percent: Number,
-    showDoneButton: Boolean,
     doneButtonLabel: String,
     statusLabel: String
   }
