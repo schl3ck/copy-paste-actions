@@ -142,43 +142,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.spinner-container {
-  left: 50%;
-  transform: translateX(-50%);
-}
-.spinner-border {
-  animation-duration: 1s;
-  top: 0.7rem;
-}
-.progress {
-  top: 1.7rem;
-}
-.progress-bar {
-  transition-duration: 0.2s;
-}
-
-.margin {
-  margin-bottom: 0.25rem;
-}
-.status-icon {
-  height: 2.7rem;
-}
-.status-label {
-  padding-bottom: 1.5rem;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-enter {
-  transform: translateX(50vw);
-}
-.fade-leave-to {
-  transform: translateX(-50vw);
-}
 </style>
