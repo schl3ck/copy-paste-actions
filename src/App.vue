@@ -69,28 +69,55 @@ export default {
   methods: {
     /** @param {string} componentName */
     navigate(componentName, popstate) {
+      let historyStateMethod = "pushState";
+      // only save the state, when it wasn't a navigation by history (then we can't override the entry, because we've
+      // already moved away...)
+      if (!popstate) {
+        // get the state to save (if any)
+        const toSave = this.getCurrentComponent().getDataToSave;
+
+        if (toSave && toSave.replaceState) historyStateMethod = "replaceState";
+
+        // if the state isn't going to be overridden, save the state
+        if (toSave && !toSave.replaceState) {
+          window.history.replaceState(
+            {
+              componentToDisplay: this.componentToDisplay,
+              data: toSave.data
+            },
+            this.componentToDisplay
+          );
+        }
+      }
+
+      // now load the new component
       this.componentToDisplay = componentName;
       // call that with a slight delay so that Vue has mounted the component
       Vue.nextTick(() => {
-        const comp = this.$children.find(
-          c => c.$options.name === componentName
-        );
+        const comp = this.getCurrentComponent();
         if (!popstate) {
           window.scrollTo({
             left: 0,
             top: 0,
             behavior: "auto"
           });
-          window.history.pushState(
+          window.history[historyStateMethod](
             { componentToDisplay: componentName },
             componentName
           );
         }
         if (popstate && popstate.data) {
+          comp.restoringState = true;
           Object.assign(comp, popstate.data);
+          comp.restoringState = false;
         }
         this.$root.$emit("navigated." + componentName, comp);
       });
+    },
+    getCurrentComponent() {
+      return this.$children.find(
+        c => c.$options.name === this.componentToDisplay
+      );
     },
     toMainMenu() {
       this.$root.$emit("toMainMenu");

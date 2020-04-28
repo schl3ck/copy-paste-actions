@@ -55,13 +55,9 @@ export default {
         }, 1000)
       );
     });
-    // listen for the next navigate event, then save the future current state
-    this.$root.$once("navigate", this.onNavigate);
   },
   destroyed() {
     this.timeoutIds.forEach(id => clearTimeout(id));
-    // if the user switched away using the browser history, remove the listener to replace the history state
-    this.$root.$off("navigate", this.onNavigate);
   },
   computed: {
     /** @returns {object} */
@@ -84,6 +80,16 @@ export default {
               ? this.lang.returningToMainMenuIn
               : ""
           ).replace("$seconds", this.secondsBeforeTimeout);
+    },
+    getDataToSave() {
+      return {
+        replaceState: !!this.base64,
+        data: {
+          done: this.done,
+          base64: this.base64,
+          options: this.options
+        }
+      };
     }
   },
   methods: {
@@ -120,20 +126,6 @@ export default {
         )}&input=text&text=${this.base64}`;
         action && action();
       });
-    },
-    onNavigate() {
-      window.history.replaceState(
-        {
-          componentToDisplay: "OpenApp",
-          data: {
-            restoringState: true,
-            done: this.done,
-            base64: this.base64,
-            options: this.options
-          }
-        },
-        ""
-      );
     }
   },
   watch: {
