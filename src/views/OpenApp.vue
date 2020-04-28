@@ -1,34 +1,13 @@
 <template>
   <div>
-    <div class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
-      <transition :name="restoringState ? '' : 'fade'">
-        <div v-if="done" class="position-absolute w-100 d-flex flex-column align-items-center" key="doneBlock">
-          <FontAwesomeIcon icon="check" class="text-success fa-3x text-center"></FontAwesomeIcon>
-          <button v class="btn btn-success btn-lg" @click="openNow">{{ lang.openApp }}</button>
-        </div>
-        <div v-else class="w-100 d-flex flex-column align-items-center" key="processingBlock">
-          <div class="w-75 margin text-center status-icon">
-            <transition :name="restoringState ? '' : 'fade'">
-              <div v-if="percent === null" key="spinner" class="position-absolute spinner-container">
-                <span class="spinner-border text-primary position-relative" role="status"></span>
-              </div>
-              <div v-else key="progress" class="position-absolute w-75">
-                <div class="progress position-relative">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    :style="{'width': percent + '%'}"
-                    :aria-valuenow="percent"
-                    aria-valuemin="0"
-                    aria-valuemax="100"></div>
-                </div>
-              </div>
-            </transition>
-          </div>
-          <span class="status-label">{{ lang.buildingUrl }}</span>
-        </div>
-      </transition>
-    </div>
+    <ProcessBar
+      :restoringState="restoringState"
+      :done="done"
+      :percent="percent"
+      :showDoneButton="true"
+      :doneButtonLabel="lang.openApp"
+      :statusLabel="lang.buildingUrl"
+      @doneButtonClick="openNow"></ProcessBar>
     <div v-if="closingIn" class="fixed-top text-center mt-2" role="alert">
       {{ closingIn }}
       <button class="badge badge-pill badge-secondary" @click="cancelTimeout">{{ lang.cancel }}</button>
@@ -37,8 +16,13 @@
 </template>
 
 <script>
+import ProcessBar from "@/components/ProcessBar.vue";
+
 export default {
   name: "OpenApp",
+  components: {
+    ProcessBar
+  },
   data() {
     return {
       percent: null,
