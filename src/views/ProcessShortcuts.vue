@@ -1,32 +1,26 @@
 <template>
   <div>
-    <div class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
-      <div class="w-75 text-center">
-        <div class="progress mb-2">
-          <div
-            class="progress-bar"
-            :class="{'progress-bar-striped progress-bar-animated': status === '\u00A0'}"
-            role="progressbar"
-            :style="{'width': (status === '\u00A0' ? 100 : percent) + '%'}"
-            :aria-valuenow="percent"
-            aria-valuemin="0"
-            aria-valuemax="100"></div>
-        </div>
-        <span class="status-label">{{ status }}</span>
-      </div>
-    </div>
+    <ProcessBar
+      :restoringState="restoringState"
+      :percent="percent"
+      :statusLabel="status"></ProcessBar>
   </div>
 </template>
 
 <script>
+import ProcessBar from "@/components/ProcessBar.vue";
 import worker from "@/utils/worker";
 
 export default {
   name: "ProcessShortcuts",
+  components: {
+    ProcessBar
+  },
   data() {
     return {
-      percent: 0,
-      status: "\u00A0"
+      percent: null,
+      status: "\u00A0",
+      restoringState: false
     };
   },
   created() {
@@ -73,6 +67,11 @@ export default {
     /** @returns {object} */
     preferences() {
       return this.$store.state.preferences;
+    },
+    getDataToSave() {
+      return {
+        replaceState: true
+      };
     }
   },
   methods: {
