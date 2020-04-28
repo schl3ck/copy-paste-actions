@@ -74,7 +74,8 @@ export default {
       // already moved away...)
       if (!popstate) {
         // get the state to save (if any)
-        const toSave = this.getCurrentComponent().getDataToSave;
+        const comp = this.getCurrentComponent();
+        const toSave = comp && comp.getDataToSave;
 
         if (toSave && toSave.replaceState) historyStateMethod = "replaceState";
 
