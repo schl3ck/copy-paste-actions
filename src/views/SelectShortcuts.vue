@@ -221,8 +221,10 @@ export default {
 
       selected = selected.map(s => s.name);
 
+      // TODO: check if the selected shortcuts are already loaded
+
       navigateAndBuildZip(this.$root, {
-        closePage: false, // TODO: change
+        closePage: process.env.NODE_ENV !== "development",
         actions: [
           "Preferences.get",
           "Shortcuts.getNames",
