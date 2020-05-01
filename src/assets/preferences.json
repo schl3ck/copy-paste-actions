@@ -10,7 +10,8 @@
     "excludeAllCPAComments": true,
     "cleanUp": 1,
     "commentMarker": ":cpa:",
-    "defaultNewShortcutName": "Untitled Shortcut"
+    "defaultNewShortcutName": "Untitled Shortcut",
+    "includeShortcutImages": false
   },
   "Preferences": {
     "autoOpenApp": false,
@@ -18,7 +19,8 @@
     "excludeAllCPAComments": true,
     "cleanUp": 1,
     "commentMarker": ":cpa:",
-    "defaultNewShortcutName": "Untitled Shortcut"
+    "defaultNewShortcutName": "Untitled Shortcut",
+    "includeShortcutImages": false
   },
   "componentToDisplay": "ProcessShortcuts"
 }
