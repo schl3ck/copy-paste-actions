@@ -24,9 +24,6 @@ export default {
     };
   },
   created() {
-    this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", true);
-
     this.$root.$once("loadShortcutsFinished", () => {
       const dict = {
         shortcuts: this.shortcuts.map(s => {
@@ -55,6 +52,10 @@ export default {
       }
     });
   },
+  activated() {
+    this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", true);
+  },
   computed: {
     /** @returns {object} */
     lang() {
@@ -68,10 +69,8 @@ export default {
     preferences() {
       return this.$store.state.preferences;
     },
-    getDataToSave() {
-      return {
-        replaceState: true
-      };
+    historyReplaceState() {
+      return true;
     }
   },
   methods: {

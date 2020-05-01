@@ -18,9 +18,6 @@ export default {
     };
   },
   created() {
-    this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackButton", false);
-
     const self = this;
     this.menuItems = [
       {
@@ -52,6 +49,10 @@ export default {
         ...this.mainMenu.help
       }
     ];
+  },
+  activated() {
+    this.$store.commit("showMainTitle", true);
+    this.$store.commit("showBackButton", false);
   },
   computed: {
     /** @returns {object} */

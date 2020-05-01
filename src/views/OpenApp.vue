@@ -36,26 +36,11 @@ export default {
       restoringState: false
     };
   },
-  created() {
+  activated() {
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", true);
-
-    this.$on("open-app", () => {
-      this.secondsBeforeTimeout = Math.round(
-        this.preferences.Preferences.closePageTimeout / 1000
-      );
-      this.timeoutIds.push(
-        setInterval(() => {
-          this.secondsBeforeTimeout--;
-          if (this.secondsBeforeTimeout <= 0) {
-            this.timeoutIds.forEach(id => clearInterval(id));
-            this.timeoutIds = [];
-          }
-        }, 1000)
-      );
-    });
   },
-  destroyed() {
+  deactivated() {
     this.timeoutIds.forEach(id => clearTimeout(id));
   },
   computed: {
@@ -80,15 +65,8 @@ export default {
               : ""
           ).replace("$seconds", this.secondsBeforeTimeout);
     },
-    getDataToSave() {
-      return {
-        replaceState: !!this.base64,
-        data: {
-          done: this.done,
-          base64: this.base64,
-          options: this.options
-        }
-      };
+    historyReplaceState() {
+      return !this.base64;
     }
   },
   methods: {
@@ -98,6 +76,19 @@ export default {
       this.secondsBeforeTimeout = null;
     },
     openNow() {
+      // this.secondsBeforeTimeout = Math.round(
+      //   this.preferences.Preferences.closePageTimeout / 1000
+      // );
+      // this.timeoutIds.push(
+      //   setInterval(() => {
+      //     this.secondsBeforeTimeout--;
+      //     if (this.secondsBeforeTimeout <= 0) {
+      //       this.timeoutIds.forEach(id => clearInterval(id));
+      //       this.timeoutIds = [];
+      //     }
+      //   }, 1000)
+      // );
+
       const close = () => {
         this.timeoutIds.push(
           setInterval(() => {

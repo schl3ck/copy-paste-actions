@@ -95,8 +95,6 @@ export default {
   created() {
     // TODO: make debounce time a preference?
     this.debouncedSearch = debounce(this.search, 400);
-    this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
 
     if (this.shortcuts.length) {
       this.init();
@@ -108,6 +106,10 @@ export default {
   mounted() {
     const height = this.$refs.toolbar.clientHeight;
     this.$refs.list.style.paddingBottom = height + "px";
+  },
+  activated() {
+    this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", false);
   },
   computed: {
     /** @returns {object} */

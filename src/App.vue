@@ -6,7 +6,9 @@
       </span>
       <hr>
     </div>
-    <component :is="componentToDisplay"></component>
+    <keep-alive>
+      <component :is="componentToDisplay"></component>
+    </keep-alive>
     <div v-if="showBackButton" class="fixed-bottom">
       <button class="btn btn-outline-primary btn-block btn-lg" @click="toMainMenu">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
@@ -70,25 +72,10 @@ export default {
     /** @param {string} componentName */
     navigate(componentName, popstate) {
       let historyStateMethod = "pushState";
-      // only save the state, when it wasn't a navigation by history (then we can't override the entry, because we've
-      // already moved away...)
       if (!popstate) {
-        // get the state to save (if any)
+        // get the method for the History API
         const comp = this.getCurrentComponent();
-        const toSave = comp && comp.getDataToSave;
-
-        if (toSave && toSave.replaceState) historyStateMethod = "replaceState";
-
-        // if the state isn't going to be overridden, save the state
-        if (toSave && !toSave.replaceState) {
-          window.history.replaceState(
-            {
-              componentToDisplay: this.componentToDisplay,
-              data: toSave.data
-            },
-            this.componentToDisplay
-          );
-        }
+        historyStateMethod = (comp && comp.historyReplaceState) ? "replaceState" : historyStateMethod;
       }
 
       // now load the new component
@@ -106,11 +93,6 @@ export default {
             { componentToDisplay: componentName },
             componentName
           );
-        }
-        if (popstate && popstate.data) {
-          comp.restoringState = true;
-          Object.assign(comp, popstate.data);
-          comp.restoringState = false;
         }
         this.$root.$emit("navigated." + componentName, comp);
       });
