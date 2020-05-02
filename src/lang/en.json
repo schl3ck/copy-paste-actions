@@ -20,7 +20,7 @@
   },
   "selectShortcuts": {
     "title": "Select Shortcuts",
-    "searchPlaceholder": "Enter search term",
+    "searchCaption": "Enter search term",
     "continueProcessing": "Process Shortcuts",
     "numberOfShortcutsSelected": "$number Shortcuts selected",
     "showSelected": "Toggle showing all selected Shortcuts",

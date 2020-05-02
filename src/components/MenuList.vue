@@ -16,9 +16,9 @@ export default {
 
     const cards = context.props.items.map(i => {
       return createElement(
-        "div",
+        "button",
         {
-          class: "col-md mb-2 card",
+          class: "col-md mb-2 card text-left",
           on: {
             click: i.click
           }

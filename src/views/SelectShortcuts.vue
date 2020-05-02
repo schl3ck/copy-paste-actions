@@ -5,9 +5,10 @@
       <div class="list-group list-group-custom-flush">
         <div class="list-group-item no-rounded-bottom border-bottom p-0">
           <div class="input-group flex-row">
+            <span class="sr-only">{{ lang.searchCaption }}</span>
             <input class="input-group-form-control" type="text"
               v-model="searchText"
-              :placeholder="lang.searchPlaceholder"
+              :placeholder="lang.searchCaption"
               ref="input">
             <div class="input-group-append">
               <!-- TODO: show selected shortcuts without marking the matched letters -->
@@ -29,35 +30,37 @@
           <i>{{ lang.nothingSelected }}</i>
         </div>
         <template v-show="selectedShortcutsDisplay.length > 0">
-          <a
+          <button
             v-for="shortcut in selectedShortcutsDisplay"
             :key="shortcut.name"
-            class="list-group-item list-group-item-action d-flex align-items-center"
+            class="list-group-item list-group-item-action d-flex align-items-center text-left"
             @click="toggleSelection(shortcut)">
             <FontAwesomeIcon
               icon="check"
               class="text-primary mr-2 fa-1o5x"
               :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-            <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon">
+            <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon"
+              alt="Shortcut image">
             <span>{{ shortcut.name }}</span>
             <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
-          </a>
+          </button>
         </template>
       </div>
       <div v-show="!showSelected && filteredShortcuts && filteredShortcuts.length">
-        <a
+        <button
           v-for="shortcut in filteredShortcuts"
           :key="shortcut.name"
-          class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer"
+          class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer text-left"
           @click="toggleSelection(shortcut)">
           <FontAwesomeIcon
             icon="check"
             class="text-primary mr-2 fa-1o5x"
             :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-          <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon">
+          <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon"
+            alt="Shortcut image">
           <span v-html="shortcut.escapedName"></span>
           <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
-        </a>
+        </button>
       </div>
       <div v-show="!showSelected && !(filteredShortcuts && filteredShortcuts.length)">
         <div class="list-group-item text-center">
@@ -315,7 +318,12 @@ export default {
   width: 100%;
   min-width: 0;
   border: 0;
+  border-radius: 0.25rem;
   padding: 0.375rem 0.75rem;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
 }
 
 @media (max-width: 575px) {
