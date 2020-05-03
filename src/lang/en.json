@@ -22,8 +22,8 @@
     "title": "Select Shortcuts",
     "searchCaption": "Enter search term",
     "continueProcessing": "Process Shortcuts",
-    "numberOfShortcutsSelected": "$number Shortcuts selected",
-    "showSelected": "Toggle showing all selected Shortcuts",
+    "srNumberOfShortcutsSelected": "$number Shortcuts selected.",
+    "srShowSelected": "Toggle showing all selected Shortcuts.",
     "nothingSelected": "No Shortcuts selected",
     "loading": "Loading...",
     "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?"

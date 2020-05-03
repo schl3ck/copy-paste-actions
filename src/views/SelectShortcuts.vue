@@ -14,7 +14,7 @@
               <!-- TODO: show selected shortcuts without marking the matched letters -->
               <button type="button" class="btn" @click="showSelected = !showSelected">
                 <FontAwesomeIcon icon="bars" class="mr-1"></FontAwesomeIcon>
-                <span class="sr-only">{{ lang.showSelected }}</span>
+                <span class="sr-only">{{ lang.srShowSelected }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
                 <span class="badge badge-pill badge-primary">{{ selectedCount }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.after }}</span>
@@ -42,6 +42,7 @@
             <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon"
               alt="Shortcut image">
             <span>{{ shortcut.name }}</span>
+            <span class="sr-only">.</span>
             <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
           </button>
         </template>
@@ -59,6 +60,7 @@
           <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon"
             alt="Shortcut image">
           <span v-html="shortcut.escapedName"></span>
+          <span class="sr-only">.</span>
           <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
         </button>
       </div>
@@ -125,7 +127,7 @@ export default {
     },
     /** @returns { {before: string, after: string} } */
     langNumberOfShortcutsSelected() {
-      const str = this.lang.numberOfShortcutsSelected;
+      const str = this.lang.srNumberOfShortcutsSelected;
       const parts = (" " + str + " ").split("$number", 2); // ensure that there are 2 parts every time
       return {
         before: parts && parts.length ? parts[0].trim() : "",

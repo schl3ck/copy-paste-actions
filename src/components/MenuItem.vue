@@ -60,7 +60,16 @@ export default {
                 {
                   class: "card-title"
                 },
-                [props.title]
+                [
+                  props.title,
+                  createElement(
+                    "span",
+                    {
+                      class: "sr-only"
+                    },
+                    ["."]
+                  )
+                ]
               ),
               createElement(
                 "div",
