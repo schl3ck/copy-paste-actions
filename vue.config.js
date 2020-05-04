@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: "default",
+  productionSourceMap: false,
   css: {
     extract: false
   },
@@ -10,6 +11,10 @@ module.exports = {
     disableHostCheck: true
   },
   chainWebpack(config) {
+    if (process.env.BUILD_MODE === "targz") {
+      config.entry("app").clear().add("./src/targz-entry.js");
+    }
+
     config.plugins.delete("preload");
     config.plugins.delete("prefetch");
 
@@ -38,13 +43,15 @@ module.exports = {
         return options;
       });
 
-    config.plugin("copy")
-      .tap(args => {
-        const options = args[0][0] || {};
-        options.ignore = options.ignore || [];
-        options.ignore.push("favicon.png");
-        return args;
-      });
+    if (config.plugins.has("copy")) {
+      config.plugin("copy")
+        .tap(args => {
+          const options = args[0][0] || {};
+          options.ignore = options.ignore || [];
+          options.ignore.push("favicon.png");
+          return args;
+        });
+    }
 
     if (process.env.NODE_ENV === "production") {
       config.plugin("html")
@@ -54,6 +61,10 @@ module.exports = {
           options.minify = options.minify || {};
           options.minify.collapseWhitespace = false;
           options.minify.removeComments = false;
+          if (process.env.BUILD_MODE === "targz") {
+            options.filename = "targz.html";
+          }
+          options.BUILD_MODE = process.env.BUILD_MODE;
           return args;
         });
 

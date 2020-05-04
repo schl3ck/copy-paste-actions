@@ -3,17 +3,37 @@
 
   <head>
     <meta charset="utf-8">
+    <% if (htmlWebpackPlugin.options.BUILD_MODE != "targz") { %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1">
     <link rel="icon" href="<%= require('./favicon.png') %>">
+    <% } %>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1">
     <title>CopyPaste Actions</title>
   </head>
 
-  <body>
+  <body<%= htmlWebpackPlugin.options.BUILD_MODE == "targz" ? " style=\"font-family: -apple-system, 'Helvetica Neue', sans-serif;\"" : "" %>>
     <noscript>
       <strong>We're sorry but CopyPaste Actions doesn't work properly with JavaScript disabled. Please enable it to continue.</strong>
     </noscript>
-    <% if (NODE_ENV == "development") { %>
+    <% if (htmlWebpackPlugin.options.BUILD_MODE == "targz") { %>
+    <div id="errorHelper" style="display: none;">
+      <h2>There was an error :(</h2>
+      <!-- the following text is intentionally written in a simple language -->
+      <p>
+        Please try again.<br>
+        If this error does not go away, please contact
+        <a href="https://www.reddit.com/message/compose/?to=asdfh&subject=GZIP%20decompress%20error">u/schl3ck on Reddit</a>,
+        <a href="https://talk.automators.fm/new-message?username=schl3ck&title=GZIP%decompress%20error">@schl3ck on Automators Talk</a>
+        or
+        <a href="https://github.com/schl3ck/copy-paste-actions/issues/new?title=GZIP%decompress%20error">open an issue on GitHub</a>.<br>
+        Please include the following error (or write that there is no error, if there is nothing below).
+        Also please describe what you have done to get here.<br>
+        Thank you!
+      </p>
+      <pre><code id="errorReport" style="font-family: 'Courier New', Courier, monospace"></code></pre>
+    </div>
+    <% } else {
+      if (NODE_ENV == "development") { %>
     <script type="application/zip" id="datastore">
       <%= require("@/assets/shortcutInput.txt").default %>
     </script>
@@ -23,14 +43,16 @@
     <script type="text/json" id="language">
       <%= JSON.stringify(require("@/lang/en.json")) %>
     </script>
-    <% } %><!-- split here -->
+    <% } %>
     <div id="app"></div>
+    <% } %>
+    <!-- split here -->
     <!-- built files will be auto injected -->
     <% if (NODE_ENV == "production") {
-        for (const asset of Object.keys(compilation.assets).filter(asset => !asset.endsWith(".map"))) { %>
-    <script><%= compilation.assets[asset].source().replace(/<\/script/g, "</scri\pt") %></script>
+        for (const asset of htmlWebpackPlugin.files.js) { %>
+    <script><%= compilation.assets[asset.substring(1)].source().replace(/<\/script/g, "</scri\pt") %></script>
     <%  }
        } %>
-  </body>
+  </body<%=>
 
 </html>
