@@ -52,5 +52,6 @@ const root = new Vue({
 loadShortcuts.then(() => {
   root.$emit("loadShortcutsFinished");
 }).catch((err) => {
+  /* eslint-disable-next-line no-console */
   console.error(err);
 });

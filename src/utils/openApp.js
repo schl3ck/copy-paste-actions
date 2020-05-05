@@ -1,4 +1,6 @@
-import JSZip from "jszip";
+import tarball from "tarballjs";
+import gzip from "gzip-js";
+import { Buffer } from "buffer";
 
 /**
  * Opens the Shortcut to perform some actions
@@ -26,32 +28,26 @@ export function navigateAndBuildZip(root, options) {
 
   async function navigated(OpenApp) {
     OpenApp.options = options;
+    OpenApp.base64 = "";
+    OpenApp.done = false;
+    OpenApp.percent = null;
 
-    const zip = new JSZip();
-    zip.file("actions.txt", options.actions.join("\n"), {
-      createFolders: false
-    });
+    const tar = new tarball.TarWriter();
+    tar.addTextFile("actions.txt", options.actions.join("\n"));
     if (options.data && options.data.length) {
       for (const item of options.data) {
-        const options = {
-          createFolders: false
-        };
-        if (item.zipOptions) {
-          Object.assign(options, item.zipOptions);
+        if (typeof item.content === "string") {
+          tar.addTextFile(item.name, item.content);
+        } else {
+          tar.addFileArrayBuffer(item.name, Uint8Array.from(item.content), options);
         }
-        zip.file(item.name, item.content, options);
       }
     }
 
-    const base64 = await zip.generateAsync({
-      type: "base64",
-      compression: "DEFLATE",
-      compressionOptions: {
-        level: 9
-      }
-    }, function onUpdate(metadata) {
-      OpenApp.percent = metadata.percent;
+    const arr = await tar.write((percent) => {
+      OpenApp.percent = percent;
     });
+    const base64 = Buffer.from(gzip.zip(arr, { level: 9 })).toString("base64");
     OpenApp.done = true;
     OpenApp.base64 = base64;
 

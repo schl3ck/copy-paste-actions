@@ -59,6 +59,7 @@ export default new Vuex.Store({
             return f;
           }));
         }, null, (error) => {
+          /* eslint-disable-next-line no-console */
           console.error("Error in TarGZ.parse():", error);
           reject(error);
         });
