@@ -1,8 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import JSZip from "jszip";
-import { assign, flatten, groupBy, map, values } from "lodash";
+import { assign, groupBy, map, values } from "lodash";
 import Fuse from "fuse.js";
+import TarGZ from "@/utils/targz";
+import { Buffer } from "buffer";
+import { stringFromBinaryString } from "@/utils/binaryStringToUTF8";
 
 Vue.use(Vuex);
 
@@ -50,39 +52,44 @@ export default new Vuex.Store({
       const zipData = document.getElementById("datastore").innerText.replace(/\s+/g, "");
       if (!zipData) return;
 
-      const zip = await JSZip.loadAsync(zipData, { base64: true });
-      const proms = [];
+      const zipFiles = await new Promise((resolve, reject) => {
+        TarGZ.parse(atob(zipData), (f) => {
+          resolve(f.filter(f => !f.filename.startsWith("PaxHeader")).map(f => {
+            f.filename = stringFromBinaryString(f.filename);
+            return f;
+          }));
+        }, null, (error) => {
+          console.error("Error in TarGZ.parse():", error);
+          reject(error);
+        });
+      });
+      const files = [];
 
-      zip.forEach((relativePath, file) => {
-        if (relativePath.endsWith("data.json")) {
-          proms.push(file.async("text").then((content) => {
-            content = JSON.parse(content);
-            return content.names.map((n, i) => {
-              return {
-                name: n,
-                size: content.size[i]
-              };
-            });
-          }));
-        } else if (relativePath.endsWith(".png")) {
-          proms.push(file.async("base64").then((content) => {
+      zipFiles.forEach(({ filename, data }) => {
+        if (filename.endsWith("data.json")) {
+          const content = JSON.parse(stringFromBinaryString(data));
+          files.push(...content.names.map((n, i) => {
             return {
-              name: relativePath.replace(/\.png$/, ""),
-              image: content
+              name: n,
+              size: content.size[i]
             };
           }));
-        } else if (relativePath.endsWith(".shortcut") || relativePath.endsWith(".wflow")) {
-          proms.push(file.async("nodebuffer").then((content) => {
-            return {
-              name: relativePath.replace(/\.(shortcut|wflow)$/, ""),
-              data: content
-            };
-          }));
+        } else if (filename.endsWith(".png")) {
+          const blob = new Blob([Buffer.from(data, "binary")]);
+          files.push({
+            name: filename.replace(/\.png$/, ""),
+            image: URL.createObjectURL(blob)
+          });
+        } else if (filename.endsWith(".shortcut") || filename.endsWith(".wflow")) {
+          const content = Buffer.from(data, "binary");
+          files.push({
+            name: filename.replace(/\.(shortcut|wflow)$/, ""),
+            data: content
+          });
         }
       });
 
-      let shortcuts = await Promise.all(proms);
-      shortcuts = map(values(groupBy(flatten(shortcuts), "name")), (i) => {
+      const shortcuts = map(values(groupBy(files, "name")), (i) => {
         return assign({ selected: false }, ...i);
       });
       let noImage = shortcuts.filter(s => !s.image);
@@ -104,6 +111,9 @@ export default new Vuex.Store({
           noSize = shortcuts.filter(s => !s.size);
         }
         if (noImage.length || noSize.length) {
+          // expose the two arrays for debugging
+          window.shortcutsNoImage = noImage;
+          window.shortcutsNoSize = noSize;
           /* eslint-disable-next-line no-console */
           console.warn(
             `There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`,

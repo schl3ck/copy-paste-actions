@@ -39,8 +39,8 @@
               icon="check"
               class="text-primary mr-2 fa-1o5x"
               :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-            <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon"
-              alt="Shortcut image">
+            <img v-show="shortcut.image" :src="shortcut.image" class="mr-2 icon"
+              alt="icon">
             <span>{{ shortcut.name }}</span>
             <span class="sr-only">.</span>
             <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
@@ -57,8 +57,8 @@
             icon="check"
             class="text-primary mr-2 fa-1o5x"
             :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-          <img v-show="shortcut.image" :src="'data:image/png;base64,' + shortcut.image" class="mr-2 icon"
-            alt="Shortcut image">
+          <img v-show="shortcut.image" :src="shortcut.image" class="mr-2 icon"
+            alt="icon">
           <span v-html="shortcut.escapedName"></span>
           <span class="sr-only">.</span>
           <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>

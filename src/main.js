@@ -2,8 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import "bootstrap.css";
 import "bootstrap.reboot";
-import "jquery";
-import "bootstrap.js";
+// import "jquery";
+// import "bootstrap.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -51,4 +51,6 @@ const root = new Vue({
 
 loadShortcuts.then(() => {
   root.$emit("loadShortcutsFinished");
+}).catch((err) => {
+  console.error(err);
 });
