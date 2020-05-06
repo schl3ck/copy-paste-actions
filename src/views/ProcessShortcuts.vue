@@ -3,6 +3,7 @@
     <ProcessBar
       :restoringState="restoringState"
       :percent="percent"
+      :done="done"
       :statusLabel="status"></ProcessBar>
   </div>
 </template>
@@ -20,11 +21,44 @@ export default {
     return {
       percent: null,
       status: "\u00A0",
-      restoringState: false
+      restoringState: false,
+      done: false
     };
   },
   created() {
-    this.$root.$once("loadShortcutsFinished", () => {
+    if (this.shortcuts.length) {
+      this.init();
+    } else {
+      this.$root.$once("loadShortcutsFinished", this.init);
+    }
+  },
+  activated() {
+    this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", true);
+  },
+  computed: {
+    /** @returns {object} */
+    lang() {
+      return this.$store.state.language.processShortcuts;
+    },
+    /** @returns {object} */
+    shortcuts() {
+      let loaded = this.$store.state.shortcuts.filter(s => s.data);
+      if (loaded.some(s => s.selected)) {
+        loaded = loaded.filter(s => s.selected);
+      }
+      return loaded;
+    },
+    /** @returns {object} */
+    preferences() {
+      return this.$store.state.preferences;
+    },
+    historyReplaceState() {
+      return true;
+    }
+  },
+  methods: {
+    init() {
       const dict = {
         shortcuts: this.shortcuts.map(s => {
           return {
@@ -46,34 +80,12 @@ export default {
           this.percent = percent;
         }).then(result => {
           // TODO: go to next page
+          this.done = true;
         });
       } else {
         this.status = this.lang.noShortcuts;
       }
-    });
-  },
-  activated() {
-    this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", true);
-  },
-  computed: {
-    /** @returns {object} */
-    lang() {
-      return this.$store.state.language.processShortcuts;
     },
-    /** @returns {object} */
-    shortcuts() {
-      return this.$store.state.shortcuts.filter(s => s.data);
-    },
-    /** @returns {object} */
-    preferences() {
-      return this.$store.state.preferences;
-    },
-    historyReplaceState() {
-      return true;
-    }
-  },
-  methods: {
     toMainMenu() {
       this.$root.$emit("navigate", "MainMenu");
     }

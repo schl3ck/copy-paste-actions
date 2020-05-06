@@ -61,7 +61,10 @@
             alt="icon">
           <span v-html="shortcut.escapedName"></span>
           <span class="sr-only">.</span>
-          <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
+          <span class="ml-auto small text-secondary"><span
+              class="text-nowrap">{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
+                class="sr-only">.</span><br><span
+                class="text-nowrap">{{ lang.shortcutLoaded }}</span></template></span>
         </button>
       </div>
       <div v-show="!showSelected && !(filteredShortcuts && filteredShortcuts.length)">
@@ -215,6 +218,12 @@ export default {
       let selected = this.shortcuts.filter(s => s.selected);
       if (selected.length === 0) return;
 
+      if (selected.every(s => s.data)) {
+        // all shortcuts already loaded
+        this.$root.$emit("navigate", "ProcessShortcuts");
+        return;
+      }
+
       // if selected shortcuts are bigger than 3 MB
       let size = selected.reduce((acc, i) => acc + i.size, 0);
       if (size > 3 * 1024 * 1024) {
@@ -227,8 +236,6 @@ export default {
       }
 
       selected = selected.map(s => s.name);
-
-      // TODO: check if the selected shortcuts are already loaded
 
       navigateAndBuildZip(this.$root, {
         closePage: process.env.NODE_ENV !== "development",

@@ -26,6 +26,7 @@
     "srShowSelected": "Toggle showing all selected Shortcuts.",
     "nothingSelected": "No Shortcuts selected",
     "loading": "Loading...",
+    "shortcutLoaded": "Loaded",
     "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?"
   },
   "openApp": {
