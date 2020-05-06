@@ -26,8 +26,6 @@ module.exports = function() {
       const res = script(dict);
 
       expectReturnObject(res, {
-        requires: { clipboard: false, snippets: false },
-        savesTo: { clipboard: false, snippets: false },
         nItems: 0,
         warnings: [
           "Found incomplete CopyPaste Actions comment"
@@ -35,8 +33,6 @@ module.exports = function() {
         shortcuts: [
           {
             name: getParamForScript(sct).shortcuts.name,
-            requires: { clipboard: false, snippets: false },
-            savesTo: { clipboard: false, snippets: false },
             actionsToRemove: [],
             uuids: extractUUIDs(sct.getActions()),
             inserts: [],
@@ -57,8 +53,6 @@ module.exports = function() {
       const res = script(dict);
 
       expectReturnObject(res, {
-        requires: { clipboard: false, snippets: false },
-        savesTo: { clipboard: false, snippets: false },
         nItems: 0,
         warnings: [
           "Wrong function name. Expected one of cut [n], copy [n], save [remove|replace] [n], " +
@@ -68,8 +62,6 @@ module.exports = function() {
         shortcuts: [
           {
             name: getParamForScript(sct).shortcuts.name,
-            requires: { clipboard: false, snippets: false },
-            savesTo: { clipboard: false, snippets: false },
             actionsToRemove: [],
             uuids: extractUUIDs(sct.getActions()),
             inserts: [],
@@ -96,8 +88,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found \"pause\" in a paste replace range, which is not supported",
@@ -109,8 +99,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -135,8 +123,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found \"resume\" in an insert replace range, which is not supported",
@@ -148,8 +134,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -177,8 +161,6 @@ module.exports = function() {
           const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [2, 1] : [1]);
 
           expectReturnObject(res, {
-            requires: { clipboard: false, snippets: false },
-            savesTo: { clipboard: true, snippets: false },
             nItems: 1,
             warnings: [
               "Found \"pause\" without any start. Maybe you specified a number after the start function e.g. " +
@@ -197,8 +179,6 @@ module.exports = function() {
             shortcuts: [
               {
                 name: getParamForScript(sct).shortcuts.name,
-                requires: { clipboard: false, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [0] : []),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
@@ -239,8 +219,6 @@ module.exports = function() {
           const res = script(dict);
 
           expectReturnObject(res, {
-            requires: { clipboard: false, snippets: false },
-            savesTo: { clipboard: false, snippets: false },
             nItems: 0,
             warnings: [
               "Found \"end\" after the clipboard selection has already finished. Maybe you've specified a count on " +
@@ -251,8 +229,6 @@ module.exports = function() {
             shortcuts: [
               {
                 name: getParamForScript(sct).shortcuts.name,
-                requires: { clipboard: false, snippets: false },
-                savesTo: { clipboard: false, snippets: false },
                 actionsToRemove: constructActionsToRemove([]),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
@@ -276,8 +252,6 @@ module.exports = function() {
       const res = script(dict);
 
       expectReturnObject(res, {
-        requires: { clipboard: false, snippets: false },
-        savesTo: { clipboard: false, snippets: false },
         nItems: 0,
         warnings: [
           "Found the end of a paste replace section without any start",
@@ -286,8 +260,6 @@ module.exports = function() {
         shortcuts: [
           {
             name: getParamForScript(sct).shortcuts.name,
-            requires: { clipboard: false, snippets: false },
-            savesTo: { clipboard: false, snippets: false },
             actionsToRemove: [],
             uuids: extractUUIDs(sct.getActions()),
             inserts: [],
@@ -312,8 +284,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found the end of an insert replace section without any start. Maybe you meant \"end paste\"?",
@@ -322,8 +292,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -346,8 +314,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found the end of a paste replace section without any start. Maybe you meant \"end insert\"?",
@@ -356,8 +322,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -382,8 +346,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: true, snippets: false },
           nItems: 1,
           warnings: [
             "There is already a clipboard selection without a name"
@@ -391,8 +353,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: true, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -422,8 +382,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: true, snippets: false },
           nItems: 1,
           warnings: [
             "There is already a clipboard selection with the name \"asdf\""
@@ -431,8 +389,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: true, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -463,8 +419,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: true, snippets: false },
           nItems: 1,
           warnings: [
             "There is already a clipboard selection without a name"
@@ -472,8 +426,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: true, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -504,8 +456,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: true, snippets: false },
           nItems: 1,
           warnings: [
             "There is already a clipboard selection with the name \"asdf\""
@@ -513,8 +463,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: true, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -544,8 +492,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: true },
           nItems: 1,
           warnings: [
             "There is already a snippet without a name"
@@ -553,8 +499,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: true },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -584,8 +528,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: true },
           nItems: 1,
           warnings: [
             "There is already a snippet with the name \"asdf\""
@@ -593,8 +535,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: true },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -625,8 +565,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: true },
           nItems: 1,
           warnings: [
             "There is already a snippet without a name"
@@ -634,8 +572,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: true },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -666,8 +602,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: true },
           nItems: 1,
           warnings: [
             "There is already a snippet with the name \"asdf\""
@@ -675,8 +609,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: true },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -711,8 +643,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found function \"resume\" while current clipboard selection is already continuing"
@@ -720,8 +650,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -745,8 +673,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found function \"resume\" while current snippet is already continuing"
@@ -754,8 +680,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -782,8 +706,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found function \"pause\" while current clipboard selection is already paused"
@@ -791,8 +713,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
@@ -817,8 +737,6 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          requires: { clipboard: false, snippets: false },
-          savesTo: { clipboard: false, snippets: false },
           nItems: 0,
           warnings: [
             "Found function \"pause\" while current snippet is already paused"
@@ -826,8 +744,6 @@ module.exports = function() {
           shortcuts: [
             {
               name: getParamForScript(sct).shortcuts.name,
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: false, snippets: false },
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],

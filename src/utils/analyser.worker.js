@@ -1034,15 +1034,7 @@ finished before reaching the current function.`,
       inserts: inserts,
       uuids: uuidsToPlainObject(uuids),
       actionsToRemove: actionsToRemove,
-      name: shortcutName,
-      requires: {
-        clipboard: inserts.some((i) => i.isClipboard),
-        snippets: inserts.some((i) => !i.isClipboard)
-      },
-      savesTo: {
-        clipboard: snippets.some((i) => i.isClipboard),
-        snippets: snippets.some((i) => !i.isClipboard)
-      }
+      name: shortcutName
     });
   }); // end shortcuts.forEach()
 
@@ -1060,15 +1052,7 @@ finished before reaching the current function.`,
   return {
     shortcuts: result,
     warnings: warnings,
-    nItems: result.reduce((acc, val) => acc + Object.keys(val.snippets).length + Object.keys(val.inserts).length, 0),
-    requires: {
-      clipboard: result.reduce((acc, val) => acc || val.requires.clipboard, false),
-      snippets: result.reduce((acc, val) => acc || val.requires.snippets, false)
-    },
-    savesTo: {
-      clipboard: result.reduce((acc, val) => acc || val.savesTo.clipboard, false),
-      snippets: result.reduce((acc, val) => acc || val.savesTo.snippets, false)
-    }
+    nItems: result.reduce((acc, val) => acc + Object.keys(val.snippets).length + Object.keys(val.inserts).length, 0)
   };
 
   function warn(message, i, text, shortcutName) {

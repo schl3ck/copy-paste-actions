@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>420/420</span>
+                <span class='fraction'>412/412</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>279/279</span>
+                <span class='fraction'>271/271</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>55/55</span>
+                <span class='fraction'>47/47</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>389/389</span>
+                <span class='fraction'>381/381</span>
             </div>
         
             
@@ -1291,23 +1291,7 @@
 <a name='L1232'></a><a href='#L1232'>1232</a>
 <a name='L1233'></a><a href='#L1233'>1233</a>
 <a name='L1234'></a><a href='#L1234'>1234</a>
-<a name='L1235'></a><a href='#L1235'>1235</a>
-<a name='L1236'></a><a href='#L1236'>1236</a>
-<a name='L1237'></a><a href='#L1237'>1237</a>
-<a name='L1238'></a><a href='#L1238'>1238</a>
-<a name='L1239'></a><a href='#L1239'>1239</a>
-<a name='L1240'></a><a href='#L1240'>1240</a>
-<a name='L1241'></a><a href='#L1241'>1241</a>
-<a name='L1242'></a><a href='#L1242'>1242</a>
-<a name='L1243'></a><a href='#L1243'>1243</a>
-<a name='L1244'></a><a href='#L1244'>1244</a>
-<a name='L1245'></a><a href='#L1245'>1245</a>
-<a name='L1246'></a><a href='#L1246'>1246</a>
-<a name='L1247'></a><a href='#L1247'>1247</a>
-<a name='L1248'></a><a href='#L1248'>1248</a>
-<a name='L1249'></a><a href='#L1249'>1249</a>
-<a name='L1250'></a><a href='#L1250'>1250</a>
-<a name='L1251'></a><a href='#L1251'>1251</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1235'></a><a href='#L1235'>1235</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2345,14 +2329,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">647x</span>
-<span class="cline-any cline-yes">647x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">47811x</span>
-<span class="cline-any cline-yes">48389x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48330x</span>
@@ -2370,14 +2346,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3593,15 +3561,7 @@ finished before reaching the current function.`,
       inserts: inserts,
       uuids: uuidsToPlainObject(uuids),
       actionsToRemove: actionsToRemove,
-      name: shortcutName,
-      requires: {
-        clipboard: inserts.some((i) =&gt; i.isClipboard),
-        snippets: inserts.some((i) =&gt; !i.isClipboard)
-      },
-      savesTo: {
-        clipboard: snippets.some((i) =&gt; i.isClipboard),
-        snippets: snippets.some((i) =&gt; !i.isClipboard)
-      }
+      name: shortcutName
     });
   }); // end shortcuts.forEach()
 &nbsp;
@@ -3619,15 +3579,7 @@ finished before reaching the current function.`,
   return {
     shortcuts: result,
     warnings: warnings,
-    nItems: result.reduce((acc, val) =&gt; acc + Object.keys(val.snippets).length + Object.keys(val.inserts).length, 0),
-    requires: {
-      clipboard: result.reduce((acc, val) =&gt; acc || val.requires.clipboard, false),
-      snippets: result.reduce((acc, val) =&gt; acc || val.requires.snippets, false)
-    },
-    savesTo: {
-      clipboard: result.reduce((acc, val) =&gt; acc || val.savesTo.clipboard, false),
-      snippets: result.reduce((acc, val) =&gt; acc || val.savesTo.snippets, false)
-    }
+    nItems: result.reduce((acc, val) =&gt; acc + Object.keys(val.snippets).length + Object.keys(val.inserts).length, 0)
   };
 &nbsp;
   function warn(message, i, text, shortcutName) {
@@ -3814,7 +3766,7 @@ function updatePercentage(percent) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Apr 26 2020 00:34:11 GMT+0200 (GMT+02:00)
+                at Thu May 07 2020 00:08:47 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="prettify.js"></script>

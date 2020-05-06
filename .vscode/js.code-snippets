@@ -90,10 +90,8 @@
 		"description": "Inserts a default expected object",
 		"body": [
 			"expectReturnObject(res, {",
-			"\trequires: { clipboard: ${1|false,true|}, snippets: ${2|false,true|} },",
-			"\tsavesTo: { clipboard: ${3|false,true|}, snippets: ${4|false,true|} },",
-			"\tnItems: $5,",
-			"\twarnings: [$6],",
+			"\tnItems: $1,",
+			"\twarnings: [$2],",
 			"\tshortcuts: [",
 			"\t\t$0",
 			"\t]",
@@ -107,9 +105,7 @@
 		"body": [
 			"{",
 			"\tname: ${1|getParamForScript(sct).shortcuts.name,\"\"|},",
-			"\trequires: { clipboard: ${2|false,true|}, snippets: ${3|false,true|} },",
-			"\tsavesTo: { clipboard: ${4|false,true|}, snippets: ${5|false,true|} },",
-			"\tactionsToRemove: constructActionsToRemove(${6|actionsToRemove,params.cleanUp === 2 ? [] : []|}),$0",
+			"\tactionsToRemove: constructActionsToRemove(${2|actionsToRemove,params.cleanUp === 2 ? [] : []|}),$0",
 			"\tuuids: extractUUIDs(sct.getActions()),",
 			"\tinserts: [],",
 			"\tsnippets: []",

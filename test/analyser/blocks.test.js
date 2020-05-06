@@ -391,15 +391,11 @@ module.exports = function() {
           }
 
           expectReturnObject(res, {
-            requires: { clipboard: true, snippets: false },
-            savesTo: { clipboard: true, snippets: false },
             nItems: 2,
             warnings: [],
             shortcuts: [
               {
                 name: getParamForScript(sct).shortcuts.name,
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 actionsToRemove: constructActionsToRemove(actionsToRemove.snippet, actionsToRemove.insert),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [

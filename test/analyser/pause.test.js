@@ -72,15 +72,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -128,15 +124,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -186,15 +178,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -245,15 +233,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -306,15 +290,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -366,15 +346,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -429,15 +405,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -490,15 +462,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],
@@ -549,15 +517,11 @@ module.exports = function() {
             }
 
             expectReturnObject(res, {
-              requires: { clipboard: false, snippets: false },
-              savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
               nItems: 1,
               warnings: [],
               shortcuts: [
                 {
                   name: getParamForScript(sct).shortcuts.name,
-                  requires: { clipboard: false, snippets: false },
-                  savesTo: { clipboard: mode.isClipboard, snippets: !mode.isClipboard },
                   actionsToRemove: constructActionsToRemove(actionsToRemove),
                   uuids: extractUUIDs(sct.getActions()),
                   inserts: [],

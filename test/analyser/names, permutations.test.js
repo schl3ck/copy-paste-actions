@@ -69,15 +69,11 @@ module.exports = function(options) {
           const res = script(dict);
 
           expectReturnObject(res, {
-            requires: { clipboard: false, snippets: false },
-            savesTo: { clipboard: true, snippets: false },
             nItems: 1,
             warnings: [],
             shortcuts: [
               {
                 name: getParamForScript(sct).shortcuts.name,
-                requires: { clipboard: false, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 actionsToRemove: [],
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
@@ -178,15 +174,11 @@ module.exports = function(options) {
                     const res = script(dict);
 
                     expectReturnObject(res, {
-                      requires: { clipboard: false, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       nItems: nItems,
                       warnings: [],
                       shortcuts: [
                         {
                           name: getParamForScript(sct).shortcuts.name,
-                          requires: { clipboard: false, snippets: false },
-                          savesTo: { clipboard: true, snippets: false },
                           actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? actionsToRemove : []),
                           uuids: extractUUIDs(sct.getActions()),
                           inserts: [],
@@ -219,15 +211,11 @@ module.exports = function(options) {
               const res = script(dict);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
                       params.cleanUp === 2 ? [2] : []
@@ -271,15 +259,11 @@ module.exports = function(options) {
               const res = script(dict);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
                       params.cleanUp === 2 ? [2] : []
@@ -326,15 +310,11 @@ module.exports = function(options) {
               const res = script(dict);
 
               expectReturnObject(res, {
-                requires: { clipboard: false, snippets: true },
-                savesTo: { clipboard: false, snippets: true },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: false, snippets: true },
-                    savesTo: { clipboard: false, snippets: true },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [2] : [],
                       params.cleanUp === 2 ? [0, 1] : [1]
@@ -378,15 +358,11 @@ module.exports = function(options) {
               const res = script(dict);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
                       params.cleanUp === 2 ? [2, 3] : [3]
@@ -434,15 +410,11 @@ module.exports = function(options) {
               const res = script(dict);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
                       params.cleanUp === 2 ? [2] : []
@@ -490,15 +462,11 @@ module.exports = function(options) {
               const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [[1, 1], [3, 1]] : [1, 3]);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
                       params.cleanUp === 2 ? [2] : []
@@ -546,15 +514,11 @@ module.exports = function(options) {
               const res = script(dict);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
                       params.cleanUp === 2 ? [2, 3] : [3]
@@ -602,15 +566,11 @@ module.exports = function(options) {
               const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [[1, 1], [3, 1]] : [1, 3]);
 
               expectReturnObject(res, {
-                requires: { clipboard: true, snippets: false },
-                savesTo: { clipboard: true, snippets: false },
                 nItems: 2,
                 warnings: [],
                 shortcuts: [
                   {
                     name: getParamForScript(sct).shortcuts.name,
-                    requires: { clipboard: true, snippets: false },
-                    savesTo: { clipboard: true, snippets: false },
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
                       params.cleanUp === 2 ? [2, 3] : [3]
@@ -666,15 +626,11 @@ module.exports = function(options) {
                 if (params.cleanUp === 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
-                  requires: { clipboard: true, snippets: false },
-                  savesTo: { clipboard: true, snippets: false },
                   nItems: 2,
                   warnings: [],
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      requires: { clipboard: true, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 6] : [], actionsToRemove),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
@@ -725,15 +681,11 @@ module.exports = function(options) {
                 if (params.cleanUp === 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
-                  requires: { clipboard: true, snippets: false },
-                  savesTo: { clipboard: true, snippets: false },
                   nItems: 2,
                   warnings: [],
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      requires: { clipboard: true, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 6] : [], actionsToRemove),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
@@ -784,15 +736,11 @@ module.exports = function(options) {
                 if (params.cleanUp === 2) actionsToRemove.push(2);
 
                 expectReturnObject(res, {
-                  requires: { clipboard: true, snippets: false },
-                  savesTo: { clipboard: true, snippets: false },
                   nItems: 2,
                   warnings: [],
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      requires: { clipboard: true, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [0, 4] : [], actionsToRemove),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
@@ -843,15 +791,11 @@ module.exports = function(options) {
                 if (params.cleanUp === 2) actionsToRemove.push(2);
 
                 expectReturnObject(res, {
-                  requires: { clipboard: true, snippets: false },
-                  savesTo: { clipboard: true, snippets: false },
                   nItems: 2,
                   warnings: [],
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      requires: { clipboard: true, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [0, 4] : [], actionsToRemove),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
@@ -902,15 +846,11 @@ module.exports = function(options) {
                 if (params.cleanUp === 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
-                  requires: { clipboard: true, snippets: false },
-                  savesTo: { clipboard: true, snippets: false },
                   nItems: 2,
                   warnings: [],
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      requires: { clipboard: true, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 4] : [], actionsToRemove),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
@@ -961,15 +901,11 @@ module.exports = function(options) {
                 if (params.cleanUp === 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
-                  requires: { clipboard: true, snippets: false },
-                  savesTo: { clipboard: true, snippets: false },
                   nItems: 2,
                   warnings: [],
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      requires: { clipboard: true, snippets: false },
-                      savesTo: { clipboard: true, snippets: false },
                       actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 4] : [], actionsToRemove),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [

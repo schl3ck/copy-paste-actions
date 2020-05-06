@@ -88,11 +88,6 @@ function getParamForScript(shortcut) {
  * @property {string[]} vars
  */
 /**
- * @typedef {object} Requires_SavesTo
- * @property {boolean} clipboard
- * @property {boolean} snippets
- */
-/**
  * @typedef {object} Snippet
  * @property {string} name
  * @property {UUIDs} uuids
@@ -103,14 +98,10 @@ function getParamForScript(shortcut) {
  * Test the result of the Analyser Script
  * @param {object} obj - The object to test
  * @param {object} props - How the object should look like
- * @param {Requires_SavesTo} props.requires - See {@link Requires_SavesTo}
- * @param {Requires_SavesTo} props.savesTo - See {@link Requires_SavesTo}
  * @param {number} props.nItems
  * @param {string[]} props.warnings - An array of strings that should be contained in `obj.warnings`
  * @param {object[]} props.shortcuts
  * @param {string} props.shortcuts[].name
- * @param {Requires_SavesTo} props.shortcuts[].requires - See {@link Requires_SavesTo}
- * @param {Requires_SavesTo} props.shortcuts[].savesTo - See {@link Requires_SavesTo}
  * @param {number[]} props.shortcuts[].actionsToRemove - An array of positions of actions that should be removed.
  * 0-based.
  * @param {UUIDs} props.shortcuts[].uuids - See {@link UUIDs}
@@ -124,12 +115,6 @@ function getParamForScript(shortcut) {
 function expectReturnObject(obj, props) {
   expect(obj, "obj").to.be.ok;
   expect(obj, "obj").to.be.an("object");
-
-  expect(obj, "obj").to.have.property("requires");
-  expect(obj.requires, "obj.requires").to.deep.equal(props.requires);
-
-  expect(obj, "obj").to.have.property("savesTo");
-  expect(obj.savesTo, "obj.savesTo").to.deep.equal(props.savesTo);
 
   expect(obj, "obj.nItems").to.have.property("nItems", props.nItems);
 
@@ -147,12 +132,6 @@ function expectReturnObject(obj, props) {
   // ============ all shortcuts ===============
   obj.shortcuts.forEach((obj, i) => {
     expect(obj, `obj.shortcuts[${i}].name`).to.have.property("name", props.shortcuts[i].name);
-
-    expect(obj, `obj.shortcuts[${i}]`).to.have.property("requires");
-    expect(obj.requires, `obj.shortcuts[${i}].requires`).to.deep.equal(props.shortcuts[i].requires);
-
-    expect(obj, `obj.shortcuts[${i}]`).to.have.property("savesTo");
-    expect(obj.savesTo, `obj.shortcuts[${i}].savesTo`).to.deep.equal(props.shortcuts[i].savesTo);
 
     expect(obj, `obj.shortcuts[${i}]`).to.have.property("actionsToRemove");
     expect(obj.actionsToRemove, `obj.shortcuts[${i}].actionsToRemove`).to.be.instanceOf(Array);
