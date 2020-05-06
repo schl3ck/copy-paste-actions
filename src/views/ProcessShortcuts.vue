@@ -1,6 +1,11 @@
 <template>
   <div>
+    <div v-if="noItems" class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
+      <span class="sad-face">:(</span>
+      <span class="no-items-text">{{ lang.noItemsFound }}</span>
+    </div>
     <ProcessBar
+      v-else
       :restoringState="restoringState"
       :percent="percent"
       :done="done"
@@ -22,7 +27,8 @@ export default {
       percent: null,
       status: "\u00A0",
       restoringState: false,
-      done: false
+      done: false,
+      noItems: false
     };
   },
   created() {
@@ -81,6 +87,14 @@ export default {
         }).then(result => {
           // TODO: go to next page
           this.done = true;
+          this.$store.commit("processResult", result);
+          if (result.warnings.length > 0) {
+            this.$root.$emit("navigate", "AnalyserWarnings");
+          } else if (result.nItems === 0) {
+            this.noItems = true;
+          } else {
+            this.$root.$emit("navigate", "ProcessedSnippets");
+          }
         });
       } else {
         this.status = this.lang.noShortcuts;
@@ -92,3 +106,14 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.sad-face {
+  font-size: 5rem;
+  margin-top: -3rem;
+}
+.no-items-text {
+  text-align: center;
+  white-space: pre-line;
+}
+</style>

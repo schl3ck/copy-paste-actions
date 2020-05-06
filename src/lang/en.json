@@ -40,6 +40,7 @@
   },
   "processShortcuts": {
     "processing": "Processing...",
-    "noShortcuts": "No shortcuts to process"
+    "noShortcuts": "No shortcuts to process",
+    "noItemsFound": "No snippets or inserts were found.\nPlease check, if you have the correct syntax in the comment actions."
   }
 }
