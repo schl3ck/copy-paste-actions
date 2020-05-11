@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div v-if="noItems" class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
+    <div v-if="noItems"
+      class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container">
       <span class="sad-face">:(</span>
-      <span class="no-items-text">{{ lang.noItemsFound }}</span>
+      <span v-html="lang.noItemsFound" class="text-center"></span>
     </div>
     <ProcessBar
       v-else
@@ -31,14 +32,12 @@ export default {
       noItems: false
     };
   },
-  created() {
+  activated() {
     if (this.shortcuts.length) {
       this.init();
     } else {
       this.$root.$once("loadShortcutsFinished", this.init);
     }
-  },
-  activated() {
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", true);
   },
@@ -85,7 +84,7 @@ export default {
         worker("analyser", dict, percent => {
           this.percent = percent;
         }).then(result => {
-          // TODO: go to next page
+          console.log(result);
           this.done = true;
           this.$store.commit("processResult", result);
           if (result.warnings.length > 0) {
