@@ -366,9 +366,15 @@ module.exports = function() {
           expectReturnObject(res, {
             nItems: 0,
             warnings: [
-              "Wrong function name. Expected one of cut [n], copy [n], save [remove|replace] [n], " +
-              "end [paste|insert], pause [n], resume [n], paste [replace [n]], insert [replace [n]], " +
-              "but got \"\" instead"
+              {
+                shortcut: getParamForScript(sct).shortcuts.name,
+                action: 0,
+                commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                type: "wrongFunction",
+                payload: {
+                  function: ""
+                }
+              }
             ],
             shortcuts: [
               {

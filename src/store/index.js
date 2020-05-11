@@ -59,7 +59,11 @@ export default new Vuex.Store({
     language: {},
     showMainTitle: true,
     showBackButton: false,
-    processResult: []
+    processResult: [],
+    globals: {
+      functionDefinition: "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], pause [n], resume [n], " +
+        "paste [replace [n]], insert [replace [n]]"
+    }
   },
   mutations: {
     shortcuts(state, data) {

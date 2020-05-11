@@ -121,9 +121,7 @@ function expectReturnObject(obj, props) {
   expect(obj, "obj").to.have.property("warnings");
   expect(obj.warnings, "obj.warnings").to.be.instanceOf(Array);
   expect(obj.warnings.length, "obj.warnings.length").to.equal(props.warnings.length);
-  props.warnings.forEach((prop, i) => {
-    expect(obj.warnings[i], `obj.warnings[${i}]`).to.contain(prop);
-  });
+  expect(obj.warnings, "obj.warnings").to.deep.equal(props.warnings);
 
   expect(obj, "obj").to.have.property("shortcuts");
   expect(obj.shortcuts, "obj.shortcuts").to.be.instanceOf(Array);

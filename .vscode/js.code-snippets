@@ -140,6 +140,20 @@
 			"}$0",
 		]
 	},
+	"Analyser Warnings Object": {
+		"scope": "javascript,typescript",
+		"prefix": "analyserWarningObject",
+		"description": "Inserts a warning object preset for the expectations",
+		"body": [
+			"{",
+			"\tshortcut: ${1|getParamForScript(sct).shortcuts.name,\"\"|},",
+			"\taction: $2,",
+			"\tcommentText: sct.getActions($2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,",
+			"\ttype: \"$3\",",
+			"\tpayload: {$4}",
+			"}$0"
+		]
+	},
 	"Merger ShortcutBuilder": {
 		"scope": "javascript,typescript",
 		"prefix": "mergerShortcutBuilder",

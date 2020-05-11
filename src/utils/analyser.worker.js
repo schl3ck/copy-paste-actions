@@ -255,6 +255,7 @@ function analyse(dict) {
    * @property {boolean} isClipboard
    * @property {boolean} removes
    * @property {string[]} text
+   * @property {string} textForWarning
    * @property {CommentAction} action
    */
   /**
@@ -301,9 +302,26 @@ function analyse(dict) {
    * @property {number} action The 0-based index of the action
    * @property {number[]} excludedBy The id of the insert that removed this action or -1 if it is removed by a snippet
    */
+  /**
+   * @typedef {object} Warning
+   * @property {string} shortcut Name of shortcut
+   * @property {number} action Index position of comment action
+   * @property {string} commentText Whole text from comment action
+   * @property {"incomplete" |
+   * "wrongFunction" |
+   * "pauseResumeInPaste" | "pauseResumeInInsert" |
+   * "duplicateClipboardNoName" | "duplicateClipboardWithName" | "duplicateSnippetNoName" | "duplicateSnippetWithName" |
+   * "pasteEndNoStart" | "insertEndNoStart" | "pasteEndInsertStart" | "insertEndPasteStart" |
+   * "funcNoStart" |
+   * "funcClipboardFinished" | "funcSnippetFinished" |
+   * "pauseWhilePauseClipboard" | "pauseWhilePauseSnippet" |
+   * "resumeWhileResumeClipboard" | "resumeWhileResumeSnippet"} type Error type
+   * @property {object} [payload] Some additional info to insert into the error message
+   */
 
   const result = [];
   let insertIdMax = -1;
+  /** @type {Warning[]} */
   const warnings = [];
 
   const percentPerShortcut = 100 / dict.shortcuts.length;
@@ -312,7 +330,7 @@ function analyse(dict) {
     const basePercentage = percentPerShortcut * shortcutIndex;
     updatePercentage(basePercentage);
 
-    const buf = shortcut.shortcut;
+    const buf = Buffer.from(shortcut.shortcut);
     const shortcutName = shortcut.name;
 
     shortcut = bplist.parse(buf)[0];
@@ -404,11 +422,17 @@ function analyse(dict) {
 
     // sort after names & if it's complete & if it has a valid function
     comments.forEach((action) => {
-      const text = action.WFWorkflowActionParameters.WFCommentActionText.trim().split("\n");
+      const textForWarning = action.WFWorkflowActionParameters.WFCommentActionText.trim();
+      const text = textForWarning.split("\n");
       // we've already tested if it starts with the commentMarker
 
       if (text.length < 2) {
-        warn("Found incomplete CopyPaste Actions comment", action.index, text, shortcutName);
+        warnings.push({
+          action: action.index,
+          commentText: textForWarning,
+          shortcut: shortcutName,
+          type: "incomplete"
+        });
         return;
       }
 
@@ -427,13 +451,15 @@ function analyse(dict) {
       newShortcut = newShortcut.replace(/^\s*new:?\s*/i, "new").trim();
 
       if (!regex.validateFunc.test(func)) {
-        warn(
-          `Wrong function name. Expected one of cut [n], copy [n], save [remove|replace] [n], end [paste|insert], \
-pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${func}" instead`,
-          action.index,
-          text,
-          shortcutName
-        );
+        warnings.push({
+          action: action.index,
+          commentText: textForWarning,
+          shortcut: shortcutName,
+          type: "wrongFunction",
+          payload: {
+            function: func
+          }
+        });
         return;
       }
 
@@ -477,7 +503,7 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
         newShortut: newShortcut,
         isClipboard: isClipboard,
         removes: remove,
-        text: text,
+        textForWarning: textForWarning,
         action: action,
         newShortcut: newShortcut
       });
@@ -542,13 +568,15 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
 
       comments.forEach((comment) => {
         if (current.hasInsert() && !current.snippet && /^(pause|resume)/.test(comment.function)) {
-          warn(
-            `Found "${comment.function}" in ${current.insert.clipboard ? "a paste" : "an insert"
-            } replace range, which is not supported`,
-            comment.action.index,
-            comment.text,
-            shortcutName
-          );
+          warnings.push({
+            action: comment.action.index,
+            commentText: comment.textForWarning,
+            shortcut: shortcutName,
+            type: current.insert.clipboard ? "pauseResumeInPaste" : "pauseResumeInInsert",
+            payload: {
+              function: comment.function
+            }
+          });
           if (current.insert.clipboard) { removeFromArray(current.inserts, current.insert.clipboard); }
           if (current.insert.snippet) { removeFromArray(current.inserts, current.insert.snippet); }
           current.insert.clipboard = current.insert.snippet = undefined;
@@ -557,42 +585,48 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
 
         if (regex.isStartFunc.test(comment.function) && current.snippet) {
           if (!ignoreErrorsForSnippet) {
-            const n = comment.name === dict.noSnippetName ? "out a name" : ` the name "${comment.name}"`;
-            warn(
-              `There is already a ${current.snippet.isClipboard ? "clipboard selection" : "snippet"} with${n}`,
-              comment.action.index,
-              comment.text,
-              shortcutName
-            );
+            const payload = comment.name === dict.noSnippetName ? {} : {
+              payload: {
+                name: comment.name
+              }
+            };
+            warnings.push({
+              action: comment.action.index,
+              commentText: comment.textForWarning,
+              shortcut: shortcutName,
+              type: `duplicate${current.snippet.isClipboard ? "Clipboard" : "Snippet"}${
+                comment.name === dict.noSnippetName ? "NoName" : "WithName"}`,
+              ...payload
+            });
           }
           return;
         }
 
         if (comment.function === "end" && comment.endsInsert) {
           if (!current.hasInsert()) {
-            warn(
-              `Found the end of ${comment.isClipboard ? "a paste" : "an insert"} replace section without any start`,
-              comment.action.index,
-              comment.text,
-              shortcutName
-            );
+            warnings.push({
+              action: comment.action.index,
+              commentText: comment.textForWarning,
+              shortcut: shortcutName,
+              type: (comment.isClipboard ? "paste" : "insert") + "EndNoStart"
+            });
             return;
           } else if (comment.isClipboard && !current.insert.clipboard) {
-            warn(
-              "Found the end of a paste replace section without any start. Maybe you meant \"end insert\"?",
-              comment.action.index,
-              comment.text,
-              shortcutName
-            );
+            warnings.push({
+              action: comment.action.index,
+              commentText: comment.textForWarning,
+              shortcut: shortcutName,
+              type: "pasteEndInsertStart"
+            });
             current.insert.snippet = undefined;
             return;
           } else if (!comment.isClipboard && !current.insert.snippet) {
-            warn(
-              "Found the end of an insert replace section without any start. Maybe you meant \"end paste\"?",
-              comment.action.index,
-              comment.text,
-              shortcutName
-            );
+            warnings.push({
+              action: comment.action.index,
+              commentText: comment.textForWarning,
+              shortcut: shortcutName,
+              type: "insertEndPasteStart"
+            });
             current.insert.clipboard = undefined;
             return;
           }
@@ -618,28 +652,30 @@ pause [n], resume [n], paste [replace [n]], insert [replace [n]], but got "${fun
         if (/^(pause|resume|end)/.test(comment.function) && !comment.endsInsert) {
           if (!current.snippet) {
             // TODO: move to FAQ
-            warn(
-              `Found "${comment.function}" without any start. Maybe you specified a number after the start function \
-e.g. "copy 5" to copy only the next 5 actions and forgot to remove this comment, or there was an error with the start \
-comment, or you forgot to specify "end paste" or "end insert" to end a paste/an insert range.`,
-              comment.action.index,
-              comment.text,
-              shortcutName
-            );
+            warnings.push({
+              action: comment.action.index,
+              commentText: comment.textForWarning,
+              shortcut: shortcutName,
+              type: "funcNoStart",
+              payload: {
+                function: comment.function
+              }
+            });
             return;
           } else if (current.snippet === true) {
             // when there was an error in a previous comment and the current comment would concern the snippet,
             // ignore it
             return;
           } else if (current.snippet.finished) {
-            warn(
-              `Found "${comment.function}" after the ${current.snippet.isClipboard ? "clipboard selection" : "snippet"
-              } has already finished. Maybe you've specified a count on the start function (e.g. "copy 5") that \
-finished before reaching the current function.`,
-              comment.action.index,
-              comment.text,
-              shortcutName
-            );
+            warnings.push({
+              action: comment.action.index,
+              commentText: comment.textForWarning,
+              shortcut: shortcutName,
+              type: current.snippet.isClipboard ? "funcClipboardFinished" : "funcSnippetFinished",
+              payload: {
+                function: comment.function
+              }
+            });
             // there seems to be a misconfiguration => don't process it
             current.snippet = null;
             return;
@@ -736,14 +772,12 @@ finished before reaching the current function.`,
                 if (leftover) { current.snippet.leftover.resume = leftover; }
               } else {
                 // it has an end, so the snippet is already paused => error
-                warn(
-                  `Found function "pause" while current ${
-                    current.snippet.isClipboard ? "clipboard selection" : "snippet"
-                  } is already paused`,
-                  comment.action.index,
-                  comment.text,
-                  shortcutName
-                );
+                warnings.push({
+                  action: comment.action.index,
+                  commentText: comment.textForWarning,
+                  shortcut: shortcutName,
+                  type: current.snippet.isClipboard ? "pauseWhilePauseClipboard" : "pauseWhilePauseSnippet"
+                });
                 // set snippet to true to save that we had a snippet to still catch further errors but suppress them
                 ignoreErrorsForSnippet = current.snippet = true;
                 return;
@@ -770,14 +804,12 @@ finished before reaching the current function.`,
                 // save leftover, overwriting possible old value
                 if (leftover) { current.snippet.leftover.pause = leftover; }
               } else {
-                warn(
-                  `Found function "resume" while current ${
-                    current.snippet.isClipboard ? "clipboard selection" : "snippet"
-                  } is already continuing`,
-                  comment.action.index,
-                  comment.text,
-                  shortcutName
-                );
+                warnings.push({
+                  action: comment.action.index,
+                  commentText: comment.textForWarning,
+                  shortcut: shortcutName,
+                  type: current.snippet.isClipboard ? "resumeWhileResumeClipboard" : "resumeWhileResumeSnippet"
+                });
                 // set snippet to true to save that we had a snippet to still catch further errors but suppress them
                 ignoreErrorsForSnippet = current.snippet = true;
                 return;
@@ -1054,15 +1086,6 @@ finished before reaching the current function.`,
     warnings: warnings,
     nItems: result.reduce((acc, val) => acc + Object.keys(val.snippets).length + Object.keys(val.inserts).length, 0)
   };
-
-  function warn(message, i, text, shortcutName) {
-    warnings.push(`Error at action ${i + 1} in shortcut "${shortcutName}": ${message}
-
-This comment was ignored.
-Whole comment content:
-
-${Array.isArray(text) ? text.join("\n") : /* istanbul ignore next reason: no need to test */ text}`);
-  }
 };
 
 /**

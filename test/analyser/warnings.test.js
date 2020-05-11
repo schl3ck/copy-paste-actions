@@ -28,7 +28,12 @@ module.exports = function() {
       expectReturnObject(res, {
         nItems: 0,
         warnings: [
-          "Found incomplete CopyPaste Actions comment"
+          {
+            shortcut: getParamForScript(sct).shortcuts.name,
+            action: 0,
+            commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+            type: "incomplete"
+          }
         ],
         shortcuts: [
           {
@@ -55,9 +60,15 @@ module.exports = function() {
       expectReturnObject(res, {
         nItems: 0,
         warnings: [
-          "Wrong function name. Expected one of cut [n], copy [n], save [remove|replace] [n], " +
-          "end [paste|insert], pause [n], resume [n], paste [replace [n]], insert [replace [n]], " +
-          "but got \"svdnkl\" instead"
+          {
+            shortcut: getParamForScript(sct).shortcuts.name,
+            action: 0,
+            commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+            type: "wrongFunction",
+            payload: {
+              function: "svdnkl"
+            }
+          }
         ],
         shortcuts: [
           {
@@ -90,11 +101,24 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found \"pause\" in a paste replace range, which is not supported",
-            "Found \"resume\" without any start. Maybe you specified a number after the start function e.g. " +
-            "\"copy 5\" to copy only the next 5 actions and forgot to remove this comment, or there was an error " +
-            "with the start comment, or you forgot to specify \"end paste\" or \"end insert\" to end a paste/an " +
-            "insert range."
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "pauseResumeInPaste",
+              payload: {
+                function: "pause"
+              }
+            },
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 5,
+              commentText: sct.getActions(5, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "funcNoStart",
+              payload: {
+                function: "resume"
+              }
+            }
           ],
           shortcuts: [
             {
@@ -125,11 +149,24 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found \"resume\" in an insert replace range, which is not supported",
-            "Found \"pause\" without any start. Maybe you specified a number after the start function e.g. " +
-            "\"copy 5\" to copy only the next 5 actions and forgot to remove this comment, or there was an error " +
-            "with the start comment, or you forgot to specify \"end paste\" or \"end insert\" to end a paste/an " +
-            "insert range."
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "pauseResumeInInsert",
+              payload: {
+                function: "resume"
+              }
+            },
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 5,
+              commentText: sct.getActions(5, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "funcNoStart",
+              payload: {
+                function: "pause"
+              }
+            }
           ],
           shortcuts: [
             {
@@ -163,18 +200,33 @@ module.exports = function() {
           expectReturnObject(res, {
             nItems: 1,
             warnings: [
-              "Found \"pause\" without any start. Maybe you specified a number after the start function e.g. " +
-              "\"copy 5\" to copy only the next 5 actions and forgot to remove this comment, or there was an error " +
-              "with the start comment, or you forgot to specify \"end paste\" or \"end insert\" to end a paste/an " +
-              "insert range.",
-              "Found \"resume\" without any start. Maybe you specified a number after the start function e.g. " +
-              "\"copy 5\" to copy only the next 5 actions and forgot to remove this comment, or there was an error " +
-              "with the start comment, or you forgot to specify \"end paste\" or \"end insert\" to end a paste/an " +
-              "insert range.",
-              "Found \"end\" without any start. Maybe you specified a number after the start function e.g. " +
-              "\"copy 5\" to copy only the next 5 actions and forgot to remove this comment, or there was an error " +
-              "with the start comment, or you forgot to specify \"end paste\" or \"end insert\" to end a paste/an " +
-              "insert range."
+              {
+                shortcut: getParamForScript(sct).shortcuts.name,
+                action: 1,
+                commentText: sct.getActions(1, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                type: "funcNoStart",
+                payload: {
+                  function: "pause"
+                }
+              },
+              {
+                shortcut: getParamForScript(sct).shortcuts.name,
+                action: 3,
+                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                type: "funcNoStart",
+                payload: {
+                  function: "resume"
+                }
+              },
+              {
+                shortcut: getParamForScript(sct).shortcuts.name,
+                action: 4,
+                commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                type: "funcNoStart",
+                payload: {
+                  function: "end"
+                }
+              }
             ],
             shortcuts: [
               {
@@ -221,10 +273,24 @@ module.exports = function() {
           expectReturnObject(res, {
             nItems: 0,
             warnings: [
-              "Found \"end\" after the clipboard selection has already finished. Maybe you've specified a count on " +
-              "the start function (e.g. \"copy 5\") that finished before reaching the current function.",
-              "Found \"end\" after the snippet has already finished. Maybe you've specified a count on the start " +
-              "function (e.g. \"copy 5\") that finished before reaching the current function."
+              {
+                shortcut: getParamForScript(sct).shortcuts.name,
+                action: 3,
+                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                type: "funcClipboardFinished",
+                payload: {
+                  function: "end"
+                }
+              },
+              {
+                shortcut: getParamForScript(sct).shortcuts.name,
+                action: 8,
+                commentText: sct.getActions(8, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                type: "funcSnippetFinished",
+                payload: {
+                  function: "end"
+                }
+              }
             ],
             shortcuts: [
               {
@@ -254,8 +320,18 @@ module.exports = function() {
       expectReturnObject(res, {
         nItems: 0,
         warnings: [
-          "Found the end of a paste replace section without any start",
-          "Found the end of an insert replace section without any start"
+          {
+            shortcut: getParamForScript(sct).shortcuts.name,
+            action: 1,
+            commentText: sct.getActions(1, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+            type: "pasteEndNoStart"
+          },
+          {
+            shortcut: getParamForScript(sct).shortcuts.name,
+            action: 2,
+            commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+            type: "insertEndNoStart"
+          }
         ],
         shortcuts: [
           {
@@ -286,8 +362,18 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found the end of an insert replace section without any start. Maybe you meant \"end paste\"?",
-            "Found the end of a paste replace section without any start"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "insertEndPasteStart"
+            },
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 4,
+              commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "pasteEndNoStart"
+            }
           ],
           shortcuts: [
             {
@@ -316,8 +402,18 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found the end of a paste replace section without any start. Maybe you meant \"end insert\"?",
-            "Found the end of an insert replace section without any start"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "pasteEndInsertStart"
+            },
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 4,
+              commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "insertEndNoStart"
+            }
           ],
           shortcuts: [
             {
@@ -348,7 +444,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a clipboard selection without a name"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateClipboardNoName"
+            }
           ],
           shortcuts: [
             {
@@ -384,7 +485,15 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a clipboard selection with the name \"asdf\""
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateClipboardWithName",
+              payload: {
+                name: "asdf"
+              }
+            }
           ],
           shortcuts: [
             {
@@ -421,7 +530,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a clipboard selection without a name"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateClipboardNoName"
+            }
           ],
           shortcuts: [
             {
@@ -458,7 +572,15 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a clipboard selection with the name \"asdf\""
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateClipboardWithName",
+              payload: {
+                name: "asdf"
+              }
+            }
           ],
           shortcuts: [
             {
@@ -494,7 +616,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a snippet without a name"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateSnippetNoName"
+            }
           ],
           shortcuts: [
             {
@@ -530,7 +657,15 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a snippet with the name \"asdf\""
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateSnippetWithName",
+              payload: {
+                name: "asdf"
+              }
+            }
           ],
           shortcuts: [
             {
@@ -567,7 +702,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a snippet without a name"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateSnippetNoName"
+            }
           ],
           shortcuts: [
             {
@@ -604,7 +744,15 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 1,
           warnings: [
-            "There is already a snippet with the name \"asdf\""
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "duplicateSnippetWithName",
+              payload: {
+                name: "asdf"
+              }
+            }
           ],
           shortcuts: [
             {
@@ -645,7 +793,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found function \"resume\" while current clipboard selection is already continuing"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "resumeWhileResumeClipboard"
+            }
           ],
           shortcuts: [
             {
@@ -675,7 +828,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found function \"resume\" while current snippet is already continuing"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "resumeWhileResumeSnippet"
+            }
           ],
           shortcuts: [
             {
@@ -708,7 +866,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found function \"pause\" while current clipboard selection is already paused"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "pauseWhilePauseClipboard"
+            }
           ],
           shortcuts: [
             {
@@ -739,7 +902,12 @@ module.exports = function() {
         expectReturnObject(res, {
           nItems: 0,
           warnings: [
-            "Found function \"pause\" while current snippet is already paused"
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              type: "pauseWhilePauseSnippet"
+            }
           ],
           shortcuts: [
             {
