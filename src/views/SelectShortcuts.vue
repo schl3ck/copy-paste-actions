@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <div class="fixed-bottom" ref="toolbar">
+    <div class="fixed-bottom container" ref="toolbar">
       <button type="button" class="btn btn-block btn-lg"
         :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
         :disabled="!hasSelection" @click="toProcessShortcuts">
@@ -113,7 +113,7 @@ export default {
   },
   mounted() {
     const height = this.$refs.toolbar.clientHeight;
-    this.$refs.list.style.paddingBottom = height + "px";
+    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   activated() {
     this.$store.commit("showMainTitle", false);
@@ -306,12 +306,6 @@ export default {
   font-size: 1.5em;
 }
 
-.fixed-bottom {
-  position: fixed;
-  bottom: 0;
-  z-index: 108;
-  background: white;
-}
 .btn-group-lg > .btn {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;

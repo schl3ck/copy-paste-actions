@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="container">
-    <div v-if="showMainTitle" class="sticky-app">
+  <div id="app" class="container" ref="app">
+    <div v-if="showMainTitle" class="sticky-top">
       <span class="title text-warning">
         <FontAwesomeIcon icon="clipboard"></FontAwesomeIcon> {{ preferences["Shortcut Name"] }}
       </span>
@@ -9,7 +9,7 @@
     <keep-alive>
       <component :is="componentToDisplay"></component>
     </keep-alive>
-    <div v-if="showBackButton" class="fixed-bottom">
+    <div v-if="showBackButton" class="fixed-bottom container" ref="backBtn">
       <button class="btn btn-outline-primary btn-block btn-lg" @click="toMainMenu">
         <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
       </button>
@@ -75,7 +75,10 @@ export default {
       if (!popstate) {
         // get the method for the History API
         const comp = this.getCurrentComponent();
-        historyStateMethod = (comp && comp.historyReplaceState) ? "replaceState" : historyStateMethod;
+        historyStateMethod =
+          comp && comp.historyReplaceState
+            ? "replaceState"
+            : historyStateMethod;
       }
 
       // now load the new component
@@ -106,17 +109,35 @@ export default {
       this.$root.$emit("toMainMenu");
       this.$root.$emit("navigate", "MainMenu");
     }
+  },
+  watch: {
+    showBackButton(val) {
+      Vue.nextTick(() => {
+        this.$refs.app.style.paddingBottom = val
+          ? `calc(${this.$refs.backBtn.clientHeight}px + 0.25rem)`
+          : null;
+      });
+  }
   }
 };
 </script>
 
 <style lang="scss">
-.sticky-app {
+.sticky-top {
   position: sticky;
   top: 0;
   z-index: 100;
   background: white;
   padding-top: 0.5rem;
+}
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background: white;
+  margin-top: 0.5rem;
 }
 
 .title {
