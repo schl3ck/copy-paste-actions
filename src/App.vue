@@ -23,6 +23,7 @@ import MainMenu from "@/views/MainMenu.vue";
 import SelectShortcuts from "@/views/SelectShortcuts.vue";
 import OpenApp from "@/views/OpenApp.vue";
 import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
+import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
 
 export default {
   name: "App",
@@ -30,7 +31,8 @@ export default {
     MainMenu,
     SelectShortcuts,
     OpenApp,
-    ProcessShortcuts
+    ProcessShortcuts,
+    AnalyserWarnings
   },
   data() {
     return {
