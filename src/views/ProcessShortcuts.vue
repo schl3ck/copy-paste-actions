@@ -69,7 +69,7 @@ export default {
         shortcuts: this.shortcuts.map(s => {
           return {
             name: s.name,
-            shortcut: s.data
+            shortcut: Buffer.from(s.data, "base64")
           };
         }),
         excludeAllCPAComments: this.preferences.Preferences
