@@ -31,7 +31,12 @@ module.exports = {
         options = options || {};
         options.inline = true;
         return options;
-      });
+      })
+      .end()
+      .use("babel-loader")
+      .loader("babel-loader");
+    config.module.rule("js")
+      .exclude.add(/\.worker\.js/);
 
     config.module.rule("url")
       .test(/\.(png|jpg|ico|gif)$/i)
