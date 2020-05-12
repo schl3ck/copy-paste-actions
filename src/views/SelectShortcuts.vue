@@ -43,7 +43,12 @@
               alt="icon">
             <span>{{ shortcut.name }}</span>
             <span class="sr-only">.</span>
-            <span class="ml-auto small text-secondary text-nowrap">{{ shortcut.size | fileSize }}</span>
+            <span class="ml-auto small text-secondary text-right"><span
+                class="text-nowrap">{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
+                  class="sr-only">.</span><br><span
+                  class="text-nowrap">
+                  <FontAwesomeIcon icon="file" class="mr-1"></FontAwesomeIcon>{{ lang.shortcutLoaded }}
+                </span></template></span>
           </button>
         </template>
       </div>
@@ -61,10 +66,12 @@
             alt="icon">
           <span v-html="shortcut.escapedName"></span>
           <span class="sr-only">.</span>
-          <span class="ml-auto small text-secondary"><span
+          <span class="ml-auto small text-secondary text-right"><span
               class="text-nowrap">{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
                 class="sr-only">.</span><br><span
-                class="text-nowrap">{{ lang.shortcutLoaded }}</span></template></span>
+                class="text-nowrap">
+                <FontAwesomeIcon icon="file" class="mr-1"></FontAwesomeIcon>{{ lang.shortcutLoaded }}
+              </span></template></span>
         </button>
       </div>
       <div v-show="!showSelected && !(filteredShortcuts && filteredShortcuts.length)">
@@ -87,7 +94,6 @@
 <script>
 import Fuse from "fuse.js";
 import { debounce } from "lodash";
-import { navigateAndBuildZip } from "@/utils/openApp";
 
 export default {
   name: "SelectShortcuts",
@@ -215,45 +221,9 @@ export default {
       shortcut.selected = !shortcut.selected;
     },
     toProcessShortcuts() {
-      let selected = this.shortcuts.filter(s => s.selected);
-      if (selected.length === 0) return;
+      if (this.shortcuts.every(s => !s.selected)) return;
 
-      if (selected.every(s => s.data)) {
-        // all shortcuts already loaded
-        this.$root.$emit("navigate", "ProcessShortcuts");
-        return;
-      }
-
-      // if selected shortcuts are bigger than 3 MB
-      let size = selected.reduce((acc, i) => acc + i.size, 0);
-      if (size > 3 * 1024 * 1024) {
-        size = Math.round((size / (1024 * 1024)) * 100) / 100;
-        if (
-          !confirm(this.lang.shortcutsSizeLarge.replace("$size", size + " MB"))
-        ) {
-          return;
-        }
-      }
-
-      selected = selected.map(s => s.name);
-
-      navigateAndBuildZip(this.$root, {
-        closePage: process.env.NODE_ENV !== "development",
-        actions: [
-          "Preferences.get",
-          "Shortcuts.getNames",
-          "Shortcuts.getFiles",
-          "Snippets.get",
-          "Clipboard.get",
-          "Build.processShortcuts"
-        ],
-        data: [
-          {
-            name: "selectedShortcuts.json",
-            content: JSON.stringify({ selected })
-          }
-        ]
-      });
+      this.$root.$emit("navigate", "ConfirmSelectedShortcuts");
     }
   },
   filters: {

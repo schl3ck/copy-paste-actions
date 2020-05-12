@@ -21,6 +21,7 @@
 import Vue from "vue";
 import MainMenu from "@/views/MainMenu.vue";
 import SelectShortcuts from "@/views/SelectShortcuts.vue";
+import ConfirmSelectedShortcuts from "@/views/ConfirmSelectedShortcuts";
 import OpenApp from "@/views/OpenApp.vue";
 import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
 import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
@@ -30,6 +31,7 @@ export default {
   components: {
     MainMenu,
     SelectShortcuts,
+    ConfirmSelectedShortcuts,
     OpenApp,
     ProcessShortcuts,
     AnalyserWarnings
@@ -140,6 +142,10 @@ export default {
   z-index: 1030;
   background: white;
   margin-top: 0.5rem;
+}
+
+.pre-line {
+  white-space: pre-line;
 }
 
 .title {

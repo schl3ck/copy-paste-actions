@@ -14,7 +14,11 @@ import {
   faClipboard,
   faCheck,
   faChevronLeft,
-  faBars
+  faBars,
+  faFile,
+  faFileImport,
+  faPlay,
+  faExclamationCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 import store from "./store/index";
@@ -31,7 +35,11 @@ library.add(
   faClipboard,
   faCheck,
   faChevronLeft,
-  faBars
+  faBars,
+  faFile,
+  faFileImport,
+  faPlay,
+  faExclamationCircle
 );
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

@@ -26,8 +26,14 @@
     "srShowSelected": "Toggle showing all selected Shortcuts.",
     "nothingSelected": "No Shortcuts selected",
     "loading": "Loading...",
-    "shortcutLoaded": "Loaded",
-    "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?"
+    "shortcutLoaded": "Loaded"
+  },
+  "confirmSelectedShortcuts": {
+    "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?",
+    "shortcutsLoaded": "All selected shortcuts are already loaded.\nDo you want to continue and use them or reload them?",
+    "reload": "Reload",
+    "continue": "Continue",
+    "back": "Back"
   },
   "openApp": {
     "buildingUrl": "Building URL to open Shortcuts...",
