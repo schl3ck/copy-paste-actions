@@ -184,7 +184,7 @@ export default new Vuex.Store({
       const iteratee = (v, k, o) => {
         if (typeof v === "string") {
           span.innerText = v;
-          o[k] = span.innerHTML;
+          o[k] = span.innerHTML.replace(/<br>/g, "\n");
         } else if (typeof v === "object") {
           forOwn(v, iteratee);
         }

@@ -3,7 +3,7 @@
     <div v-if="noItems"
       class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container">
       <span class="sad-face">:(</span>
-      <span v-html="lang.noItemsFound" class="text-center"></span>
+      <span class="text-center">{{ lang.noItemsFound }}</span>
     </div>
     <ProcessBar
       v-else
