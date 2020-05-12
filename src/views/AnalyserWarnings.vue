@@ -85,7 +85,6 @@ export default {
 }
 .pre-line {
   margin-top: -0.4rem;
-  white-space: pre-line;
 }
 .sticky {
   position: sticky;
