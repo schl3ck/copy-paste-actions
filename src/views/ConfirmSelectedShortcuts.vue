@@ -7,21 +7,7 @@
           </FontAwesomeIcon>
           <span class="text-center pre-line">{{ loaded ? lang.shortcutsLoaded : shortcutsSizeLarge }}</span>
         </div>
-        <div class="w-100 d-flex flex-column-reverse flex-sm-row">
-          <div class="col px-0 pt-1 pr-sm-1 pt-sm-0">
-            <button class="btn btn-lg w-100" :class="{'btn-warning': loaded, 'btn-primary': large}"
-              @click="loaded ? load() : goBack()">
-              <FontAwesomeIcon :icon="loaded ? 'file-import' : 'chevron-left'" class="mr-2">
-              </FontAwesomeIcon>{{ loaded ? lang.reload : lang.back }}
-            </button>
-          </div>
-          <div class="col px-0 pb-1 pl-sm-1 pb-sm-0">
-            <button class="btn btn-lg w-100" :class="{'btn-success': loaded, 'btn-warning': large}"
-              @click="loaded ? useCached() : load()">
-              <FontAwesomeIcon icon="play" class="mr-2"></FontAwesomeIcon>{{ lang.continue }}
-            </button>
-          </div>
-        </div>
+        <ButtonBar :buttons="buttons"></ButtonBar>
       </template>
     </div>
   </div>
@@ -29,13 +15,18 @@
 
 <script>
 import { navigateAndBuildZip } from "@/utils/openApp";
+import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
   name: "ConfirmSelectedShortcuts",
+  components: {
+    ButtonBar
+  },
   data() {
     return {
       loaded: false,
-      large: null
+      large: null,
+      buttons: []
     };
   },
   activated() {
@@ -44,6 +35,20 @@ export default {
     if (this.selected.every(s => s.data)) {
       // all shortcuts already loaded
       this.loaded = true;
+      this.buttons = [
+        {
+          class: "btn-warning",
+          icon: "file-import",
+          text: this.lang.reload,
+          click: this.load.bind(this)
+        },
+        {
+          class: "btn-success",
+          icon: "play",
+          text: this.lang.continue,
+          click: this.useCached.bind(this)
+        }
+      ];
       return;
     }
 
@@ -52,6 +57,20 @@ export default {
     if (size > 3 * 1024 * 1024) {
       size = Math.round((size / 1024) * 100) / 100;
       this.large = size;
+      this.buttons = [
+        {
+          class: "btn-primary",
+          icon: "chevron-left",
+          text: this.lang.back,
+          click: this.goBack.bind(this)
+        },
+        {
+          class: "btn-warning",
+          icon: "play",
+          text: this.lang.continue,
+          click: this.load.bind(this)
+        }
+      ];
       return;
     }
 
