@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { assign, forOwn, groupBy, map, values } from "lodash";
+import { assign, groupBy, map, values } from "lodash";
 import Fuse from "fuse.js";
 import TarGZ from "@/utils/targz";
 import { Buffer } from "buffer";
@@ -174,24 +174,13 @@ export default new Vuex.Store({
       commit("preferences", prefs);
     },
     loadLanguage({ commit }) {
-      const langData = document.getElementById("language").innerText.trim();
-      if (!langData) return;
+      const prefsData = document.getElementById("language").innerText.trim();
+      if (!prefsData) return;
 
-      const lang = JSON.parse(langData);
-      if (!lang) return;
+      const prefs = JSON.parse(prefsData);
+      if (!prefs) return;
 
-      const span = document.createElement("span");
-      const iteratee = (v, k, o) => {
-        if (typeof v === "string") {
-          span.innerText = v;
-          o[k] = span.innerHTML.replace(/<br>/g, "\n");
-        } else if (typeof v === "object") {
-          forOwn(v, iteratee);
-        }
-      };
-      forOwn(lang, iteratee);
-
-      commit("language", lang);
+      commit("language", prefs);
     }
   }
 });
