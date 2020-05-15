@@ -20,14 +20,51 @@
         </div>
       </div>
     </div>
+    <h4 v-if="!hasItems" class="text-center mt-3">
+      {{ lang.noItemsFound }}
+    </h4>
+    <div class="fixed-bottom container">
+      <ButtonBar :buttons="buttons"></ButtonBar>
+    </div>
   </div>
 </template>
 
 <script>
 import { groupBy, mapValues, escape } from "lodash";
+import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
   name: "AnalyserWarnings",
+  components: {
+    ButtonBar
+  },
+  data() {
+    return {
+      buttons: []
+    };
+  },
+  created() {
+    this.buttons = [
+      {
+        class: "btn-outline-primary",
+        icon: "chevron-left",
+        text: this.langMain.toMainMenu,
+        click: () => this.$root.$emit("navigate", "MainMenu")
+      }
+    ];
+    if (this.hasItems) {
+      this.buttons.push({
+        class: "btn-warning",
+        icon: "play",
+        text: this.lang.ignoreContinue,
+        click: () => this.$root.$emit("navigate", "ProcessedSnippet")
+      });
+    }
+  },
+  activated() {
+    this.$store.commit("showBackButton", false);
+    this.$store.commit("showMainTitle", false);
+  },
   computed: {
     /** @returns {object[]} */
     warnings() {
@@ -50,6 +87,14 @@ export default {
         )
       );
     },
+    /** @returns {boolean} */
+    hasItems() {
+      return this.$store.state.processResult.nItems > 0;
+    },
+    /** @returns {object} */
+    langMain() {
+      return this.$store.state.language;
+    },
     /** @returns {object} */
     lang() {
       return this.$store.state.language.warnings;
@@ -57,10 +102,12 @@ export default {
   },
   methods: {
     printWarning(warning) {
-      let text = escape(this.lang[warning.type].replace(
-        /\$functionDefinition/g,
-        this.$store.state.globals.functionDefinition
-      ));
+      let text = escape(
+        this.lang[warning.type].replace(
+          /\$functionDefinition/g,
+          this.$store.state.globals.functionDefinition
+        )
+      );
       for (const [k, v] of Object.entries(warning.payload)) {
         text = text.replace(
           new RegExp("\\$" + k + "\\b", "g"),

@@ -52,6 +52,8 @@
   "warnings": {
     "title": "Warnings",
     "atActionWithContent": "Found at action $action with content",
+    "ignoreContinue": "Ignore & Continue",
+    "noItemsFound": "No further snippets or inserts found.",
     "incomplete": "Found an incomplete CopyPaste Actions comment.",
     "wrongFunction": "Wrong function name.\nExpected one of $functionDefinition, but got \"$function\" instead.",
     "pauseResumeInPaste": "Found \"$function\" in a paste replace range, which is not supported.",

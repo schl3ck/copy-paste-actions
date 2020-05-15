@@ -8,7 +8,7 @@
         'py-1 px-sm-1 py-sm-0': middle(index),
         'pb-1 pl-sm-1 pb-sm-0': last(index)}">
       <button class="btn btn-lg w-100" :class="button.class"
-        @click="button.click">
+        @click="button.click" :disabled="!button.click">
         <FontAwesomeIcon :icon="button.icon" class="mr-2">
         </FontAwesomeIcon>{{ button.text }}
       </button>
