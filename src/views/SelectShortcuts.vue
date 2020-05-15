@@ -93,7 +93,7 @@
 
 <script>
 import Fuse from "fuse.js";
-import { debounce } from "lodash";
+import { debounce, escape } from "lodash";
 
 export default {
   name: "SelectShortcuts",
@@ -165,21 +165,12 @@ export default {
       });
       this.search("");
     },
-    escape(value) {
-      const map = {
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "&": "&amp;"
-      };
-      return value.replace(/[<>"&]/g, m => map[m]);
-    },
     search(value) {
       if (value) {
         this.filteredShortcuts = this.fuse.search(value).map(shortcut => {
           const item = shortcut.item;
           const name = shortcut.item.name;
-          item.escapedName = this.escape(name);
+          item.escapedName = escape(name);
           if (!shortcut.matches) {
             return item;
           }
@@ -196,7 +187,7 @@ export default {
               // range starts here
               res += '<u class="text-danger">';
             }
-            res += this.escape(name[i]);
+            res += escape(name[i]);
             if (curIndices[1] === i) {
               // range ends here
               res += "</u>";
@@ -212,7 +203,7 @@ export default {
         });
       } else {
         this.filteredShortcuts = this.shortcuts.map(s => {
-          s.escapedName = this.escape(s.name);
+          s.escapedName = escape(s.name);
           return s;
         });
       }

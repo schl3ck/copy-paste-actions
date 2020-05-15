@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { groupBy, mapValues } from "lodash";
+import { groupBy, mapValues, escape } from "lodash";
 
 export default {
   name: "AnalyserWarnings",
@@ -57,10 +57,10 @@ export default {
   },
   methods: {
     printWarning(warning) {
-      let text = this.lang[warning.type].replace(
+      let text = escape(this.lang[warning.type].replace(
         /\$functionDefinition/g,
         this.$store.state.globals.functionDefinition
-      );
+      ));
       for (const [k, v] of Object.entries(warning.payload)) {
         text = text.replace(
           new RegExp("\\$" + k + "\\b", "g"),
