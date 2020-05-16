@@ -82,11 +82,7 @@
     </div>
 
     <div class="fixed-bottom container" ref="toolbar">
-      <button type="button" class="btn btn-block btn-lg"
-        :class="{'btn-success': hasSelection, 'btn-secondary': !hasSelection}"
-        :disabled="!hasSelection" @click="toProcessShortcuts">
-        <FontAwesomeIcon icon="hammer"></FontAwesomeIcon> {{ lang.continueProcessing }}
-      </button>
+      <ButtonBar :buttons="buttons"></ButtonBar>
     </div>
   </div>
 </template>
@@ -94,9 +90,13 @@
 <script>
 import FlexSearch from "flexsearch";
 import { debounce } from "lodash";
+import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
   name: "SelectShortcuts",
+  components: {
+    ButtonBar
+  },
   data() {
     return {
       searchText: "",
@@ -154,6 +154,18 @@ export default {
     /** @returns {number} */
     selectedCount() {
       return this.selectedShortcuts.length;
+    },
+    /** @returns {object[]} */
+    buttons() {
+      return [
+        {
+          class: this.hasSelection ? "btn-success" : "btn-secondary",
+          icon: "hammer",
+          text: this.lang.continueProcessing,
+          click: this.toProcessShortcuts,
+          disabled: !this.hasSelection
+        }
+      ];
     }
   },
   methods: {

@@ -10,9 +10,7 @@
       <component :is="componentToDisplay"></component>
     </keep-alive>
     <div v-if="showBackButton" class="fixed-bottom container" ref="backBtn">
-      <button class="btn btn-outline-primary btn-block btn-lg" @click="toMainMenu">
-        <FontAwesomeIcon icon="chevron-left"></FontAwesomeIcon> {{ lang.toMainMenu }}
-      </button>
+      <ButtonBar :buttons="buttons"></ButtonBar>
     </div>
   </div>
 </template>
@@ -25,6 +23,7 @@ import ConfirmSelectedShortcuts from "@/views/ConfirmSelectedShortcuts";
 import OpenApp from "@/views/OpenApp.vue";
 import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
 import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
+import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
   name: "App",
@@ -34,11 +33,13 @@ export default {
     ConfirmSelectedShortcuts,
     OpenApp,
     ProcessShortcuts,
-    AnalyserWarnings
+    AnalyserWarnings,
+    ButtonBar
   },
   data() {
     return {
-      componentToDisplay: "MainMenu"
+      componentToDisplay: "MainMenu",
+      buttons: []
     };
   },
   created() {
@@ -53,6 +54,15 @@ export default {
     const component = this.preferences.componentToDisplay;
     // "navigate" to the predefined page to push a state onto the history stack
     if (component) this.$root.$emit("navigate", component);
+
+    this.buttons = [
+      {
+        class: "btn-outline-primary",
+        icon: "chevron-left",
+        text: this.lang.toMainMenu,
+        click: this.toMainMenu
+      }
+    ];
   },
   computed: {
     /** @returns {object} */
