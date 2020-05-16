@@ -18,6 +18,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+.history
 
 # temporary files
 *.vtpw.ts
+
+# from shortcuts
+*from shortcuts.*

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { assign, groupBy, map, values } from "lodash";
-import Fuse from "fuse.js";
+import FlexSearch from "flexsearch";
 import TarGZ from "@/utils/targz";
 import { Buffer } from "buffer";
 import { stringFromBinaryString } from "@/utils/binaryStringToUTF8";
@@ -136,14 +136,12 @@ export default new Vuex.Store({
       let noSize = shortcuts.filter(s => !s.size);
       if (noImage.length || noSize.length) {
         if (noImage.length === noSize.length) {
-          const fuse = new Fuse(noImage, {
-            keys: ["name"],
-            threshold: 0.2
-          });
+          const fuzzy = new FlexSearch("match");
+          noImage.forEach((s, i) => fuzzy.add(i, s.name.replace(/\//g, ":")));
           for (const i of noSize) {
-            const match = fuse.search(i.name);
+            const match = fuzzy.search(i.name);
             if (match.length) {
-              match[0].item.image = i.image;
+              noImage[match[0]].image = i.image;
               shortcuts.splice(shortcuts.indexOf(i), 1);
             }
           }

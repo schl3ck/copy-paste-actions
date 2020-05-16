@@ -20,7 +20,7 @@
     "bplist-creator": "0.0.8",
     "bplist-parser": "^0.2.0",
     "core-js": "^3.6.5",
-    "fuse.js": "^5.2.3",
+    "flexsearch": "^0.6.32",
     "gzip-js": "^0.3.2",
     "jquery": "^3.5.1",
     "jszip": "^3.4.0",

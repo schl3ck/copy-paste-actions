@@ -64,7 +64,7 @@
             :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
           <img v-show="shortcut.image" :src="shortcut.image" class="mr-2 icon"
             alt="icon">
-          <span v-html="shortcut.escapedName"></span>
+          <span>{{ shortcut.name }}</span>
           <span class="sr-only">.</span>
           <span class="ml-auto small text-secondary text-right"><span
               class="text-nowrap">{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
@@ -92,8 +92,8 @@
 </template>
 
 <script>
-import Fuse from "fuse.js";
-import { debounce, escape } from "lodash";
+import FlexSearch from "flexsearch";
+import { debounce } from "lodash";
 
 export default {
   name: "SelectShortcuts",
@@ -102,7 +102,7 @@ export default {
       searchText: "",
       filteredShortcuts: [],
       selectedShortcutsDisplay: [],
-      fuse: null,
+      fuzzy: null,
       showSelected: false
     };
   },
@@ -158,54 +158,20 @@ export default {
   },
   methods: {
     init() {
-      this.fuse = new Fuse(this.shortcuts, {
-        includeMatches: true,
-        keys: ["name"],
-        threshold: 0.4
+      window.fuzzy = this.fuzzy = FlexSearch.create();
+      this.shortcuts.forEach((s, i) => {
+        this.fuzzy.add(i, s.name);
       });
       this.search("");
     },
     search(value) {
       if (value) {
-        this.filteredShortcuts = this.fuse.search(value).map(shortcut => {
-          const item = shortcut.item;
-          const name = shortcut.item.name;
-          item.escapedName = escape(name);
-          if (!shortcut.matches) {
-            return item;
-          }
-
-          const indices = shortcut.matches[0].indices;
-          let res = "";
-          let curIndices = indices.shift();
-          if (!curIndices) {
-            return item;
-          }
-
-          for (let i = 0; i < name.length; i++) {
-            if (curIndices[0] === i) {
-              // range starts here
-              res += '<u class="text-danger">';
-            }
-            res += escape(name[i]);
-            if (curIndices[1] === i) {
-              // range ends here
-              res += "</u>";
-              curIndices = indices.shift();
-              if (!curIndices) {
-                res += name.substring(i + 1);
-                break;
-              }
-            }
-          }
-          item.escapedName = res;
-          return item;
+        const res = this.fuzzy.search(value, { suggest: true });
+        this.filteredShortcuts = res.map(id => {
+          return this.shortcuts[id];
         });
       } else {
-        this.filteredShortcuts = this.shortcuts.map(s => {
-          s.escapedName = escape(s.name);
-          return s;
-        });
+        this.filteredShortcuts = this.shortcuts;
       }
     },
     toggleSelection(shortcut) {
