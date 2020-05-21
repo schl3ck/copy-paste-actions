@@ -1,15 +1,18 @@
 <template>
   <div>
     <ProcessBar
-      :restoringState="restoringState"
+      :restoring-state="restoringState"
       :done="done"
       :percent="percent"
-      :doneButtonLabel="lang.openApp"
-      :statusLabel="lang.buildingUrl"
-      @doneButtonClick="openNow"></ProcessBar>
+      :done-button-label="lang.openApp"
+      :status-label="lang.buildingUrl"
+      @doneButtonClick="openNow"
+    />
     <div v-if="closingIn" class="fixed-top text-center mt-2" role="alert">
       {{ closingIn }}
-      <button class="badge badge-pill badge-secondary" @click="cancelTimeout">{{ lang.cancel }}</button>
+      <button class="badge badge-pill badge-secondary" @click="cancelTimeout">
+        {{ lang.cancel }}
+      </button>
     </div>
   </div>
 </template>
@@ -36,13 +39,6 @@ export default {
       restoringState: false
     };
   },
-  activated() {
-    this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", true);
-  },
-  deactivated() {
-    this.timeoutIds.forEach(id => clearTimeout(id));
-  },
   computed: {
     /** @returns {object} */
     lang() {
@@ -68,6 +64,24 @@ export default {
     historyReplaceState() {
       return !this.base64;
     }
+  },
+  watch: {
+    base64(newV) {
+      if (
+        newV &&
+        !this.restoringState &&
+        this.preferences.Preferences.autoOpenApp
+      ) {
+        this.openNow();
+      }
+    }
+  },
+  activated() {
+    this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", true);
+  },
+  deactivated() {
+    this.timeoutIds.forEach(id => clearTimeout(id));
   },
   methods: {
     cancelTimeout(listenAgain = true) {
@@ -116,17 +130,6 @@ export default {
         )}&input=text&text=${this.base64}`;
         action && action();
       });
-    }
-  },
-  watch: {
-    base64(newV) {
-      if (
-        newV &&
-        !this.restoringState &&
-        this.preferences.Preferences.autoOpenApp
-      ) {
-        this.openNow();
-      }
     }
   }
 };

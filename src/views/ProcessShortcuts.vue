@@ -1,16 +1,19 @@
 <template>
   <div>
-    <div v-if="noItems"
-      class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container">
+    <div
+      v-if="noItems"
+      class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container"
+    >
       <span class="sad-face">:(</span>
       <span class="text-center">{{ lang.noItemsFound }}</span>
     </div>
     <ProcessBar
       v-else
-      :restoringState="restoringState"
+      :restoring-state="restoringState"
       :percent="percent"
       :done="done"
-      :statusLabel="status"></ProcessBar>
+      :status-label="status"
+    />
   </div>
 </template>
 
@@ -32,15 +35,6 @@ export default {
       noItems: false
     };
   },
-  activated() {
-    if (this.shortcuts.length) {
-      this.init();
-    } else {
-      this.$root.$once("loadShortcutsFinished", this.init);
-    }
-    this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", true);
-  },
   computed: {
     /** @returns {object} */
     lang() {
@@ -61,6 +55,15 @@ export default {
     historyReplaceState() {
       return true;
     }
+  },
+  activated() {
+    if (this.shortcuts.length) {
+      this.init();
+    } else {
+      this.$root.$once("loadShortcutsFinished", this.init);
+    }
+    this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", true);
   },
   methods: {
     init() {

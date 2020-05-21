@@ -8,8 +8,14 @@ export default {
     /**
      * @type {{title: string, description: string, icon: string, iconColor?: string, click: () => void}[]}
      */
-    items: Array,
-    columns: Number
+    items: {
+      type: Array,
+      required: true
+    },
+    columns: {
+      type: Number,
+      default: 2
+    }
   },
   render(createElement, context) {
     if (!context.props.items) return;
@@ -32,7 +38,7 @@ export default {
     });
 
     const nodes = [];
-    const columns = context.props.columns || 2;
+    const columns = context.props.columns;
     let currentChildren = [];
 
     const addToNodes = () => {

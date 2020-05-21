@@ -15,7 +15,10 @@ export default {
       type: String,
       required: true
     },
-    iconColor: String
+    iconColor: {
+      type: String,
+      default: "black"
+    }
   },
   render(createElement, context) {
     const props = context.props;

@@ -3,20 +3,22 @@
     <transition :name="props.restoringState ? '' : 'fade'">
       <div
         v-if="props.done"
+        key="doneBlock"
         class="position-absolute w-100 d-flex flex-column align-items-center"
-        key="doneBlock">
-        <FontAwesomeIcon icon="check" class="text-success fa-3x text-center"></FontAwesomeIcon>
+      >
+        <FontAwesomeIcon icon="check" class="text-success fa-3x text-center" />
         <button
           class="btn btn-success btn-lg"
-          @click="listeners.doneButtonClick">
+          @click="listeners.doneButtonClick"
+        >
           {{ props.doneButtonLabel }}
         </button>
       </div>
-      <div v-else class="w-100 d-flex flex-column align-items-center" key="processingBlock">
+      <div v-else key="processingBlock" class="w-100 d-flex flex-column align-items-center">
         <div class="w-75 margin text-center status-icon">
           <transition :name="props.restoringState ? '' : 'fade'">
             <div v-if="props.percent === null" key="spinner" class="position-absolute spinner-container">
-              <span class="spinner-border text-primary position-relative" role="status"></span>
+              <span class="spinner-border text-primary position-relative" role="status" />
             </div>
             <div v-else key="progress" class="position-absolute w-75">
               <div class="progress position-relative">
@@ -26,7 +28,8 @@
                   :style="{'width': props.percent + '%'}"
                   :aria-valuenow="props.percent"
                   aria-valuemin="0"
-                  aria-valuemax="100"></div>
+                  aria-valuemax="100"
+                />
               </div>
             </div>
           </transition>
@@ -43,9 +46,18 @@ export default {
   props: {
     restoringState: Boolean,
     done: Boolean,
-    percent: Number,
-    doneButtonLabel: String,
-    statusLabel: String
+    percent: {
+      type: Number,
+      default: null
+    },
+    doneButtonLabel: {
+      type: String,
+      default: ""
+    },
+    statusLabel: {
+      type: String,
+      default: ""
+    }
   }
 };
 </script>

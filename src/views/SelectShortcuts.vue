@@ -6,14 +6,17 @@
         <div class="list-group-item no-rounded-bottom border-bottom p-0">
           <div class="input-group flex-row">
             <span class="sr-only">{{ lang.searchCaption }}</span>
-            <input class="input-group-form-control" type="text"
+            <input
+              ref="input"
               v-model="searchText"
+              class="input-group-form-control"
+              type="text"
               :placeholder="lang.searchCaption"
-              ref="input">
+            >
             <div class="input-group-append">
               <!-- TODO: show selected shortcuts without marking the matched letters -->
               <button type="button" class="btn" @click="showSelected = !showSelected">
-                <FontAwesomeIcon icon="bars" class="mr-1"></FontAwesomeIcon>
+                <FontAwesomeIcon icon="bars" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowSelected }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
                 <span class="badge badge-pill badge-primary">{{ selectedCount }}</span>
@@ -24,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="list-group list-group-custom-flush no-rounded-top" ref="list">
+    <div ref="list" class="list-group list-group-custom-flush no-rounded-top">
       <div v-show="showSelected && filteredShortcuts && filteredShortcuts.length">
         <div v-show="selectedShortcutsDisplay.length === 0" class="list-group-item text-center">
           <i>{{ lang.nothingSelected }}</i>
@@ -34,21 +37,30 @@
             v-for="shortcut in selectedShortcutsDisplay"
             :key="shortcut.name"
             class="list-group-item list-group-item-action d-flex align-items-center text-left"
-            @click="toggleSelection(shortcut)">
+            @click="toggleSelection(shortcut)"
+          >
             <FontAwesomeIcon
               icon="check"
               class="text-primary mr-2 fa-1o5x"
-              :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-            <img v-show="shortcut.image" :src="shortcut.image" class="mr-2 icon"
-              alt="icon">
+              :class="{'invisible': !shortcut.selected}"
+            />
+            <img
+              v-show="shortcut.image"
+              :src="shortcut.image"
+              class="mr-2 icon"
+              alt="icon"
+            >
             <span>{{ shortcut.name }}</span>
             <span class="sr-only">.</span>
             <span class="ml-auto small text-secondary text-right"><span
-                class="text-nowrap">{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
-                  class="sr-only">.</span><br><span
-                  class="text-nowrap">
-                  <FontAwesomeIcon icon="file" class="mr-1"></FontAwesomeIcon>{{ lang.shortcutLoaded }}
-                </span></template></span>
+              class="text-nowrap"
+            >{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
+              class="sr-only"
+            >.</span><br><span
+              class="text-nowrap"
+            >
+              <FontAwesomeIcon icon="file" class="mr-1" />{{ lang.shortcutLoaded }}
+            </span></template></span>
           </button>
         </template>
       </div>
@@ -57,21 +69,30 @@
           v-for="shortcut in filteredShortcuts"
           :key="shortcut.name"
           class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer text-left"
-          @click="toggleSelection(shortcut)">
+          @click="toggleSelection(shortcut)"
+        >
           <FontAwesomeIcon
             icon="check"
             class="text-primary mr-2 fa-1o5x"
-            :class="{'invisible': !shortcut.selected}"></FontAwesomeIcon>
-          <img v-show="shortcut.image" :src="shortcut.image" class="mr-2 icon"
-            alt="icon">
+            :class="{'invisible': !shortcut.selected}"
+          />
+          <img
+            v-show="shortcut.image"
+            :src="shortcut.image"
+            class="mr-2 icon"
+            alt="icon"
+          >
           <span>{{ shortcut.name }}</span>
           <span class="sr-only">.</span>
           <span class="ml-auto small text-secondary text-right"><span
-              class="text-nowrap">{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
-                class="sr-only">.</span><br><span
-                class="text-nowrap">
-                <FontAwesomeIcon icon="file" class="mr-1"></FontAwesomeIcon>{{ lang.shortcutLoaded }}
-              </span></template></span>
+            class="text-nowrap"
+          >{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
+            class="sr-only"
+          >.</span><br><span
+            class="text-nowrap"
+          >
+            <FontAwesomeIcon icon="file" class="mr-1" />{{ lang.shortcutLoaded }}
+          </span></template></span>
         </button>
       </div>
       <div v-show="!showSelected && !(filteredShortcuts && filteredShortcuts.length)">
@@ -81,8 +102,8 @@
       </div>
     </div>
 
-    <div class="fixed-bottom container" ref="toolbar">
-      <ButtonBar :buttons="buttons"></ButtonBar>
+    <div ref="toolbar" class="fixed-bottom container">
+      <ButtonBar :buttons="buttons" />
     </div>
   </div>
 </template>
@@ -97,6 +118,18 @@ export default {
   components: {
     ButtonBar
   },
+  filters: {
+    fileSize(size) {
+      let unit = " B";
+      const units = [" kB", "MB", "GB"];
+      while (units.length && size >= 1024) {
+        size /= 1024;
+        unit = units.shift();
+      }
+
+      return Math.round(size * 100) / 100 + unit;
+    }
+  },
   data() {
     return {
       searchText: "",
@@ -105,25 +138,6 @@ export default {
       fuzzy: null,
       showSelected: false
     };
-  },
-  created() {
-    // TODO: make debounce time a preference?
-    this.debouncedSearch = debounce(this.search, 400);
-
-    if (this.shortcuts.length) {
-      this.init();
-    } else {
-      this.filteredShortcuts = null;
-      this.$root.$once("loadShortcutsFinished", this.init.bind(this));
-    }
-  },
-  mounted() {
-    const height = this.$refs.toolbar.clientHeight;
-    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
-  },
-  activated() {
-    this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
   },
   computed: {
     /** @returns {object} */
@@ -168,6 +182,35 @@ export default {
       ];
     }
   },
+  watch: {
+    searchText(newV) {
+      this.debouncedSearch(newV);
+    },
+    showSelected(newV) {
+      if (newV) {
+        this.selectedShortcutsDisplay = this.selectedShortcuts;
+      }
+    }
+  },
+  created() {
+    // TODO: make debounce time a preference?
+    this.debouncedSearch = debounce(this.search, 400);
+
+    if (this.shortcuts.length) {
+      this.init();
+    } else {
+      this.filteredShortcuts = null;
+      this.$root.$once("loadShortcutsFinished", this.init.bind(this));
+    }
+  },
+  mounted() {
+    const height = this.$refs.toolbar.clientHeight;
+    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
+  },
+  activated() {
+    this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", false);
+  },
   methods: {
     init() {
       window.fuzzy = this.fuzzy = FlexSearch.create();
@@ -193,28 +236,6 @@ export default {
       if (this.shortcuts.every(s => !s.selected)) return;
 
       this.$root.$emit("navigate", "ConfirmSelectedShortcuts");
-    }
-  },
-  filters: {
-    fileSize(size) {
-      let unit = " B";
-      const units = [" kB", "MB", "GB"];
-      while (units.length && size >= 1024) {
-        size /= 1024;
-        unit = units.shift();
-      }
-
-      return Math.round(size * 100) / 100 + unit;
-    }
-  },
-  watch: {
-    searchText(newV) {
-      this.debouncedSearch(newV);
-    },
-    showSelected(newV) {
-      if (newV) {
-        this.selectedShortcutsDisplay = this.selectedShortcuts;
-      }
     }
   }
 };

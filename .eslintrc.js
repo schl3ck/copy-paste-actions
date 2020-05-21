@@ -4,7 +4,7 @@ module.exports = {
     node: true
   },
   extends: [
-    "plugin:vue/essential",
+    "plugin:vue/recommended",
     "@vue/standard"
   ],
   parserOptions: {
@@ -17,14 +17,14 @@ module.exports = {
     }],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    "quotes": [
+    quotes: [
       "error",
       "double",
       {
         avoidEscape: true
       }
     ],
-    "indent": [
+    indent: [
       "error",
       2,
       {
@@ -54,14 +54,24 @@ module.exports = {
       "off",
       "windows"
     ],
-    "semi": [
+    semi: [
       "error",
       "always"
     ],
     "no-unused-vars": "warn",
-    "space-before-function-paren":[
+    "space-before-function-paren": [
       "error",
       "never"
+    ],
+    "vue/max-attributes-per-line": [
+      "error",
+      {
+        singleline: 5,
+        multiline: {
+          max: 1,
+          allowFirstLine: false
+        }
+      }
     ]
   }
-}
+};

@@ -3,11 +3,13 @@
     <div class="fixed-top fixed-bottom container d-flex flex-column align-items-center justify-content-center">
       <template v-if="loaded || large">
         <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-          <FontAwesomeIcon :icon="loaded ? 'file' : 'exclamation-circle'" class="fa-5x text-warning mb-2">
-          </FontAwesomeIcon>
+          <FontAwesomeIcon
+            :icon="loaded ? 'file' : 'exclamation-circle'"
+            class="fa-5x text-warning mb-2"
+          />
           <span class="text-center pre-line">{{ loaded ? lang.shortcutsLoaded : shortcutsSizeLarge }}</span>
         </div>
-        <ButtonBar :buttons="buttons"></ButtonBar>
+        <ButtonBar :buttons="buttons" />
       </template>
     </div>
   </div>
@@ -28,6 +30,27 @@ export default {
       large: null,
       buttons: []
     };
+  },
+  computed: {
+    /** @returns {object[]} */
+    selected() {
+      return this.$store.state.shortcuts.filter(s => s.selected);
+    },
+    /** @returns {true} */
+    historyReplaceState() {
+      return true;
+    },
+    /** @returns {object} */
+    lang() {
+      return this.$store.state.language.confirmSelectedShortcuts;
+    },
+    /** @returns {string} */
+    shortcutsSizeLarge() {
+      return this.lang.shortcutsSizeLarge.replace(
+        /\$size/g,
+        this.large + " kB"
+      );
+    }
   },
   activated() {
     this.loaded = false;
@@ -103,26 +126,6 @@ export default {
     },
     goBack() {
       window.history.back();
-    }
-  },
-  computed: {
-    /** @returns {object[]} */
-    selected() {
-      return this.$store.state.shortcuts.filter(s => s.selected);
-    },
-    /** @returns {true} */
-    historyReplaceState() {
-      return true;
-    },
-    /** @returns {object} */
-    lang() {
-      return this.$store.state.language.confirmSelectedShortcuts;
-    },
-    shortcutsSizeLarge() {
-      return this.lang.shortcutsSizeLarge.replace(
-        /\$size/g,
-        this.large + " kB"
-      );
     }
   }
 };

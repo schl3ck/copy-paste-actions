@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MenuList :items="menuItems" :columns="2"></MenuList>
+    <MenuList :items="menuItems" :columns="2" />
   </div>
 </template>
 
@@ -16,6 +16,16 @@ export default {
     return {
       menuItems: []
     };
+  },
+  computed: {
+    /** @returns {object} */
+    lang() {
+      return this.$store.state.language;
+    },
+    /** @returns {object} */
+    mainMenu() {
+      return this.lang.mainMenu;
+    }
   },
   created() {
     const self = this;
@@ -53,16 +63,6 @@ export default {
   activated() {
     this.$store.commit("showMainTitle", true);
     this.$store.commit("showBackButton", false);
-  },
-  computed: {
-    /** @returns {object} */
-    lang() {
-      return this.$store.state.language;
-    },
-    /** @returns {object} */
-    mainMenu() {
-      return this.lang.mainMenu;
-    }
   }
 };
 </script>

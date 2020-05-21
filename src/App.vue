@@ -1,16 +1,16 @@
 <template>
-  <div id="app" class="container" ref="app">
+  <div id="app" ref="app" class="container">
     <div v-if="showMainTitle" class="sticky-top">
       <span class="title text-warning">
-        <FontAwesomeIcon icon="clipboard"></FontAwesomeIcon> {{ preferences["Shortcut Name"] }}
+        <FontAwesomeIcon icon="clipboard" /> {{ preferences["Shortcut Name"] }}
       </span>
       <hr>
     </div>
     <keep-alive>
-      <component :is="componentToDisplay"></component>
+      <component :is="componentToDisplay" />
     </keep-alive>
-    <div v-if="showBackButton" class="fixed-bottom container" ref="backBtn">
-      <ButtonBar :buttons="buttons"></ButtonBar>
+    <div v-if="showBackButton" ref="backBtn" class="fixed-bottom container">
+      <ButtonBar :buttons="buttons" />
     </div>
   </div>
 </template>
@@ -42,6 +42,33 @@ export default {
       buttons: []
     };
   },
+  computed: {
+    /** @returns {object} */
+    preferences() {
+      return this.$store.state.preferences;
+    },
+    /** @returns {boolean} */
+    showMainTitle() {
+      return this.$store.state.showMainTitle;
+    },
+    /** @returns {boolean} */
+    showBackButton() {
+      return this.$store.state.showBackButton;
+    },
+    /** @returns {object} */
+    lang() {
+      return this.$store.state.language;
+    }
+  },
+  watch: {
+    showBackButton(val) {
+      Vue.nextTick(() => {
+        this.$refs.app.style.paddingBottom = val
+          ? `calc(${this.$refs.backBtn.clientHeight}px + 0.25rem)`
+          : null;
+      });
+    }
+  },
   created() {
     this.$root.$on("navigate", this.navigate);
     window.addEventListener("popstate", event => {
@@ -63,24 +90,6 @@ export default {
         click: this.toMainMenu
       }
     ];
-  },
-  computed: {
-    /** @returns {object} */
-    preferences() {
-      return this.$store.state.preferences;
-    },
-    /** @returns {boolean} */
-    showMainTitle() {
-      return this.$store.state.showMainTitle;
-    },
-    /** @returns {boolean} */
-    showBackButton() {
-      return this.$store.state.showBackButton;
-    },
-    /** @returns {object} */
-    lang() {
-      return this.$store.state.language;
-    }
   },
   methods: {
     /** @param {string} componentName */
@@ -123,15 +132,6 @@ export default {
       this.$root.$emit("toMainMenu");
       this.$root.$emit("navigate", "MainMenu");
     }
-  },
-  watch: {
-    showBackButton(val) {
-      Vue.nextTick(() => {
-        this.$refs.app.style.paddingBottom = val
-          ? `calc(${this.$refs.backBtn.clientHeight}px + 0.25rem)`
-          : null;
-      });
-  }
   }
 };
 </script>

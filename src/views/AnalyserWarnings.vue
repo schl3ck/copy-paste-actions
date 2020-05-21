@@ -4,15 +4,15 @@
     <div v-for="shortcut in warnings" :key="shortcut.name">
       <div class="sticky">
         <div class="d-flex flex-row align-items-center pt-2">
-          <img v-if="shortcut.image" :src="shortcut.image" class="mr-2">
+          <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
           <h5>{{ shortcut.name }}</h5>
         </div>
         <hr class="my-2 ml-3">
       </div>
       <div v-for="(warning, index) in shortcut.warnings" :key="index" class="card ml-3">
         <div class="card-body">
-          <p class="card-text pre-line" v-html="printWarning(warning)">
-          </p>
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <p class="card-text pre-line" v-html="printWarning(warning)" />
           <p class="card-text">
             {{ atAction(warning.action) }}<br>
             <pre class="code rounded p-2 mb-0"><code>{{ warning.commentText }}</code></pre>
@@ -24,7 +24,7 @@
       {{ lang.noItemsFound }}
     </h4>
     <div class="fixed-bottom container">
-      <ButtonBar :buttons="buttons"></ButtonBar>
+      <ButtonBar :buttons="buttons" />
     </div>
   </div>
 </template>
@@ -42,28 +42,6 @@ export default {
     return {
       buttons: []
     };
-  },
-  created() {
-    this.buttons = [
-      {
-        class: "btn-outline-primary",
-        icon: "chevron-left",
-        text: this.langMain.toMainMenu,
-        click: () => this.$root.$emit("navigate", "MainMenu")
-      }
-    ];
-    if (this.hasItems) {
-      this.buttons.push({
-        class: "btn-warning",
-        icon: "play",
-        text: this.lang.ignoreContinue,
-        click: () => this.$root.$emit("navigate", "ProcessedSnippet")
-      });
-    }
-  },
-  activated() {
-    this.$store.commit("showBackButton", false);
-    this.$store.commit("showMainTitle", false);
   },
   computed: {
     /** @returns {object[]} */
@@ -99,6 +77,28 @@ export default {
     lang() {
       return this.$store.state.language.warnings;
     }
+  },
+  created() {
+    this.buttons = [
+      {
+        class: "btn-outline-primary",
+        icon: "chevron-left",
+        text: this.langMain.toMainMenu,
+        click: () => this.$root.$emit("navigate", "MainMenu")
+      }
+    ];
+    if (this.hasItems) {
+      this.buttons.push({
+        class: "btn-warning",
+        icon: "play",
+        text: this.lang.ignoreContinue,
+        click: () => this.$root.$emit("navigate", "FoundSnippets")
+      });
+    }
+  },
+  activated() {
+    this.$store.commit("showBackButton", false);
+    this.$store.commit("showMainTitle", false);
   },
   methods: {
     printWarning(warning) {
@@ -138,5 +138,9 @@ export default {
   top: 0;
   z-index: 1000;
   background: white;
+}
+.img {
+  width: 40px;
+  height: 40px;
 }
 </style>
