@@ -18,8 +18,12 @@ import {
   faFile,
   faFileImport,
   faPlay,
-  faExclamationCircle
+  faExclamationCircle,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSave
+} from "@fortawesome/free-regular-svg-icons";
 
 import store from "./store/index";
 
@@ -39,7 +43,9 @@ library.add(
   faFile,
   faFileImport,
   faPlay,
-  faExclamationCircle
+  faExclamationCircle,
+  faTimes,
+  faSave
 );
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

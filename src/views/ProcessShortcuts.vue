@@ -79,7 +79,8 @@ export default {
         cleanUp: this.preferences.Preferences.cleanUp,
         commentMarker: this.preferences.Preferences.commentMarker,
         defaultNewShortcutName: this.preferences.Preferences
-          .defaultNewShortcutName
+          .defaultNewShortcutName,
+        noSnippetName: this.$store.state.globals.noSnippetName
       };
 
       if (dict.shortcuts.length > 0) {
@@ -87,6 +88,12 @@ export default {
         worker("analyser", dict, percent => {
           this.percent = percent;
         }).then(result => {
+          result.shortcuts.forEach(s => {
+            const other = this.shortcuts.find(other => other.name === s.name);
+            if (other) {
+              s.image = other.image;
+            }
+          });
           console.log(result);
           this.done = true;
           this.$store.commit("processResult", result);
@@ -95,7 +102,7 @@ export default {
           } else if (result.nItems === 0) {
             this.noItems = true;
           } else {
-            this.$root.$emit("navigate", "ProcessedSnippets");
+            this.$root.$emit("navigate", "FoundSnippets");
           }
         });
       } else {

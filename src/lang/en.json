@@ -73,6 +73,20 @@
     "pauseWhilePauseSnippet": "Found function \"pause\" while current snippet is already paused.",
     "resumeWhileResumeClipboard": "Found function \"resume\" while current clipboard selection is already continuing.",
     "resumeWhileResumeSnippet": "Found function \"resume\" while current snippet is already continuing."
-
+  },
+  "foundSnippets": {
+    "title": "Found Snippets",
+    "noSnippetsFound": "No Snippets found"
+  },
+  "snippetListItem": {
+    "noSnippetName": "No name provided",
+    "clipboardSelection": "Clipboard selection",
+    "snippet": "Snippet",
+    "actions": "Contains $number actions",
+    "newShortcut": "Creates Shortcut: $name",
+    "edit": "Edit",
+    "doneEdit": "Save",
+    "cancelEdit": "Cancel",
+    "name": "Name"
   }
 }

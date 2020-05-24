@@ -62,8 +62,10 @@ export default new Vuex.Store({
     processResult: [],
     globals: {
       functionDefinition: "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], pause [n], resume [n], " +
-        "paste [replace [n]], insert [replace [n]]"
-    }
+        "paste [replace [n]], insert [replace [n]]",
+      noSnippetName: " "
+    },
+    snippetListItemEditing: false
   },
   mutations: {
     shortcuts(state, data) {
@@ -84,6 +86,9 @@ export default new Vuex.Store({
     },
     processResult(state, data) {
       state.processResult = data;
+    },
+    snippetListItemEditing(state, data) {
+      state.snippetListItemEditing = data;
     }
   },
   actions: {

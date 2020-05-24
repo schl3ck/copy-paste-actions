@@ -23,6 +23,7 @@ import ConfirmSelectedShortcuts from "@/views/ConfirmSelectedShortcuts";
 import OpenApp from "@/views/OpenApp.vue";
 import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
 import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
+import FoundSnippets from "@/views/FoundSnippets.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
@@ -34,6 +35,7 @@ export default {
     OpenApp,
     ProcessShortcuts,
     AnalyserWarnings,
+    FoundSnippets,
     ButtonBar
   },
   data() {
