@@ -60,16 +60,16 @@ export default {
       this.loaded = true;
       this.buttons = [
         {
-          class: "btn-warning",
-          icon: "file-import",
-          text: this.lang.reload,
-          click: this.load.bind(this)
-        },
-        {
           class: "btn-success",
           icon: "play",
           text: this.lang.continue,
           click: this.useCached.bind(this)
+        },
+        {
+          class: "btn-warning",
+          icon: "file-import",
+          text: this.lang.reload,
+          click: this.load.bind(this)
         }
       ];
       return;

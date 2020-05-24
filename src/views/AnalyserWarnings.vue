@@ -88,7 +88,7 @@ export default {
       }
     ];
     if (this.hasItems) {
-      this.buttons.push({
+      this.buttons.unshift({
         class: "btn-warning",
         icon: "play",
         text: this.lang.ignoreContinue,

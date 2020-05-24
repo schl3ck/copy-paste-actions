@@ -1,16 +1,16 @@
 <template>
-  <div class="w-100 d-flex flex-column-reverse flex-sm-row">
+  <div class="w-100 d-flex flex-column flex-sm-row-reverse">
     <div
       v-for="(button, index) in buttons"
       :key="button.text"
-      class="col px-0 pt-1 pr-sm-1 pt-sm-0"
+      class="col px-0 corner"
       :class="{'pt-1 pr-sm-1 pt-sm-0': first(index),
                'py-1 px-sm-1 py-sm-0': middle(index),
                'pb-1 pl-sm-1 pb-sm-0': last(index)}"
     >
       <button
-        class="btn btn-lg w-100"
-        :class="button.class"
+        class="btn w-100"
+        :class="[button.class, buttonSizeClass]"
         :disabled="!button.click || button.disabled"
         @click="button.click"
       >
@@ -25,7 +25,29 @@ export default {
   name: "ButtonBar",
   props: {
     /** @type { {text: string, class: string, icon: string, disabled?: boolean, click?: Function}[] } */
-    buttons: Array
+    buttons: {
+      type: Array,
+      required: true
+    },
+    size: {
+      validator(value) {
+        return ["small", "normal", "big"].includes(value);
+      },
+      default: "big"
+    }
+  },
+  computed: {
+    /** @returns {string} */
+    buttonSizeClass() {
+      switch (this.size) {
+        case "small":
+          return "btn-sm";
+        case "big":
+          return "btn-lg";
+        default:
+          return "";
+      }
+    }
   },
   methods: {
     first(index) {
@@ -40,3 +62,38 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@media (max-width: 575.98px) {
+  .corner {
+    &:first-child > .btn {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    &:not(:first-child):not(:last-child) > .btn {
+      border-radius: 0;
+    }
+    &:last-child > .btn {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}
+@media (min-width: 576px) {
+  .corner {
+    &:first-child > .btn {
+      // is actually last-child because of flexbox reverse rendering
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:not(:first-child):not(:last-child) > .btn {
+      border-radius: 0;
+    }
+    &:last-child > .btn {
+      // is actually first-child because of flexbox reverse rendering
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+</style>
