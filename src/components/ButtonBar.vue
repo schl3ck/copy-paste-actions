@@ -66,14 +66,14 @@ export default {
 <style lang="scss" scoped>
 @media (max-width: 575.98px) {
   .corner {
-    &:first-child > .btn {
+    &:first-child:not(:last-child) > .btn {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
     &:not(:first-child):not(:last-child) > .btn {
       border-radius: 0;
     }
-    &:last-child > .btn {
+    &:last-child:not(:first-child) > .btn {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
@@ -81,7 +81,7 @@ export default {
 }
 @media (min-width: 576px) {
   .corner {
-    &:first-child > .btn {
+    &:first-child:not(:last-child) > .btn {
       // is actually last-child because of flexbox reverse rendering
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
@@ -89,7 +89,7 @@ export default {
     &:not(:first-child):not(:last-child) > .btn {
       border-radius: 0;
     }
-    &:last-child > .btn {
+    &:last-child:not(:first-child) > .btn {
       // is actually first-child because of flexbox reverse rendering
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
