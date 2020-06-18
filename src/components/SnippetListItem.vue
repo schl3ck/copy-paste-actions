@@ -9,11 +9,13 @@
             v-model="name"
             type="text"
             :readonly="!editing"
-            class="card-title font-weight-bold mb-1"
+            class="card-title font-weight-bold"
             :class="{
               'font-italic': hasNoName,
               'form-control-plaintext': !editing,
-              'form-control': editing
+              'form-control': editing,
+              'm-0 p-0': !editing,
+              'mb-1': editing
             }"
             :placeholder="lang.noSnippetName"
           >
