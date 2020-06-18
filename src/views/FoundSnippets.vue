@@ -9,8 +9,8 @@
         </div>
         <hr class="my-2 ml-3">
       </div>
-      <template v-if="Object.values(shortcut.snippets).length">
-        <SnippetListItem v-for="snippet in Object.values(shortcut.snippets)" :key="snippet.name" :snippet="snippet" />
+      <template v-if="shortcut.snippets.length">
+        <SnippetListItem v-for="snippet in shortcut.snippets" :key="snippet.name" :snippet="snippet" />
       </template>
       <div v-else class="text-center mt-n1">
         {{ lang.noSnippetsFound }}

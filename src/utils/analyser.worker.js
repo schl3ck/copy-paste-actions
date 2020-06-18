@@ -178,19 +178,6 @@ function analyse(dict) {
     "is.workflow.actions.conditional"
   ];
 
-  /* istanbul ignore if reason: not testable */
-  if (!Object.values) {
-    (function() {
-      const reduce = Function.bind.call(Function.call, Array.prototype.reduce);
-      const isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable);
-      const concat = Function.bind.call(Function.call, Array.prototype.concat);
-      const keys = Reflect.ownKeys;
-      Object.values = function values(O) {
-        return reduce(keys(O), (v, k) => concat(v, typeof k === "string" && isEnumerable(O, k) ? [O[k]] : []), []);
-      };
-    })();
-  }
-
   function removeFromArray(array, obj, fromIndex) {
     /* istanbul ignore if reason: no need to test */
     if (array == null) { throw new TypeError("\"array\" is null or undefined. Can't operate on null or undefined"); }
@@ -1038,8 +1025,6 @@ function analyse(dict) {
       delete a.modifiedIndex;
     });
 
-    const snippetsObj = {};
-
     // convert actions to bplist
     snippets.forEach((snippet) => {
       snippet.actions = bplist.create({ WFWorkflowActions: snippet.actions }).toString("base64");
@@ -1048,7 +1033,6 @@ function analyse(dict) {
       delete snippet.leftover;
       delete snippet.removes;
       delete snippet.ranges;
-      snippetsObj[snippet.name] = snippet;
     });
 
     inserts.forEach((insert) => {
@@ -1062,7 +1046,7 @@ function analyse(dict) {
     actionsToRemove.sort((a, b) => a.action - b.action);
 
     result.push({
-      snippets: snippetsObj,
+      snippets: snippets,
       inserts: inserts,
       uuids: uuidsToPlainObject(uuids),
       actionsToRemove: actionsToRemove,

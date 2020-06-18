@@ -110,7 +110,7 @@ function getParamForScript(shortcut) {
  * @param {string} props.shortcuts[].inserts[].name
  * @param {boolean} props.shortcuts[].inserts[].isClipboard
  * @param {number} props.shortcuts[].inserts[].position 0-based
- * @param {Object.<string, Snippet>} props.shortcuts[].snippets - See {@link Snippet}
+ * @param {Snippet[]} props.shortcuts[].snippets - See {@link Snippet}
  */
 function expectReturnObject(obj, props) {
   expect(obj, "obj").to.be.ok;
@@ -152,7 +152,11 @@ function expectReturnObject(obj, props) {
     );
 
     props.shortcuts[i].snippets.forEach((snippet, j) => {
-      let o = obj.snippets[snippet.name];
+      expect(obj.snippets.map(s => s.name), `obj.shortcuts[${i}].snippets.names`).to.be.an("array").that.includes(
+        snippet.name
+      );
+
+      let o = obj.snippets.find((s) => s.name === snippet.name);
 
       expect(o, `obj.shortcuts[${i}].snippets[${j}]`).to.be.an("object").and.ok;
 

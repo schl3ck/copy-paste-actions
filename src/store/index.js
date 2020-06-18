@@ -46,7 +46,7 @@ Vue.use(Vuex);
  * @property {string[]} shortcuts[].uuids.groups
  * @property {string[]} shortcuts[].uuids.vars
  * @property {Insert[]} shortcuts[].inserts
- * @property {Object.<string, Snippet>} shortcuts[].snippets
+ * @property {Snippet} shortcuts[].snippets
  */
 
 export default new Vuex.Store({
@@ -59,6 +59,7 @@ export default new Vuex.Store({
     language: {},
     showMainTitle: true,
     showBackButton: false,
+    /** @type {ProcessResult[]} */
     processResult: [],
     globals: {
       functionDefinition: "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], pause [n], resume [n], " +
