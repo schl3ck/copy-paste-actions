@@ -8,50 +8,9 @@ import { stringFromBinaryString } from "@/utils/binaryStringToUTF8";
 
 Vue.use(Vuex);
 
-/**
- * @typedef {object} Shortcut
- * @property {string} name
- * @property {boolean} selected
- * @property {string} [escapedName]
- * @property {string} [image]
- * @property {Uint8Array} [data]
- * @property {number} [size]
- */
-/**
- * @typedef {object} Snippet
- * @property {string} name
- * @property {boolean} isClipboard
- * @property {string} newShortcut
- * @property {number} numberOfActions
- * @property {object} uuids
- * @property {string[]} uuids.groups
- * @property {string[]} uuids.vars
- * @property {string} actions
- */
-/**
- * @typedef {object} Insert
- * @property {number} id
- * @property {string} name
- * @property {boolean} isClipboard
- * @property {number} position
- */
-/**
- * @typedef {object} ProcessResult
- * @property {string[]} warnings
- * @property {number} nItems
- * @property {object[]} shortcuts
- * @property {string} shortcuts[].name
- * @property {number[]} shortcuts[].actionsToRemove
- * @property {object} shortcuts[].uuids
- * @property {string[]} shortcuts[].uuids.groups
- * @property {string[]} shortcuts[].uuids.vars
- * @property {Insert[]} shortcuts[].inserts
- * @property {Snippet} shortcuts[].snippets
- */
-
 export default new Vuex.Store({
   state: {
-    /** @type {Shortcut[]} */
+    /** @type {Store.Shortcut[]} */
     shortcuts: [],
     preferences: {
 
@@ -59,7 +18,7 @@ export default new Vuex.Store({
     language: {},
     showMainTitle: true,
     showBackButton: false,
-    /** @type {ProcessResult[]} */
+    /** @type {Store.ProcessResult[]} */
     processResult: [],
     globals: {
       functionDefinition: "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], pause [n], resume [n], " +
