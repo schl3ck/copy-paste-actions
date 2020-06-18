@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>412/412</span>
+                <span class='fraction'>409/409</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>272/272</span>
+                <span class='fraction'>271/271</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>381/381</span>
+                <span class='fraction'>378/378</span>
             </div>
         
             
@@ -1298,24 +1298,7 @@
 <a name='L1239'></a><a href='#L1239'>1239</a>
 <a name='L1240'></a><a href='#L1240'>1240</a>
 <a name='L1241'></a><a href='#L1241'>1241</a>
-<a name='L1242'></a><a href='#L1242'>1242</a>
-<a name='L1243'></a><a href='#L1243'>1243</a>
-<a name='L1244'></a><a href='#L1244'>1244</a>
-<a name='L1245'></a><a href='#L1245'>1245</a>
-<a name='L1246'></a><a href='#L1246'>1246</a>
-<a name='L1247'></a><a href='#L1247'>1247</a>
-<a name='L1248'></a><a href='#L1248'>1248</a>
-<a name='L1249'></a><a href='#L1249'>1249</a>
-<a name='L1250'></a><a href='#L1250'>1250</a>
-<a name='L1251'></a><a href='#L1251'>1251</a>
-<a name='L1252'></a><a href='#L1252'>1252</a>
-<a name='L1253'></a><a href='#L1253'>1253</a>
-<a name='L1254'></a><a href='#L1254'>1254</a>
-<a name='L1255'></a><a href='#L1255'>1255</a>
-<a name='L1256'></a><a href='#L1256'>1256</a>
-<a name='L1257'></a><a href='#L1257'>1257</a>
-<a name='L1258'></a><a href='#L1258'>1258</a>
-<a name='L1259'></a><a href='#L1259'>1259</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1242'></a><a href='#L1242'>1242</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1489,19 +1472,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48330x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">48330x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1813,7 +1783,6 @@
 <span class="cline-any cline-yes">218965x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">267961x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2356,11 +2325,8 @@
 <span class="cline-any cline-yes">1085780x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">48373x</span>
-<span class="cline-any cline-yes">48389x</span>
 <span class="cline-any cline-yes">48389x</span>
 <span class="cline-any cline-yes">48389x</span>
 <span class="cline-any cline-yes">48389x</span>
@@ -2753,19 +2719,6 @@ function analyse(dict) {
     "is.workflow.actions.conditional"
   ];
 &nbsp;
-  /* istanbul ignore if reason: not testable */
-  if (!Object.values) {
-    (function() {
-      const reduce = Function.bind.call(Function.call, Array.prototype.reduce);
-      const isEnumerable = Function.bind.call(Function.call, Object.prototype.propertyIsEnumerable);
-      const concat = Function.bind.call(Function.call, Array.prototype.concat);
-      const keys = Reflect.ownKeys;
-      Object.values = function values(O) {
-        return reduce(keys(O), (v, k) =&gt; concat(v, typeof k === "string" &amp;&amp; isEnumerable(O, k) ? [O[k]] : []), []);
-      };
-    })();
-  }
-&nbsp;
   function removeFromArray(array, obj, fromIndex) {
     /* istanbul ignore if reason: no need to test */
     if (array == null) { throw new TypeError("\"array\" is null or undefined. Can't operate on null or undefined"); }
@@ -3078,7 +3031,6 @@ function analyse(dict) {
         newShortut: newShortcut,
         isClipboard: isClipboard,
         removes: remove,
-        text: text,
         textForWarning: textForWarning,
         action: action,
         newShortcut: newShortcut
@@ -3614,8 +3566,6 @@ function analyse(dict) {
       delete a.modifiedIndex;
     });
 &nbsp;
-    const snippetsObj = {};
-&nbsp;
     // convert actions to bplist
     snippets.forEach((snippet) =&gt; {
       snippet.actions = bplist.create({ WFWorkflowActions: snippet.actions }).toString("base64");
@@ -3624,7 +3574,6 @@ function analyse(dict) {
       delete snippet.leftover;
       delete snippet.removes;
       delete snippet.ranges;
-      snippetsObj[snippet.name] = snippet;
     });
 &nbsp;
     inserts.forEach((insert) =&gt; {
@@ -3638,7 +3587,7 @@ function analyse(dict) {
     actionsToRemove.sort((a, b) =&gt; a.action - b.action);
 &nbsp;
     result.push({
-      snippets: snippetsObj,
+      snippets: snippets,
       inserts: inserts,
       uuids: uuidsToPlainObject(uuids),
       actionsToRemove: actionsToRemove,
@@ -3838,7 +3787,7 @@ function updatePercentage(percent) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon May 11 2020 18:10:40 GMT+0200 (GMT+02:00)
+                at Thu Jun 18 2020 21:31:04 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="prettify.js"></script>
