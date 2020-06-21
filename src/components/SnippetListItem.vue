@@ -63,6 +63,9 @@
           </button>
         </div>
       </div>
+      <button class="btn btn-primary btn-block mt-2" @click="showActions">
+        {{ lang.showActions }}
+      </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
     </div>
   </div>
@@ -151,6 +154,13 @@ export default {
       this.snippet.name = this.name || this.globals.noSnippetName;
       this.snippet.isClipboard = this.isClipboard;
       this.cancelEdit();
+    },
+    showActions() {
+      this.$store.commit("snippetActions", {
+        title: this.snippet.name,
+        bplist: this.snippet.actions
+      });
+      this.$root.$emit("navigate", "SnippetActions");
     }
   }
 };

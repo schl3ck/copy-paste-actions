@@ -87,6 +87,7 @@
     "edit": "Edit",
     "doneEdit": "Save",
     "cancelEdit": "Cancel",
-    "name": "Name"
+    "name": "Name",
+    "showActions": "Show actions"
   }
 }

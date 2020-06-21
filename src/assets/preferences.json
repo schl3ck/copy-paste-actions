@@ -11,7 +11,8 @@
     "cleanUp": 1,
     "commentMarker": ":cpa:",
     "defaultNewShortcutName": "Untitled Shortcut",
-    "includeShortcutImages": false
+    "includeShortcutImages": false,
+    "codeZoom": 1
   },
   "Preferences": {
     "autoOpenApp": false,
@@ -20,7 +21,8 @@
     "cleanUp": 1,
     "commentMarker": ":cpa:",
     "defaultNewShortcutName": "Untitled Shortcut",
-    "includeShortcutImages": false
+    "includeShortcutImages": false,
+    "codeZoom": 1
   },
   "componentToDisplay": "ProcessShortcuts"
 }

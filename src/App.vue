@@ -24,6 +24,7 @@ import OpenApp from "@/views/OpenApp.vue";
 import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
 import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
 import FoundSnippets from "@/views/FoundSnippets.vue";
+import SnippetActions from "@/views/SnippetActions.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
@@ -36,6 +37,7 @@ export default {
     ProcessShortcuts,
     AnalyserWarnings,
     FoundSnippets,
+    SnippetActions,
     ButtonBar
   },
   data() {

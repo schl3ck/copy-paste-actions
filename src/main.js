@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import "bootstrap.css";
 import "bootstrap.reboot";
+import "highlight.js/styles/xcode.css";
 // import "jquery";
 // import "bootstrap.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -19,6 +20,9 @@ import {
   faFileImport,
   faPlay,
   faExclamationCircle,
+  faSearchMinus,
+  faSearchPlus,
+  faUndo,
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -44,6 +48,9 @@ library.add(
   faFileImport,
   faPlay,
   faExclamationCircle,
+  faSearchMinus,
+  faSearchPlus,
+  faUndo,
   faTimes,
   faSave
 );

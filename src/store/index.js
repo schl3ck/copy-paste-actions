@@ -25,7 +25,11 @@ export default new Vuex.Store({
         "paste [replace [n]], insert [replace [n]]",
       noSnippetName: " "
     },
-    snippetListItemEditing: false
+    snippetListItemEditing: false,
+    snippetActions: {
+      title: null,
+      bplist: null
+    }
   },
   mutations: {
     shortcuts(state, data) {
@@ -34,6 +38,9 @@ export default new Vuex.Store({
     },
     preferences(state, data) {
       state.preferences = data;
+    },
+    userPreferences(state, data) {
+      Object.assign(state.preferences.Preferences, data);
     },
     language(state, data) {
       state.language = data;
@@ -49,6 +56,9 @@ export default new Vuex.Store({
     },
     snippetListItemEditing(state, data) {
       state.snippetListItemEditing = data;
+    },
+    snippetActions(state, data) {
+      state.snippetActions = data;
     }
   },
   actions: {
