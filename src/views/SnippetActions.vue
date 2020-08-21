@@ -19,7 +19,6 @@
         <button class="btn btn-outline-primary" @click="setZoom(1)">
           <FontAwesomeIcon icon="search-plus" />
         </button>
-        <!-- TODO: save zoom setting -->
         <button class="btn btn-outline-primary" @click="saveZoom">
           <FontAwesomeIcon :icon="['far', 'save']" />
         </button>

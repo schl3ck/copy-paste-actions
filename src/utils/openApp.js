@@ -12,8 +12,8 @@ import { Buffer } from "buffer";
  * @param {object[]} [options.data] Array of files that are passed as data to the Shortcut
  * @param {string} options.data[].name Filename
  * @param {string | ArrayBuffer | Uint8Array | Buffer | Blob} options.data[].content Content of the file
- * @param {object} [options.data[].zipOptions] Options for JSZip
- * @see https://stuk.github.io/jszip/documentation/api_jszip/file_data.html
+ * @param {object} [options.data[].tarOptions] Options for JSZip
+ * @see https://github.com/schl3ck/tarballjs/blob/master/tarball.js#L380
  */
 export function navigateAndBuildZip(root, options) {
   if (!root) {
@@ -32,14 +32,23 @@ export function navigateAndBuildZip(root, options) {
     OpenApp.done = false;
     OpenApp.percent = null;
 
+    if (OpenApp.$store.state.userPreferencesChanged && !options.actions.includes("Preferences.save")) {
+      options.actions.push("Preferences.save");
+      options.data = options.data || [];
+      options.data.push({
+        name: "preferences.json",
+        content: JSON.stringify(OpenApp.$store.state.preferences.Preferences)
+      });
+    }
+
     const tar = new tarball.TarWriter();
     tar.addTextFile("actions.txt", options.actions.join("\n"));
     if (options.data && options.data.length) {
       for (const item of options.data) {
         if (typeof item.content === "string") {
-          tar.addTextFile(item.name, item.content);
+          tar.addTextFile(item.name, item.content, item.tarOptions);
         } else {
-          tar.addFileArrayBuffer(item.name, Uint8Array.from(item.content), options);
+          tar.addFileArrayBuffer(item.name, Uint8Array.from(item.content), item.tarOptions);
         }
       }
     }

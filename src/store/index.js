@@ -29,7 +29,8 @@ export default new Vuex.Store({
     snippetActions: {
       title: null,
       bplist: null
-    }
+    },
+    userPreferencesChanged: false
   },
   mutations: {
     shortcuts(state, data) {
@@ -41,6 +42,7 @@ export default new Vuex.Store({
     },
     userPreferences(state, data) {
       Object.assign(state.preferences.Preferences, data);
+      state.userPreferencesChanged = true;
     },
     language(state, data) {
       state.language = data;
