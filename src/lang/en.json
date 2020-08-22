@@ -80,7 +80,8 @@
     "noSnippetsFound": "No Snippets found",
     "noSnippetName": "No name provided",
     "clipboardItem": "Clipboard:",
-    "snippet": "Snippet:"
+    "snippet": "Snippet:",
+    "saveAndContinue": "Save & Continue"
   },
   "snippetListItem": {
     "noSnippetName": "No name provided",
