@@ -428,8 +428,8 @@ module.exports = function() {
       });
     });
 
-    describe("Duplicate selection/snippet name", function() {
-      it("clipboard selection, no name, no end", function() {
+    describe("Duplicate clipboard item/snippet name", function() {
+      it("clipboard item, no name, no end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
         sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
@@ -470,7 +470,7 @@ module.exports = function() {
           ]
         });
       });
-      it("clipboard selection, some name, no end", function() {
+      it("clipboard item, some name, no end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
         sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
@@ -514,7 +514,7 @@ module.exports = function() {
           ]
         });
       });
-      it("clipboard selection, no name, with end", function() {
+      it("clipboard item, no name, with end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
         sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
@@ -556,7 +556,7 @@ module.exports = function() {
           ]
         });
       });
-      it("clipboard selection, some name, with end", function() {
+      it("clipboard item, some name, with end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
         sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });

@@ -21,7 +21,7 @@
           >
           <div class="card-text">
             <div v-if="!editing">
-              {{ snippet.isClipboard ? lang.clipboardSelection : lang.snippet }}
+              {{ snippet.isClipboard ? lang.clipboardItem : lang.snippet }}
             </div>
             <template v-else>
               <div class="custom-control custom-radio">
@@ -34,7 +34,7 @@
                   :checked="snippet.isClipboard"
                   :value="true"
                 >
-                <label for="isClipboard" class="custom-control-label">{{ lang.clipboardSelection }}</label>
+                <label for="isClipboard" class="custom-control-label">{{ lang.clipboardItem }}</label>
               </div>
               <div class="custom-control custom-radio">
                 <input
