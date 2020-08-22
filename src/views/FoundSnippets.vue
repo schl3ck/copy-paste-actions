@@ -2,7 +2,7 @@
   <div>
     <h2>{{ lang.title }}</h2>
     <div
-      v-if="Object.keys(conflictingSnippets.clipboard).length + Object.keys(conflictingSnippets.snippet).length > 0"
+      v-if="hasConflicts"
       class="alert alert-danger"
     >
       <h5 class="d-flex flex-row align-items-center">
@@ -50,16 +50,20 @@
         {{ lang.noSnippetsFound }}
       </div>
     </div>
+
+    <ButtonBar :buttons="buttons" />
   </div>
 </template>
 
 <script>
 import SnippetListItem from "@/components/SnippetListItem.vue";
+import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
   name: "FoundSnippets",
   components: {
-    SnippetListItem
+    SnippetListItem,
+    ButtonBar
   },
   computed: {
     /** @returns {object} */
@@ -93,11 +97,40 @@ export default {
 
       return res;
     },
+    hasConflicts() {
+      return Object.values(this.conflictingSnippets).some(c => Object.keys(c).length > 0);
+    },
     preferences() {
       return this.$store.state.preferences;
     },
     globals() {
       return this.$store.state.globals;
+    },
+    buttons() {
+      return [
+        {
+          text: this.lang.saveAndContinue,
+          class: {
+            "btn-success": !this.hasConflicts,
+            "btn-secondary": this.hasConflicts
+          },
+          icon: ["far", "save"],
+          disabled: this.hasConflicts,
+          click: function() {
+            if (this.hasConflicts) return;
+            // TODO:
+            alert("TODO");
+          }.bind(this)
+        },
+        {
+          text: this.$store.state.language.toMainMenu,
+          class: "btn-outline-primary",
+          icon: "chevron-left",
+          click() {
+            this.$root.$emit("navigate", "MainMenu");
+          }
+        }
+      ];
     }
   },
   activated() {
