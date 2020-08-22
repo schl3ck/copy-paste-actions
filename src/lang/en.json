@@ -76,18 +76,26 @@
   },
   "foundSnippets": {
     "title": "Found Snippets",
-    "noSnippetsFound": "No Snippets found"
+    "conflicts": "Conflicts",
+    "noSnippetsFound": "No Snippets found",
+    "noSnippetName": "No name provided",
+    "clipboardItem": "Clipboard:",
+    "snippet": "Snippet:"
   },
   "snippetListItem": {
     "noSnippetName": "No name provided",
     "clipboardItem": "Clipboard item",
     "snippet": "Snippet",
-    "actions": "Contains $number actions",
+    "actions": {
+      "plural": "Contains $number actions",
+      "singular": "Contains $number action"
+    },
     "newShortcut": "Creates Shortcut: $name",
     "edit": "Edit",
     "doneEdit": "Save",
     "cancelEdit": "Cancel",
-    "name": "Name",
+    "name": "Name:",
+    "shortcutName": "Shortcut name:",
     "showActions": "Show actions"
   }
 }

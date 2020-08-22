@@ -1,24 +1,33 @@
 <template>
-  <div class="card ml-3">
+  <div class="card">
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <label for="name" class="sr-only">{{ lang.name }}:</label>
-          <input
-            id="name"
-            v-model="name"
-            type="text"
-            :readonly="!editing"
-            class="card-title font-weight-bold"
-            :class="{
-              'font-italic': hasNoName,
-              'form-control-plaintext': !editing,
-              'form-control': editing,
-              'm-0 p-0': !editing,
-              'mb-1': editing
-            }"
-            :placeholder="lang.noSnippetName"
-          >
+          <template v-if="shortcutInsteadOfSnippetName && !editing">
+            <div class="d-flex flex-row align-items-center">
+              <img v-if="snippet.shortcut.image" :src="snippet.shortcut.image" class="mr-2 img">
+              <label for="name" class="sr-only">{{ lang.shortcutName }}</label>
+              <span id="name" class="card-title font-weight-bold">{{ snippet.shortcut.name }}</span>
+            </div>
+          </template>
+          <template v-else>
+            <label for="name" class="sr-only">{{ lang.name }}:</label>
+            <input
+              id="name"
+              v-model="name"
+              type="text"
+              :readonly="!editing"
+              class="card-title font-weight-bold"
+              :class="{
+                'font-italic': hasNoName,
+                'form-control-plaintext': !editing,
+                'form-control': editing,
+                'm-0 p-0': !editing,
+                'mb-1': editing
+              }"
+              :placeholder="lang.noSnippetName"
+            >
+          </template>
           <div class="card-text">
             <div v-if="!editing">
               {{ snippet.isClipboard ? lang.clipboardItem : lang.snippet }}
@@ -49,7 +58,10 @@
                 <label for="isSnippet" class="custom-control-label">{{ lang.snippet }}</label>
               </div>
             </template>
-            {{ lang.actions.replace(/\$number/g, snippet.numberOfActions) }}
+            {{
+              (snippet.numberOfActions === 1 ? lang.actions.singular : lang.actions.plural)
+                .replace(/\$number/g, snippet.numberOfActions)
+            }}
             <tempalte v-if="snippet.newShortcut">
               <br>
               {{ lang.newShortcut.replace(/\$name/g, snippet.newShortcut) }}
@@ -83,6 +95,10 @@ export default {
     snippet: {
       type: Object,
       required: true
+    },
+    shortcutInsteadOfSnippetName: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -165,3 +181,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.img {
+  width: 30px;
+  height: 30px;
+}
+</style>
