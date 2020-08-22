@@ -54,6 +54,11 @@ export default new Vuex.Store({
       state.showBackButton = data;
     },
     processResult(state, data) {
+      for (const shortcut of data.shortcuts) {
+        for (const snippet of shortcut.snippets) {
+          snippet.discard = false;
+        }
+      }
       state.processResult = data;
     },
     snippetListItemEditing(state, data) {

@@ -97,6 +97,7 @@
     "cancelEdit": "Cancel",
     "name": "Name:",
     "shortcutName": "Shortcut name:",
-    "showActions": "Show actions"
+    "showActions": "Show actions",
+    "discard": "Discard this"
   }
 }

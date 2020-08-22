@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{'bg-lightgray': snippet.discard && !editing}">
     <div class="card-body">
       <div class="row">
         <div class="col">
@@ -66,6 +66,15 @@
               <br>
               {{ lang.newShortcut.replace(/\$name/g, snippet.newShortcut) }}
             </tempalte>
+            <div class="custom-control custom-checkbox text-danger discard-exclude">
+              <input
+                :id="'discard_' + id"
+                v-model="snippet.discard"
+                type="checkbox"
+                class="custom-control-input"
+              >
+              <label :for="'discard_' + id" class="custom-control-label">{{ lang.discard }}</label>
+            </div>
           </div>
         </div>
         <div v-if="canEdit" class="col-auto d-flex align-items-center justify-content-center">
@@ -75,7 +84,7 @@
           </button>
         </div>
       </div>
-      <button class="btn btn-primary btn-block mt-2" @click="showActions">
+      <button class="btn btn-primary btn-block mt-2 discard-exclude" @click="showActions">
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
@@ -106,7 +115,8 @@ export default {
       name: "",
       isClipboard: true,
       editing: false,
-      buttons: []
+      buttons: [],
+      id: (Math.random() * Number.MAX_SAFE_INTEGER).toFixed(0)
     };
   },
   computed: {
@@ -186,5 +196,8 @@ export default {
 .img {
   width: 30px;
   height: 30px;
+}
+.bg-lightgray {
+  background: lightgray;
 }
 </style>

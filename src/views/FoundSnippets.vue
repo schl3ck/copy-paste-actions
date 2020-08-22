@@ -83,8 +83,9 @@ export default {
       for (const shortcut of this.shortcuts) {
         for (const snippet of shortcut.snippets) {
           const o = snippet.isClipboard ? res.clipboard : res.snippet;
-          if (!(snippet.name in o)) o[snippet.name] = [];
           snippet.shortcut = shortcut;
+          if (snippet.discard) continue;
+          if (!(snippet.name in o)) o[snippet.name] = [];
           o[snippet.name].push(snippet);
         }
       }
