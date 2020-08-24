@@ -98,6 +98,16 @@
     "name": "Name:",
     "shortcutName": "Shortcut name:",
     "showActions": "Show actions",
-    "discard": "Discard this"
+    "discard": "Discard this",
+    "overrides": {
+      "normal": {
+        "clipboard": "This overrides the following clipboard item:",
+        "snippet": "This overrides the following snippet:"
+      },
+      "subjunctive": {
+        "clipboard": "This would override the following clipboard item:",
+        "snippet": "This would override the following snippet:"
+      }
+    }
   }
 }

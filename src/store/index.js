@@ -30,7 +30,9 @@ export default new Vuex.Store({
       title: null,
       bplist: null
     },
-    userPreferencesChanged: false
+    userPreferencesChanged: false,
+    snippets: {},
+    clipboard: {}
   },
   mutations: {
     shortcuts(state, data) {
@@ -66,6 +68,12 @@ export default new Vuex.Store({
     },
     snippetActions(state, data) {
       state.snippetActions = data;
+    },
+    snippets(state, data) {
+      state.snippets = data;
+    },
+    clipboard(state, data) {
+      state.clipboard = data;
     }
   },
   actions: {
@@ -108,6 +116,10 @@ export default new Vuex.Store({
             name: filename.replace(/\.(shortcut|wflow)$/, ""),
             data: content
           });
+        } else if (filename === "snippets.json") {
+          commit("snippets", JSON.parse(stringFromBinaryString(data)));
+        } else if (filename === "clipboard.json") {
+          commit("clipboard", JSON.parse(stringFromBinaryString(data)));
         }
       });
 

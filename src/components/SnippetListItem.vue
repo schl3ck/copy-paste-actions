@@ -40,7 +40,6 @@
                   type="radio"
                   class="custom-control-input"
                   name="isClipboard"
-                  :checked="snippet.isClipboard"
                   :value="true"
                 >
                 <label for="isClipboard" class="custom-control-label">{{ lang.clipboardItem }}</label>
@@ -52,7 +51,6 @@
                   type="radio"
                   class="custom-control-input"
                   name="isClipboard"
-                  :checked="!snippet.isClipboard"
                   :value="false"
                 >
                 <label for="isSnippet" class="custom-control-label">{{ lang.snippet }}</label>
@@ -66,7 +64,7 @@
               <br>
               {{ lang.newShortcut.replace(/\$name/g, snippet.newShortcut) }}
             </tempalte>
-            <div class="custom-control custom-checkbox text-danger discard-exclude">
+            <div v-if="checkOverrides" class="custom-control custom-checkbox text-danger discard-exclude">
               <input
                 :id="'discard_' + id"
                 v-model="snippet.discard"
@@ -88,6 +86,17 @@
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
+      <template v-if="overrides">
+        <span class="text-orange">
+          <FontAwesomeIcon icon="exclamation-triangle" />
+          {{
+            lang.overrides
+              [snippet.discard ? "subjunctive" : "normal"]
+              [snippet.isClipboard ? "clipboard" : "snippet"]
+          }}
+        </span>
+        <SnippetListItem :snippet="overrides" />
+      </template>
     </div>
   </div>
 </template>
@@ -106,6 +115,10 @@ export default {
       required: true
     },
     shortcutInsteadOfSnippetName: {
+      type: Boolean,
+      default: false
+    },
+    checkOverrides: {
       type: Boolean,
       default: false
     }
@@ -135,12 +148,21 @@ export default {
     /** @returns {boolean} */
     hasNoName() {
       return this.snippet.name === this.globals.noSnippetName;
+    },
+    /** @returns {object} */
+    overrides() {
+      if (!this.checkOverrides) return null;
+      const o = this.snippet.isClipboard
+        ? this.$store.state.clipboard
+        : this.$store.state.snippets;
+      return o[this.snippet.name];
     }
   },
   watch: {
     editing(value) {
       if (value) {
         this.name = this.hasNoName ? "" : this.snippet.name;
+        this.isClipboard = this.snippet.isClipboard;
       } else {
         this.name = this.hasNoName
           ? this.lang.noSnippetName
@@ -177,7 +199,8 @@ export default {
       this.$store.commit("snippetListItemEditing", false);
     },
     saveEdit() {
-      this.snippet.name = this.name || this.globals.noSnippetName;
+      this.snippet.name =
+        (this.name || "").trim() || this.globals.noSnippetName;
       this.snippet.isClipboard = this.isClipboard;
       this.cancelEdit();
     },
@@ -199,5 +222,8 @@ export default {
 }
 .bg-lightgray {
   background: lightgray;
+}
+.text-orange {
+  color: var(--orange);
 }
 </style>

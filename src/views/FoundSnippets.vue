@@ -25,7 +25,8 @@
             :key="name + snippet.shortcut.name"
             :snippet="snippet"
             shortcut-instead-of-snippet-name
-            class="snippet-list-item"
+            check-overrides
+            class="snippet-list-item text-body"
           />
         </div>
       </div>
@@ -43,6 +44,7 @@
           v-for="snippet in shortcut.snippets"
           :key="snippet.name"
           :snippet="snippet"
+          check-overrides
           class="snippet-list-item ml-3"
         />
       </template>
