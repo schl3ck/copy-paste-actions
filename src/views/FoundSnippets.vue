@@ -2,7 +2,8 @@
   <div>
     <h2>{{ lang.title }}</h2>
     <div
-      v-if="hasConflicts"
+      v-show="hasConflicts"
+      ref="conflicts"
       class="alert alert-danger"
     >
       <h5 class="d-flex flex-row align-items-center">
@@ -33,7 +34,7 @@
     </div>
     <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
       <div class="sticky-top">
-        <div class="d-flex flex-row align-items-center pt-2">
+        <div class="d-flex flex-row align-items-center">
           <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
           <h5>{{ shortcut.name }}</h5>
         </div>
@@ -58,8 +59,10 @@
 </template>
 
 <script>
+import Vue from "vue";
 import SnippetListItem from "@/components/SnippetListItem.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
+import { getFullHeight } from "@/utils/utils";
 
 export default {
   name: "FoundSnippets",
@@ -134,6 +137,31 @@ export default {
           }
         }
       ];
+    }
+  },
+  watch: {
+    hasConflicts(newVal) {
+      const scrollTop = window.scrollY;
+      let height = 0;
+      const getHeight = () => {
+        height = getFullHeight(this.$refs.conflicts);
+      };
+      const correctScrollPos = () => {
+        // the browser already corrected it
+        if (scrollTop !== window.scrollY) return;
+
+        window.scrollBy({ top: newVal ? height : -height, behavior: "auto" });
+      };
+
+      if (newVal) {
+        Vue.nextTick(() => {
+          getHeight();
+          correctScrollPos();
+        });
+      } else {
+        getHeight();
+        Vue.nextTick(correctScrollPos);
+      }
     }
   },
   activated() {
