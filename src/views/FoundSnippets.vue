@@ -150,6 +150,25 @@ export default {
               });
               return;
             }
+
+            const snippets = {};
+            const clipboard = {};
+            for (const shortcut of this.shortcuts) {
+              for (const snippet of shortcut.snippets) {
+                if (snippet.discard) continue;
+                if (snippet.isClipboard) {
+                  clipboard[snippet.name] = snippet;
+                } else {
+                  snippets[snippet.name] = snippet;
+                }
+              }
+            }
+            if (Object.keys(clipboard).length > 0) {
+              this.$store.commit("amendClipboard", clipboard);
+            }
+            if (Object.keys(snippets).length > 0) {
+              this.$store.commit("amendSnippets", snippets);
+            }
             // TODO:
             alert("TODO");
           }.bind(this)

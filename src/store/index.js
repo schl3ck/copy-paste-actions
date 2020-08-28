@@ -73,8 +73,14 @@ export default new Vuex.Store({
     snippets(state, data) {
       state.snippets = data;
     },
+    amendSnippets(state, data) {
+      Object.assign(state.snippets, data);
+    },
     clipboard(state, data) {
       state.clipboard = data;
+    },
+    amendClipboard(state, data) {
+      Object.assign(state.snippets, data);
     }
   },
   actions: {
