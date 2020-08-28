@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="{'bg-lightgray': snippet.discard && !editing}">
+  <div class="card bg-transparent" :class="{'bg-lightgray': checkOverrides && snippet.discard && !editing}">
     <div class="card-body">
       <div class="row">
         <div class="col">
@@ -255,7 +255,7 @@ export default {
   height: 30px;
 }
 .bg-lightgray {
-  background: lightgray;
+  background-color: lightgray !important;
 }
 .text-orange {
   color: var(--orange);
