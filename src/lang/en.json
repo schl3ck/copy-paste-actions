@@ -112,5 +112,22 @@
         "snippet": "This would override the following snippet:"
       }
     }
+  },
+  "foundInserts": {
+    "title": "Found Inserts",
+    "noInsertsFound": "No inserts found",
+    "noSnippetName": "No name provided",
+    "clipboardItem": "Clipboard item",
+    "snippet": "Snippet",
+    "saveAndContinue": "Save & Continue",
+    "replacesNActions": {
+      "singular": "Replaces $number action",
+      "plural": "Replaces $number actions"
+    },
+    "insertAfterAction": "Inserts after action $number",
+    "inserts": {
+      "clipboard": "This will insert the following clipboard item:",
+      "snippet": "This will insert the following snippet:"
+    }
   }
 }

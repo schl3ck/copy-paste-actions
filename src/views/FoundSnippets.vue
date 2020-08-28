@@ -169,8 +169,7 @@ export default {
             if (Object.keys(snippets).length > 0) {
               this.$store.commit("amendSnippets", snippets);
             }
-            // TODO:
-            alert("TODO");
+            this.$root.$emit("navigate", "FoundInserts");
           }.bind(this)
         },
         {
