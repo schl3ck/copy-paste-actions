@@ -176,6 +176,7 @@ module.exports = function() {
                   id: 0,
                   name: " ",
                   position: 2,
+                  replacesNActions: 0,
                   isClipboard: true
                 }
               ],

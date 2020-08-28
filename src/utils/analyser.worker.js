@@ -1036,7 +1036,16 @@ function analyse(dict) {
     });
 
     inserts.forEach((insert) => {
+      const excludeFunctionPositions = [insert.functionPositions.start];
+      if (insert.functionPositions.end) {
+        excludeFunctionPositions.push(insert.functionPositions.end);
+      }
       insert.position = insert.functionPositions.start;
+      insert.replacesNActions = insert.removes
+        ? actionsToRemove.filter(
+          a => a.excludedBy.includes(insert.id) && !excludeFunctionPositions.includes(a.action)
+        ).length
+        : 0;
       delete insert.functionPositions;
       delete insert.leftover;
       delete insert.ranges;

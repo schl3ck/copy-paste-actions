@@ -226,6 +226,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 0,
                         isClipboard: true
                       }
                     ],
@@ -274,6 +275,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 0,
                         isClipboard: true
                       }
                     ],
@@ -325,6 +327,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 0,
+                        replacesNActions: 1,
                         isClipboard: false
                       }
                     ],
@@ -373,6 +376,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 1,
                         isClipboard: true
                       }
                     ],
@@ -425,6 +429,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 0,
                         isClipboard: true
                       }
                     ],
@@ -477,6 +482,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 0,
                         isClipboard: true
                       }
                     ],
@@ -529,6 +535,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 1,
                         isClipboard: true
                       }
                     ],
@@ -581,6 +588,7 @@ module.exports = function(options) {
                         id: 0,
                         name: " ",
                         position: 2,
+                        replacesNActions: 1,
                         isClipboard: true
                       }
                     ],
@@ -638,6 +646,7 @@ module.exports = function(options) {
                           id: 0,
                           name: " ",
                           position: 0,
+                          replacesNActions: 2,
                           isClipboard: true
                         }
                       ],
@@ -693,6 +702,7 @@ module.exports = function(options) {
                           id: 0,
                           name: " ",
                           position: 0,
+                          replacesNActions: params.excludeAllCPAComments ? 2 : 3,
                           isClipboard: true
                         }
                       ],
@@ -748,6 +758,7 @@ module.exports = function(options) {
                           id: 0,
                           name: " ",
                           position: 2,
+                          replacesNActions: 2,
                           isClipboard: true
                         }
                       ],
@@ -803,6 +814,7 @@ module.exports = function(options) {
                           id: 0,
                           name: " ",
                           position: 2,
+                          replacesNActions: params.excludeAllCPAComments ? 2 : 3,
                           isClipboard: true
                         }
                       ],
@@ -858,6 +870,7 @@ module.exports = function(options) {
                           id: 0,
                           name: " ",
                           position: 0,
+                          replacesNActions: 3,
                           isClipboard: true
                         }
                       ],
@@ -913,6 +926,7 @@ module.exports = function(options) {
                           id: 0,
                           name: " ",
                           position: 0,
+                          replacesNActions: params.excludeAllCPAComments ? 3 : 5,
                           isClipboard: true
                         }
                       ],

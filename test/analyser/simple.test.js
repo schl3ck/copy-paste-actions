@@ -842,18 +842,21 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 0,
                       isClipboard: true
                     },
                     {
                       id: 1,
                       name: " ",
                       position: 3,
+                      replacesNActions: 0,
                       isClipboard: true
                     },
                     {
                       id: 2,
                       name: " ",
                       position: 6,
+                      replacesNActions: 0,
                       isClipboard: true
                     }],
                   snippets: []
@@ -905,6 +908,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       isClipboard: true,
+                      replacesNActions: 3,
                       position: 1
                     }],
                   snippets: []
@@ -942,6 +946,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 3,
                       isClipboard: true
                     }],
                   snippets: []
@@ -978,6 +983,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 3,
                       isClipboard: true
                     }],
                   snippets: []
@@ -1014,6 +1020,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 3,
                       isClipboard: true
                     }],
                   snippets: []
@@ -1052,6 +1059,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 0,
                       isClipboard: true
                     }],
                   snippets: []
@@ -1093,18 +1101,21 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 0,
                       isClipboard: false
                     },
                     {
                       id: 1,
                       name: " ",
                       position: 3,
+                      replacesNActions: 0,
                       isClipboard: false
                     },
                     {
                       id: 2,
                       name: " ",
                       position: 6,
+                      replacesNActions: 0,
                       isClipboard: false
                     }],
                   snippets: []
@@ -1156,6 +1167,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       isClipboard: false,
+                      replacesNActions: 3,
                       position: 1
                     }],
                   snippets: []
@@ -1193,6 +1205,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 3,
                       isClipboard: false
                     }],
                   snippets: []
@@ -1229,6 +1242,7 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 3,
                       isClipboard: false
                     }],
                   snippets: []
@@ -1265,6 +1279,46 @@ module.exports = function() {
                       id: 0,
                       name: " ",
                       position: 0,
+                      replacesNActions: 3,
+                      isClipboard: false
+                    }],
+                  snippets: []
+                }]
+            });
+        });
+      });
+    });
+
+    describe("insert replace, end, dummy", function() {
+      allPossibleScriptParams.forEach((params) => {
+        it(JSON.stringify(params), function() {
+          const sct = new ShortcutBuilder();
+          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ninsert replace" });
+          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend insert" });
+          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+
+          const dict = getParamForScript(sct);
+          _.assign(dict, params);
+          const res = script(dict);
+
+          expectReturnObject(res,
+            {
+              nItems: 1,
+              warnings: [],
+              shortcuts: [
+                {
+                  name: getParamForScript(sct).shortcuts.name,
+                  actionsToRemove: constructActionsToRemove(
+                    null,
+                    params.cleanUp === 2 ? [0, 1] : params.cleanUp === 1 ? [1] : []
+                  ),
+                  uuids: extractUUIDs(sct.getActions()),
+                  inserts: [
+                    {
+                      id: 0,
+                      name: " ",
+                      position: 0,
+                      replacesNActions: 0,
                       isClipboard: false
                     }],
                   snippets: []
@@ -1312,6 +1366,7 @@ module.exports = function() {
                 id: insertId++,
                 name: " ",
                 position: 0,
+                replacesNActions: 0,
                 isClipboard: mode === 2
               });
               break;

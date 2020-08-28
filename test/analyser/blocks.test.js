@@ -132,6 +132,7 @@ module.exports = function() {
             id: 0,
             name: " ",
             position: 0,
+            replacesNActions: 0,
             isClipboard: funcProps.isClipboard
           };
           if (funcProps.inserts) {
@@ -153,6 +154,14 @@ module.exports = function() {
                 isStartFunc = false;
                 // * 2 because we add a dummy action after each generated action
                 if (insert) insert.position = actionIndex * 2;
+              } else if (insert) {
+                // add the amount of actions between start & end. since we already subtracted the not to be deleted
+                // actions down below, the count is correct
+                if (funcProps.removes) {
+                  insert.replacesNActions = actionsToRemove.length - (params.cleanUp === 2 ? 1 : 0);
+                } else {
+                  insert.replacesNActions = 0;
+                }
               }
               insideFunc = !insideFunc;
               if (params.cleanUp === 2) addLastActionToRemove();
@@ -403,6 +412,7 @@ module.exports = function() {
                     id: 0,
                     name: " ",
                     position: 0,
+                    replacesNActions: 8,
                     isClipboard: true
                   }
                 ],
