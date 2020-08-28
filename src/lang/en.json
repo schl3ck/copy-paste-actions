@@ -96,6 +96,7 @@
     "doneEdit": "Save",
     "cancelEdit": "Cancel",
     "name": "Name:",
+    "description": "Description",
     "shortcutName": "Shortcut name:",
     "showActions": "Show actions",
     "discard": "Discard this",
