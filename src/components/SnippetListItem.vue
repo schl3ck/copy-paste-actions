@@ -3,15 +3,13 @@
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <template v-if="shortcutInsteadOfSnippetName && !editing">
-            <div class="d-flex flex-row align-items-center">
+          <div v-if="shortcutInsteadOfSnippetName && !editing" class="d-flex flex-row align-items-center">
               <img v-if="snippet.shortcut.image" :src="snippet.shortcut.image" class="mr-2 img">
               <label for="name" class="sr-only">{{ lang.shortcutName }}</label>
-              <span id="name" class="card-title font-weight-bold">{{ snippet.shortcut.name }}</span>
+            <span id="name" class="font-weight-bold">{{ snippet.shortcut.name }}</span>
             </div>
-          </template>
-          <template v-else>
-            <label for="name" class="sr-only">{{ lang.name }}:</label>
+          <div v-else>
+            <label for="name" class="sr-only">{{ lang.name }}</label>
             <input
               id="name"
               v-model="name"
@@ -27,12 +25,16 @@
               }"
               :placeholder="lang.noSnippetName"
             >
-          </template>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
           <div class="card-text">
             <div v-if="!editing">
               {{ snippet.isClipboard ? lang.clipboardItem : lang.snippet }}
             </div>
-            <template v-else>
+            <div v-else>
               <div class="custom-control custom-radio">
                 <input
                   id="isClipboard"
@@ -55,15 +57,37 @@
                 >
                 <label for="isSnippet" class="custom-control-label">{{ lang.snippet }}</label>
               </div>
-            </template>
+            </div>
+            <div>
             {{
               (snippet.numberOfActions === 1 ? lang.actions.singular : lang.actions.plural)
                 .replace(/\$number/g, snippet.numberOfActions)
             }}
-            <tempalte v-if="snippet.newShortcut">
-              <br>
+            </div>
+            <div v-if="snippet.newShortcut">
               {{ lang.newShortcut.replace(/\$name/g, snippet.newShortcut) }}
-            </tempalte>
+            </div>
+          </div>
+        </div>
+        <div v-if="canEdit" class="col-auto d-flex align-items-center justify-content-center">
+          <button class="btn btn-outline-dark" @click="startEdit">
+            <FontAwesomeIcon icon="pencil-alt" />
+            <span class="sr-only">{{ lang.edit }}</span>
+          </button>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <div v-if="snippet.description && !editing">
+            {{ lang.description }}<br>
+            <div class="card bg-transparent" :class="{'border border-dark': snippet.discard}">
+              <div class="card-body px-2 py-1" v-html="formatDescription(snippet.description)" />
+            </div>
+          </div>
+          <div v-else-if="editing">
+            <label for="description">{{ lang.description }}</label>
+            <textarea id="description" v-model="snippet.description" class="form-control" />
+          </div>
             <div v-if="checkOverrides" class="custom-control custom-checkbox text-danger discard-exclude">
               <input
                 :id="'discard_' + id"
@@ -75,13 +99,6 @@
             </div>
           </div>
         </div>
-        <div v-if="canEdit" class="col-auto d-flex align-items-center justify-content-center">
-          <button class="btn btn-outline-dark" @click="startEdit">
-            <FontAwesomeIcon icon="pencil-alt" />
-            <span class="sr-only">{{ lang.edit }}</span>
-          </button>
-        </div>
-      </div>
       <button class="btn btn-primary btn-block mt-2 discard-exclude" @click="showActions">
         {{ lang.showActions }}
       </button>
@@ -103,6 +120,13 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
+
+const htmlEscapeMap = {
+  "<": "&lt;",
+  ">": "&gt;",
+  "&": "&amp;",
+  "\"": "&quot;"
+};
 
 export default {
   name: "SnippetListItem",
@@ -210,6 +234,9 @@ export default {
         bplist: this.snippet.actions
       });
       this.$root.$emit("navigate", "SnippetActions");
+    },
+    formatDescription(desc) {
+      return desc.replace(/[<>"&]/g, (match) => htmlEscapeMap[match]).replace(/\n/g, "<br>");
     }
   }
 };
