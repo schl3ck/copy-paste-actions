@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>{{ lang.title }}</h2>
+
     <div
       v-show="hasConflicts"
       ref="conflicts"
@@ -10,6 +11,7 @@
         <FontAwesomeIcon icon="exclamation-circle" class="text-danger fa-2x mb-n1 mr-2" /> {{ lang.conflicts }}
       </h5>
       <hr class="my-2">
+
       <div v-for="(conflicts, key) in conflictingSnippets" :key="key" class="mb-2">
         <div v-for="(snippets, name) in conflicts" :key="name" class="mb-2">
           <div class="sticky-top alert-danger">
@@ -21,6 +23,7 @@
             </h5>
             <hr class="my-2">
           </div>
+
           <SnippetListItem
             v-for="snippet in snippets"
             :key="name + snippet.shortcut.name"
@@ -32,6 +35,7 @@
         </div>
       </div>
     </div>
+
     <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
       <div class="sticky-top">
         <div class="d-flex flex-row align-items-center">
@@ -40,6 +44,7 @@
         </div>
         <hr class="my-2">
       </div>
+
       <template v-if="shortcut.snippets.length">
         <SnippetListItem
           v-for="snippet in shortcut.snippets"

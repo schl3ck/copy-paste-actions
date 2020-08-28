@@ -28,6 +28,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col">
           <div class="card-text">
@@ -69,6 +70,7 @@
             </div>
           </div>
         </div>
+
         <div v-if="canEdit" class="col-auto d-flex align-items-center justify-content-center">
           <button class="btn btn-outline-dark" @click="startEdit">
             <FontAwesomeIcon icon="pencil-alt" />
@@ -76,6 +78,7 @@
           </button>
         </div>
       </div>
+
       <div class="row mt-1">
         <div class="col">
           <div v-if="snippet.description && !editing">
@@ -99,10 +102,12 @@
           </div>
         </div>
       </div>
+
       <button class="btn btn-primary btn-block mt-2 discard-exclude" @click="showActions">
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
+
       <template v-if="overrides">
         <span class="text-orange">
           <FontAwesomeIcon icon="exclamation-triangle" />
