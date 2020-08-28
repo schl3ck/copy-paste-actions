@@ -77,11 +77,13 @@
   "foundSnippets": {
     "title": "Found Snippets",
     "conflicts": "Conflicts",
-    "noSnippetsFound": "No Snippets found",
+    "noSnippetsFound": "No Snippets or Clipboard Items found",
     "noSnippetName": "No name provided",
     "clipboardItem": "Clipboard:",
     "snippet": "Snippet:",
-    "saveAndContinue": "Save & Continue"
+    "saveAndContinue": "Save & Continue",
+    "resolveConflicts": "Please resolve the conflicts shown at the top before continuing",
+    "finishEditing": "You have started editing a snippet or clipboard item. Please save or cancle your edits before continuing"
   },
   "snippetListItem": {
     "noSnippetName": "No name provided",
@@ -98,7 +100,7 @@
     "name": "Name:",
     "description": "Description",
     "shortcutName": "Shortcut name:",
-    "showActions": "Show actions",
+    "showActions": "Show actions (JSON)",
     "discard": "Discard this",
     "overrides": {
       "normal": {

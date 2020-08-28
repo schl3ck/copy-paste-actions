@@ -59,6 +59,7 @@ export default new Vuex.Store({
       for (const shortcut of data.shortcuts) {
         for (const snippet of shortcut.snippets) {
           snippet.discard = false;
+          snippet.description = "";
         }
       }
       state.processResult = data;

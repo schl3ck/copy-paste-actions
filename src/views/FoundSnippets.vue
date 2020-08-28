@@ -70,6 +70,11 @@ export default {
     SnippetListItem,
     ButtonBar
   },
+  data() {
+    return {
+      editingElemTop: 0
+    };
+  },
   computed: {
     /** @returns {object} */
     lang() {
@@ -112,18 +117,34 @@ export default {
     globals() {
       return this.$store.state.globals;
     },
+    enableContinueButton() {
+      return !this.hasConflicts && !this.$store.state.snippetListItemEditing;
+    },
     buttons() {
       return [
         {
           text: this.lang.saveAndContinue,
           class: {
-            "btn-success": !this.hasConflicts,
-            "btn-secondary": this.hasConflicts
+            "btn-success": this.enableContinueButton,
+            "btn-secondary": !this.enableContinueButton
           },
           icon: ["far", "save"],
-          disabled: this.hasConflicts,
           click: function() {
-            if (this.hasConflicts) return;
+            if (!this.enableContinueButton) {
+              let top = 0;
+              if (this.hasConflicts) {
+                alert(this.lang.resolveConflicts);
+              } else {
+                alert(this.lang.finishEditing);
+                top = this.editingElemTop;
+              }
+              window.scrollTo({
+                left: 0,
+                top: top,
+                behavior: "smooth"
+              });
+              return;
+            }
             // TODO:
             alert("TODO");
           }.bind(this)
@@ -166,6 +187,10 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", false);
+    this.$root.$on("snippetBeginEdit", this.onSnippetEdit);
+  },
+  deactivated() {
+    this.$root.$off("snippetBeginEdit", this.onSnippetEdit);
   },
   methods: {
     noSnippetName(val) {
@@ -173,6 +198,23 @@ export default {
     },
     hasNoName(name) {
       return name === this.globals.noSnippetName;
+    },
+    onSnippetEdit(vm) {
+      const bodyRect = document.body.getBoundingClientRect();
+      const elemRect = vm.$el.getBoundingClientRect();
+      let stickyTop = vm.$el;
+      // search for a possible .sticky-top sibling (the shortcut name)
+      // in case a saved snippet will be overridden and that one is edited, it doesn't have such a sibling
+      while (
+        stickyTop.nodeType !== Node.ELEMENT_NODE || !stickyTop.classList.contains("sticky-top")
+      ) {
+        if (stickyTop.previousSibling === null) {
+          stickyTop = stickyTop.parentElement;
+        } else {
+          stickyTop = stickyTop.previousSibling;
+        }
+      }
+      this.editingElemTop = elemRect.top - bodyRect.top - (stickyTop ? stickyTop.getBoundingClientRect().height : 0);
     }
   }
 };

@@ -4,10 +4,10 @@
       <div class="row">
         <div class="col">
           <div v-if="shortcutInsteadOfSnippetName && !editing" class="d-flex flex-row align-items-center">
-              <img v-if="snippet.shortcut.image" :src="snippet.shortcut.image" class="mr-2 img">
-              <label for="name" class="sr-only">{{ lang.shortcutName }}</label>
+            <img v-if="snippet.shortcut.image" :src="snippet.shortcut.image" class="mr-2 img">
+            <label for="name" class="sr-only">{{ lang.shortcutName }}</label>
             <span id="name" class="font-weight-bold">{{ snippet.shortcut.name }}</span>
-            </div>
+          </div>
           <div v-else>
             <label for="name" class="sr-only">{{ lang.name }}</label>
             <input
@@ -59,10 +59,10 @@
               </div>
             </div>
             <div>
-            {{
-              (snippet.numberOfActions === 1 ? lang.actions.singular : lang.actions.plural)
-                .replace(/\$number/g, snippet.numberOfActions)
-            }}
+              {{
+                (snippet.numberOfActions === 1 ? lang.actions.singular : lang.actions.plural)
+                  .replace(/\$number/g, snippet.numberOfActions)
+              }}
             </div>
             <div v-if="snippet.newShortcut">
               {{ lang.newShortcut.replace(/\$name/g, snippet.newShortcut) }}
@@ -88,17 +88,17 @@
             <label for="description">{{ lang.description }}</label>
             <textarea id="description" v-model="snippet.description" class="form-control" />
           </div>
-            <div v-if="checkOverrides" class="custom-control custom-checkbox text-danger discard-exclude">
-              <input
-                :id="'discard_' + id"
-                v-model="snippet.discard"
-                type="checkbox"
-                class="custom-control-input"
-              >
-              <label :for="'discard_' + id" class="custom-control-label">{{ lang.discard }}</label>
-            </div>
+          <div v-if="checkOverrides" class="custom-control custom-checkbox text-danger discard-exclude">
+            <input
+              :id="'discard_' + id"
+              v-model="snippet.discard"
+              type="checkbox"
+              class="custom-control-input"
+            >
+            <label :for="'discard_' + id" class="custom-control-label">{{ lang.discard }}</label>
           </div>
         </div>
+      </div>
       <button class="btn btn-primary btn-block mt-2 discard-exclude" @click="showActions">
         {{ lang.showActions }}
       </button>
@@ -216,11 +216,13 @@ export default {
     startEdit() {
       this.editing = true;
       this.$store.commit("snippetListItemEditing", true);
+      this.$root.$emit("snippetBeginEdit", this);
     },
     cancelEdit() {
       this.isClipboard = this.snippet.isClipboard;
       this.editing = false;
       this.$store.commit("snippetListItemEditing", false);
+      this.$root.$emit("snippetBinishEdit", this);
     },
     saveEdit() {
       this.snippet.name =
