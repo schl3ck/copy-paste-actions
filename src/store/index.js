@@ -80,7 +80,7 @@ export default new Vuex.Store({
       state.clipboard = data;
     },
     amendClipboard(state, data) {
-      Object.assign(state.snippets, data);
+      Object.assign(state.clipboard, data);
     }
   },
   actions: {
