@@ -61,6 +61,9 @@ export default new Vuex.Store({
           snippet.discard = false;
           snippet.description = "";
         }
+        for (const insert of shortcut.inserts) {
+          insert.exclude = false;
+        }
       }
       state.processResult = data;
     },

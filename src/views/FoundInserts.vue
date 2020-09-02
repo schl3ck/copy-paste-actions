@@ -19,6 +19,7 @@
           v-for="insert in shortcut.inserts"
           :key="shortcut.name + insert.id"
           class="card ml-3"
+          :class="{'bg-lightgray': insert.exclude}"
         >
           <div class="card-body">
             <span
@@ -39,7 +40,15 @@
                   lang.insertAfterAction.replace("$number", insert.position)
                 }}
               </div>
-              <!-- TODO: add checkbox to exclude this from being processed -->
+              <div class="custom-control custom-checkbox text-danger">
+                <input
+                  :id="'excludeInsert' + insert.id"
+                  v-model="insert.exclude"
+                  type="checkbox"
+                  class="custom-control-input"
+                >
+                <label :for="'excludeInsert' + insert.id" class="custom-control-label">{{ lang.exclude }}</label>
+              </div>
               <div>
                 <!-- TODO: add button to change this (test if above or beneath snippet) -->
                 <!-- TODO: warn when no snippet was found with the name and prevent continuation -->
@@ -48,6 +57,7 @@
                 <SnippetListItem
                   :snippet="getSnippet(insert)"
                   class="snippet-list-item"
+                  show-actions-btn-outline
                 />
               </div>
             </div>
@@ -159,5 +169,9 @@ export default {
 
 .snippet-list-item:not(:last-child) {
   margin-bottom: 0.5rem;
+}
+
+.bg-lightgray {
+  background-color: lightgray !important;
 }
 </style>

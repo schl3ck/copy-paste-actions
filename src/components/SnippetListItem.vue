@@ -103,7 +103,11 @@
         </div>
       </div>
 
-      <button class="btn btn-primary btn-block mt-2 discard-exclude" @click="showActions">
+      <button
+        class="btn btn-block mt-2 discard-exclude"
+        :class="{'btn-primary': !showActionsBtnOutline, 'btn-outline-primary': showActionsBtnOutline}"
+        @click="showActions"
+      >
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
@@ -117,6 +121,7 @@
               [snippet.isClipboard ? "clipboard" : "snippet"]
           }}
         </span>
+        <!-- TODO: when this one gets edited, we need to move it in the store between clipboard & snippets -->
         <SnippetListItem :snippet="overrides" />
       </template>
     </div>
@@ -150,6 +155,14 @@ export default {
     checkOverrides: {
       type: Boolean,
       default: false
+    },
+    editable: {
+      type: Boolean,
+      default: true
+    },
+    showActionsBtnOutline: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -172,7 +185,7 @@ export default {
     },
     /** @returns {boolean} */
     canEdit() {
-      return !this.$store.state.snippetListItemEditing;
+      return !this.$store.state.snippetListItemEditing && this.editable;
     },
     /** @returns {boolean} */
     hasNoName() {
