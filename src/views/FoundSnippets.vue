@@ -15,7 +15,7 @@
       <div v-for="(conflicts, key) in conflictingSnippets" :key="key" class="mb-2">
         <div v-for="(snippets, name) in conflicts" :key="name" class="mb-2">
           <div class="sticky-top alert-danger">
-            <h5>
+            <h5 class="mb-0">
               {{ key === "clipboard" ? lang.clipboardItem : lang.snippet }}
               <span :class="{'font-italic': hasNoName(name)}">
                 {{ noSnippetName(name) }}
@@ -40,7 +40,9 @@
       <div class="sticky-top">
         <div class="d-flex flex-row align-items-center">
           <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
-          <h5>{{ shortcut.name }}</h5>
+          <h5 class="mb-0">
+            {{ shortcut.name }}
+          </h5>
         </div>
         <hr class="my-2">
       </div>

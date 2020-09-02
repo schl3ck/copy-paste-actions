@@ -7,7 +7,9 @@
       <div class="sticky-top">
         <div class="d-flex flex-row align-items-center">
           <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
-          <h5>{{ shortcut.name }}</h5>
+          <h5 class="mb-0">
+            {{ shortcut.name }}
+          </h5>
         </div>
         <hr class="my-2">
       </div>
