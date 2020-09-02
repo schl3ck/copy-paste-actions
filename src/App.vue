@@ -45,7 +45,9 @@ export default {
   data() {
     return {
       componentToDisplay: "MainMenu",
-      buttons: []
+      buttons: [],
+      /** @type {Map<Vue, {x: number, y: number}} */
+      scrollPos: new Map()
     };
   },
   computed: {
@@ -101,13 +103,19 @@ export default {
     /** @param {string} componentName */
     navigate(componentName, popstate) {
       let historyStateMethod = "pushState";
+      const comp = this.getCurrentComponent();
       if (!popstate) {
         // get the method for the History API
-        const comp = this.getCurrentComponent();
         historyStateMethod =
           comp && comp.historyReplaceState
             ? "replaceState"
             : historyStateMethod;
+      }
+      if (comp) {
+        this.scrollPos.set(comp, {
+          x: window.scrollX,
+          y: window.scrollY
+        });
       }
 
       // now load the new component
@@ -115,17 +123,19 @@ export default {
       // call that with a slight delay so that Vue has mounted the component
       Vue.nextTick(() => {
         const comp = this.getCurrentComponent();
+        let scrollPos = this.scrollPos.get(comp);
         if (!popstate) {
-          window.scrollTo({
-            left: 0,
-            top: 0,
-            behavior: "auto"
-          });
           window.history[historyStateMethod](
             { componentToDisplay: componentName },
             componentName
           );
+          scrollPos = null;
         }
+        window.scrollTo({
+          left: scrollPos ? scrollPos.x : 0,
+          top: scrollPos ? scrollPos.y : 0,
+          behavior: "auto"
+        });
         this.$root.$emit("navigated." + componentName, comp);
       });
     },
