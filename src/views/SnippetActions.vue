@@ -25,7 +25,7 @@
       </div>
     </div>
     <pre
-      class="overflow-initial margin-for-fixed text-pre"
+      class="margin-for-fixed text-pre width-maxcontent"
       :style="{'font-size': zoom + 'rem'}"
     ><code
       ref="code"
@@ -36,10 +36,8 @@
 </template>
 
 <script>
-import Vue from "vue";
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
-import { cloneDeep } from "lodash";
 import { Buffer } from "buffer";
 import { parse } from "@/utils/bplist";
 hljs.registerLanguage("json", json);
@@ -130,9 +128,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.overflow-initial {
-  overflow: initial;
-}
 .fixed-top {
   background: white;
 }
@@ -148,5 +143,8 @@ export default {
     overflow-wrap: normal;
     word-break: normal;
   }
+}
+.width-maxcontent {
+  width: max-content;
 }
 </style>
