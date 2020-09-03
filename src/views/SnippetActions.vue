@@ -44,6 +44,16 @@ hljs.registerLanguage("json", json);
 
 export default {
   name: "SnippetActions",
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    bplist: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       zoom: 1
@@ -58,29 +68,18 @@ export default {
     lang() {
       return this.$store.state.language.snippetListItem;
     },
-    /** @returns { {title: string, bplist: string} } */
-    snippetActions() {
-      return this.$store.state.snippetActions;
-    },
-    /** @returns {string} */
-    title() {
-      return this.snippetActions.title;
-    },
     /** @returns {object} */
     highlighted() {
       return hljs.highlight(
         "json",
-        JSON.stringify(
-          parse(Buffer.from(this.snippetActions.bplist, "base64"))[0],
-          null,
-          2
-        )
+        JSON.stringify(parse(Buffer.from(this.bplist, "base64"))[0], null, 2)
       );
     },
     /** @returns {string} */
     plist() {
       return this.highlighted.value;
     },
+    /** @returns {object} */
     preferences() {
       return this.$store.state.preferences.Preferences;
     }

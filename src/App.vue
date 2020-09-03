@@ -7,7 +7,7 @@
       <hr>
     </div>
     <keep-alive>
-      <component :is="componentToDisplay" />
+      <component :is="componentToDisplay" v-bind="compProps" />
     </keep-alive>
     <div v-if="showBackButton" ref="backBtn" class="fixed-bottom container">
       <ButtonBar :buttons="buttons" />
@@ -28,6 +28,12 @@ import SnippetActions from "@/views/SnippetActions.vue";
 import FoundInserts from "@/views/FoundInserts.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
+class Popstate {
+  constructor(state) {
+    this.state = state;
+  }
+}
+
 export default {
   name: "App",
   components: {
@@ -46,8 +52,9 @@ export default {
     return {
       componentToDisplay: "MainMenu",
       buttons: [],
-      /** @type {Map<Vue, {x: number, y: number}} */
-      scrollPos: new Map()
+      /** @type {Map<Vue, {scrollPos: {x: number, y: number}, props: object} } */
+      compSettings: new Map(),
+      compProps: {}
     };
   },
   computed: {
@@ -79,11 +86,11 @@ export default {
   },
   created() {
     this.$root.$on("navigate", this.navigate);
-    window.addEventListener("popstate", event => {
+    window.addEventListener("popstate", (event) => {
       const comp =
         (event && event.state && event.state.componentToDisplay) ||
         this.preferences.componentToDisplay;
-      this.navigate(comp, event.state);
+      this.navigate(comp, new Popstate(event.state));
     });
 
     const component = this.preferences.componentToDisplay;
@@ -101,10 +108,10 @@ export default {
   },
   methods: {
     /** @param {string} componentName */
-    navigate(componentName, popstate) {
+    navigate(componentName, options) {
       let historyStateMethod = "pushState";
       const comp = this.getCurrentComponent();
-      if (!popstate) {
+      if (!(options instanceof Popstate)) {
         // get the method for the History API
         historyStateMethod =
           comp && comp.historyReplaceState
@@ -112,19 +119,29 @@ export default {
             : historyStateMethod;
       }
       if (comp) {
-        this.scrollPos.set(comp, {
-          x: window.scrollX,
-          y: window.scrollY
+        this.compSettings.set(this.componentToDisplay, {
+          scrollPos: {
+            x: window.scrollX,
+            y: window.scrollY
+          },
+          props: this.compProps
         });
       }
 
       // now load the new component
+      this.compProps =
+        options instanceof Popstate
+          ? this.compSettings.has(componentName)
+            ? this.compSettings.get(componentName).props
+            : {}
+          : options;
       this.componentToDisplay = componentName;
+
       // call that with a slight delay so that Vue has mounted the component
       Vue.nextTick(() => {
         const comp = this.getCurrentComponent();
-        let scrollPos = this.scrollPos.get(comp);
-        if (!popstate) {
+        let scrollPos = this.compSettings.has(componentName) && this.compSettings.get(componentName).scrollPos;
+        if (!(options instanceof Popstate)) {
           window.history[historyStateMethod](
             { componentToDisplay: componentName },
             componentName
@@ -141,7 +158,7 @@ export default {
     },
     getCurrentComponent() {
       return this.$children.find(
-        c => c.$options.name === this.componentToDisplay
+        (c) => c.$options.name === this.componentToDisplay
       );
     },
     toMainMenu() {

@@ -26,10 +26,6 @@ export default new Vuex.Store({
       noSnippetName: " "
     },
     snippetListItemEditing: false,
-    snippetActions: {
-      title: null,
-      bplist: null
-    },
     userPreferencesChanged: false,
     snippets: {},
     clipboard: {}
@@ -69,9 +65,6 @@ export default new Vuex.Store({
     },
     snippetListItemEditing(state, data) {
       state.snippetListItemEditing = data;
-    },
-    snippetActions(state, data) {
-      state.snippetActions = data;
     },
     snippets(state, data) {
       state.snippets = data;

@@ -249,11 +249,10 @@ export default {
       this.cancelEdit();
     },
     showActions() {
-      this.$store.commit("snippetActions", {
+      this.$root.$emit("navigate", "SnippetActions", {
         title: this.snippet.name,
         bplist: this.snippet.actions
       });
-      this.$root.$emit("navigate", "SnippetActions");
     },
     formatDescription(desc) {
       return desc.replace(/[<>"&]/g, (match) => htmlEscapeMap[match]).replace(/\n/g, "<br>");
