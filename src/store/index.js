@@ -126,9 +126,15 @@ export default new Vuex.Store({
             data: content
           });
         } else if (filename === "snippets.json") {
-          commit("snippets", JSON.parse(stringFromBinaryString(data)));
+          const snippets = JSON.parse(stringFromBinaryString(data));
+          if (snippets && snippets.snippets && snippets.snippets.length) {
+            commit("snippets", snippets.snippets);
+          }
         } else if (filename === "clipboard.json") {
-          commit("clipboard", JSON.parse(stringFromBinaryString(data)));
+          const clipboard = JSON.parse(stringFromBinaryString(data));
+          if (clipboard && clipboard.snippets && clipboard.snippets.length) {
+            commit("clipboard", clipboard.snippets);
+          }
         }
       });
 
