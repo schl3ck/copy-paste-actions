@@ -27,8 +27,8 @@ export default new Vuex.Store({
     },
     snippetListItemEditing: false,
     userPreferencesChanged: false,
-    snippets: {},
-    clipboard: {}
+    snippets: [],
+    clipboard: []
   },
   mutations: {
     shortcuts(state, data) {
@@ -70,13 +70,19 @@ export default new Vuex.Store({
       state.snippets = data;
     },
     amendSnippets(state, data) {
-      Object.assign(state.snippets, data);
+      if (!Array.isArray(data)) {
+        data = [data];
+      }
+      state.snippets.push(...data);
     },
     clipboard(state, data) {
       state.clipboard = data;
     },
     amendClipboard(state, data) {
-      Object.assign(state.clipboard, data);
+      if (!Array.isArray(data)) {
+        data = [data];
+      }
+      state.clipboard.push(...data);
     }
   },
   actions: {

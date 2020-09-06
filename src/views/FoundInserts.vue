@@ -155,7 +155,7 @@ export default {
     },
     getSnippet(insert) {
       const o = insert.isClipboard ? this.clipboard : this.snippets;
-      return o[insert.name];
+      return o.find((snippet) => snippet.name === insert.name);
     }
   }
 };

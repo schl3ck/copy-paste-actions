@@ -197,7 +197,7 @@ export default {
       const o = this.snippet.isClipboard
         ? this.$store.state.clipboard
         : this.$store.state.snippets;
-      return o[this.snippet.name];
+      return o.find((snippet) => snippet.name === this.snippet.name);
     }
   },
   watch: {
@@ -240,7 +240,7 @@ export default {
       this.isClipboard = this.snippet.isClipboard;
       this.editing = false;
       this.$store.commit("snippetListItemEditing", false);
-      this.$root.$emit("snippetBinishEdit", this);
+      this.$root.$emit("snippetFinishEdit", this);
     },
     saveEdit() {
       this.snippet.name =
