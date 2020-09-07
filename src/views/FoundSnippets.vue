@@ -59,7 +59,7 @@
           />
         </template>
         <div v-else class="text-center mt-n1">
-          {{ lang.noSnippetsFound }}
+          {{ lang.noSnippetsFound }}<span class="sr-only">.</span>
         </div>
       </div>
     </div>

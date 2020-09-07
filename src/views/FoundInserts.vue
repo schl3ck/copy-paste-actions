@@ -61,7 +61,9 @@
                     show-actions-btn-outline
                   />
                   <div v-else>
-                    <i>{{ lang.noSnippetFound[insert.isClipboard ? "clipboard" : "snippet"] }}</i>
+                    <i>{{ lang.noSnippetFound[insert.isClipboard ? "clipboard" : "snippet"] }}<span
+                      class="sr-only"
+                    >.</span></i>
                   </div>
                   <button class="btn btn-block btn-primary mt-2" @click="selectSnippet(insert)">
                     {{ lang.selectSnippet }}
@@ -72,7 +74,7 @@
           </div>
         </template>
         <div v-else class="text-center mt-n1">
-          {{ lang.noInsertsFound }}
+          {{ lang.noInsertsFound }}<span class="sr-only">.</span>
         </div>
       </div>
     </div>

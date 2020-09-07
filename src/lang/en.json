@@ -133,8 +133,8 @@
     "exclude": "Do not process this",
     "selectSnippet": "Select snippet",
     "noSnippetFound": {
-      "clipboard": "No clipboard item found.",
-      "snippet": "No snippet found."
+      "clipboard": "No clipboard item found",
+      "snippet": "No snippet found"
     }
   },
   "listSnippets": {
@@ -142,8 +142,8 @@
     "snippets": "Snippets",
     "back": "Back",
     "noSnippets": {
-      "clipboard": "No clipboard items found.",
-      "snippets": "No snippets found."
+      "clipboard": "No clipboard items found",
+      "snippets": "No snippets found"
     }
   }
 }

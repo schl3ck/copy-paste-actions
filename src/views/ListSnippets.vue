@@ -21,7 +21,7 @@
         />
       </template>
       <div v-else class="text-center">
-        {{ lang.noSnippets.clipboard }}
+        {{ lang.noSnippets.clipboard }}<span class="sr-only">.</span>
       </div>
     </div>
     <div :class="{'order-1': !clipboardFirst}">
@@ -45,7 +45,7 @@
         />
       </template>
       <div v-else class="text-center">
-        {{ lang.noSnippets.snippets }}
+        {{ lang.noSnippets.snippets }}<span class="sr-only">.</span>
       </div>
     </div>
 
