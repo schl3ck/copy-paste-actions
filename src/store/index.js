@@ -67,22 +67,34 @@ export default new Vuex.Store({
       state.snippetListItemEditing = data;
     },
     snippets(state, data) {
+      if (!Array.isArray(data)) {
+        data = [data];
+      }
       state.snippets = data;
     },
-    amendSnippets(state, data) {
+    replaceSnippets(state, data) {
       if (!Array.isArray(data)) {
         data = [data];
       }
-      state.snippets.push(...data);
+      for (const item of data) {
+        const i = state.snippets.findIndex((s) => s.name === item.name && s.isClipboard === item.isClipboard);
+        if (i >= 0) {
+          state.snippets.splice(i, 1, item);
+        } else {
+          state.snippets.push(item);
+        }
+      }
     },
-    clipboard(state, data) {
-      state.clipboard = data;
-    },
-    amendClipboard(state, data) {
+    removeSnippet(state, data) {
       if (!Array.isArray(data)) {
         data = [data];
       }
-      state.clipboard.push(...data);
+      for (const item of data) {
+        const i = state.snippets.findIndex((s) => s.name === item.name && s.isClipboard === item.isClipboard);
+        if (i >= 0) {
+          state.snippets.splice(i, 1);
+        }
+      }
     }
   },
   actions: {
@@ -125,15 +137,11 @@ export default new Vuex.Store({
             name: filename.replace(/\.(shortcut|wflow)$/, ""),
             data: content
           });
-        } else if (filename === "snippets.json") {
+        } else if (filename === "snippets.json" || filename === "clipboard.json") {
+          // FIXME: remove clipboard.json. only snippets exist!
           const snippets = JSON.parse(stringFromBinaryString(data));
           if (snippets && snippets.snippets && snippets.snippets.length) {
             commit("snippets", snippets.snippets);
-          }
-        } else if (filename === "clipboard.json") {
-          const clipboard = JSON.parse(stringFromBinaryString(data));
-          if (clipboard && clipboard.snippets && clipboard.snippets.length) {
-            commit("clipboard", clipboard.snippets);
           }
         }
       });

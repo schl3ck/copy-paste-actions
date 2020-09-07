@@ -194,10 +194,11 @@ export default {
     /** @returns {object} */
     overrides() {
       if (!this.checkOverrides) return null;
-      const o = this.snippet.isClipboard
-        ? this.$store.state.clipboard
-        : this.$store.state.snippets;
-      return o.find((snippet) => snippet.name === this.snippet.name);
+      return this.$store.state.snippets.find(
+        (snippet) =>
+          snippet.name === this.snippet.name &&
+          snippet.isClipboard === this.snippet.isClipboard
+      );
     }
   },
   watch: {

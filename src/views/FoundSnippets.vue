@@ -153,23 +153,12 @@ export default {
               return;
             }
 
-            const snippets = [];
-            const clipboard = [];
+            let snippets = [];
             for (const shortcut of this.shortcuts) {
-              for (const snippet of shortcut.snippets) {
-                if (snippet.discard) continue;
-                if (snippet.isClipboard) {
-                  clipboard.push(snippet);
-                } else {
-                  snippets.push(snippet);
+              snippets = snippets.concat(shortcut.snippets.filter((s) => !s.discard));
                 }
-              }
-            }
-            if (clipboard.length > 0) {
-              this.$store.commit("amendClipboard", clipboard);
-            }
             if (snippets.length > 0) {
-              this.$store.commit("amendSnippets", snippets);
+              this.$store.commit("replaceSnippets", snippets);
             }
             this.$root.$emit("navigate", "FoundInserts");
           }.bind(this)

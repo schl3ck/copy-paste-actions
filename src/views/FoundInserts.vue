@@ -101,9 +101,6 @@ export default {
     snippets() {
       return this.$store.state.snippets;
     },
-    clipboard() {
-      return this.$store.state.clipboard;
-    },
     buttons() {
       return [
         {
@@ -154,8 +151,11 @@ export default {
       return name === this.globals.noSnippetName;
     },
     getSnippet(insert) {
-      const o = insert.isClipboard ? this.clipboard : this.snippets;
-      return o.find((snippet) => snippet.name === insert.name);
+      return this.snippets.find(
+        (snippet) =>
+          snippet.name === insert.name &&
+          snippet.isClipboard === insert.isClipboard
+      );
     }
   }
 };
