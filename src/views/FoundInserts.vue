@@ -133,9 +133,9 @@ export default {
           text: this.$store.state.language.toMainMenu,
           class: "btn-outline-primary",
           icon: "chevron-left",
-          click() {
+          click: function() {
             this.$root.$emit("navigate", "MainMenu");
-          }
+          }.bind(this)
         }
       ];
     }
