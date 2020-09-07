@@ -1,29 +1,31 @@
 <template>
   <div>
     <h2>{{ lang.title }}</h2>
-    <div v-for="shortcut in warnings" :key="shortcut.name">
-      <div class="sticky">
-        <div class="d-flex flex-row align-items-center pt-2">
-          <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
-          <h5>{{ shortcut.name }}</h5>
+    <div ref="list">
+      <div v-for="shortcut in warnings" :key="shortcut.name">
+        <div class="sticky">
+          <div class="d-flex flex-row align-items-center pt-2">
+            <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
+            <h5>{{ shortcut.name }}</h5>
+          </div>
+          <hr class="my-2 ml-3">
         </div>
-        <hr class="my-2 ml-3">
-      </div>
-      <div v-for="(warning, index) in shortcut.warnings" :key="index" class="card ml-3">
-        <div class="card-body">
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <p class="card-text pre-line" v-html="printWarning(warning)" />
-          <p class="card-text">
-            {{ atAction(warning.action) }}<br>
-            <pre class="code rounded p-2 mb-0"><code>{{ warning.commentText }}</code></pre>
-          </p>
+        <div v-for="(warning, index) in shortcut.warnings" :key="index" class="card ml-3">
+          <div class="card-body">
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <p class="card-text pre-line" v-html="printWarning(warning)" />
+            <p class="card-text">
+              {{ atAction(warning.action) }}<br>
+              <pre class="code rounded p-2 mb-0"><code>{{ warning.commentText }}</code></pre>
+            </p>
+          </div>
         </div>
       </div>
+      <h4 v-if="!hasItems" class="text-center mt-3">
+        {{ lang.noItemsFound }}
+      </h4>
     </div>
-    <h4 v-if="!hasItems" class="text-center mt-3">
-      {{ lang.noItemsFound }}
-    </h4>
-    <div class="fixed-bottom container">
+    <div ref="toolbar" class="fixed-bottom container">
       <ButtonBar :buttons="buttons" />
     </div>
   </div>
@@ -51,7 +53,7 @@ export default {
           groupBy(this.$store.state.processResult.warnings, "shortcut"),
           (v, k) => {
             const img = (
-              this.$store.state.shortcuts.find(s => s.name === k) || {}
+              this.$store.state.shortcuts.find((s) => s.name === k) || {}
             ).image;
             const o = {
               name: k,
@@ -99,6 +101,8 @@ export default {
   activated() {
     this.$store.commit("showBackButton", false);
     this.$store.commit("showMainTitle", false);
+    const height = this.$refs.toolbar.clientHeight;
+    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   methods: {
     printWarning(warning) {

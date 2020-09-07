@@ -3,79 +3,83 @@
     <!-- TODO: overall "no inserts found" when there are none -->
     <h2>{{ lang.title }}</h2>
 
-    <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
-      <div class="sticky-top">
-        <div class="d-flex flex-row align-items-center">
-          <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
-          <h5 class="mb-0">
-            {{ shortcut.name }}
-          </h5>
+    <div ref="list">
+      <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
+        <div class="sticky-top">
+          <div class="d-flex flex-row align-items-center">
+            <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
+            <h5 class="mb-0">
+              {{ shortcut.name }}
+            </h5>
+          </div>
+          <hr class="my-2">
         </div>
-        <hr class="my-2">
-      </div>
 
-      <template v-if="shortcut.inserts.length">
-        <div
-          v-for="insert in shortcut.inserts"
-          :key="shortcut.name + insert.id"
-          class="card ml-3"
-          :class="{'bg-lightgray': insert.exclude}"
-        >
-          <div class="card-body">
-            <span
-              class="card-title font-weight-bold"
-              :class="{'font-italic': hasNoName(insert.name)}"
-            >{{ noSnippetName(insert.name) }}</span>
-            <div class="card-text">
-              <div>{{ insert.isClipboard ? lang.clipboardItem : lang.snippet }}</div>
-              <div v-if="insert.replacesNActions > 0">
-                {{
-                  lang
-                    .replacesNActions[insert.replacesNActions === 1 ? "singular" : "plural"]
-                    .replace("$number", insert.replacesNActions)
-                }}
-              </div>
-              <div>
-                {{
-                  lang.insertAfterAction.replace("$number", insert.position)
-                }}
-              </div>
-              <div class="custom-control custom-checkbox text-danger">
-                <input
-                  :id="'excludeInsert' + insert.id"
-                  v-model="insert.exclude"
-                  type="checkbox"
-                  class="custom-control-input"
-                >
-                <label :for="'excludeInsert' + insert.id" class="custom-control-label">{{ lang.exclude }}</label>
-              </div>
-              <div>
-                <!-- TODO: warn when no snippet was found with the name and prevent continuation -->
-                <hr class="my-2">
-                {{ lang.inserts[insert.isClipboard ? "clipboard" : "snippet"] }}
-                <SnippetListItem
-                  v-if="getSnippet(insert)"
-                  :snippet="getSnippet(insert)"
-                  class="snippet-list-item"
-                  show-actions-btn-outline
-                />
-                <div v-else>
-                  <i>{{ lang.noSnippetFound[insert.isClipboard ? "clipboard" : "snippet"] }}</i>
+        <template v-if="shortcut.inserts.length">
+          <div
+            v-for="insert in shortcut.inserts"
+            :key="shortcut.name + insert.id"
+            class="card ml-3"
+            :class="{'bg-lightgray': insert.exclude}"
+          >
+            <div class="card-body">
+              <span
+                class="card-title font-weight-bold"
+                :class="{'font-italic': hasNoName(insert.name)}"
+              >{{ noSnippetName(insert.name) }}</span>
+              <div class="card-text">
+                <div>{{ insert.isClipboard ? lang.clipboardItem : lang.snippet }}</div>
+                <div v-if="insert.replacesNActions > 0">
+                  {{
+                    lang
+                      .replacesNActions[insert.replacesNActions === 1 ? "singular" : "plural"]
+                      .replace("$number", insert.replacesNActions)
+                  }}
                 </div>
-                <button class="btn btn-block btn-primary mt-2" @click="selectSnippet(insert)">
-                  {{ lang.selectSnippet }}
-                </button>
+                <div>
+                  {{
+                    lang.insertAfterAction.replace("$number", insert.position)
+                  }}
+                </div>
+                <div class="custom-control custom-checkbox text-danger">
+                  <input
+                    :id="'excludeInsert' + insert.id"
+                    v-model="insert.exclude"
+                    type="checkbox"
+                    class="custom-control-input"
+                  >
+                  <label :for="'excludeInsert' + insert.id" class="custom-control-label">{{ lang.exclude }}</label>
+                </div>
+                <div>
+                  <!-- TODO: warn when no snippet was found with the name and prevent continuation -->
+                  <hr class="my-2">
+                  {{ lang.inserts[insert.isClipboard ? "clipboard" : "snippet"] }}
+                  <SnippetListItem
+                    v-if="getSnippet(insert)"
+                    :snippet="getSnippet(insert)"
+                    class="snippet-list-item"
+                    show-actions-btn-outline
+                  />
+                  <div v-else>
+                    <i>{{ lang.noSnippetFound[insert.isClipboard ? "clipboard" : "snippet"] }}</i>
+                  </div>
+                  <button class="btn btn-block btn-primary mt-2" @click="selectSnippet(insert)">
+                    {{ lang.selectSnippet }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+        </template>
+        <div v-else class="text-center mt-n1">
+          {{ lang.noInsertsFound }}
         </div>
-      </template>
-      <div v-else class="text-center mt-n1">
-        {{ lang.noInsertsFound }}
       </div>
     </div>
 
-    <ButtonBar :buttons="buttons" />
+    <div ref="toolbar" class="fixed-bottom container">
+      <ButtonBar :buttons="buttons" />
+    </div>
   </div>
 </template>
 
@@ -131,6 +135,8 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", false);
+    const height = this.$refs.toolbar.clientHeight;
+    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   methods: {
     noSnippetName(val) {

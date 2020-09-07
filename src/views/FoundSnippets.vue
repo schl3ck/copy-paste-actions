@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO: overall "no snippets found" when there are none -->
     <h2>{{ lang.title }}</h2>
 
     <div
@@ -36,32 +37,36 @@
       </div>
     </div>
 
-    <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
-      <div class="sticky-top">
-        <div class="d-flex flex-row align-items-center">
-          <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
-          <h5 class="mb-0">
-            {{ shortcut.name }}
-          </h5>
+    <div ref="list">
+      <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
+        <div class="sticky-top">
+          <div class="d-flex flex-row align-items-center">
+            <img v-if="shortcut.image" :src="shortcut.image" class="mr-2 img">
+            <h5 class="mb-0">
+              {{ shortcut.name }}
+            </h5>
+          </div>
+          <hr class="my-2">
         </div>
-        <hr class="my-2">
-      </div>
 
-      <template v-if="shortcut.snippets.length">
-        <SnippetListItem
-          v-for="snippet in shortcut.snippets"
-          :key="snippet.name"
-          :snippet="snippet"
-          check-overrides
-          class="snippet-list-item ml-3"
-        />
-      </template>
-      <div v-else class="text-center mt-n1">
-        {{ lang.noSnippetsFound }}
+        <template v-if="shortcut.snippets.length">
+          <SnippetListItem
+            v-for="snippet in shortcut.snippets"
+            :key="snippet.name"
+            :snippet="snippet"
+            check-overrides
+            class="snippet-list-item ml-3"
+          />
+        </template>
+        <div v-else class="text-center mt-n1">
+          {{ lang.noSnippetsFound }}
+        </div>
       </div>
     </div>
 
-    <ButtonBar :buttons="buttons" />
+    <div ref="toolbar" class="fixed-bottom container">
+      <ButtonBar :buttons="buttons" />
+    </div>
   </div>
 </template>
 
@@ -116,7 +121,9 @@ export default {
       return res;
     },
     hasConflicts() {
-      return Object.values(this.conflictingSnippets).some(c => Object.keys(c).length > 0);
+      return Object.values(this.conflictingSnippets).some(
+        (c) => Object.keys(c).length > 0
+      );
     },
     preferences() {
       return this.$store.state.preferences;
@@ -155,8 +162,10 @@ export default {
 
             let snippets = [];
             for (const shortcut of this.shortcuts) {
-              snippets = snippets.concat(shortcut.snippets.filter((s) => !s.discard));
-                }
+              snippets = snippets.concat(
+                shortcut.snippets.filter((s) => !s.discard)
+              );
+            }
             if (snippets.length > 0) {
               this.$store.commit("replaceSnippets", snippets);
             }
@@ -202,6 +211,8 @@ export default {
   activated() {
     this.$store.commit("showMainTitle", false);
     this.$root.$on("snippetBeginEdit", this.onSnippetEdit);
+    const height = this.$refs.toolbar.clientHeight;
+    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   deactivated() {
     this.$root.$off("snippetBeginEdit", this.onSnippetEdit);
@@ -220,7 +231,8 @@ export default {
       // search for a possible .sticky-top sibling (the shortcut name)
       // in case a saved snippet will be overridden and that one is edited, it doesn't have such a sibling
       while (
-        stickyTop.nodeType !== Node.ELEMENT_NODE || !stickyTop.classList.contains("sticky-top")
+        stickyTop.nodeType !== Node.ELEMENT_NODE ||
+        !stickyTop.classList.contains("sticky-top")
       ) {
         if (stickyTop.previousSibling === null) {
           stickyTop = stickyTop.parentElement;
@@ -228,7 +240,10 @@ export default {
           stickyTop = stickyTop.previousSibling;
         }
       }
-      this.editingElemTop = elemRect.top - bodyRect.top - (stickyTop ? stickyTop.getBoundingClientRect().height : 0);
+      this.editingElemTop =
+        elemRect.top -
+        bodyRect.top -
+        (stickyTop ? stickyTop.getBoundingClientRect().height : 0);
     }
   }
 };
