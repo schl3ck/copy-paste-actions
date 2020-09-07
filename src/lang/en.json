@@ -111,7 +111,8 @@
         "clipboard": "This would override the following clipboard item:",
         "snippet": "This would override the following snippet:"
       }
-    }
+    },
+    "selectSnippet": "Select snippet"
   },
   "foundInserts": {
     "title": "Found Inserts",
@@ -129,6 +130,20 @@
       "clipboard": "This will insert the following clipboard item:",
       "snippet": "This will insert the following snippet:"
     },
-    "exclude": "Do not process this"
+    "exclude": "Do not process this",
+    "selectSnippet": "Select snippet",
+    "noSnippetFound": {
+      "clipboard": "No clipboard item found.",
+      "snippet": "No snippet found."
+    }
+  },
+  "listSnippets": {
+    "clipboard": "Clipboard items",
+    "snippets": "Snippets",
+    "back": "Back",
+    "noSnippets": {
+      "clipboard": "No clipboard items found.",
+      "snippets": "No snippets found."
+    }
   }
 }

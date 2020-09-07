@@ -26,6 +26,7 @@ import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
 import FoundSnippets from "@/views/FoundSnippets.vue";
 import SnippetActions from "@/views/SnippetActions.vue";
 import FoundInserts from "@/views/FoundInserts.vue";
+import ListSnippets from "@/views/ListSnippets.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 class Popstate {
@@ -46,6 +47,7 @@ export default {
     FoundSnippets,
     SnippetActions,
     FoundInserts,
+    ListSnippets,
     ButtonBar
   },
   data() {

@@ -1,5 +1,12 @@
 <template>
-  <div class="card bg-transparent" :class="{'bg-lightgray': checkOverrides && snippet.discard && !editing}">
+  <div
+    class="card"
+    :class="{
+      'bg-transparent': !(checkOverrides && snippet.discard && !editing) && !highlight,
+      'bg-lightgray': checkOverrides && snippet.discard && !editing,
+      'alert-primary': highlight
+    }"
+  >
     <div class="card-body">
       <div class="row">
         <div class="col">
@@ -10,6 +17,7 @@
           </div>
           <div v-else>
             <label for="name" class="sr-only">{{ lang.name }}</label>
+            <!-- TODO: accept on enter key -->
             <input
               id="name"
               v-model="name"
@@ -111,6 +119,9 @@
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
+      <button v-if="onSelect" class="btn btn-block mt-2 btn-success" @click="onSelect(snippet)">
+        {{ lang.selectSnippet }}
+      </button>
 
       <template v-if="overrides">
         <span class="text-orange">
@@ -121,7 +132,6 @@
               [snippet.isClipboard ? "clipboard" : "snippet"]
           }}
         </span>
-        <!-- TODO: when this one gets edited, we need to move it in the store between clipboard & snippets -->
         <SnippetListItem :snippet="overrides" />
       </template>
     </div>
@@ -135,7 +145,7 @@ const htmlEscapeMap = {
   "<": "&lt;",
   ">": "&gt;",
   "&": "&amp;",
-  "\"": "&quot;"
+  '"': "&quot;"
 };
 
 export default {
@@ -161,6 +171,15 @@ export default {
       default: true
     },
     showActionsBtnOutline: {
+      type: Boolean,
+      default: false
+    },
+    /** @type {import("vue").PropOptions<(snippet: object) => void>} */
+    onSelect: {
+      type: Function,
+      default: null
+    },
+    highlight: {
       type: Boolean,
       default: false
     }
@@ -212,6 +231,10 @@ export default {
           ? this.lang.noSnippetName
           : this.snippet.name;
       }
+    },
+    snippet(value) {
+      this.name = this.hasNoName ? this.lang.noSnippetName : value.name;
+      this.isClipboard = value.isClipboard;
     }
   },
   created() {
@@ -257,7 +280,9 @@ export default {
       });
     },
     formatDescription(desc) {
-      return desc.replace(/[<>"&]/g, (match) => htmlEscapeMap[match]).replace(/\n/g, "<br>");
+      return desc
+        .replace(/[<>"&]/g, (match) => htmlEscapeMap[match])
+        .replace(/\n/g, "<br>");
     }
   }
 };

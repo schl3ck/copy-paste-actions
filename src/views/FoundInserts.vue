@@ -50,15 +50,21 @@
                 <label :for="'excludeInsert' + insert.id" class="custom-control-label">{{ lang.exclude }}</label>
               </div>
               <div>
-                <!-- TODO: add button to change this (test if above or beneath snippet) -->
                 <!-- TODO: warn when no snippet was found with the name and prevent continuation -->
                 <hr class="my-2">
                 {{ lang.inserts[insert.isClipboard ? "clipboard" : "snippet"] }}
                 <SnippetListItem
+                  v-if="getSnippet(insert)"
                   :snippet="getSnippet(insert)"
                   class="snippet-list-item"
                   show-actions-btn-outline
                 />
+                <div v-else>
+                  <i>{{ lang.noSnippetFound[insert.isClipboard ? "clipboard" : "snippet"] }}</i>
+                </div>
+                <button class="btn btn-block btn-primary mt-2" @click="selectSnippet(insert)">
+                  {{ lang.selectSnippet }}
+                </button>
               </div>
             </div>
           </div>
@@ -78,7 +84,7 @@ import SnippetListItem from "@/components/SnippetListItem.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 export default {
-  name: "FoundSnippets",
+  name: "FoundInserts",
   components: {
     SnippetListItem,
     ButtonBar
@@ -109,24 +115,7 @@ export default {
           icon: ["far", "save"],
           click: function() {
             // TODO:
-            const snippets = {};
-            const clipboard = {};
-            for (const shortcut of this.shortcuts) {
-              for (const snippet of shortcut.snippets) {
-                if (snippet.discard) continue;
-                if (snippet.isClipboard) {
-                  clipboard[snippet.name] = snippet;
-                } else {
-                  snippets[snippet.name] = snippet;
-                }
-              }
-            }
-            if (Object.keys(clipboard).length > 0) {
-              this.$store.commit("amendClipboard", clipboard);
-            }
-            if (Object.keys(snippets).length > 0) {
-              this.$store.commit("amendSnippets", snippets);
-            }
+            this();
           }.bind(this)
         },
         {
@@ -156,6 +145,18 @@ export default {
           snippet.name === insert.name &&
           snippet.isClipboard === insert.isClipboard
       );
+    },
+    selectSnippet(insert) {
+      this.$root.$emit("navigate", "ListSnippets", {
+        editable: false,
+        clipboardFirst: insert.isClipboard,
+        highlight: this.getSnippet(insert),
+        onSelect(snippet) {
+          insert.name = snippet.name;
+          insert.isClipboard = snippet.isClipboard;
+          window.history.back();
+        }
+      });
     }
   }
 };
