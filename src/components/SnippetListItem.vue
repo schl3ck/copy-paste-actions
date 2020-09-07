@@ -197,7 +197,8 @@ export default {
       return this.$store.state.snippets.find(
         (snippet) =>
           snippet.name === this.snippet.name &&
-          snippet.isClipboard === this.snippet.isClipboard
+          snippet.isClipboard === this.snippet.isClipboard &&
+          snippet !== this.snippet
       );
     }
   },
