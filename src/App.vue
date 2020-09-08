@@ -186,7 +186,6 @@ export default {
   right: 0;
   z-index: 1030;
   background: white;
-  margin-top: 0.5rem;
 }
 
 .pre-line {
