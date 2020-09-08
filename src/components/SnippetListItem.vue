@@ -17,7 +17,6 @@
           </div>
           <div v-else>
             <label for="name" class="sr-only">{{ lang.name }}</label>
-            <!-- TODO: accept on enter key -->
             <input
               id="name"
               v-model="name"
@@ -32,6 +31,8 @@
                 'mb-1': editing
               }"
               :placeholder="lang.noSnippetName"
+              @keyup.enter="saveEdit"
+              @keyup.esc="cancelEdit"
             >
           </div>
         </div>
