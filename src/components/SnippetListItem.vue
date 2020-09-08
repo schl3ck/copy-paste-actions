@@ -232,14 +232,12 @@ export default {
           : this.snippet.name;
       }
     },
-    snippet(value) {
-      this.name = this.hasNoName ? this.lang.noSnippetName : value.name;
-      this.isClipboard = value.isClipboard;
+    snippet() {
+      this.setData();
     }
   },
   created() {
-    this.name = this.hasNoName ? this.lang.noSnippetName : this.snippet.name;
-    this.isClipboard = this.snippet.isClipboard;
+    this.setData();
     this.buttons = [
       {
         text: this.lang.doneEdit,
@@ -255,7 +253,14 @@ export default {
       }
     ];
   },
+  activated() {
+    this.setData();
+  },
   methods: {
+    setData() {
+      this.name = this.hasNoName ? this.lang.noSnippetName : this.snippet.name;
+      this.isClipboard = this.snippet.isClipboard;
+    },
     startEdit() {
       this.editing = true;
       this.$store.commit("snippetListItemEditing", true);
