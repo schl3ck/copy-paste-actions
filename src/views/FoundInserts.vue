@@ -51,7 +51,6 @@
                   <label :for="'excludeInsert' + insert.id" class="custom-control-label">{{ lang.exclude }}</label>
                 </div>
                 <div>
-                  <!-- TODO: warn when no snippet was found with the name and prevent continuation -->
                   <hr class="my-2">
                   {{ lang.inserts[insert.isClipboard ? "clipboard" : "snippet"] }}
                   <SnippetListItem
@@ -117,11 +116,15 @@ export default {
       return [
         {
           text: this.lang.saveAndContinue,
-          class: "btn-success",
+          class: this.allInsertsHaveSnippetsOrExcluded ? "btn-success" : "btn-secondary",
           icon: ["far", "save"],
           click: function() {
+            if (!this.allInsertsHaveSnippetsOrExcluded) {
+              alert(this.lang.insertWithoutSnippetOrNotExcluded);
+              // return;
+            }
+
             // TODO:
-            this();
           }.bind(this)
         },
         {
@@ -133,6 +136,12 @@ export default {
           }.bind(this)
         }
       ];
+    },
+    /** @returns {boolean} */
+    allInsertsHaveSnippetsOrExcluded() {
+      return this.shortcuts.every(
+        (s) => s.inserts && s.inserts.every((i) => i.exclude || this.getSnippet(i))
+      );
     }
   },
   activated() {

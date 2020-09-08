@@ -135,7 +135,8 @@
     "noSnippetFound": {
       "clipboard": "No clipboard item found",
       "snippet": "No snippet found"
-    }
+    },
+    "insertWithoutSnippetOrNotExcluded": "At least one insert has no snippet assigned or isn't excluded"
   },
   "listSnippets": {
     "clipboard": "Clipboard items",
