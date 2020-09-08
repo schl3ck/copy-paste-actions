@@ -94,15 +94,16 @@ export default {
               s.image = other.image;
             }
           });
-          console.log(result);
           this.done = true;
           this.$store.commit("processResult", result);
           if (result.warnings.length > 0) {
             this.$root.$emit("navigate", "AnalyserWarnings");
           } else if (result.nItems === 0) {
             this.noItems = true;
-          } else {
+          } else if (result.shortcuts.some(s => s.snippets.length > 0)) {
             this.$root.$emit("navigate", "FoundSnippets");
+          } else {
+            this.$root.$emit("navigate", "FoundInserts");
           }
         });
       } else {
