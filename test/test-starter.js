@@ -14,10 +14,16 @@ if (all) args.splice(0, args.length);
 let files = fs.readdirSync(dir).filter((f) => /\.test\.js$/.test(f));
 if (args && args.length) { files = files.filter((f) => f.trim().startsWith(args[0])); }
 
-// TODO: add option to run all files
-
 let prom;
 if (files.length > 1 && !all) {
+  console.log(`
+Usage:
+npm test [-- [<filename> | -a | --all]]
+
+No arguments  presents this prompt
+--all, -a     run all test files
+<filename>    run only the test files that start with this
+`);
   prom = inquirer
     .prompt([
       {
