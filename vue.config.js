@@ -29,7 +29,8 @@ module.exports = {
       .loader("worker-loader")
       .tap(options => {
         options = options || {};
-        options.inline = true;
+        // TODO: set to no-fallback
+        options.inline = "fallback";
         return options;
       })
       .end()
