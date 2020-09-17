@@ -47,7 +47,7 @@ function merge(dict) {
     const idsToExclude = [];
     const insertIntoShortcut = [];
 
-    shortcut.shortcut = bplist.parse(shortcut.shortcut)[0];
+    shortcut.shortcut = bplist.parse(Buffer.from(shortcut.shortcut))[0];
     shortcut.inserts = castArray(shortcut.inserts);
     shortcut.uuids.groups = castArray(shortcut.uuids.groups);
     shortcut.uuids.vars = castArray(shortcut.uuids.vars);
