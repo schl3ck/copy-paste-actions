@@ -28,7 +28,7 @@ export default new Vuex.Store({
     snippetListItemEditing: false,
     userPreferencesChanged: false,
     snippets: [],
-    clipboard: []
+    snippetsChanged: false
   },
   mutations: {
     shortcuts(state, data) {
@@ -84,6 +84,8 @@ export default new Vuex.Store({
           state.snippets.push(item);
         }
       }
+
+      state.snippetsChanged = true;
     },
     removeSnippet(state, data) {
       if (!Array.isArray(data)) {
@@ -95,6 +97,8 @@ export default new Vuex.Store({
           state.snippets.splice(i, 1);
         }
       }
+
+      state.snippetsChanged = true;
     }
   },
   actions: {

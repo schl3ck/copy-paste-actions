@@ -27,6 +27,7 @@ import FoundSnippets from "@/views/FoundSnippets.vue";
 import SnippetActions from "@/views/SnippetActions.vue";
 import FoundInserts from "@/views/FoundInserts.vue";
 import ListSnippets from "@/views/ListSnippets.vue";
+import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 class Popstate {
@@ -48,6 +49,7 @@ export default {
     SnippetActions,
     FoundInserts,
     ListSnippets,
+    MergeSnippetsIntoShortcut,
     ButtonBar
   },
   data() {

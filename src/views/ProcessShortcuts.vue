@@ -40,7 +40,7 @@ export default {
     lang() {
       return this.$store.state.language.processShortcuts;
     },
-    /** @returns {object} */
+    /** @returns {object[]} */
     shortcuts() {
       let loaded = this.$store.state.shortcuts.filter(s => s.data);
       if (loaded.some(s => s.selected)) {

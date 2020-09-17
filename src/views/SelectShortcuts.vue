@@ -15,6 +15,7 @@
             >
             <div class="input-group-append">
               <!-- TODO: show selected shortcuts without marking the matched letters -->
+              <!-- TODO: show loaded shortcuts -->
               <button type="button" class="btn" @click="showSelected = !showSelected">
                 <FontAwesomeIcon icon="bars" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowSelected }}</span>

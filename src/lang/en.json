@@ -146,5 +146,10 @@
       "clipboard": "No clipboard items found",
       "snippets": "No snippets found"
     }
+  },
+  "mergeSnippetsIntoShortcut": {
+    "processing": "Processing...",
+    "noShortcuts": "No shortcuts to process",
+    "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions."
   }
 }

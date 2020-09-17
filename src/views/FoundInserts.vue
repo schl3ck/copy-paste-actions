@@ -121,10 +121,21 @@ export default {
           click: function() {
             if (!this.allInsertsHaveSnippetsOrExcluded) {
               alert(this.lang.insertWithoutSnippetOrNotExcluded);
-              // return;
+              return;
             }
 
-            // TODO:
+            // assign snippet to insert
+            for (const shortcut of this.shortcuts) {
+              for (const insert of shortcut.inserts) {
+                if (!insert.exclude) {
+                  const snippet = this.getSnippet(insert);
+                  insert.actions = snippet.actions;
+                  insert.uuids = snippet.uuids;
+                }
+              }
+            }
+
+            this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
           }.bind(this)
         },
         {
