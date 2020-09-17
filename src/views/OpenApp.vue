@@ -19,6 +19,7 @@
 
 <script>
 import ProcessBar from "@/components/ProcessBar.vue";
+import { openNow } from "@/utils/openApp";
 
 export default {
   name: "OpenApp",
@@ -103,33 +104,7 @@ export default {
       //   }, 1000)
       // );
 
-      const close = () => {
-        this.timeoutIds.push(
-          setInterval(() => {
-            window.close();
-          }, 250)
-        );
-      };
-      const mainMenu = () => {
-        this.$root.$emit("navigate", "MainMenu");
-      };
-      const timeout = callback => {
-        this.timeoutIds.push(
-          setTimeout(callback, this.preferences.Preferences.closePageTimeout)
-        );
-      };
-
-      const action = this.options.closePage
-        ? close
-        : this.options.toMainMenu
-          ? mainMenu
-          : null;
-      timeout(() => {
-        location.href = `workflow://run-workflow?name=${encodeURIComponent(
-          this.$store.state.preferences["Shortcut Name"]
-        )}&input=text&text=${this.base64}`;
-        action && action();
-      });
+      this.timeoutIds = openNow(this.$root, this.base64, this.options);
     }
   }
 };

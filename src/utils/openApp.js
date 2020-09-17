@@ -1,6 +1,7 @@
 import tarball from "tarballjs";
 import gzip from "gzip-js";
 import { Buffer } from "buffer";
+import store from "@/store/index";
 
 /**
  * Opens the Shortcut to perform some actions
@@ -71,4 +72,48 @@ export function navigateAndBuildZip(root, options) {
     //   }, 50);
     // }, 1000);
   }
+}
+
+const timeoutIds = [];
+
+/**
+ * Open the shortcuts app now
+ * @param {import("vue")} $root The root Vue instance
+ * @param {string} shortcutInput A string that is passed to the shortcut
+ * @param { {closePage?: boolean, toMainMenu?: boolean, doNotRun?: boolean} } options
+ */
+export function openNow($root, shortcutInput, options) {
+  const close = () => {
+    timeoutIds.push(
+      setInterval(() => {
+        window.close();
+      }, 250)
+    );
+  };
+  const mainMenu = () => {
+    $root.$emit("navigate", "MainMenu");
+  };
+  const timeout = callback => {
+    timeoutIds.push(
+      setTimeout(callback, store.state.preferences.Preferences.closePageTimeout)
+    );
+  };
+
+  const action = options.closePage
+    ? close
+    : options.toMainMenu
+      ? mainMenu
+      : null;
+  timeout(() => {
+    if (options.doNotRun) {
+      location.href = "workflow://";
+    } else {
+      location.href = `workflow://run-workflow?name=${encodeURIComponent(
+        store.state.preferences["Shortcut Name"]
+      )}&input=text&text=${shortcutInput}`;
+    }
+    action && action();
+  });
+
+  return timeoutIds;
 }
