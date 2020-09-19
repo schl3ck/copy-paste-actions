@@ -33,12 +33,21 @@ export function navigateAndBuildZip(root, options) {
     OpenApp.done = false;
     OpenApp.percent = null;
 
-    if (OpenApp.$store.state.userPreferencesChanged && !options.actions.includes("Preferences.save")) {
+    if (store.state.userPreferencesChanged && !options.actions.includes("Preferences.save")) {
       options.actions.push("Preferences.save");
       options.data = options.data || [];
       options.data.push({
         name: "preferences.json",
-        content: JSON.stringify(OpenApp.$store.state.preferences.Preferences)
+        content: JSON.stringify(store.state.preferences.Preferences)
+      });
+    }
+
+    if (store.state.snippetsChanged && !options.actions.includes("Snippets.save")) {
+      options.actions.push("Snippets.save");
+      options.data = options.data || [];
+      options.data.push({
+        name: "snippets.json",
+        content: JSON.stringify(store.state.snippets)
       });
     }
 
@@ -116,4 +125,15 @@ export function openNow($root, shortcutInput, options) {
   });
 
   return timeoutIds;
+}
+
+/**
+ * Open `url` and close this page afterwards
+ * @param {string} url
+ */
+export function openURLAndCloseSelf(url) {
+  location.href = url;
+  return setInterval(() => {
+    window.close();
+  }, 250);
 }
