@@ -42,6 +42,7 @@ export default {
   },
   data() {
     return {
+      /** @type {ButtonBar.Button[]} */
       buttons: []
     };
   },
@@ -72,10 +73,6 @@ export default {
       return this.$store.state.processResult.nItems > 0;
     },
     /** @returns {object} */
-    langMain() {
-      return this.$store.state.language;
-    },
-    /** @returns {object} */
     lang() {
       return this.$store.state.language.warnings;
     }
@@ -85,7 +82,7 @@ export default {
       {
         class: "btn-outline-primary",
         icon: "chevron-left",
-        text: this.langMain.toMainMenu,
+        text: this.$store.getters.langToMainMenu,
         click: () => this.$root.$emit("navigate", "MainMenu")
       }
     ];

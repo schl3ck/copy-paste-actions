@@ -190,6 +190,7 @@ export default {
       name: "",
       isClipboard: true,
       editing: false,
+      /** @type {ButtonBar.Button[]} */
       buttons: [],
       id: (Math.random() * Number.MAX_SAFE_INTEGER).toFixed(0)
     };

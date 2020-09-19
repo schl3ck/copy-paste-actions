@@ -170,7 +170,7 @@ export default {
     selectedCount() {
       return this.selectedShortcuts.length;
     },
-    /** @returns {object[]} */
+    /** @returns {ButtonBar.Button[]} */
     buttons() {
       return [
         {

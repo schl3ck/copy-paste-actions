@@ -112,11 +112,14 @@ export default {
     snippets() {
       return this.$store.state.snippets;
     },
+    /** @returns {ButtonBar.Button[]} */
     buttons() {
       return [
         {
           text: this.lang.saveAndContinue,
-          class: this.allInsertsHaveSnippetsOrExcluded ? "btn-success" : "btn-secondary",
+          class: this.allInsertsHaveSnippetsOrExcluded
+            ? "btn-success"
+            : "btn-secondary",
           icon: ["far", "save"],
           click: function() {
             if (!this.allInsertsHaveSnippetsOrExcluded) {
@@ -139,7 +142,7 @@ export default {
           }.bind(this)
         },
         {
-          text: this.$store.state.language.toMainMenu,
+          text: this.$store.getters.langToMainMenu,
           class: "btn-outline-primary",
           icon: "chevron-left",
           click: function() {
@@ -151,7 +154,8 @@ export default {
     /** @returns {boolean} */
     allInsertsHaveSnippetsOrExcluded() {
       return this.shortcuts.every(
-        (s) => s.inserts && s.inserts.every((i) => i.exclude || this.getSnippet(i))
+        (s) =>
+          s.inserts && s.inserts.every((i) => i.exclude || this.getSnippet(i))
       );
     }
   },

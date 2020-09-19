@@ -98,7 +98,7 @@ export default {
     clipboard() {
       return this.$store.state.snippets.filter((s) => s.isClipboard);
     },
-    /** @returns {object[]} */
+    /** @returns {ButtonBar.Button[]} */
     buttons() {
       return [
         {

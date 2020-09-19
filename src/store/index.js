@@ -201,5 +201,10 @@ export default new Vuex.Store({
 
       commit("language", prefs);
     }
+  },
+  getters: {
+    langToMainMenu(state) {
+      return state.language.toMainMenu;
+    }
   }
 });

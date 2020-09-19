@@ -25,7 +25,7 @@ export default {
   name: "ButtonBar",
   props: {
     /** @type {
-       import("vue").PropOptions<{text: string, class: string, icon: string, disabled?: boolean, click?: Function}[]>
+       import("vue").PropOptions<ButtonBar.Button[]>
      * } */
     buttons: {
       type: Array,

@@ -47,3 +47,13 @@ declare namespace Store {
     noSnippetName: string
   }
 }
+
+declare namespace ButtonBar {
+  interface Button {
+    text: string,
+    class: string,
+    icon: string,
+    disabled?: boolean,
+    click?: Function
+  }
+}

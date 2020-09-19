@@ -28,6 +28,7 @@ export default {
     return {
       loaded: false,
       large: null,
+      /** @type {ButtonBar.Button[]} */
       buttons: []
     };
   },

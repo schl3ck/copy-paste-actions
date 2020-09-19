@@ -133,6 +133,7 @@ export default {
     enableContinueButton() {
       return !this.hasConflicts && !this.$store.state.snippetListItemEditing;
     },
+    /** @returns {ButtonBar.Button[]} */
     buttons() {
       return [
         {
