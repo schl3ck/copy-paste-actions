@@ -151,5 +151,11 @@
     "processing": "Processing...",
     "noShortcuts": "No shortcuts to process",
     "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions."
+  },
+  "importShortcuts": {
+    "importing": "Importing Shortcuts",
+    "note": "$n shortcuts will be imported. Please tap on the button \"Import\" to import a shortcut. After importing one shortcut, please return here to import the next one. You can also tap on the shortcut itself to import it.",
+    "import": "Import",
+    "importLast": "Import last"
   }
 }

@@ -14,6 +14,7 @@
     "includeShortcutImages": false,
     "codeZoom": 1
   },
+  "iOS Version": "13.4",
   "Preferences": {
     "autoOpenApp": false,
     "closePageTimeout": 3000,
@@ -24,5 +25,5 @@
     "includeShortcutImages": false,
     "codeZoom": 1
   },
-  "componentToDisplay": "ProcessShortcuts"
+  "componentToDisplay": "ImportShortcuts"
 }

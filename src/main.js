@@ -24,6 +24,7 @@ import {
   faSearchPlus,
   faUndo,
   faExclamationTriangle,
+  faDownload,
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -53,6 +54,7 @@ library.add(
   faSearchPlus,
   faUndo,
   faExclamationTriangle,
+  faDownload,
   faTimes,
   faSave
 );

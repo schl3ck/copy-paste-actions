@@ -28,6 +28,7 @@ import SnippetActions from "@/views/SnippetActions.vue";
 import FoundInserts from "@/views/FoundInserts.vue";
 import ListSnippets from "@/views/ListSnippets.vue";
 import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
+import ImportShortcuts from "@/views/ImportShortcuts.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 class Popstate {
@@ -50,11 +51,13 @@ export default {
     FoundInserts,
     ListSnippets,
     MergeSnippetsIntoShortcut,
+    ImportShortcuts,
     ButtonBar
   },
   data() {
     return {
       componentToDisplay: "MainMenu",
+      /** @type {ButtonBar.Button[]} */
       buttons: [],
       /** @type {Map<Vue, {scrollPos: {x: number, y: number}, props: object} } */
       compSettings: new Map(),

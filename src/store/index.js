@@ -28,7 +28,8 @@ export default new Vuex.Store({
     snippetListItemEditing: false,
     userPreferencesChanged: false,
     snippets: [],
-    snippetsChanged: false
+    snippetsChanged: false,
+    importURLs: null
   },
   mutations: {
     shortcuts(state, data) {
@@ -99,6 +100,9 @@ export default new Vuex.Store({
       }
 
       state.snippetsChanged = true;
+    },
+    importURLs(state, data) {
+      state.importURLs = data;
     }
   },
   actions: {
@@ -141,12 +145,14 @@ export default new Vuex.Store({
             name: filename.replace(/\.(shortcut|wflow)$/, ""),
             data: content
           });
-        } else if (filename === "snippets.json" || filename === "clipboard.json") {
-          // FIXME: remove clipboard.json. only snippets exist!
+        } else if (filename === "snippets.json") {
           const snippets = JSON.parse(stringFromBinaryString(data));
           if (snippets && snippets.snippets && snippets.snippets.length) {
             commit("snippets", snippets.snippets);
           }
+        } else if (filename === "import urls.json") {
+          const content = JSON.parse(stringFromBinaryString(data));
+          commit("importURLs", content);
         }
       });
 
