@@ -8,8 +8,9 @@
       >
         <FontAwesomeIcon icon="check" class="text-success fa-3x text-center" />
         <button
+          v-if="listeners.doneButtonClick"
           class="btn btn-success btn-lg"
-          @click="listeners.doneButtonClick || (() => {})"
+          @click="listeners.doneButtonClick"
         >
           {{ props.doneButtonLabel }}
         </button>

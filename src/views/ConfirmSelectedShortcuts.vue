@@ -111,7 +111,6 @@ export default {
           "Shortcuts.getNames",
           "Shortcuts.getFiles",
           "Snippets.get",
-          "Clipboard.get",
           "Build.processShortcuts"
         ],
         data: [
