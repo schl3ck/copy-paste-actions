@@ -102,8 +102,8 @@ export default {
               closePage: true,
               data: result.shortcuts.map((s) => {
                 return {
-                  name: s.name,
-                  content: s.shortcut
+                  name: s.name + ".shortcut",
+                  content: Buffer.from(s.shortcut, "base64")
                 };
               })
             });
