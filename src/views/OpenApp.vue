@@ -7,6 +7,7 @@
       :done-button-label="lang.openApp"
       :status-label="lang.buildingUrl"
       @doneButtonClick="openNow"
+      :messages="options.messages"
     />
     <div v-if="closingIn" class="fixed-top text-center mt-2" role="alert">
       {{ closingIn }}
@@ -34,7 +35,8 @@ export default {
       timeoutIds: [],
       options: {
         closePage: false,
-        toMainMenu: false
+        toMainMenu: false,
+        messages: []
       },
       base64: "",
       restoringState: false
@@ -82,11 +84,11 @@ export default {
     this.$store.commit("showBackButton", true);
   },
   deactivated() {
-    this.timeoutIds.forEach(id => clearTimeout(id));
+    this.timeoutIds.forEach((id) => clearTimeout(id));
   },
   methods: {
     cancelTimeout(listenAgain = true) {
-      this.timeoutIds.forEach(id => clearTimeout(id));
+      this.timeoutIds.forEach((id) => clearTimeout(id));
       this.$emit("open-cancel", listenAgain);
       this.secondsBeforeTimeout = null;
     },

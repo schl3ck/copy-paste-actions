@@ -10,6 +10,7 @@ import store from "@/store/index";
  * @param {string[]} options.actions Array of actions the Shortcut should perform
  * @param {boolean} [options.closePage] If `true`, closes the current page after the user switched to Shortcuts
  * @param {boolean} [options.toMainMenu] If `true`, switches to main menu after the user has been redirected to the app
+ * @param {string[]} [options.messages] Messages that should be displayed
  * @param {object[]} [options.data] Array of files that are passed as data to the Shortcut
  * @param {string} options.data[].name Filename
  * @param {string | ArrayBuffer | Uint8Array | Buffer | Blob} options.data[].content Content of the file
@@ -47,7 +48,7 @@ export function navigateAndBuildZip(root, options) {
       options.data = options.data || [];
       options.data.push({
         name: "snippets.json",
-        content: JSON.stringify(store.state.snippets)
+        content: JSON.stringify(store.getters.snippetsForSaving)
       });
     }
 

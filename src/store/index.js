@@ -211,6 +211,20 @@ export default new Vuex.Store({
   getters: {
     langToMainMenu(state) {
       return state.language.toMainMenu;
+    },
+    hasUnsavedChanges(state) {
+      return state.snippetsChanged || state.userPreferencesChanged;
+    },
+    snippetsForSaving(state) {
+      return state.snippets.map((s) => {
+        return {
+          actions: s.actions,
+          isClipboard: s.isClipboard,
+          name: s.name,
+          numberOfActions: s.numberOfActions,
+          uuids: s.uuids
+        };
+      });
     }
   }
 });

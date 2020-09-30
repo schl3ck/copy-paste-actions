@@ -1,29 +1,29 @@
 <template>
   <div>
-    <!-- TODO: when no items: notify -->
-    <div
-      v-if="noItems"
-      class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container"
-    >
-      <FontAwesomeIcon icon="check" class="center-icon text-success" />
-      <span class="text-center">{{ lang.noItemsFound }}</span>
-      <!-- TODO: add button to open app anyway. check for unsaved changes in vuex and open app -->
-      <button class="btn btn-primary"></button>
-    </div>
     <ProcessBar
-      v-else
+      v-if="!noItems && !unsavedChanges"
       :restoring-state="restoringState"
       :percent="percent"
       :done="done"
       :status-label="status"
     />
+    <div
+      v-if="noItems"
+      class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container"
+    >
+      <FontAwesomeIcon v-if="!unsavedChanges" icon="check" class="center-icon text-success" />
+      <span class="text-center">{{ lang.noItemsFound }}</span>
+      <button class="btn btn-primary" @click="openApp">
+        {{ lang.openApp }}
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import ProcessBar from "@/components/ProcessBar.vue";
 import worker from "@/utils/worker";
-import { navigateAndBuildZip } from "@/utils/openApp";
+import { navigateAndBuildZip, openNow } from "@/utils/openApp";
 
 export default {
   name: "MergeSnippetsIntoShortcut",
@@ -70,6 +70,9 @@ export default {
     },
     historyReplaceState() {
       return true;
+    },
+    unsavedChanges() {
+      return this.$store.getters.hasUnsavedChanges;
     }
   },
   activated() {
@@ -113,10 +116,26 @@ export default {
         this.noItems = true;
         // TODO: do we need this?
         this.status = this.lang.noShortcuts;
+
+        if (this.unsavedChanges) {
+          this.done = true;
+          navigateAndBuildZip(this.$root, {
+            // rely on automatic injection of unsaved settings/snippets
+            actions: ["Build.toSafari"],
+            closePage: false,
+            messages: [this.lang.noItemsFound, this.lang.unsavedChanges]
+          });
+        }
       }
     },
     toMainMenu() {
       this.$root.$emit("navigate", "MainMenu");
+    },
+    openApp() {
+      openNow(this.$root, "", {
+        closePage: true,
+        doNotRun: true
+      });
     }
   }
 };

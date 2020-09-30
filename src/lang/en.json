@@ -150,7 +150,9 @@
   "mergeSnippetsIntoShortcut": {
     "processing": "Processing...",
     "noShortcuts": "No shortcuts to process",
-    "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions."
+    "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions.",
+    "unsavedChanges": "However there are unsaved changes. To save them, the shortcuts app has to be opened.",
+    "openApp": "Open Shortcuts"
   },
   "importShortcuts": {
     "importing": "Importing Shortcuts",
