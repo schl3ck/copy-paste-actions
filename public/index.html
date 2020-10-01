@@ -3,8 +3,9 @@
 
   <head>
     <meta charset="utf-8">
-    <% if (htmlWebpackPlugin.options.BUILD_MODE != "targz") { %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script><%= htmlWebpackPlugin.options.REMOTE_CONSOLE_SCRIPT %></script>
+    <% if (htmlWebpackPlugin.options.BUILD_MODE != "targz") { %>
     <link rel="icon" href="<%= require('./favicon.png') %>">
     <% } %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1">
@@ -18,14 +19,13 @@
     <% if (htmlWebpackPlugin.options.BUILD_MODE == "targz") { %>
     <div id="errorHelper" style="display: none;">
       <h2>There was an error :(</h2>
-      <!-- the following text is intentionally written in a simple language -->
       <p>
         Please try again.<br>
-        If this error does not go away, please contact
+        If this error persists, please contact
         <a href="https://www.reddit.com/message/compose/?to=asdfh&subject=GZIP%20decompress%20error">u/schl3ck on Reddit</a>,
-        <a href="https://talk.automators.fm/new-message?username=schl3ck&title=GZIP%decompress%20error">@schl3ck on Automators Talk</a>
+        <a href="https://talk.automators.fm/new-message?username=schl3ck&title=GZIP%20decompress%20error">@schl3ck on Automators Talk</a>
         or
-        <a href="https://github.com/schl3ck/copy-paste-actions/issues/new?title=GZIP%decompress%20error">open an issue on GitHub</a>.<br>
+        <a href="https://github.com/schl3ck/copy-paste-actions/issues/new?title=GZIP%20decompress%20error">open an issue on GitHub</a>.<br>
         Please include the following error (or write that there is no error, if there is nothing below).
         Also please describe what you have done to get here.<br>
         Thank you!
@@ -53,6 +53,6 @@
     <script><%= compilation.assets[asset.substring(1)].source().replace(/<\/script/g, "</scri\pt") %></script>
     <%  }
        } %>
-  </body>
+    </body>
 
 </html>

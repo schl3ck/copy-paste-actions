@@ -116,11 +116,16 @@ export function openNow($root, shortcutInput, options) {
       : null;
   timeout(() => {
     if (options.doNotRun) {
+      // eslint-disable-next-line no-console
+      console.log("switching to app");
       location.href = "workflow://";
     } else {
-      location.href = `workflow://run-workflow?name=${encodeURIComponent(
+      const url = `workflow://run-workflow?name=${encodeURIComponent(
         store.state.preferences["Shortcut Name"]
       )}&input=text&text=${shortcutInput}`;
+      // eslint-disable-next-line no-console
+      console.log("switching to app with url", url);
+      location.href = url;
     }
     action && action();
   });

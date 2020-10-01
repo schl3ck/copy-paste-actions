@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 module.exports = {
   lintOnSave: "default",
   productionSourceMap: false,
@@ -58,6 +60,14 @@ module.exports = {
         });
     }
 
+    config.plugin("html")
+      .tap(args => {
+        const options = args[0] = args[0] || {};
+        options.REMOTE_CONSOLE_SCRIPT = fs
+          .readFileSync("./src/remoteConsole.js", "utf-8")
+          .replace(/\bREMOTE_CONSOLE_URL\b/g, fs.readFileSync("./remoteConsoleUrl.local", "utf-8").trim());
+        return args;
+      });
     if (process.env.NODE_ENV === "production") {
       config.plugin("html")
         .tap(args => {
