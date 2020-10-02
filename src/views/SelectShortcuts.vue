@@ -72,8 +72,12 @@
           </button>
         </template>
       </div>
-      <!-- TODO: show "no shortcuts found" when they are loaded instead of "loading..." -->
-      <div v-show="!(filteredShortcuts && filteredShortcuts.length)">
+      <div v-show="filteredShortcuts && filteredShortcuts.length === 0">
+        <div class="list-group-item text-center">
+          <i>{{ lang.searchNoMatch }}<span class="sr-only">.</span></i>
+        </div>
+      </div>
+      <div v-show="!filteredShortcuts">
         <div class="list-group-item text-center">
           <i>{{ lang.loading }}</i>
         </div>

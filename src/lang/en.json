@@ -29,6 +29,7 @@
     "nothingSelected": "No Shortcuts selected",
     "nothingLoaded": "No Shortcuts loaded",
     "nothingAvailable": "No Shortcuts found (not possible, because this shortcut exists)",
+    "searchNoMatch": "Nothing found",
     "loading": "Loading...",
     "shortcutLoaded": "Loaded"
   },
