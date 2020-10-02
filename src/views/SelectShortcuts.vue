@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="sticky">
-      <h2>{{ lang.title }}</h2>
+      <h2 class="pt-1">
+        {{ lang.title }}
+      </h2>
       <div class="list-group list-group-custom-flush">
         <div class="list-group-item no-rounded-bottom border-bottom p-0">
           <div class="input-group flex-row">
@@ -14,14 +16,19 @@
               :placeholder="lang.searchCaption"
             >
             <div class="input-group-append">
-              <!-- TODO: show selected shortcuts without marking the matched letters -->
-              <!-- TODO: show loaded shortcuts -->
-              <button type="button" class="btn" @click="showSelected = !showSelected">
+              <button type="button" class="btn px-2" @click="toggleShowMode('selected')">
                 <FontAwesomeIcon icon="bars" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowSelected }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
                 <span class="badge badge-pill badge-primary">{{ selectedCount }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.after }}</span>
+              </button>
+              <button type="button" class="btn px-2" @click="toggleShowMode('loaded')">
+                <FontAwesomeIcon icon="file" class="mr-1" />
+                <span class="sr-only">{{ lang.srShowLoaded }}</span>
+                <span class="sr-only">{{ langNumberOfShortcutsLoaded.before }}</span>
+                <span class="badge badge-pill badge-primary">{{ loadedCount }}</span>
+                <span class="sr-only">{{ langNumberOfShortcutsLoaded.after }}</span>
               </button>
             </div>
           </div>
@@ -29,15 +36,15 @@
       </div>
     </div>
     <div ref="list" class="list-group list-group-custom-flush no-rounded-top">
-      <div v-show="showSelected && filteredShortcuts && filteredShortcuts.length">
-        <div v-show="selectedShortcutsDisplay.length === 0" class="list-group-item text-center">
-          <i>{{ lang.nothingSelected }}</i>
+      <div v-show="filteredShortcuts && filteredShortcuts.length">
+        <div v-show="displayShortcuts.shortcuts.length === 0" class="list-group-item text-center">
+          <i>{{ displayShortcuts.noItemsLang }}<span class="sr-only">.</span></i>
         </div>
-        <template v-show="selectedShortcutsDisplay.length > 0">
+        <template v-show="displayShortcuts.shortcuts.length > 0">
           <button
-            v-for="shortcut in selectedShortcutsDisplay"
+            v-for="shortcut in displayShortcuts.shortcuts"
             :key="shortcut.name"
-            class="list-group-item list-group-item-action d-flex align-items-center text-left"
+            class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer text-left"
             @click="toggleSelection(shortcut)"
           >
             <FontAwesomeIcon
@@ -65,38 +72,8 @@
           </button>
         </template>
       </div>
-      <div v-show="!showSelected && filteredShortcuts && filteredShortcuts.length">
-        <button
-          v-for="shortcut in filteredShortcuts"
-          :key="shortcut.name"
-          class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer text-left"
-          @click="toggleSelection(shortcut)"
-        >
-          <FontAwesomeIcon
-            icon="check"
-            class="text-primary mr-2 fa-1o5x"
-            :class="{'invisible': !shortcut.selected}"
-          />
-          <img
-            v-show="shortcut.image"
-            :src="shortcut.image"
-            class="mr-2 icon"
-            alt="icon"
-          >
-          <span>{{ shortcut.name }}</span>
-          <span class="sr-only">.</span>
-          <span class="ml-auto small text-secondary text-right"><span
-            class="text-nowrap"
-          >{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
-            class="sr-only"
-          >.</span><br><span
-            class="text-nowrap"
-          >
-            <FontAwesomeIcon icon="file" class="mr-1" />{{ lang.shortcutLoaded }}
-          </span></template></span>
-        </button>
-      </div>
-      <div v-show="!showSelected && !(filteredShortcuts && filteredShortcuts.length)">
+      <!-- TODO: show "no shortcuts found" when they are loaded instead of "loading..." -->
+      <div v-show="!(filteredShortcuts && filteredShortcuts.length)">
         <div class="list-group-item text-center">
           <i>{{ lang.loading }}</i>
         </div>
@@ -113,6 +90,18 @@
 import FlexSearch from "flexsearch";
 import { debounce } from "lodash";
 import ButtonBar from "@/components/ButtonBar.vue";
+
+function splitLanguageString(str) {
+  const parts = (" " + str + " ").split("$number", 2); // ensure that there are 2 parts every time
+  return {
+    before: parts && parts.length ? parts[0].trim() : "",
+    after: parts && parts.length ? parts[1].trim() : str.trim()
+  };
+}
+
+/**
+ * @typedef {"" | "selected" | "loaded"} ShowMode
+ */
 
 export default {
   name: "SelectShortcuts",
@@ -135,9 +124,9 @@ export default {
     return {
       searchText: "",
       filteredShortcuts: [],
-      selectedShortcutsDisplay: [],
       fuzzy: null,
-      showSelected: false
+      /** @type {ShowMode} */
+      show: ""
     };
   },
   computed: {
@@ -151,24 +140,51 @@ export default {
     },
     /** @returns { {before: string, after: string} } */
     langNumberOfShortcutsSelected() {
-      const str = this.lang.srNumberOfShortcutsSelected;
-      const parts = (" " + str + " ").split("$number", 2); // ensure that there are 2 parts every time
-      return {
-        before: parts && parts.length ? parts[0].trim() : "",
-        after: parts && parts.length ? parts[1].trim() : str.trim()
-      };
+      return splitLanguageString(this.lang.srNumberOfShortcutsSelected);
+    },
+    /** @returns { {before: string, after: string} } */
+    langNumberOfShortcutsLoaded() {
+      return splitLanguageString(this.lang.srNumberOfShortcutsLoaded);
     },
     /** @returns {boolean} */
     hasSelection() {
-      return this.shortcuts.some(s => s.selected);
+      return this.shortcuts.some((s) => s.selected);
     },
     /** @returns {object[]} */
     selectedShortcuts() {
-      return this.shortcuts.filter(s => s.selected);
+      return this.shortcuts.filter((s) => s.selected);
     },
     /** @returns {number} */
     selectedCount() {
       return this.selectedShortcuts.length;
+    },
+    /** @returns {object[]} */
+    loadedShortcuts() {
+      return this.shortcuts.filter((s) => s.data);
+    },
+    /** @returns {number} */
+    loadedCount() {
+      return this.loadedShortcuts.length;
+    },
+    /** @returns { {shortcuts: object[], noItemsLang: string} } */
+    displayShortcuts() {
+      switch (this.show) {
+        case "selected":
+          return {
+            shortcuts: this.selectedShortcuts,
+            noItemsLang: this.lang.nothingSelected
+          };
+        case "loaded":
+          return {
+            shortcuts: this.loadedShortcuts,
+            noItemsLang: this.lang.nothingLoaded
+          };
+        default:
+          return {
+            shortcuts: this.filteredShortcuts,
+            noItemsLang: this.lang.nothingAvailable
+          };
+      }
     },
     /** @returns {ButtonBar.Button[]} */
     buttons() {
@@ -186,11 +202,6 @@ export default {
   watch: {
     searchText(newV) {
       this.debouncedSearch(newV);
-    },
-    showSelected(newV) {
-      if (newV) {
-        this.selectedShortcutsDisplay = this.selectedShortcuts;
-      }
     }
   },
   created() {
@@ -223,7 +234,7 @@ export default {
     search(value) {
       if (value) {
         const res = this.fuzzy.search(value, { suggest: true });
-        this.filteredShortcuts = res.map(id => {
+        this.filteredShortcuts = res.map((id) => {
           return this.shortcuts[id];
         });
       } else {
@@ -234,9 +245,17 @@ export default {
       shortcut.selected = !shortcut.selected;
     },
     toProcessShortcuts() {
-      if (this.shortcuts.every(s => !s.selected)) return;
+      if (this.shortcuts.every((s) => !s.selected)) return;
 
       this.$root.$emit("navigate", "ConfirmSelectedShortcuts");
+    },
+    /** @param {ShowMode} mode */
+    toggleShowMode(mode) {
+      if (this.show === mode) {
+        this.show = "";
+      } else {
+        this.show = mode;
+      }
     }
   }
 };

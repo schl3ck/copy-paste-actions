@@ -23,8 +23,12 @@
     "searchCaption": "Enter search term",
     "continueProcessing": "Process Shortcuts",
     "srNumberOfShortcutsSelected": "$number Shortcuts selected.",
+    "srNumberOfShortcutsLoaded": "$number Shortcuts loaded.",
     "srShowSelected": "Toggle showing all selected Shortcuts.",
+    "srShowLoaded": "Toggle showing all loaded Shortcuts.",
     "nothingSelected": "No Shortcuts selected",
+    "nothingLoaded": "No Shortcuts loaded",
+    "nothingAvailable": "No Shortcuts found (not possible, because this shortcut exists)",
     "loading": "Loading...",
     "shortcutLoaded": "Loaded"
   },
