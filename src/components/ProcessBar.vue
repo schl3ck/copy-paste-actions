@@ -14,9 +14,11 @@
         >
           {{ props.doneButtonLabel }}
         </button>
-        <p v-for="message in props.messages" :key="message" class="text-center mt-2 mb-0">
-          {{ message }}
-        </p>
+        <div class="container">
+          <p v-for="message in props.messages" :key="message" class="text-center mt-2 mb-0">
+            {{ message }}
+          </p>
+        </div>
       </div>
       <div v-else key="processingBlock" class="w-100 d-flex flex-column align-items-center">
         <div class="w-75 margin text-center status-icon">
