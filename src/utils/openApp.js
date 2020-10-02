@@ -38,7 +38,7 @@ export function navigateAndBuildZip(root, options) {
       options.actions.push("Preferences.save");
       options.data = options.data || [];
       options.data.push({
-        name: "preferences.json",
+        name: "preferences.txt",
         content: JSON.stringify(store.state.preferences.Preferences)
       });
     }
@@ -47,7 +47,7 @@ export function navigateAndBuildZip(root, options) {
       options.actions.push("Snippets.save");
       options.data = options.data || [];
       options.data.push({
-        name: "snippets.json",
+        name: "snippets.txt",
         content: JSON.stringify(store.getters.snippetsForSaving)
       });
     }
