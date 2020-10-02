@@ -1027,7 +1027,6 @@ function analyse(dict) {
 
     // convert actions to bplist
     snippets.forEach((snippet) => {
-      snippet.actions = bplist.create({ WFWorkflowActions: snippet.actions }).toString("base64");
       delete snippet.finished;
       delete snippet.functionPositions;
       delete snippet.leftover;

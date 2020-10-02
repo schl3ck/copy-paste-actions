@@ -30,7 +30,7 @@
     ><code
       ref="code"
       class="lang-json"
-      v-html="plist"
+      v-html="actionsHighlighted"
     /></pre>
   </div>
 </template>
@@ -38,8 +38,6 @@
 <script>
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
-import { Buffer } from "buffer";
-import { parse } from "@/utils/bplist";
 hljs.registerLanguage("json", json);
 
 export default {
@@ -49,8 +47,9 @@ export default {
       type: String,
       required: true
     },
-    bplist: {
-      type: String,
+    /** @type {import("vue").PropOptions<object[]>} */
+    actions: {
+      type: Array,
       required: true
     }
   },
@@ -72,11 +71,11 @@ export default {
     highlighted() {
       return hljs.highlight(
         "json",
-        JSON.stringify(parse(Buffer.from(this.bplist, "base64"))[0], null, 2)
+        JSON.stringify(this.actions, null, 2)
       );
     },
     /** @returns {string} */
-    plist() {
+    actionsHighlighted() {
       return this.highlighted.value;
     },
     /** @returns {object} */

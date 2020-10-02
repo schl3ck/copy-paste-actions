@@ -57,7 +57,21 @@ prom
       console.error("\nERROR: no files given to test!");
       process.exit(1);
     }
+    let testCount = 0;
+    mocha.rootHooks({
+      beforeAll() {
+        testCount = this.test.parent.total();
+      }
+    });
+    const start = new Date();
     mocha.run(function(failiures) {
+      const duration = new Date() - start;
+
+      console.log(`Took ${duration} ms`);
+      console.log("Number of tests: " + testCount);
+      const timePerTest = duration / testCount;
+      console.log(`Time per test: ${timePerTest} ms`);
+
       process.exitCode = failiures ? 1 : 0;
     });
   });

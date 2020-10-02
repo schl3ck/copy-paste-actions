@@ -99,7 +99,7 @@ describe("Merger", function() {
             {
               id: 0,
               position: 3,
-              actions: insert.build(true),
+              actions: insert.actions,
               uuids: extractUUIDs(insert.getActions())
             }
           ],
@@ -132,7 +132,7 @@ describe("Merger", function() {
             {
               id: 0,
               position: 2,
-              actions: insert.build(true),
+              actions: insert.actions,
               uuids: extractUUIDs(insert.getActions())
             }
           ],
@@ -174,7 +174,7 @@ describe("Merger", function() {
             {
               id: 0,
               position: 0,
-              actions: insert.build(true),
+              actions: insert.actions,
               uuids: extractUUIDs(insert.getActions())
             }
           ],
@@ -215,7 +215,7 @@ describe("Merger", function() {
             {
               id: 0,
               position: 2,
-              actions: insert.build(true),
+              actions: insert.actions,
               uuids: extractUUIDs(insert.getActions())
             }
           ],
@@ -262,7 +262,7 @@ describe("Merger", function() {
             {
               id: 0,
               position: 3,
-              actions: insert.build(true),
+              actions: insert.actions,
               uuids: extractUUIDs(insert.getActions())
             }
           ],
@@ -337,7 +337,7 @@ describe("Merger", function() {
             {
               id: 0,
               position: 0,
-              actions: insert.build(true),
+              actions: insert.actions,
               uuids: extractUUIDs(insert.getActions())
             }
           ],

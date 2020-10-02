@@ -17,7 +17,7 @@ declare namespace Store {
       groups: string[],
       vars: string[]
     }
-    actions: string
+    actions: object[]
   }
 
   interface Insert {

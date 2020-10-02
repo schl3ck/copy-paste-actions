@@ -181,14 +181,9 @@ function expectReturnObject(obj, props) {
       expect(o.uuids.vars, `obj.shortcuts[${i}].snippets[${j}].uuids.vars`).to.have.members(snippet.uuids.vars);
 
       expect(o, `obj.shortcuts[${i}].snippets[${j}]`).to.have.property("actions");
-      expect(o.actions, `obj.shortcuts[${i}].snippets[${j}].actions`).to.be.a("string");
-      o = bplist.parse(Buffer.from(o.actions, "base64"))[0];
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions to be a bplist`).to.be.ok;
-
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions`).to.have.property("WFWorkflowActions");
-      o = o.WFWorkflowActions;
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions.WFWorkflowActions`).to.be.instanceOf(Array);
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions.WFWorkflowActions`).to.deep.equal(snippet.actions);
+      o = o.actions;
+      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions`).to.be.instanceOf(Array);
+      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions`).to.deep.equal(snippet.actions);
     });
   });
 }

@@ -283,7 +283,7 @@ export default {
     showActions() {
       this.$root.$emit("navigate", "SnippetActions", {
         title: this.snippet.name,
-        bplist: this.snippet.actions
+        actions: this.snippet.actions
       });
     },
     formatDescription(desc) {

@@ -50,34 +50,36 @@ try {
   }
 } catch (err) { }
 
-if (window) {
-  var handler = function(level) {
-    var func = console[level].bind(console);
-    return new Proxy(func, {
-      apply: function(target, thisArg, args) {
-        var stack = new Error().stack;
-        if (stack) {
-          stack = stack.split("\n")[1];
+try {
+  if (window) {
+    var handler = function(level) {
+      var func = console[level].bind(console);
+      return new Proxy(func, {
+        apply: function(target, thisArg, args) {
+          target.apply(thisArg, args);
+          var stack = new Error().stack;
+          if (stack) {
+            stack = stack.split("\n")[1];
+          }
+          logToServer(level, stack, args);
         }
-        logToServer(level, stack, args);
-        target.apply(thisArg, args);
-      }
-    });
-  };
-  if (console.debug) console.debug = handler("debug");
-  if (console.info) console.info = handler("info");
-  console.log = handler("log");
-  console.warn = handler("warn");
-  console.error = handler("error");
+      });
+    };
+    if (console.debug) console.debug = handler("debug");
+    if (console.info) console.info = handler("info");
+    console.log = handler("log");
+    console.warn = handler("warn");
+    console.error = handler("error");
 
-  var oldOnerror = window.onerror;
-  window.onerror = function onerror(event, source, lineNumber, column, errorObj) {
-    logToServer("error", "", {
-      event: event,
-      lineNumber: lineNumber,
-      column: column,
-      error: errorObj
-    });
-    oldOnerror && oldOnerror(event, source, lineNumber, column, errorObj);
-  };
-}
+    var oldOnerror = window.onerror;
+    window.onerror = function onerror(event, source, lineNumber, column, errorObj) {
+      oldOnerror && oldOnerror(event, source, lineNumber, column, errorObj);
+      logToServer("error", "", {
+        event: event,
+        lineNumber: lineNumber,
+        column: column,
+        error: errorObj
+      });
+    };
+  }
+} catch (err) { }

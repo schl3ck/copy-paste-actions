@@ -10,7 +10,7 @@ const bplist = require("./bplist");
  * @property {object[]} shortcuts[].inserts
  * @property {number} shortcuts[].inserts[].position
  * @property {number} shortcuts[].inserts[].id
- * @property {string} shortcuts[].inserts[].actions base64 encoded bplist
+ * @property {object[]} shortcuts[].inserts[].actions as parsed JSON
  * @property {object} shortcuts[].inserts[].uuids
  * @property {string[]} shortcuts[].inserts[].uuids.groups
  * @property {string[]} shortcuts[].inserts[].uuids.vars
@@ -61,8 +61,7 @@ function merge(dict) {
       insert.uuids.groups = castArray(insert.uuids.groups);
       insert.uuids.vars = castArray(insert.uuids.vars);
 
-      let actions = bplist.parse(Buffer.from(insert.actions, "base64"))[0];
-      actions = JSON.stringify(actions.WFWorkflowActions);
+      let actions = JSON.stringify(insert.actions);
       let uuidsToReplace = insert.uuids.groups.filter(g => shortcut.uuids.groups.includes(g));
       uuidsToReplace = uuidsToReplace.concat(insert.uuids.vars.filter(v => shortcut.uuids.vars.includes(v)));
 
