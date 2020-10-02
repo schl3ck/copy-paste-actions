@@ -114,7 +114,6 @@ export default {
         );
       } else {
         this.noItems = true;
-        // TODO: do we need this?
         this.status = this.lang.noShortcuts;
 
         if (this.unsavedChanges) {
