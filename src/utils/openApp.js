@@ -105,7 +105,7 @@ export function openNow($root, shortcutInput, options) {
   };
   const timeout = callback => {
     timeoutIds.push(
-      setTimeout(callback, store.state.preferences.Preferences.closePageTimeout)
+      setTimeout(callback, 2000)
     );
   };
 
@@ -114,19 +114,19 @@ export function openNow($root, shortcutInput, options) {
     : options.toMainMenu
       ? mainMenu
       : null;
+  if (options.doNotRun) {
+    // eslint-disable-next-line no-console
+    console.log("switching to app");
+    location.href = "workflow://";
+  } else {
+    const url = `workflow://run-workflow?name=${encodeURIComponent(
+      store.state.preferences["Shortcut Name"]
+    )}&input=text&text=${shortcutInput}`;
+    // eslint-disable-next-line no-console
+    console.log("switching to app with url", url);
+    location.href = url;
+  }
   timeout(() => {
-    if (options.doNotRun) {
-      // eslint-disable-next-line no-console
-      console.log("switching to app");
-      location.href = "workflow://";
-    } else {
-      const url = `workflow://run-workflow?name=${encodeURIComponent(
-        store.state.preferences["Shortcut Name"]
-      )}&input=text&text=${shortcutInput}`;
-      // eslint-disable-next-line no-console
-      console.log("switching to app with url", url);
-      location.href = url;
-    }
     action && action();
   });
 
