@@ -4,8 +4,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script><%= htmlWebpackPlugin.options.REMOTE_CONSOLE_SCRIPT %></script>
     <% if (htmlWebpackPlugin.options.BUILD_MODE != "targz") { %>
+    <script><%= htmlWebpackPlugin.options.REMOTE_CONSOLE_SCRIPT %></script>
     <link rel="icon" href="<%= require('./favicon.png') %>">
     <% } %>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1">
