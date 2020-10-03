@@ -40,7 +40,10 @@ export default {
       {
         icon: "pencil-alt",
         click() {
-          alert("Select Shortcuts");
+          self.$root.$emit("navigate", "ListSnippets", {
+            editable: true,
+            clipboardFirst: true
+          });
         },
         ...this.mainMenu.editSnippets
       },

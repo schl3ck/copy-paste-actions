@@ -28,7 +28,8 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  faSave
+  faSave,
+  faTrashAlt
 } from "@fortawesome/free-regular-svg-icons";
 
 import store from "./store/index";
@@ -56,7 +57,8 @@ library.add(
   faExclamationTriangle,
   faDownload,
   faTimes,
-  faSave
+  faSave,
+  faTrashAlt
 );
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

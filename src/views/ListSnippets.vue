@@ -111,6 +111,9 @@ export default {
         }
       ];
     }
+  },
+  activated() {
+    this.$store.commit("showMainTitle", false);
   }
 };
 </script>

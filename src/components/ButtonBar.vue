@@ -5,7 +5,7 @@
       :key="button.text"
       class="col px-0 corner"
       :class="{'pr-sm-1 pt-sm-0': first(index),
-               'py-1 px-sm-1 py-sm-0': middle(index),
+               'px-sm-0': middle(index),
                'pb-1 pl-sm-1 pb-sm-0': last(index)}"
     >
       <button

@@ -120,9 +120,17 @@
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
-      <button v-if="onSelect" class="btn btn-block mt-2 btn-success" @click="onSelect(snippet)">
+      <button v-if="onSelect && !askDeletion" class="btn btn-block mt-2 btn-success" @click="onSelect(snippet)">
         {{ lang.selectSnippet }}
       </button>
+
+      <div v-if="askDeletion">
+        <!-- eslint-disable-next-line vue/require-v-for-key -->
+        <p v-for="msg in langDeleteMessage" class="mb-0 mt-2">
+          {{ msg }}
+        </p>
+        <ButtonBar :buttons="deleteButtons" size="normal" class="mt-2" />
+      </div>
 
       <template v-if="overrides">
         <span class="text-orange">
@@ -192,7 +200,8 @@ export default {
       editing: false,
       /** @type {ButtonBar.Button[]} */
       buttons: [],
-      id: (Math.random() * Number.MAX_SAFE_INTEGER).toFixed(0)
+      id: (Math.random() * Number.MAX_SAFE_INTEGER).toFixed(0),
+      askDeletion: false
     };
   },
   computed: {
@@ -221,6 +230,32 @@ export default {
           snippet.isClipboard === this.snippet.isClipboard &&
           snippet !== this.snippet
       );
+    },
+    /** @returns {ButtonBar.Button[]} */
+    deleteButtons() {
+      return [
+        {
+          text: this.lang.delete,
+          class: "btn-danger",
+          icon: ["far", "trash-alt"],
+          click: this.delete
+        },
+        {
+          text: this.lang.cancelEdit,
+          class: "btn-secondary",
+          icon: "times",
+          click: () => {
+            this.askDeletion = false;
+            this.editing = true;
+          }
+        }
+      ];
+    },
+    /** @returns {string[]} */
+    langDeleteMessage() {
+      return this.lang.deleteMessage[
+        this.snippet.isClipboard ? "clipboard" : "snippet"
+      ].split("\n");
     }
   },
   watch: {
@@ -254,9 +289,24 @@ export default {
         click: this.cancelEdit
       }
     ];
+    if (!this.checkOverrides) {
+      this.buttons.splice(1, 0, {
+        text: this.lang.delete,
+        class: "btn-danger",
+        icon: ["far", "trash-alt"],
+        click: () => {
+          this.editing = false;
+          this.askDeletion = true;
+        }
+      });
+    }
   },
   activated() {
     this.setData();
+  },
+  deactivated() {
+    this.$store.commit("snippetListItemEditing", false);
+    this.editing = this.askDeletion = false;
   },
   methods: {
     setData() {
@@ -290,6 +340,10 @@ export default {
       return desc
         .replace(/[<>"&]/g, (match) => htmlEscapeMap[match])
         .replace(/\n/g, "<br>");
+    },
+    delete() {
+      this.$store.commit("removeSnippet", this.snippet);
+      this.$store.commit("snippetListItemEditing", false);
     }
   }
 };

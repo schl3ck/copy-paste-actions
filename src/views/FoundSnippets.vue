@@ -210,6 +210,7 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", false);
     this.$root.$on("snippetBeginEdit", this.onSnippetEdit);
     const height = this.$refs.toolbar.clientHeight;
     this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
