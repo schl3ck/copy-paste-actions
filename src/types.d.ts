@@ -46,6 +46,29 @@ declare namespace Store {
     functionDefinition: string,
     noSnippetName: string
   }
+
+  interface Preferences {
+    autoOpenApp: boolean,
+    excludeAllCPAComments: boolean,
+    cleanUp: 0 | 1 | 2,
+    commentMarker: string,
+    defaultNewShortcutName: string,
+    includeShortcutImages: boolean,
+    codeZoom: number,
+    switchCaption: boolean
+  }
+  interface AppSettings {
+    "Shortcut Name": string,
+    "Version": string,
+    "RoutineHub ID": number,
+    "Storage": string,
+    "Preferences Version": number,
+    "Default Preferences": Preferences,
+    "iOS Version": string,
+    "Preferences": Preferences,
+    "componentToDisplay": string
+  }
+
 }
 
 declare namespace ButtonBar {

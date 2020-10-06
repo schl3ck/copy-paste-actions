@@ -1,3 +1,4 @@
+import smoothscroll from "smoothscroll-polyfill";
 import Vue from "vue";
 import App from "./App.vue";
 import "bootstrap.css";
@@ -22,7 +23,7 @@ import {
   faExclamationCircle,
   faSearchMinus,
   faSearchPlus,
-  faUndo,
+  faUndoAlt,
   faExclamationTriangle,
   faDownload,
   faTimes
@@ -37,6 +38,8 @@ import store from "./store/index";
 // make buffer globally available
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
+
+smoothscroll.polyfill();
 
 library.add(
   faHammer,
@@ -53,7 +56,7 @@ library.add(
   faExclamationCircle,
   faSearchMinus,
   faSearchPlus,
-  faUndo,
+  faUndoAlt,
   faExclamationTriangle,
   faDownload,
   faTimes,

@@ -50,7 +50,7 @@ export default {
       {
         icon: "cogs",
         click() {
-          alert("Select Shortcuts");
+          self.$root.$emit("navigate", "Preferences");
         },
         ...this.mainMenu.preferences
       },

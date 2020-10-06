@@ -6,15 +6,19 @@ import TarGZ from "@/utils/targz";
 import { Buffer } from "buffer";
 import { stringFromBinaryString } from "@/utils/binaryStringToUTF8";
 
+import prefConstraints from "@/assets/prefConstraints.json";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     /** @type {Store.Shortcut[]} */
     shortcuts: [],
+    /** @type {Store.AppSettings} */
     preferences: {
 
     },
+    prefConstraints: prefConstraints,
     language: {},
     showMainTitle: true,
     showBackButton: false,

@@ -29,6 +29,7 @@ import FoundInserts from "@/views/FoundInserts.vue";
 import ListSnippets from "@/views/ListSnippets.vue";
 import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
 import ImportShortcuts from "@/views/ImportShortcuts.vue";
+import Preferences from "@/views/Preferences.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 class Popstate {
@@ -52,6 +53,7 @@ export default {
     ListSnippets,
     MergeSnippetsIntoShortcut,
     ImportShortcuts,
+    Preferences,
     ButtonBar
   },
   data() {
@@ -195,6 +197,10 @@ export default {
 
 .pre-line {
   white-space: pre-line;
+}
+
+.mw-content {
+  max-width: max-content !important;
 }
 
 .title {

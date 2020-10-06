@@ -14,7 +14,7 @@
           <FontAwesomeIcon icon="search-minus" />
         </button>
         <button class="btn btn-outline-primary" @click="setZoom(0)">
-          <FontAwesomeIcon icon="undo" />
+          <FontAwesomeIcon icon="undo-alt" />
         </button>
         <button class="btn btn-outline-primary" @click="setZoom(1)">
           <FontAwesomeIcon icon="search-plus" />
