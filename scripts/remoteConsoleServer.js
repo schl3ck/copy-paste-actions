@@ -12,7 +12,7 @@ const levelToColor = {
   error: "\x1b[41;30m ERROR \x1b[0m"
 };
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 function setCORS(res) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -39,7 +39,16 @@ app.post("/console", (req, res) => {
   }`;
   /** @type { {level: string, callee: string, params: any[]} } */
   const data = req.body;
-  console[data.level](timestamp, levelToColor[data.level], ...data.params, "at " + data.callee);
+  console[data.level](timestamp, levelToColor[data.level], ...data.params.map((p) => {
+    if (typeof p === "object" && !Array.isArray(p) && p !== null) {
+      for (const [k, v] of Object.entries(p)) {
+        if (typeof v === "string" && v.length > 5000) {
+          p[k] = v.substr(0, 5000) + " [...]";
+        }
+      }
+    }
+    return p;
+  }), "at " + data.callee);
   setCORS(res);
   res.sendStatus(204);
 });
