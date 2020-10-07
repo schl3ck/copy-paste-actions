@@ -26,11 +26,13 @@ import {
   faUndoAlt,
   faExclamationTriangle,
   faDownload,
+  faLongArrowAltRight,
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faSave,
-  faTrashAlt
+  faTrashAlt,
+  faEyeSlash
 } from "@fortawesome/free-regular-svg-icons";
 
 import store from "./store/index";
@@ -38,6 +40,8 @@ import store from "./store/index";
 // make buffer globally available
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
+
+// TODO: check for updates on RoutineHub
 
 smoothscroll.polyfill();
 
@@ -59,9 +63,11 @@ library.add(
   faUndoAlt,
   faExclamationTriangle,
   faDownload,
+  faLongArrowAltRight,
   faTimes,
   faSave,
-  faTrashAlt
+  faTrashAlt,
+  faEyeSlash
 );
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

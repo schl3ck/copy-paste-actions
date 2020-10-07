@@ -12,7 +12,8 @@
     "defaultNewShortcutName": "Untitled Shortcut",
     "includeShortcutImages": false,
     "codeZoom": 1,
-    "switchCaption": false
+    "switchCaption": false,
+    "ignoreVersion": false
   },
   "iOS Version": "13.4",
   "Preferences": {
@@ -23,7 +24,8 @@
     "defaultNewShortcutName": "Untitled Shortcut",
     "includeShortcutImages": false,
     "codeZoom": 1,
-    "switchCaption": false
+    "switchCaption": false,
+    "ignoreVersion": false
   },
   "componentToDisplay": "MainMenu"
 }

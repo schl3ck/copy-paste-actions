@@ -19,3 +19,14 @@ export function getFullHeight(element) {
 
   return height;
 }
+
+/**
+ * Zips multiple arrays for iteration
+ * @param  {...Array} arrays
+ */
+export function * zip(...arrays) {
+  const len = Math.min(...arrays.map(a => a.length));
+  for (let i = 0; i < len; i++) {
+    yield arrays.map(a => a[i]);
+  }
+}

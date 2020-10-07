@@ -33,7 +33,9 @@ export default new Vuex.Store({
     userPreferencesChanged: false,
     snippets: [],
     snippetsChanged: false,
-    importURLs: null
+    importURLs: null,
+    /** @type {Store.UpdateAvailable} */
+    updateAvailable: false
   },
   mutations: {
     shortcuts(state, data) {
@@ -107,6 +109,9 @@ export default new Vuex.Store({
     },
     importURLs(state, data) {
       state.importURLs = data;
+    },
+    updateAvailable(state, data) {
+      state.updateAvailable = data;
     }
   },
   actions: {

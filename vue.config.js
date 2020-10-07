@@ -40,16 +40,6 @@ module.exports = {
     config.module.rule("js")
       .exclude.add(/\.worker\.js/);
 
-    config.module.rule("url")
-      .test(/\.(png|jpg|ico|gif)$/i)
-      .use("url-loader")
-      .loader("url-loader")
-      .tap(options => {
-        options = options || {};
-        options.limit = 1024 * 1024 * 10; // 10 MB
-        return options;
-      });
-
     if (config.plugins.has("copy")) {
       config.plugin("copy")
         .tap(args => {

@@ -3,6 +3,28 @@
     <h2 class="pt-1">
       {{ lang.title }}
     </h2>
+    <div v-if="updateAvailable" class="card bg-warning mb-4">
+      <div class="card-header">
+        <b>{{ lang.updateAvailable.title }}</b>
+      </div>
+      <div class="card-body pt-3 d-flex flex-row align-items-center justify-content-between">
+        <div>
+          <b class="mr-2">{{ lang.updateAvailable.version }}</b>
+          {{ appSettings.Version }}
+          <FontAwesomeIcon icon="long-arrow-alt-right" class="small" />
+          {{ updateAvailable.version }}
+          <br>
+          <b class="mr-2">{{ lang.updateAvailable.releaseDate }}</b>
+          {{ updateAvailable.release.toLocaleDateString() }}
+          <template v-if="prefGlobal.ignoreVersion === updateAvailable.version">
+            <br>{{ lang.updateAvailable.ignored }}
+          </template>
+        </div>
+        <button class="btn btn-outline-dark" @click="showUpdate">
+          <FontAwesomeIcon icon="chevron-left" class="rotate-180" />
+        </button>
+      </div>
+    </div>
     <div ref="list" class="transition-padding-bottom">
       <div v-for="(pref, index) in prefsWithLang" :key="pref.key" class="card mb-2">
         <label
@@ -114,6 +136,12 @@ import Vue from "vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 
+// TODO: add pref to select shortcuts that should be loaded every time
+// TODO: add pref to automatically overwrite all snippets (what to do on conflicts?)
+// TODO: add pref to automatically parse auto-loaded shortcuts
+// TODO: how to access settings to turn this off when overwrite = true?
+// TODO: add button to cache all shortcut icons
+
 /**
  * @typedef { {
  *   title: string,
@@ -124,7 +152,6 @@ import { navigateAndBuildZip } from "@/utils/openApp";
 /**
  * @typedef {number[] | {min: number, max: number, step: number}} Constraints
  */
-// TODO: maybe only save the state local and confirm with btn to save in vuex (and app)
 export default {
   name: "Preferences",
   components: {
@@ -138,16 +165,20 @@ export default {
     };
   },
   computed: {
+    /** @returns {Store.AppSettings} */
+    appSettings() {
+      return this.$store.state.preferences;
+    },
     /** @returns {Store.Preferences} */
     prefGlobal() {
-      return this.$store.state.preferences.Preferences;
+      return this.appSettings.Preferences;
     },
     prefConstraints() {
       return this.$store.state.prefConstraints;
     },
     /** @returns {Store.Preferences} */
     prefDefault() {
-      return this.$store.state.preferences["Default Preferences"];
+      return this.appSettings["Default Preferences"];
     },
     /** @returns { {
      *   title: string,
@@ -158,28 +189,34 @@ export default {
      *   saveLocal: string,
      *   saveToApp: string,
      *   discardChanges: string,
+     *   updateAvailable: {title: string, version: string, releaseDate: string, ignored: string}
      *   [key: string]: LangItem
      * } } */
     lang() {
       return this.$store.state.language.preferences;
     },
     prefsWithLang() {
-      const res = Object.entries(this.preferences).map(([key, val]) => {
-        return {
-          key,
-          /** @type {string | number | boolean} */
-          value: val,
-          type: typeof this.prefDefault[key],
-          /** @type {Constraints} */
-          constraints: this.prefConstraints[key],
-          /** @type {LangItem} */
-          lang: this.lang[key] || {
-            title: key,
-            description: "This language entry does not exist."
-          }
-        };
-      });
-      res.sort((a, b) => a.lang.title.localCompare(b.lang.title));
+      const res = Object.entries(this.preferences)
+        .filter(([key, val]) => key !== "ignoreVersion")
+        .map(([key, val]) => {
+          return {
+            key,
+            /** @type {string | number | boolean} */
+            value: val,
+            type: typeof this.prefDefault[key],
+            /** @type {Constraints} */
+            constraints: this.prefConstraints[key],
+            /** @type {LangItem} */
+            lang:
+              key in this.lang
+                ? this.lang[key]
+                : {
+                  title: "" + key,
+                  description: "This language entry does not exist."
+                }
+          };
+        });
+      res.sort((a, b) => a.lang.title.localeCompare(b.lang.title));
       return res;
     },
     /** @returns {boolean} */
@@ -242,6 +279,10 @@ export default {
         });
       }
       return res;
+    },
+    /** @returns {Store.UpdateAvailable} */
+    updateAvailable() {
+      return this.$store.state.updateAvailable;
     }
   },
   watch: {
@@ -309,6 +350,9 @@ export default {
     },
     prefChanged(index) {
       this.lastChanged = index === this.prefsWithLang.length - 1;
+    },
+    showUpdate() {
+      this.$root.$emit("navigate", "ConfirmNewUpdate");
     }
   }
 };
@@ -317,6 +361,10 @@ export default {
 <style lang="scss" scoped>
 .transition-padding-bottom {
   transition: padding-bottom 0.25s ease-in-out;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
 }
 
 .custom-switch2 {

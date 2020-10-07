@@ -12,6 +12,14 @@
     <div v-if="showBackButton" ref="backBtn" class="fixed-bottom container">
       <ButtonBar :buttons="buttons" />
     </div>
+
+    <transition name="slide-down">
+      <div v-if="updateAvailable && !hideUpdateBanner" class="fixed-top text-center">
+        <div class="alert alert-info update-available" @click="toUpdate">
+          {{ lang.updateAvailable.text }} <span class="link-style">{{ lang.updateAvailable.link }}</span>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -30,6 +38,7 @@ import ListSnippets from "@/views/ListSnippets.vue";
 import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
 import ImportShortcuts from "@/views/ImportShortcuts.vue";
 import Preferences from "@/views/Preferences.vue";
+import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 class Popstate {
@@ -54,6 +63,7 @@ export default {
     MergeSnippetsIntoShortcut,
     ImportShortcuts,
     Preferences,
+    ConfirmNewUpdate,
     ButtonBar
   },
   data() {
@@ -63,11 +73,12 @@ export default {
       buttons: [],
       /** @type {Map<Vue, {scrollPos: {x: number, y: number}, props: object} } */
       compSettings: new Map(),
-      compProps: {}
+      compProps: {},
+      hideUpdateBanner: false
     };
   },
   computed: {
-    /** @returns {object} */
+    /** @returns {Store.AppSettings} */
     preferences() {
       return this.$store.state.preferences;
     },
@@ -82,6 +93,14 @@ export default {
     /** @returns {object} */
     lang() {
       return this.$store.state.language;
+    },
+    /** @returns {Store.UpdateAvailable} */
+    updateAvailable() {
+      return (
+        this.$store.state.updateAvailable &&
+        this.$store.state.updateAvailable.version !==
+          this.preferences.Preferences.ignoreVersion
+      );
     }
   },
   watch: {
@@ -118,6 +137,10 @@ export default {
   methods: {
     /** @param {string} componentName */
     navigate(componentName, options) {
+      if (componentName === "ConfirmNewUpdate") {
+        this.hideUpdateBanner = true;
+      }
+
       let historyStateMethod = "pushState";
       const comp = this.getCurrentComponent();
       if (!(options instanceof Popstate)) {
@@ -149,7 +172,9 @@ export default {
       // call that with a slight delay so that Vue has mounted the component
       Vue.nextTick(() => {
         const comp = this.getCurrentComponent();
-        let scrollPos = this.compSettings.has(componentName) && this.compSettings.get(componentName).scrollPos;
+        let scrollPos =
+          this.compSettings.has(componentName) &&
+          this.compSettings.get(componentName).scrollPos;
         if (!(options instanceof Popstate)) {
           window.history[historyStateMethod](
             { componentToDisplay: componentName },
@@ -173,6 +198,9 @@ export default {
     toMainMenu() {
       this.$root.$emit("toMainMenu");
       this.$root.$emit("navigate", "MainMenu");
+    },
+    toUpdate() {
+      this.$root.$emit("navigate", "ConfirmNewUpdate");
     }
   }
 };
@@ -216,5 +244,25 @@ export default {
   @media (min-width: 576px) {
     font-size: 2.5rem;
   }
+}
+
+.update-available.update-available {
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  pointer-events: all;
+}
+.link-style {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.slide-down-enter {
+  transform: translateY(-100%);
+}
+.slide-down-enter-active {
+  transition: transform 0.5s ease-out;
 }
 </style>

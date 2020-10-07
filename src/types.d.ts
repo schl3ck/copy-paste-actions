@@ -55,7 +55,8 @@ declare namespace Store {
     defaultNewShortcutName: string,
     includeShortcutImages: boolean,
     codeZoom: number,
-    switchCaption: boolean
+    switchCaption: boolean,
+    ignoreVersion: false | string
   }
   interface AppSettings {
     "Shortcut Name": string,
@@ -69,6 +70,13 @@ declare namespace Store {
     "componentToDisplay": string
   }
 
+  interface UpdateData {
+    version: string,
+    url: string,
+    notes: string,
+    release: Date
+  }
+  type UpdateAvailable = false | UpdateData;
 }
 
 declare namespace ButtonBar {
