@@ -14,7 +14,13 @@
         :disabled="!button.click || button.disabled"
         @click="button.click"
       >
-        <FontAwesomeIcon :icon="button.icon" class="mr-2" />{{ button.text }}
+        <img
+          v-if="typeof button.icon === 'string' && button.icon.startsWith('data:image')"
+          :src="button.icon"
+          class="icon mr-2"
+        >
+        <FontAwesomeIcon v-else :icon="button.icon" class="mr-2" />
+        {{ button.text }}
       </button>
     </div>
   </div>
@@ -97,5 +103,11 @@ export default {
       border-bottom-right-radius: 0;
     }
   }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
 }
 </style>
