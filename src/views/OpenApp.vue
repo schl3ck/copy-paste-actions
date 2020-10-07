@@ -6,8 +6,8 @@
       :percent="percent"
       :done-button-label="lang.openApp"
       :status-label="lang.buildingUrl"
-      @doneButtonClick="openNow"
       :messages="options.messages"
+      @doneButtonClick="openNow"
     />
     <div v-if="closingIn" class="fixed-top text-center mt-2" role="alert">
       {{ closingIn }}
