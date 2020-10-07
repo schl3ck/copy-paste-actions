@@ -1,3 +1,5 @@
+var enableRemoteConsole = false;
+
 function customStringify(inp) {
   var cache = [];
   return JSON.stringify(inp, function(key, value) {
@@ -51,7 +53,7 @@ try {
 } catch (err) { }
 
 try {
-  if (window) {
+  if (window && enableRemoteConsole) {
     var handler = function(level) {
       var func = console[level].bind(console);
       return new Proxy(func, {
