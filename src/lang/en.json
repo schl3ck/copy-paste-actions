@@ -189,42 +189,59 @@
       "releaseDate": "Released:",
       "ignored": "You've ignored this update"
     },
-    "autoOpenApp": {
-      "title": "Automatically open Shortcuts",
-      "description": "When the app should be opened to e.g. load or import or save snippets you will be redirected to Shortcuts without an interaction from you."
+    "shortcutIconCache": "Shortcut icon cache",
+    "nIconsCached": {
+      "noIconNoShortcut": "Currently there is no icon in the cache and no shortcut without an icon.",
+      "noIconSingularShortcut": "Currently there is no icon in the cache and $shortcuts shortcut without an icon.",
+      "noIconPluralShortcut": "Currently there is no icon in the cache and $shortcuts shortcuts without an icon.",
+      "singularIconNoShortcut": "Currently there is $icons icon in the cache and no shortcut without an icon.",
+      "singularIconSingularShortcut": "Currently there is $icons icon in the cache and $shortcuts shortcut without an icon.",
+      "singularIconPluralShortcut": "Currently there is $icons icon in the cache and $shortcuts shortcuts without an icon.",
+      "pluralIconNoShortcut": "Currently there are $icons icons in the cache and no shortcut without an icon.",
+      "pluralIconSingularShortcut": "Currently there are $icons icons in the cache and $shortcuts shortcut without an icon.",
+      "pluralIconPluralShortcut": "Currently there are $icons icons in the cache and $shortcuts shortcuts without an icon."
     },
-    "excludeAllCPAComments": {
-      "title": "Exclude special comments",
-      "description": "Exclude the special formatted comments this shortcut works with from being included in other snippets and clipboard items."
-    },
-    "cleanUp": {
-      "title": "Clean up of special comments",
-      "description": "Controls the removal of the special comments after being processed. Comments that threw a warning are never removed.",
-      "values": {
-        "0": "Remove none",
-        "1": "Remove functions \"pause\", \"resume\" and \"end\" when the surrounding actions are also removed",
-        "2": "Remove all"
+    "refreshIconCacheNote": "Refreshing the cache may take several minutes depending on the number of shortcuts on your device.",
+    "refreshIconCache": "Refresh icon cache",
+    "clearIconCache": "Clear icon cache",
+    "prefs": {
+      "autoOpenApp": {
+        "title": "Automatically open Shortcuts",
+        "description": "When the app should be opened to e.g. load or import or save snippets you will be redirected to Shortcuts without an interaction from you."
+      },
+      "excludeAllCPAComments": {
+        "title": "Exclude special comments",
+        "description": "Exclude the special formatted comments this shortcut works with from being included in other snippets and clipboard items."
+      },
+      "cleanUp": {
+        "title": "Clean up of special comments",
+        "description": "Controls the removal of the special comments after being processed. Comments that threw a warning are never removed.",
+        "values": {
+          "0": "Remove none",
+          "1": "Remove functions \"pause\", \"resume\" and \"end\" when the surrounding actions are also removed",
+          "2": "Remove all"
+        }
+      },
+      "commentMarker": {
+        "title": "Comment marker",
+        "description": "The special marker on the first line of the comment that tells this shortcut to parse the comment."
+      },
+      "defaultNewShortcutName": {
+        "title": "New shortcut name",
+        "description": "The name that should be used for a new shortcut when no name was provided."
+      },
+      "includeShortcutImages": {
+        "title": "Load shortcut icons",
+        "description": "Load the cached icons every time this shortcut is executed. Needs the cache to be refreshed manually at the top of the preferences page."
+      },
+      "codeZoom": {
+        "title": "Zoom level of snippet contents",
+        "description": "Controls the zoom level of snippet contents."
+      },
+      "switchCaption": {
+        "title": "Caption on switches",
+        "description": "Display a caption on switches like in iOS Settings app."
       }
-    },
-    "commentMarker": {
-      "title": "Comment marker",
-      "description": "The special marker on the first line of the comment that tells this shortcut to parse the comment."
-    },
-    "defaultNewShortcutName": {
-      "title": "New shortcut name",
-      "description": "The name that should be used for a new shortcut when no name was provided."
-    },
-    "includeShortcutImages": {
-      "title": "Load shortcut icons",
-      "description": "Load the icons of all shortcuts every time this shortcut is executed. Might slow down the execution quite a bit with a large number of shortcuts."
-    },
-    "codeZoom": {
-      "title": "Zoom level of snippet contents",
-      "description": "Controls the zoom level of snippet contents."
-    },
-    "switchCaption": {
-      "title": "Caption on switches",
-      "description": "Display a caption on switches like in iOS Settings app."
     }
   },
   "confirmNewUpdate": {

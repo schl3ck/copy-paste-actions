@@ -4,8 +4,8 @@
       {{ lang.title }}
     </h2>
     <div v-if="updateAvailable" class="card bg-warning mb-4">
-      <div class="card-header">
-        <b>{{ lang.updateAvailable.title }}</b>
+      <div class="card-header font-weight-bold">
+        {{ lang.updateAvailable.title }}
       </div>
       <div class="card-body pt-3 d-flex flex-row align-items-center justify-content-between">
         <div>
@@ -25,6 +25,24 @@
         </button>
       </div>
     </div>
+
+    <div v-if="prefGlobal.includeShortcutImages" class="card">
+      <div class="card-header font-weight-bold">
+        {{ lang.shortcutIconCache }}
+      </div>
+      <div class="card-body pt-3">
+        <p>
+          {{ langDescriptionForIconCache }}
+        </p>
+        <p>
+          {{ lang.refreshIconCacheNote }}
+        </p>
+        <ButtonBar :buttons="cacheButtons" size="normal" />
+      </div>
+    </div>
+
+    <hr>
+
     <div ref="list" class="transition-padding-bottom">
       <div v-for="(pref, index) in prefsWithLang" :key="pref.key" class="card mb-2">
         <label
@@ -180,18 +198,7 @@ export default {
     prefDefault() {
       return this.appSettings["Default Preferences"];
     },
-    /** @returns { {
-     *   title: string,
-     *   defaultsTo: string,
-     *   switchOn: string,
-     *   switchOff: string,
-     *   resetAll: string,
-     *   saveLocal: string,
-     *   saveToApp: string,
-     *   discardChanges: string,
-     *   updateAvailable: {title: string, version: string, releaseDate: string, ignored: string}
-     *   [key: string]: LangItem
-     * } } */
+    /** @returns {object} */
     lang() {
       return this.$store.state.language.preferences;
     },
@@ -208,8 +215,8 @@ export default {
             constraints: this.prefConstraints[key],
             /** @type {LangItem} */
             lang:
-              key in this.lang
-                ? this.lang[key]
+              key in this.lang.prefs
+                ? this.lang.prefs[key]
                 : {
                   title: "" + key,
                   description: "This language entry does not exist."
@@ -283,6 +290,78 @@ export default {
     /** @returns {Store.UpdateAvailable} */
     updateAvailable() {
       return this.$store.state.updateAvailable;
+    },
+    /** @returns {number} */
+    nIconsCached() {
+      return this.$store.state.shortcuts.filter((s) => s.image).length;
+    },
+    /** @returns {number} */
+    nShortcutsWithoutIcon() {
+      return this.$store.state.shortcuts.length - this.nIconsCached;
+    },
+    /** @returns {string} */
+    langDescriptionForIconCache() {
+      let key = "";
+      switch (this.nIconsCached) {
+        case 0:
+          key += "no";
+          break;
+        case 1:
+          key += "singular";
+          break;
+        default:
+          key += "plural";
+          break;
+      }
+      key += "Icon";
+      switch (this.nShortcutsWithoutIcon) {
+        case 0:
+          key += "No";
+          break;
+        case 1:
+          key += "Singular";
+          break;
+        default:
+          key += "Plural";
+          break;
+      }
+      key += "Shortcut";
+      return this.lang.nIconsCached[key]
+        .replace(/\$icons/g, this.nIconsCached)
+        .replace(/\$shortcuts/g, this.nShortcutsWithoutIcon);
+    },
+    /** @returns {ButtonBar.Button[]} */
+    cacheButtons() {
+      return [
+        {
+          text: this.lang.refreshIconCache,
+          class: "btn-success",
+          icon: "undo-alt",
+          click: () => {
+            navigateAndBuildZip(this.$root, {
+              actions: [
+                "Shortcuts.refreshImages",
+                "Build.toMainMenu"
+              ],
+              closePage: true
+            });
+          }
+        },
+        {
+          text: this.lang.clearIconCache,
+          class: "btn-danger",
+          icon: ["far", "trash-alt"],
+          click: () => {
+            navigateAndBuildZip(this.$root, {
+              actions: [
+                "Shortcuts.clearImages",
+                "Build.toSafari"
+              ],
+              closePage: true
+            });
+          }
+        }
+      ];
     }
   },
   watch: {
@@ -336,8 +415,6 @@ export default {
           });
         }
         this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
-        // eslint-disable-next-line no-console
-        console.log("Diff height:", height - prevHeight);
         if (this.lastChanged && prevHeight < height) {
           window.scrollBy({
             left: 0,

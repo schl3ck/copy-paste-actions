@@ -168,32 +168,34 @@ export default new Vuex.Store({
       const shortcuts = map(values(groupBy(files, "name")), (i) => {
         return assign({ selected: false }, ...i);
       });
-      let noImage = shortcuts.filter(s => !s.image);
-      let noSize = shortcuts.filter(s => !s.size);
-      if (noImage.length || noSize.length) {
-        if (noImage.length === noSize.length) {
-          const fuzzy = new FlexSearch("match");
-          noImage.forEach((s, i) => fuzzy.add(i, s.name.replace(/\//g, ":")));
-          for (const i of noSize) {
-            const match = fuzzy.search(i.name);
-            if (match.length) {
-              noImage[match[0]].image = i.image;
-              shortcuts.splice(shortcuts.indexOf(i), 1);
-            }
-          }
-          noImage = shortcuts.filter(s => !s.image);
-          noSize = shortcuts.filter(s => !s.size);
-        }
+      if (process.env.NODE_ENV === "development") {
+        let noImage = shortcuts.filter(s => !s.image);
+        let noSize = shortcuts.filter(s => !s.size);
         if (noImage.length || noSize.length) {
-          // expose the two arrays for debugging
-          window.shortcutsNoImage = noImage;
-          window.shortcutsNoSize = noSize;
-          /* eslint-disable-next-line no-console */
-          console.warn(
-            `There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`,
-            noImage,
-            noSize
-          );
+          if (noImage.length === noSize.length) {
+            const fuzzy = new FlexSearch("match");
+            noImage.forEach((s, i) => fuzzy.add(i, s.name.replace(/\//g, ":")));
+            for (const i of noSize) {
+              const match = fuzzy.search(i.name);
+              if (match.length) {
+                noImage[match[0]].image = i.image;
+                shortcuts.splice(shortcuts.indexOf(i), 1);
+              }
+            }
+            noImage = shortcuts.filter(s => !s.image);
+            noSize = shortcuts.filter(s => !s.size);
+          }
+          if (noImage.length || noSize.length) {
+            // expose the two arrays for debugging
+            window.shortcutsNoImage = noImage;
+            window.shortcutsNoSize = noSize;
+            /* eslint-disable-next-line no-console */
+            console.warn(
+              `There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`,
+              noImage,
+              noSize
+            );
+          }
         }
       }
       commit("shortcuts", shortcuts);
