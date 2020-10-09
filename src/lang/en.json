@@ -167,7 +167,8 @@
     "noSnippets": {
       "clipboard": "No clipboard items found",
       "snippets": "No snippets found"
-    }
+    },
+    "save": "Save now"
   },
   "mergeSnippetsIntoShortcut": {
     "processing": "Processing...",

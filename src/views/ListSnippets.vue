@@ -58,6 +58,7 @@
 <script>
 import SnippetListItem from "@/components/SnippetListItem.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
+import { navigateAndBuildZip } from "@/utils/openApp";
 
 export default {
   name: "ListSnippets",
@@ -98,18 +99,30 @@ export default {
     clipboard() {
       return this.$store.state.snippets.filter((s) => s.isClipboard);
     },
+    /** @returns {boolean} */
+    unsavedSnippets() {
+      return this.$store.state.snippetsChanged;
+    },
     /** @returns {ButtonBar.Button[]} */
     buttons() {
-      return [
-        {
-          text: this.lang.back,
-          class: "btn-outline-primary",
-          icon: "chevron-left",
-          click() {
-            window.history.back();
+      /** @type {ButtonBar.Button[]} */
+      const res = [];
+      if (this.editable && this.unsavedSnippets) {
+        res.push({
+          text: this.lang.save,
+          class: "btn-success",
+          icon: ["far", "save"],
+          click: () => {
+            // let the method append all changes
+            navigateAndBuildZip(this.$root, {
+              actions: [
+                "Build.toSafari"
+              ]
+            });
           }
-        }
-      ];
+        });
+      }
+      return res;
     }
   },
   activated() {
