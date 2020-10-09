@@ -41,8 +41,6 @@ import store from "./store/index";
 import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
-// TODO: check for updates on RoutineHub
-
 smoothscroll.polyfill();
 
 library.add(

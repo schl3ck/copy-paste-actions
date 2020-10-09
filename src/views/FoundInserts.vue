@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- TODO: overall "no inserts found" when there are none -->
     <h2>{{ lang.title }}</h2>
 
     <div ref="list">

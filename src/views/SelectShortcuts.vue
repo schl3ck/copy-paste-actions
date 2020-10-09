@@ -209,7 +209,6 @@ export default {
     }
   },
   created() {
-    // TODO: make debounce time a preference?
     this.debouncedSearch = debounce(this.search, 400);
 
     if (this.shortcuts.length) {

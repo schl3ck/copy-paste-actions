@@ -2,14 +2,6 @@
 // Buffer is globally available
 const bplist = require("./bplist");
 
-/*
-TODO: modify function "paste"/"insert" to allow inserting multiple copies at once
-TODO: new function "insert shortcut/workflow" to simply insert a whole shortcut
-TODO: new function "merge" to simply replace all non recursive "Run Shortcut" actions with their referenced shortcut
-      (with option to exclude some)
-TODO: new function "ignore" to ignore this comment completely (to have comments that aren't going to be copied)
-*/
-
 /**
    * Holds two boundaries that form a range
    * @constructor
@@ -638,7 +630,6 @@ function analyse(dict) {
 
         if (/^(pause|resume|end)/.test(comment.function) && !comment.endsInsert) {
           if (!current.snippet) {
-            // TODO: move to FAQ
             warnings.push({
               action: comment.action.index,
               commentText: comment.textForWarning,

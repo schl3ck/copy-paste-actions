@@ -130,7 +130,6 @@
                 <template v-else>
                   {{ getDefault(pref) }}
                 </template>
-                <!-- TODO: add link to docs -->
               </p>
             </div>
             <div class="mw-content align-self-center">
@@ -153,12 +152,6 @@
 import Vue from "vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
-
-// TODO: add pref to select shortcuts that should be loaded every time
-// TODO: add pref to automatically overwrite all snippets (what to do on conflicts?)
-// TODO: add pref to automatically parse auto-loaded shortcuts
-// TODO: how to access settings to turn this off when overwrite = true?
-// TODO: add button to cache all shortcut icons
 
 /**
  * @typedef { {
