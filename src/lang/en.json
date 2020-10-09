@@ -20,6 +20,14 @@
     "help": {
       "title": "Help",
       "description": "If you are lost, start here"
+    },
+    "unsavedChanges": {
+      "title": "Unsaved changes",
+      "snippets": "You've modified the snippets which hasn't been saved to the shortcuts app yet.",
+      "preferences": "You've modified the preferences which hasn't been saved to the shortcuts app yet.",
+      "snippetsPreferences": "You've modified the snippets and preferences which hasn't been saved to the shortcuts app yet.",
+      "looseChanges": "You will loose these changes if you close this page without saving!",
+      "save": "Save now"
     }
   },
   "selectShortcuts": {

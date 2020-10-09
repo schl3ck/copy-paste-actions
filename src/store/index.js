@@ -107,11 +107,24 @@ export default new Vuex.Store({
 
       state.snippetsChanged = true;
     },
+    /**
+     * @param { {snippet: object, new: object} } data `snippet` is the original object (must be the same reference!),
+     *  `new` contains all new properties
+     */
+    updateSnippet(state, data) {
+      const snippet = state.snippets.find(s => s === data.snippet);
+      Object.assign(snippet, data.new);
+      state.snippetsChanged = true;
+    },
     importURLs(state, data) {
       state.importURLs = data;
     },
     updateAvailable(state, data) {
       state.updateAvailable = data;
+    },
+    userChangesSaved(state) {
+      state.userPreferencesChanged = false;
+      state.snippetsChanged = false;
     }
   },
   actions: {

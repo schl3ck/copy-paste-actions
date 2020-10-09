@@ -98,7 +98,7 @@
           </div>
           <div v-else-if="editing">
             <label for="description">{{ lang.description }}</label>
-            <textarea id="description" v-model="snippet.description" class="form-control" />
+            <textarea id="description" v-model="description" class="form-control" />
           </div>
           <div v-if="checkOverrides" class="custom-control custom-checkbox text-danger discard-exclude">
             <input
@@ -197,6 +197,7 @@ export default {
     return {
       name: "",
       isClipboard: true,
+      description: "",
       editing: false,
       /** @type {ButtonBar.Button[]} */
       buttons: [],
@@ -263,6 +264,7 @@ export default {
       if (value) {
         this.name = this.hasNoName ? "" : this.snippet.name;
         this.isClipboard = this.snippet.isClipboard;
+        this.description = this.snippet.description;
       } else {
         this.name = this.hasNoName
           ? this.lang.noSnippetName
@@ -312,6 +314,7 @@ export default {
     setData() {
       this.name = this.hasNoName ? this.lang.noSnippetName : this.snippet.name;
       this.isClipboard = this.snippet.isClipboard;
+      this.description = this.snippet.description;
     },
     startEdit() {
       this.editing = true;
@@ -325,9 +328,15 @@ export default {
       this.$root.$emit("snippetFinishEdit", this);
     },
     saveEdit() {
-      this.snippet.name =
-        (this.name || "").trim() || this.globals.noSnippetName;
-      this.snippet.isClipboard = this.isClipboard;
+      const props = {
+        name: (this.name || "").trim() || this.globals.noSnippetName,
+        isClipboard: this.isClipboard,
+        description: this.description
+      };
+      this.$store.commit("updateSnippet", {
+        snippet: this.snippet,
+        new: props
+      });
       this.cancelEdit();
     },
     showActions() {

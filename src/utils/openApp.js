@@ -119,6 +119,9 @@ export function openNow($root, shortcutInput, options) {
     console.log("switching to app");
     location.href = "workflow://";
   } else {
+    // assume that the method `navigateAndBuildZip` built the .tar.gz so there are any unsaved changes in it
+    store.state.commit("userChangesSaved");
+
     const url = `workflow://run-workflow?name=${encodeURIComponent(
       store.state.preferences["Shortcut Name"]
     )}&input=text&text=${shortcutInput}`;
