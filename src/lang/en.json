@@ -138,6 +138,7 @@
   },
   "foundInserts": {
     "title": "Found Inserts",
+    "noInserts": "No insert was found in any shortcut",
     "noInsertsFound": "No inserts found",
     "noSnippetName": "No name provided",
     "clipboardItem": "Clipboard item",
@@ -250,6 +251,10 @@
       "switchCaption": {
         "title": "Caption on switches",
         "description": "Display a caption on switches like in iOS Settings app."
+      },
+      "skipFoundInsertsOnNoInsert": {
+        "title": "Skip Found Inserts page",
+        "description": "Skip the Found Inserts page when no insert in any shortcut was found."
       }
     }
   },

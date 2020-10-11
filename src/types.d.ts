@@ -56,7 +56,8 @@ declare namespace Store {
     includeShortcutImages: boolean,
     codeZoom: number,
     switchCaption: boolean,
-    ignoreVersion: false | string
+    ignoreVersion: false | string,
+    skipFoundInsertsOnNoInsert: boolean
   }
   interface AppSettings {
     "Shortcut Name": string,

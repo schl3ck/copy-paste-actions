@@ -2,6 +2,10 @@
   <div>
     <h2>{{ lang.title }}</h2>
 
+    <div v-if="noInserts" class="alert alert-warning">
+      {{ lang.noInserts }}<span class="sr-only">.</span>
+    </div>
+
     <div ref="list">
       <div v-for="shortcut in shortcuts" :key="shortcut.name" class="mb-2">
         <div class="sticky-top">
@@ -102,9 +106,11 @@ export default {
     shortcuts() {
       return this.$store.state.processResult.shortcuts;
     },
+    /** @returns {Store.AppSettings} */
     preferences() {
       return this.$store.state.preferences;
     },
+    /** @returns {Store.Globals} */
     globals() {
       return this.$store.state.globals;
     },
@@ -156,12 +162,28 @@ export default {
         (s) =>
           s.inserts && s.inserts.every((i) => i.exclude || this.getSnippet(i))
       );
+    },
+    /** @returns {boolean} */
+    noInserts() {
+      return this.shortcuts.every((s) => !s.inserts || s.inserts.length === 0);
+    },
+    /** @returns {boolean} */
+    historyReplaceState() {
+      return (
+        this.preferences.Preferences.skipFoundInsertsOnNoInsert &&
+        this.noInserts
+      );
     }
   },
   activated() {
     this.$store.commit("showMainTitle", false);
+    this.$store.commit("showBackButton", false);
     const height = this.$refs.toolbar.clientHeight;
     this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
+
+    if (this.historyReplaceState) {
+      this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
+    }
   },
   methods: {
     noSnippetName(val) {

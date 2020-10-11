@@ -13,7 +13,8 @@
     "includeShortcutImages": false,
     "codeZoom": 1,
     "switchCaption": false,
-    "ignoreVersion": false
+    "ignoreVersion": false,
+    "skipFoundInsertsOnNoInsert": false
   },
   "iOS Version": "13.4",
   "Preferences": {
@@ -25,7 +26,8 @@
     "includeShortcutImages": false,
     "codeZoom": 1,
     "switchCaption": false,
-    "ignoreVersion": false
+    "ignoreVersion": false,
+    "skipFoundInsertsOnNoInsert": false
   },
   "componentToDisplay": "MainMenu"
 }
