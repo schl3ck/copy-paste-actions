@@ -240,15 +240,17 @@ export default new Vuex.Store({
       return state.snippetsChanged || state.userPreferencesChanged;
     },
     snippetsForSaving(state) {
-      return state.snippets.map((s) => {
-        return {
-          actions: s.actions,
-          isClipboard: s.isClipboard,
-          name: s.name,
-          numberOfActions: s.numberOfActions,
-          uuids: s.uuids
-        };
-      });
+      return {
+        snippets: state.snippets.map((s) => {
+          return {
+            actions: s.actions,
+            isClipboard: s.isClipboard,
+            name: s.name,
+            numberOfActions: s.numberOfActions,
+            uuids: s.uuids
+          };
+        })
+      };
     }
   }
 });
