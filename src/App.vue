@@ -14,9 +14,16 @@
     </div>
 
     <transition name="slide-down">
-      <div v-if="updateAvailable && !hideUpdateBanner" class="fixed-top text-center">
-        <div class="alert alert-info update-available" @click="toUpdate">
+      <div v-if="showUpdateBanner || showProbablyOutdated" class="fixed-top text-center stacked-borders">
+        <div v-if="showUpdateBanner" class="alert alert-info overlay-message update-available" @click="toUpdate">
           {{ lang.updateAvailable.text }} <span class="link-style">{{ lang.updateAvailable.link }}</span>
+        </div>
+        <div
+          v-if="showProbablyOutdated"
+          class="alert alert-danger overlay-message"
+          @click="showProbablyOutdated = false"
+        >
+          {{ lang.probablyOutdated.text }} <span class="link-style">{{ lang.probablyOutdated.link }}</span>
         </div>
       </div>
     </transition>
@@ -74,7 +81,9 @@ export default {
       /** @type {Map<Vue, {scrollPos: {x: number, y: number}, props: object} } */
       compSettings: new Map(),
       compProps: {},
-      hideUpdateBanner: false
+      hideUpdateBanner: false,
+      showProbablyOutdated: false,
+      probablyOutdatedTimeouts: []
     };
   },
   computed: {
@@ -101,6 +110,14 @@ export default {
         this.$store.state.updateAvailable.version !==
           this.preferences.Preferences.ignoreVersion
       );
+    },
+    /** @returns {boolean} */
+    showUpdateBanner() {
+      return this.updateAvailable && !this.hideUpdateBanner;
+    },
+    /** @returns {boolean} */
+    probablyOutdated() {
+      return this.$store.state.probablyOutdated;
     }
   },
   watch: {
@@ -110,6 +127,26 @@ export default {
           ? `calc(${this.$refs.backBtn.clientHeight}px + 0.25rem)`
           : null;
       });
+    },
+    probablyOutdated(val) {
+      if (val) {
+        const id = setTimeout(() => {
+          this.probablyOutdatedTimeouts.splice(
+            this.probablyOutdatedTimeouts.indexOf(id),
+            1
+          );
+          this.showProbablyOutdated = true;
+        }, 2000);
+        this.probablyOutdatedTimeouts.push(id);
+      } else {
+        this.showProbablyOutdated = false;
+        if (this.probablyOutdatedTimeouts.length > 0) {
+          for (const id of this.probablyOutdatedTimeouts) {
+            clearTimeout(id);
+          }
+          this.probablyOutdatedTimeouts = [];
+        }
+      }
     }
   },
   created() {
@@ -246,11 +283,10 @@ export default {
   }
 }
 
-.update-available.update-available {
-  width: max-content;
+.overlay-message {
+  width: 80%;
   padding: 0.25rem 0.5rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   cursor: pointer;
   pointer-events: all;
 }
@@ -264,5 +300,16 @@ export default {
 }
 .slide-down-enter-active {
   transition: transform 0.5s ease-out;
+}
+
+.stacked-borders > div {
+  &:not(:last-child) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &:not(:first-child) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }
 </style>

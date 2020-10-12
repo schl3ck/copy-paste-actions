@@ -1,6 +1,5 @@
 import smoothscroll from "smoothscroll-polyfill";
 import Vue from "vue";
-import App from "./App.vue";
 import "bootstrap.css";
 import "bootstrap.reboot";
 import "highlight.js/styles/xcode.css";
@@ -36,6 +35,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 import store from "./store/index";
+import App from "./App.vue";
 
 // make buffer globally available
 import { Buffer } from "buffer";

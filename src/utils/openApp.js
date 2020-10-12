@@ -114,6 +114,9 @@ export function openNow($root, shortcutInput, options) {
     : options.toMainMenu
       ? mainMenu
       : null;
+  if (options.closePage) {
+    store.commit("probablyOutdated", true);
+  }
   if (options.doNotRun) {
     // eslint-disable-next-line no-console
     console.log("switching to app");

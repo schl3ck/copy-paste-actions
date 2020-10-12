@@ -4,6 +4,10 @@
     "text": "New version available!",
     "link": "More info"
   },
+  "probablyOutdated": {
+    "text": "The state of this page is probably outdated. Please close it and run the shortcut again.",
+    "link": "Dismiss"
+  },
   "mainMenu": {
     "selectShortcuts": {
       "title": "Select Shortcuts",

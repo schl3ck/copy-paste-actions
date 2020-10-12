@@ -2,8 +2,6 @@
 
 * enable checking for updates on RoutineHub
 * save generated icloud shortcut urls to enable the user to delete them
-* add overlay & message when state is probably outdated because shortcuts was opened from here  
-  remove this again, when auto-closing works or leave it in for safety if it should fail
 
 ## Found snippets/inserts
 * move shortcuts with snippets/inserts to top (controllable by preference?)
