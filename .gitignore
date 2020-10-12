@@ -26,3 +26,4 @@ yarn-error.log*
 
 # from shortcuts
 *from shortcuts.*
+src/assets/shortcutInput.txt
