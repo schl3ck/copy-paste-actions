@@ -86,16 +86,7 @@ export default {
   },
   methods: {
     init() {
-      const shortcuts = this.$store.state.shortcuts;
-      const toImport = this.$store.state.importURLs;
-      this.toImport = toImport.shortcuts.map((shortcut, index) => {
-        return {
-          name: shortcut,
-          url: toImport.urls[index],
-          image: shortcuts.find((s) => s.name === shortcut).image,
-          done: false
-        };
-      });
+      this.toImport = this.$store.getters.shortcutsToImport;
     },
     /** @param {Shortcut} shortcut */
     open(shortcut) {

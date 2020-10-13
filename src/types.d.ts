@@ -78,6 +78,13 @@ declare namespace Store {
     release: Date
   }
   type UpdateAvailable = false | UpdateData;
+
+  interface ShortcutsToImport {
+    name: string,
+    url: string,
+    image: string,
+    done: boolean
+  }
 }
 
 declare namespace ButtonBar {

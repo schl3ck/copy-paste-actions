@@ -255,6 +255,19 @@ export default new Vuex.Store({
           };
         })
       };
+    },
+    /** @returns {Store.ShortcutsToImport} */
+    shortcutsToImport(state) {
+      const shortcuts = state.shortcuts;
+      const toImport = state.importURLs;
+      return toImport.shortcuts.map((shortcut, index) => {
+        return {
+          name: shortcut,
+          url: toImport.urls[index],
+          image: shortcuts.find((s) => s.name === shortcut).image,
+          done: false
+        };
+      });
     }
   }
 });
