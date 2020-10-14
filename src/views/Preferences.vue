@@ -126,7 +126,10 @@
               </p>
               <p class="mb-0">
                 <b>{{ lang.defaultsTo }}</b>
-                <code v-if="pref.type === 'string'" class="ml-1">{{ getDefault(pref) }}</code>
+                <code
+                  v-if="pref.type === 'string' || (pref.type === 'number' && !Array.isArray(pref.constraints))"
+                  class="ml-2"
+                >{{ getDefault(pref) }}</code>
                 <template v-else>
                   {{ getDefault(pref) }}
                 </template>
@@ -387,7 +390,7 @@ export default {
               ? pref.lang.values[def]
               : `Language item for "${pref.key}.values" not found`;
           } else {
-            return "";
+            return def;
           }
         default:
           return def;
