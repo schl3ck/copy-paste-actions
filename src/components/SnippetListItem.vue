@@ -149,13 +149,7 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
-
-const htmlEscapeMap = {
-  "<": "&lt;",
-  ">": "&gt;",
-  "&": "&amp;",
-  '"': "&quot;"
-};
+import { nl2br } from "@/utils/utils";
 
 export default {
   name: "SnippetListItem",
@@ -346,9 +340,7 @@ export default {
       });
     },
     formatDescription(desc) {
-      return desc
-        .replace(/[<>"&]/g, (match) => htmlEscapeMap[match])
-        .replace(/\n/g, "<br>");
+      return nl2br(desc);
     },
     delete() {
       this.$store.commit("removeSnippet", this.snippet);
