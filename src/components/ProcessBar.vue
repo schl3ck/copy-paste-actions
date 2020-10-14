@@ -6,7 +6,7 @@
         key="doneBlock"
         class="position-absolute w-100 d-flex flex-column align-items-center"
       >
-        <FontAwesomeIcon icon="check" class="text-success fa-3x text-center" />
+        <BIcon icon="check" class="text-success fs-3x text-center mb-1" scale="1.75" />
         <button
           v-if="listeners.doneButtonClick"
           class="btn btn-success btn-lg"

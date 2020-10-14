@@ -111,7 +111,7 @@ export default {
         res.push({
           text: this.lang.save,
           class: "btn-success",
-          icon: ["far", "save"],
+          icon: { component: "IconSave" },
           click: () => {
             // let the method append all changes
             navigateAndBuildZip(this.$root, {

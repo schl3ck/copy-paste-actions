@@ -17,6 +17,9 @@
             {{ mainMenu.unsavedChanges.looseChanges }}
           </p>
           <button class="btn btn-block btn-success" @click="saveChanges">
+            <span class="mr-2">
+              <IconSave />
+            </span>
             {{ mainMenu.unsavedChanges.save }}
           </button>
         </div>
@@ -38,6 +41,7 @@ export default {
   },
   data() {
     return {
+      /** @type {MenuList.MenuItem[]} */
       menuItems: []
     };
   },
@@ -65,6 +69,7 @@ export default {
   },
   created() {
     const self = this;
+    /** @type {MenuList.MenuItem[]} */
     this.menuItems = [
       {
         icon: "hammer",
@@ -74,7 +79,7 @@ export default {
         ...this.mainMenu.selectShortcuts
       },
       {
-        icon: "pencil-alt",
+        icon: "pencil-fill",
         click() {
           self.$root.$emit("navigate", "ListSnippets", {
             editable: true,
@@ -84,7 +89,7 @@ export default {
         ...this.mainMenu.editSnippets
       },
       {
-        icon: "cogs",
+        icon: "gear-wide-connected",
         click() {
           self.$root.$emit("navigate", "Preferences");
         },
@@ -92,6 +97,9 @@ export default {
       },
       {
         icon: "question",
+        iconOptions: {
+          scale: 1.75
+        },
         click() {
           alert("Select Shortcuts");
         },
@@ -107,9 +115,7 @@ export default {
     saveChanges() {
       // let the method itself append all changes
       navigateAndBuildZip(this.$root, {
-        actions: [
-          "Build.toSafari"
-        ]
+        actions: ["Build.toSafari"]
       });
     }
   }

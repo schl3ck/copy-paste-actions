@@ -18,6 +18,10 @@ export default {
     iconColor: {
       type: String,
       default: "black"
+    },
+    iconOptions: {
+      type: Object,
+      default: null
     }
   },
   render(createElement, context) {
@@ -34,7 +38,7 @@ export default {
     ].includes(props.iconColor)
       ? "text-" + props.iconColor
       : "";
-    const iconColorStyle = props.iconColorClass
+    const iconColorStyle = iconColorClass
       ? ""
       : "color: " + props.iconColor;
 
@@ -50,11 +54,12 @@ export default {
             class: "d-flex align-items-center"
           },
           [
-            createElement("FontAwesomeIcon", {
+            createElement("BIcon", {
               props: {
-                icon: props.icon
+                icon: props.icon,
+                ...props.iconOptions
               },
-              class: `card-img mr-3 fa-3x ${iconColorClass}`,
+              class: `card-img mr-3 fs-3x ${iconColorClass}`,
               style: iconColorStyle
             }),
             createElement("div", [

@@ -11,7 +11,7 @@
       v-if="noItems"
       class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container"
     >
-      <FontAwesomeIcon v-if="!unsavedChanges" icon="check" class="center-icon text-success" />
+      <BIcon v-if="!unsavedChanges" icon="check" class="center-icon text-success" />
       <span class="text-center">{{ lang.noItemsFound }}</span>
       <button class="btn btn-primary" @click="openApp">
         {{ lang.openApp }}

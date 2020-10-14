@@ -17,14 +17,14 @@
             >
             <div class="input-group-append">
               <button type="button" class="btn px-2" @click="toggleShowMode('selected')">
-                <FontAwesomeIcon icon="bars" class="mr-1" />
+                <BIcon icon="list-check" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowSelected }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
                 <span class="badge badge-pill badge-primary">{{ selectedCount }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsSelected.after }}</span>
               </button>
               <button type="button" class="btn px-2" @click="toggleShowMode('loaded')">
-                <FontAwesomeIcon icon="file" class="mr-1" />
+                <BIcon icon="file-earmark-fill" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowLoaded }}</span>
                 <span class="sr-only">{{ langNumberOfShortcutsLoaded.before }}</span>
                 <span class="badge badge-pill badge-primary">{{ loadedCount }}</span>
@@ -47,10 +47,11 @@
             class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer text-left"
             @click="toggleSelection(shortcut)"
           >
-            <FontAwesomeIcon
+            <BIcon
               icon="check"
-              class="text-primary mr-2 fa-1o5x"
+              class="text-primary mr-2 fs-2x"
               :class="{'invisible': !shortcut.selected}"
+              scale="1.5"
             />
             <img
               v-show="shortcut.image"
@@ -67,7 +68,7 @@
             >.</span><br><span
               class="text-nowrap"
             >
-              <FontAwesomeIcon icon="file" class="mr-1" />{{ lang.shortcutLoaded }}
+              <BIcon icon="file-earmark-fill" class="mr-1" />{{ lang.shortcutLoaded }}
             </span></template></span>
           </button>
         </template>
@@ -283,10 +284,6 @@ export default {
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.fa-1o5x {
-  font-size: 1.5em;
 }
 
 .btn-group-lg > .btn {

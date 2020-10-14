@@ -14,12 +14,18 @@
         :disabled="!button.click || button.disabled"
         @click="button.click"
       >
+        <span
+          v-if="typeof button.icon === 'object' && 'component' in button.icon"
+          class="mr-2"
+        >
+          <component :is="button.icon.component" />
+        </span>
         <img
-          v-if="typeof button.icon === 'string' && button.icon.startsWith('data:image')"
+          v-else-if="typeof button.icon === 'string' && button.icon.startsWith('data:image')"
           :src="button.icon"
           class="icon mr-2"
         >
-        <FontAwesomeIcon v-else :icon="button.icon" class="mr-2" />
+        <BIcon v-else :icon="button.icon" v-bind="button.iconOptions" class="mr-2" />
         {{ button.text }}
       </button>
     </div>

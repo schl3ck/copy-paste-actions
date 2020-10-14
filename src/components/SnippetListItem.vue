@@ -82,7 +82,7 @@
 
         <div v-if="canEdit" class="col-auto d-flex align-items-center justify-content-center">
           <button class="btn btn-outline-dark" @click="startEdit">
-            <FontAwesomeIcon icon="pencil-alt" />
+            <BIcon icon="pencil-fill" />
             <span class="sr-only">{{ lang.edit }}</span>
           </button>
         </div>
@@ -121,6 +121,7 @@
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
       <button v-if="onSelect && !askDeletion" class="btn btn-block mt-2 btn-success" @click="onSelect(snippet)">
+        <BIcon icon="check" scale="1.75" class="mr-1" />
         {{ lang.selectSnippet }}
       </button>
 
@@ -134,7 +135,7 @@
 
       <template v-if="overrides">
         <span class="text-orange">
-          <FontAwesomeIcon icon="exclamation-triangle" />
+          <BIcon icon="exclamation-triangle-fill" />
           {{
             lang.overrides
               [snippet.discard ? "subjunctive" : "normal"]
@@ -232,13 +233,16 @@ export default {
         {
           text: this.lang.delete,
           class: "btn-danger",
-          icon: ["far", "trash-alt"],
+          icon: "trash",
           click: this.delete
         },
         {
           text: this.lang.cancelEdit,
           class: "btn-secondary",
-          icon: "times",
+          icon: "x",
+          iconOptions: {
+            scale: 1.5
+          },
           click: () => {
             this.askDeletion = false;
             this.editing = true;
@@ -275,13 +279,16 @@ export default {
       {
         text: this.lang.doneEdit,
         class: "btn-success",
-        icon: ["far", "save"],
+        icon: { component: "IconSave" },
         click: this.saveEdit
       },
       {
         text: this.lang.cancelEdit,
         class: "btn-secondary",
-        icon: "times",
+        icon: "x",
+        iconOptions: {
+          scale: 1.5
+        },
         click: this.cancelEdit
       }
     ];
@@ -289,7 +296,7 @@ export default {
       this.buttons.splice(1, 0, {
         text: this.lang.delete,
         class: "btn-danger",
-        icon: ["far", "trash-alt"],
+        icon: "trash",
         click: () => {
           this.editing = false;
           this.askDeletion = true;

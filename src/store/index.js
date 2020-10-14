@@ -36,6 +36,12 @@ export default new Vuex.Store({
     importURLs: null,
     /** @type {Store.UpdateAvailable} */
     updateAvailable: false,
+    // {
+    //   version: "2.1",
+    //   url: "localhost:8080/update",
+    //   notes: "new version notes should go here. how about\nline breaks?",
+    //   release: new Date()
+    // },
     probablyOutdated: false
   },
   mutations: {

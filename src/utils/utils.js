@@ -30,3 +30,19 @@ export function * zip(...arrays) {
     yield arrays.map(a => a[i]);
   }
 }
+
+const htmlEscapeMap = {
+  "<": "&lt;",
+  ">": "&gt;",
+  "&": "&amp;",
+  '"': "&quot;"
+};
+/**
+ * HTML escapes the text and converts every `\n` to `<br>`
+ * @param {string} text
+ */
+export function nl2br(text) {
+  return text
+    .replace(/[<>"&]/g, (match) => htmlEscapeMap[match])
+    .replace(/\n/g, "<br>");
+}

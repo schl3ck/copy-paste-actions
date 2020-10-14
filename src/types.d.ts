@@ -91,8 +91,20 @@ declare namespace ButtonBar {
   interface Button {
     text: string,
     class: string,
-    icon: string,
+    icon: string | { component: string },
+    iconOptions?: object,
     disabled?: boolean,
     click?: Function
+  }
+}
+
+declare namespace MenuList {
+  interface MenuItem {
+    title: string,
+    description: string,
+    icon: string,
+    iconColor?: string,
+    iconOptions?: object,
+    click: () => void
   }
 }

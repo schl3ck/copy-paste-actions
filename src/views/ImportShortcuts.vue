@@ -16,7 +16,7 @@
             <img v-if="shortcut.image" :src="shortcut.image" class="image mr-2">
             {{ shortcut.name }}
           </div>
-          <FontAwesomeIcon
+          <BIcon
             icon="check"
             class="text-success ml-3 icon"
             :class="{'invisible': !shortcut.done}"

@@ -3,9 +3,9 @@
     <div class="fixed-top fixed-bottom container d-flex flex-column align-items-center justify-content-center">
       <template v-if="loaded || large">
         <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-          <FontAwesomeIcon
-            :icon="loaded ? 'file' : 'exclamation-circle'"
-            class="fa-5x text-warning mb-2"
+          <BIcon
+            :icon="loaded ? 'file-earmark-fill' : 'exclamation-circle-fill'"
+            class="fs-5x text-warning mb-2"
           />
           <span class="text-center pre-line">{{ loaded ? lang.shortcutsLoaded : shortcutsSizeLarge }}</span>
         </div>
@@ -62,13 +62,16 @@ export default {
       this.buttons = [
         {
           class: "btn-success",
-          icon: "play",
+          icon: "play-fill",
+          iconOptions: {
+            scale: 1.5
+          },
           text: this.lang.continue,
           click: this.useCached.bind(this)
         },
         {
           class: "btn-warning",
-          icon: "file-import",
+          icon: "arrow-counterclockwise",
           text: this.lang.reload,
           click: this.load.bind(this)
         }
@@ -90,7 +93,7 @@ export default {
         },
         {
           class: "btn-warning",
-          icon: "play",
+          icon: "play-fill",
           text: this.lang.continue,
           click: this.load.bind(this)
         }

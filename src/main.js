@@ -5,37 +5,38 @@ import "bootstrap.reboot";
 import "highlight.js/styles/xcode.css";
 // import "jquery";
 // import "bootstrap.js";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+import "bootstrap-vue/dist/bootstrap-vue-icons.min.css";
 import {
-  faHammer,
-  faPencilAlt,
-  faCogs,
-  faQuestion,
-  faClipboard,
-  faCheck,
-  faChevronLeft,
-  faBars,
-  faFile,
-  faFileImport,
-  faPlay,
-  faExclamationCircle,
-  faSearchMinus,
-  faSearchPlus,
-  faUndoAlt,
-  faExclamationTriangle,
-  faDownload,
-  faLongArrowAltRight,
-  faTimes
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faSave,
-  faTrashAlt,
-  faEyeSlash
-} from "@fortawesome/free-regular-svg-icons";
+  BIcon,
+  BIconstack,
+  BIconHammer,
+  BIconPencilFill,
+  BIconGearWideConnected,
+  BIconQuestion,
+  BIconCheck,
+  BIconChevronLeft,
+  BIconListCheck,
+  BIconFileEarmarkFill,
+  BIconArrowCounterclockwise, // file import
+  BIconPlayFill,
+  BIconExclamationCircleFill,
+  BIconSearch,
+  BIconDash,
+  BIconPlus,
+  BIconExclamationTriangleFill,
+  BIconDownload,
+  BIconArrowRight,
+  BIconX,
+  BIconTrash,
+  BIconEyeSlash
+} from "bootstrap-vue";
 
 import store from "./store/index";
 import App from "./App.vue";
+import IconSearchMinus from "@/icons/IconSearchMinus.vue";
+import IconSearchPlus from "@/icons/IconSearchPlus.vue";
+import IconSave from "@/icons/IconSave.vue";
 
 // make buffer globally available
 import { Buffer } from "buffer";
@@ -43,32 +44,31 @@ window.Buffer = Buffer;
 
 smoothscroll.polyfill();
 
-library.add(
-  faHammer,
-  faPencilAlt,
-  faCogs,
-  faQuestion,
-  faClipboard,
-  faCheck,
-  faChevronLeft,
-  faBars,
-  faFile,
-  faFileImport,
-  faPlay,
-  faExclamationCircle,
-  faSearchMinus,
-  faSearchPlus,
-  faUndoAlt,
-  faExclamationTriangle,
-  faDownload,
-  faLongArrowAltRight,
-  faTimes,
-  faSave,
-  faTrashAlt,
-  faEyeSlash
-);
-
-Vue.component("FontAwesomeIcon", FontAwesomeIcon);
+Vue.component("BIcon", BIcon);
+Vue.component("BIconstack", BIconstack);
+Vue.component("BIconHammer", BIconHammer);
+Vue.component("BIconPencilFill", BIconPencilFill);
+Vue.component("BIconGearWideConnected", BIconGearWideConnected);
+Vue.component("BIconQuestion", BIconQuestion);
+Vue.component("BIconCheck", BIconCheck);
+Vue.component("BIconChevronLeft", BIconChevronLeft);
+Vue.component("BIconListCheck", BIconListCheck);
+Vue.component("BIconFileEarmarkFill", BIconFileEarmarkFill);
+Vue.component("BIconArrowCounterclockwise", BIconArrowCounterclockwise);
+Vue.component("BIconPlayFill", BIconPlayFill);
+Vue.component("BIconExclamationCircleFill", BIconExclamationCircleFill);
+Vue.component("BIconSearch", BIconSearch);
+Vue.component("BIconDash", BIconDash);
+Vue.component("BIconPlus", BIconPlus);
+Vue.component("BIconExclamationTriangleFill", BIconExclamationTriangleFill);
+Vue.component("BIconDownload", BIconDownload);
+Vue.component("BIconArrowRight", BIconArrowRight);
+Vue.component("BIconX", BIconX);
+Vue.component("BIconTrash", BIconTrash);
+Vue.component("BIconEyeSlash", BIconEyeSlash);
+Vue.component("IconSearchMinus", IconSearchMinus);
+Vue.component("IconSearchPlus", IconSearchPlus);
+Vue.component("IconSave", IconSave);
 
 Vue.config.productionTip = false;
 Vue.config.performace = process.env.NODE_ENV === "development";

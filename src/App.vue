@@ -2,7 +2,8 @@
   <div id="app" ref="app" class="container">
     <div v-if="showMainTitle" class="sticky-top">
       <span class="title text-warning">
-        <FontAwesomeIcon icon="clipboard" /> {{ preferences["Shortcut Name"] }}
+        <img :src="mainIcon" class="main-icon">
+        {{ preferences["Shortcut Name"] }}
       </span>
       <hr>
     </div>
@@ -48,6 +49,8 @@ import Preferences from "@/views/Preferences.vue";
 import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
+import MainIcon from "@/icons/mainIcon.png";
+
 class Popstate {
   constructor(state) {
     this.state = state;
@@ -83,7 +86,8 @@ export default {
       compProps: {},
       hideUpdateBanner: false,
       showProbablyOutdated: false,
-      probablyOutdatedTimeouts: []
+      probablyOutdatedTimeouts: [],
+      mainIcon: MainIcon
     };
   },
   computed: {
@@ -260,6 +264,40 @@ export default {
   background: white;
 }
 
+.fs-1x5 {
+  font-size: 1.5em;
+}
+.fs-2x {
+  font-size: 2em;
+}
+.fs-2x5 {
+  font-size: 2.5em;
+}
+.fs-3x {
+  font-size: 3em;
+}
+.fs-3x5 {
+  font-size: 3.5em;
+}
+.fs-4x {
+  font-size: 4em;
+}
+.fs-4x5 {
+  font-size: 4.5em;
+}
+.fs-5x {
+  font-size: 5em;
+}
+.fs-5x5 {
+  font-size: 5.5em;
+}
+.fs-6x {
+  font-size: 6em;
+}
+.fs-6x5 {
+  font-size: 6.5em;
+}
+
 .pre-line {
   white-space: pre-line;
 }
@@ -268,6 +306,11 @@ export default {
   max-width: max-content !important;
 }
 
+.main-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: bottom;
+}
 .title {
   margin-bottom: 0.5rem;
   font-weight: 700;

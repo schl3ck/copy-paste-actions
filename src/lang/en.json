@@ -201,7 +201,7 @@
       "title": "New update available!",
       "version": "Version:",
       "releaseDate": "Released:",
-      "ignored": "You've ignored this update"
+      "ignored": "You've ignored this update."
     },
     "shortcutIconCache": "Shortcut icon cache",
     "nIconsCached": {
@@ -265,6 +265,7 @@
   "confirmNewUpdate": {
     "changelog": "Changelog",
     "releaseDate": "Released:",
+    "ignored": "You've ignored this update.",
     "update": "Update now",
     "ignore": "Ignore this update",
     "viewWebsite": "View on RoutineHub"

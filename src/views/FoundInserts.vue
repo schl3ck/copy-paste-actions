@@ -125,7 +125,7 @@ export default {
           class: this.allInsertsHaveSnippetsOrExcluded
             ? "btn-success"
             : "btn-secondary",
-          icon: ["far", "save"],
+          icon: { component: "IconSave" },
           click: function() {
             if (!this.allInsertsHaveSnippetsOrExcluded) {
               alert(this.lang.insertWithoutSnippetOrNotExcluded);

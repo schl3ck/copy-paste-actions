@@ -6,21 +6,21 @@
           {{ hasNoName ? lang.noSnippetName : title }}
         </h2>
         <button type="button" class="close" aria-label="Close" @click="close">
-          <span class="fa-2x text-secondary" aria-hidden="true">&times;</span>
+          <span class="fs-2x text-secondary" aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="btn-group btn-group-sm w-100">
         <button class="btn btn-outline-primary" @click="setZoom(-1)">
-          <FontAwesomeIcon icon="search-minus" />
+          <IconSearchMinus />
         </button>
         <button class="btn btn-outline-primary" @click="setZoom(0)">
-          <FontAwesomeIcon icon="undo-alt" />
+          <BIcon icon="arrow-counterclockwise" />
         </button>
         <button class="btn btn-outline-primary" @click="setZoom(1)">
-          <FontAwesomeIcon icon="search-plus" />
+          <IconSearchPlus />
         </button>
         <button class="btn btn-outline-primary" @click="saveZoom">
-          <FontAwesomeIcon :icon="['far', 'save']" />
+          <IconSave />
         </button>
       </div>
     </div>

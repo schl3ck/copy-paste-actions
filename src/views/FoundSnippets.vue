@@ -8,7 +8,7 @@
       class="alert alert-danger"
     >
       <h5 class="d-flex flex-row align-items-center">
-        <FontAwesomeIcon icon="exclamation-circle" class="text-danger fa-2x mb-n1 mr-2" /> {{ lang.conflicts }}
+        <BIcon icon="exclamation-circle-fill" class="text-danger fs-2x mb-n1 mr-2" /> {{ lang.conflicts }}
       </h5>
       <hr class="my-2">
 
@@ -142,7 +142,7 @@ export default {
             "btn-success": this.enableContinueButton,
             "btn-secondary": !this.enableContinueButton
           },
-          icon: ["far", "save"],
+          icon: { component: "IconSave" },
           click: function() {
             if (!this.enableContinueButton) {
               let top = 0;

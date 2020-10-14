@@ -11,7 +11,7 @@
         <div>
           <b class="mr-2">{{ lang.updateAvailable.version }}</b>
           {{ appSettings.Version }}
-          <FontAwesomeIcon icon="long-arrow-alt-right" class="small" />
+          <BIcon icon="arrow-right" class="" />
           {{ updateAvailable.version }}
           <br>
           <b class="mr-2">{{ lang.updateAvailable.releaseDate }}</b>
@@ -21,7 +21,7 @@
           </template>
         </div>
         <button class="btn btn-outline-dark" @click="showUpdate">
-          <FontAwesomeIcon icon="chevron-left" class="rotate-180" />
+          <BIcon icon="chevron-left" class="rotate-180" />
         </button>
       </div>
     </div>
@@ -137,7 +137,7 @@
             </div>
             <div class="mw-content align-self-center">
               <button type="button" class="btn btn-outline-danger btn-sm" @click="reset(pref.key)">
-                <FontAwesomeIcon icon="undo-alt" />
+                <BIcon icon="arrow-counterclockwise" />
               </button>
             </div>
           </div>
@@ -242,7 +242,7 @@ export default {
         res.push({
           text: this.lang.saveLocal,
           class: "btn-success",
-          icon: ["far", "save"],
+          icon: { component: "IconSave" },
           click: () => {
             this.$store.commit("userPreferences", this.preferences);
           }
@@ -250,7 +250,7 @@ export default {
         res.push({
           text: this.lang.saveToApp,
           class: "btn-success",
-          icon: ["far", "save"],
+          icon: { component: "IconSave" },
           click: () => {
             this.$store.commit("userPreferences", this.preferences);
             navigateAndBuildZip(this.$root, {
@@ -265,7 +265,7 @@ export default {
         res.push({
           text: this.lang.resetAll,
           class: "btn-danger",
-          icon: "undo-alt",
+          icon: "arrow-counterclockwise",
           click: () => {
             this.preferences = Object.assign({}, this.prefDefault);
           }
@@ -275,7 +275,10 @@ export default {
         res.push({
           text: this.lang.discardChanges,
           class: "btn-secondary",
-          icon: "times",
+          icon: "x",
+          iconOptions: {
+            scale: 1.5
+          },
           click: () => {
             this.preferences = Object.assign({}, this.prefGlobal);
           }
@@ -332,13 +335,10 @@ export default {
         {
           text: this.lang.refreshIconCache,
           class: "btn-success",
-          icon: "undo-alt",
+          icon: "arrow-counterclockwise",
           click: () => {
             navigateAndBuildZip(this.$root, {
-              actions: [
-                "Shortcuts.refreshImages",
-                "Build.toMainMenu"
-              ],
+              actions: ["Shortcuts.refreshImages", "Build.toMainMenu"],
               closePage: true
             });
           }
@@ -346,13 +346,10 @@ export default {
         {
           text: this.lang.clearIconCache,
           class: "btn-danger",
-          icon: ["far", "trash-alt"],
+          icon: "trash",
           click: () => {
             navigateAndBuildZip(this.$root, {
-              actions: [
-                "Shortcuts.clearImages",
-                "Build.toSafari"
-              ],
+              actions: ["Shortcuts.clearImages", "Build.toSafari"],
               closePage: true
             });
           }

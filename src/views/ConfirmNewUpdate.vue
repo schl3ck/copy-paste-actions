@@ -2,7 +2,7 @@
   <div>
     <h2 class="mb-4">
       {{ preferences.Version }}
-      <FontAwesomeIcon icon="long-arrow-alt-right" class="small" />
+      <BIcon icon="arrow-right" class="" />
       {{ updateData.version }}
     </h2>
     <h4>{{ lang.changelog }}</h4>
@@ -21,7 +21,7 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
-import RoutineHubIcon from "@/assets/routinehub.png";
+import RoutineHubIcon from "@/icons/routinehub.png";
 import { nl2br } from "@/utils/utils";
 
 export default {
@@ -83,7 +83,7 @@ export default {
             window.history.back();
           }
         });
-        }
+      }
       return res;
     }
   },

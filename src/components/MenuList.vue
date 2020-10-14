@@ -6,7 +6,7 @@ export default {
   functional: true,
   props: {
     /**
-     * @type {{title: string, description: string, icon: string, iconColor?: string, click: () => void}[]}
+     * @type {MenuList.MenuItem[]}
      */
     items: {
       type: Array,

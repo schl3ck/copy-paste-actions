@@ -89,7 +89,10 @@ export default {
     if (this.hasItems) {
       this.buttons.unshift({
         class: "btn-warning",
-        icon: "play",
+        icon: "play-fill",
+        iconOptions: {
+          scale: 1.5
+        },
         text: this.lang.ignoreContinue,
         click: () => this.$root.$emit("navigate", "FoundSnippets")
       });
