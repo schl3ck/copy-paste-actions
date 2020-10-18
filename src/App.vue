@@ -182,6 +182,7 @@ export default {
         this.hideUpdateBanner = true;
       }
 
+      /** @type {"pushState" | "replaceState"} */
       let historyStateMethod = "pushState";
       const comp = this.getCurrentComponent();
       if (!(options instanceof Popstate)) {
@@ -223,6 +224,8 @@ export default {
           );
           scrollPos = null;
         }
+        const compLang = this.lang[componentName[0].toLowerCase() + componentName.substr(1)];
+        document.title = "CopyPaste Actions - " + ((compLang && compLang.title) || componentName);
         window.scrollTo({
           left: scrollPos ? scrollPos.x : 0,
           top: scrollPos ? scrollPos.y : 0,

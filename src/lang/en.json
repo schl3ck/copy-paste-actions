@@ -9,6 +9,7 @@
     "link": "Dismiss"
   },
   "mainMenu": {
+    "title": "Main Menu",
     "selectShortcuts": {
       "title": "Select Shortcuts",
       "description": "Search for Shortcuts to select which will be processed"
@@ -50,6 +51,7 @@
     "shortcutLoaded": "Loaded"
   },
   "confirmSelectedShortcuts": {
+    "title": "Confirm selected Shortcuts",
     "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?",
     "shortcutsLoaded": "All selected shortcuts are already loaded.\nDo you want to continue and use them or reload them?",
     "reload": "Reload",
@@ -57,6 +59,7 @@
     "back": "Back"
   },
   "openApp": {
+    "title": "Open Shortcuts app",
     "buildingUrl": "Building URL to open Shortcuts...",
     "done": "Done",
     "openApp": "Open Shortcuts",
@@ -66,6 +69,7 @@
     "cancel": "Cancel"
   },
   "processShortcuts": {
+    "title": "Processing your shortcuts",
     "processing": "Processing...",
     "noShortcuts": "No shortcuts to process",
     "noItemsFound": "No snippets or inserts were found.\nPlease check, if you have the correct syntax in the comment actions."
@@ -166,6 +170,7 @@
     "insertWithoutSnippetOrNotExcluded": "At least one insert has no snippet assigned or isn't excluded"
   },
   "listSnippets": {
+    "title": "List of snippets",
     "clipboard": "Clipboard items",
     "snippets": "Snippets",
     "back": "Back",
@@ -176,6 +181,7 @@
     "save": "Save now"
   },
   "mergeSnippetsIntoShortcut": {
+    "title": "Merging your snippets",
     "processing": "Processing...",
     "noShortcuts": "No shortcuts to process",
     "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions.",
@@ -183,6 +189,7 @@
     "openApp": "Open Shortcuts"
   },
   "importShortcuts": {
+    "title": "List of shortcuts to import",
     "importing": "Importing Shortcuts",
     "note": "$n shortcuts will be imported. Please tap on the button \"Import\" to import a shortcut. After importing one shortcut, please return here to import the next one. You can also tap on the shortcut itself to import it.",
     "import": "Import",
@@ -263,6 +270,7 @@
     }
   },
   "confirmNewUpdate": {
+    "title": "New update",
     "changelog": "Changelog",
     "releaseDate": "Released:",
     "ignored": "You've ignored this update.",
