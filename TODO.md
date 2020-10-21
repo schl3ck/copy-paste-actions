@@ -11,7 +11,6 @@
 ## Preferences
 * add link from each setting to docs/help
 * add pref to select shortcuts that should be loaded every time (how to flag if the auto-loaded shouldn't be analysed?)
-* add pref to automatically overwrite all snippets (what to do on conflicts?)
 * add pref to automatically parse auto-loaded shortcuts
 * how to access settings to turn auto-parse off when overwrite = true?  
   solution: display confirmation screen with the loaded shortcuts

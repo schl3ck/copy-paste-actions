@@ -96,6 +96,7 @@ export default {
       return this.$store.state.processResult.shortcuts;
     },
     conflictingSnippets() {
+      /** @type { {clipboard: {[key: string]: object[]}, snippet: {[key: string]: object[]}} } */
       const res = {
         clipboard: {},
         snippet: {}
@@ -143,7 +144,7 @@ export default {
             "btn-secondary": !this.enableContinueButton
           },
           icon: { component: "IconSave" },
-          click: function() {
+          click: () => {
             if (!this.enableContinueButton) {
               let top = 0;
               if (this.hasConflicts) {
@@ -160,27 +161,22 @@ export default {
               return;
             }
 
-            let snippets = [];
-            for (const shortcut of this.shortcuts) {
-              snippets = snippets.concat(
-                shortcut.snippets.filter((s) => !s.discard)
-              );
-            }
-            if (snippets.length > 0) {
-              this.$store.commit("replaceSnippets", snippets);
-            }
-            this.$root.$emit("navigate", "FoundInserts");
-          }.bind(this)
+            this.saveAndContinue();
+          }
         },
         {
           text: this.$store.state.language.toMainMenu,
           class: "btn-outline-primary",
           icon: "chevron-left",
-          click: function() {
+          click: () => {
             this.$root.$emit("navigate", "MainMenu");
-          }.bind(this)
+          }
         }
       ];
+    },
+    /** @returns {boolean} */
+    historyReplaceState() {
+      return this.$store.state.preferences.Preferences.autoOverwriteSnippets && !this.hasConflicts;
     }
   },
   watch: {
@@ -209,6 +205,11 @@ export default {
     }
   },
   activated() {
+    if (this.historyReplaceState) {
+      this.saveAndContinue();
+      return;
+    }
+
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", false);
     this.$root.$on("snippetBeginEdit", this.onSnippetEdit);
@@ -245,6 +246,18 @@ export default {
         elemRect.top -
         bodyRect.top -
         (stickyTop ? stickyTop.getBoundingClientRect().height : 0);
+    },
+    saveAndContinue() {
+      let snippets = [];
+      for (const shortcut of this.shortcuts) {
+        snippets = snippets.concat(
+                shortcut.snippets.filter((s) => !s.discard)
+        );
+      }
+      if (snippets.length > 0) {
+        this.$store.commit("replaceSnippets", snippets);
+      }
+      this.$root.$emit("navigate", "FoundInserts");
     }
   }
 };

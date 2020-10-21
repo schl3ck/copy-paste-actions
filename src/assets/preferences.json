@@ -14,7 +14,8 @@
     "codeZoom": 1,
     "switchCaption": false,
     "ignoreVersion": false,
-    "skipFoundInsertsOnNoInsert": false
+    "skipFoundInsertsOnNoInsert": false,
+    "autoOverwriteSnippets": false
   },
   "iOS Version": "13.4",
   "Preferences": {
@@ -27,7 +28,8 @@
     "codeZoom": 1,
     "switchCaption": false,
     "ignoreVersion": false,
-    "skipFoundInsertsOnNoInsert": false
+    "skipFoundInsertsOnNoInsert": false,
+    "autoOverwriteSnippets": false
   },
   "componentToDisplay": "MainMenu"
 }

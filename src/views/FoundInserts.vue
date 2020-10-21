@@ -176,14 +176,15 @@ export default {
     }
   },
   activated() {
+    if (this.historyReplaceState) {
+      this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
+      return;
+    }
+
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", false);
     const height = this.$refs.toolbar.clientHeight;
     this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
-
-    if (this.historyReplaceState) {
-      this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
-    }
   },
   methods: {
     noSnippetName(val) {

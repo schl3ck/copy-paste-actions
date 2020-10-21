@@ -272,7 +272,11 @@
       },
       "skipFoundInsertsOnNoInsert": {
         "title": "Skip Found Inserts page",
-        "description": "Skip the Found Inserts page when no insert in any shortcut was found."
+        "description": "Skip the Found Inserts page when no insert was found in any shortcut."
+      },
+      "autoOverwriteSnippets": {
+        "title": "Automatically save all snippets",
+        "description": "Automatically saves all snippets overwriting already existing snippets and clipboard items. This preference is ignored when there are name conflicts between new snippets/clipboard items."
       }
     }
   },
