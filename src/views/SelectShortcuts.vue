@@ -4,8 +4,8 @@
       <h2 class="pt-1">
         {{ lang.title }}
       </h2>
-      <div class="list-group list-group-custom-flush">
-        <div class="list-group-item no-rounded-bottom border-bottom p-0">
+      <div class="list-group list-group-custom-flush no-top-bottom-border">
+        <div class="list-group-item custom-list-group-item no-rounded-bottom border-bottom p-0">
           <div class="input-group flex-row">
             <span class="sr-only">{{ lang.searchCaption }}</span>
             <input
@@ -35,16 +35,20 @@
         </div>
       </div>
     </div>
-    <div ref="list" class="list-group list-group-custom-flush no-rounded-top">
+    <div ref="list" class="list-group list-group-custom-flush no-top-bottom-border no-rounded-top">
       <div v-show="filteredShortcuts && filteredShortcuts.length">
-        <div v-show="displayShortcuts.shortcuts.length === 0" class="list-group-item text-center">
+        <div
+          v-show="displayShortcuts.shortcuts.length === 0"
+          class="list-group-item custom-list-group-item text-center"
+        >
           <i>{{ displayShortcuts.noItemsLang }}<span class="sr-only">.</span></i>
         </div>
         <template v-show="displayShortcuts.shortcuts.length > 0">
           <button
             v-for="shortcut in displayShortcuts.shortcuts"
             :key="shortcut.name"
-            class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer text-left"
+            :class="'list-group-item list-group-item-action custom-list-group-item d-flex align-items-center ' +
+              'cursor-pointer text-left'"
             @click="toggleSelection(shortcut)"
           >
             <BIcon
@@ -74,12 +78,12 @@
         </template>
       </div>
       <div v-show="filteredShortcuts && filteredShortcuts.length === 0">
-        <div class="list-group-item text-center">
+        <div class="list-group-item custom-list-group-item text-center">
           <i>{{ lang.searchNoMatch }}<span class="sr-only">.</span></i>
         </div>
       </div>
       <div v-show="!filteredShortcuts">
-        <div class="list-group-item text-center">
+        <div class="list-group-item custom-list-group-item text-center">
           <i>{{ lang.loading }}</i>
         </div>
       </div>
@@ -282,10 +286,6 @@ export default {
   border-bottom-right-radius: 0;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .btn-group-lg > .btn {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -306,26 +306,6 @@ export default {
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-}
-
-@media (max-width: 575px) {
-  .list-group-item {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .list-group-custom-flush .list-group-item {
-    border-left-width: 0;
-    border-right-width: 0;
-    border-radius: 0;
-    z-index: 105;
-
-    &:first-child {
-      border-top-width: 0;
-    }
-    &:last-child {
-      border-bottom-width: 0;
-    }
   }
 }
 </style>

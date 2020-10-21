@@ -52,6 +52,15 @@ export function navigateAndBuildZip(root, options) {
       });
     }
 
+    if (store.state.icloudUrlsChanged && !options.actions.includes("Shortcuts.saveiCloudUrls")) {
+      options.actions.push("Shortcuts.saveiCloudUrls");
+      options.data = options.data || [];
+      options.data.push({
+        name: "icloud urls.txt",
+        content: JSON.stringify({ urls: store.state.icloudUrls })
+      });
+    }
+
     const tar = new tarball.TarWriter();
     tar.addTextFile("actions.txt", options.actions.join("\n"));
     if (options.data && options.data.length) {

@@ -85,6 +85,15 @@ declare namespace Store {
     image: string,
     done: boolean
   }
+
+  interface ICloudUrl {
+    name: string,
+    url: string,
+    date: Date
+  }
+  interface ICloudShortcut extends ICloudUrl {
+    image: string
+  }
 }
 
 declare namespace ButtonBar {
@@ -102,7 +111,7 @@ declare namespace MenuList {
   interface MenuItem {
     title: string,
     description: string,
-    icon: string,
+    icon: string | { component: string },
     iconColor?: string,
     iconOptions?: object,
     click: () => void

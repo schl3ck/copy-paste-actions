@@ -1,7 +1,9 @@
 # TODO list
 
 * enable checking for updates on RoutineHub
-* save generated icloud shortcut urls to enable the user to delete them
+
+## Snippet list
+* search bar
 
 ## Found snippets/inserts
 * move shortcuts with snippets/inserts to top (controllable by preference?)

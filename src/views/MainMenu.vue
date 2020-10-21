@@ -7,11 +7,7 @@
         </div>
         <div class="card-body pt-3">
           <p>
-            {{ unsavedSnippets
-              ? unsavedPrefs
-                ? mainMenu.unsavedChanges.snippetsPreferences
-                : mainMenu.unsavedChanges.snippets
-              : mainMenu.unsavedChanges.preferences }}
+            {{ unsavedMessage }}
           </p>
           <p>
             {{ mainMenu.unsavedChanges.looseChanges }}
@@ -33,17 +29,12 @@
 <script>
 import MenuList from "@/components/MenuList.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
+import { joinReadable } from "@/utils/utils";
 
 export default {
   name: "MainMenu",
   components: {
     MenuList
-  },
-  data() {
-    return {
-      /** @type {MenuList.MenuItem[]} */
-      menuItems: []
-    };
   },
   computed: {
     /** @returns {object} */
@@ -58,54 +49,86 @@ export default {
     hasUnsavedChanges() {
       return this.$store.getters.hasUnsavedChanges;
     },
-    /** @returns {boolean} */
-    unsavedPrefs() {
-      return this.$store.state.userPreferencesChanged;
-    },
-    /** @returns {boolean} */
-    unsavedSnippets() {
-      return this.$store.state.snippetsChanged;
-    }
-  },
-  created() {
-    const self = this;
-    /** @type {MenuList.MenuItem[]} */
-    this.menuItems = [
-      {
-        icon: "hammer",
-        click() {
-          self.$root.$emit("navigate", "SelectShortcuts");
-        },
-        ...this.mainMenu.selectShortcuts
-      },
-      {
-        icon: "pencil-fill",
-        click() {
-          self.$root.$emit("navigate", "ListSnippets", {
-            editable: true,
-            clipboardFirst: true
-          });
-        },
-        ...this.mainMenu.editSnippets
-      },
-      {
-        icon: "gear-wide-connected",
-        click() {
-          self.$root.$emit("navigate", "Preferences");
-        },
-        ...this.mainMenu.preferences
-      },
-      {
-        icon: "question",
-        iconOptions: {
-          scale: 1.75
-        },
-        click() {
-          alert("Select Shortcuts");
-        },
-        ...this.mainMenu.help
+    unsavedMessage() {
+      /** @type {typeof import("@/store/index").default["state"]} */
+      const state = this.$store.state;
+
+      const changed = [];
+      if (state.snippetsChanged) {
+        changed.push("snippets");
       }
-    ];
+      if (state.userPreferencesChanged) {
+        changed.push("preferences");
+      }
+      if (state.icloudUrlsChanged) {
+        changed.push("icloudUrls");
+      }
+
+      return this.mainMenu.unsavedChanges.message.replace(
+        /\$list/g,
+        joinReadable(
+          changed.map((i) => this.mainMenu.unsavedChanges[i]),
+          this.mainMenu.unsavedChanges.separator,
+          this.mainMenu.unsavedChanges.separatorLast
+        )
+      );
+    },
+    /** @returns {MenuList.MenuItem[]} */
+    menuItems() {
+      const self = this;
+      /** @type {MenuList.MenuItem[]} */
+      const res = [
+        {
+          icon: "hammer",
+          click() {
+            self.$root.$emit("navigate", "SelectShortcuts");
+          },
+          ...this.mainMenu.selectShortcuts
+        },
+        {
+          icon: "pencil-fill",
+          click() {
+            self.$root.$emit("navigate", "ListSnippets", {
+              editable: true,
+              clipboardFirst: true
+            });
+          },
+          ...this.mainMenu.editSnippets
+        },
+        {
+          icon: "gear-wide-connected",
+          click() {
+            self.$root.$emit("navigate", "Preferences");
+          },
+          ...this.mainMenu.preferences
+        },
+        {
+          icon: "question",
+          iconOptions: {
+            scale: 1.75
+          },
+          click() {
+            alert("Select Shortcuts");
+          },
+          ...this.mainMenu.help
+        }
+      ];
+
+      if (this.icloudUrls.length > 0) {
+        res.splice(2, 0, {
+          icon: { component: "IconCloudLink" },
+          click() {
+            self.$root.$emit("navigate", "ListiCloudUrls");
+          },
+          ...this.mainMenu.icloudUrls
+        });
+      }
+      return res;
+    },
+    /** @returns {Store.ICloudShortcut[]} */
+    icloudUrls() {
+      return this.$store.getters.icloudUrls;
+    }
   },
   activated() {
     this.$store.commit("showMainTitle", true);
@@ -123,5 +146,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
 </style>

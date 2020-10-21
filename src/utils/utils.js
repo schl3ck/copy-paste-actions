@@ -46,3 +46,61 @@ export function nl2br(text) {
     .replace(/[<>"&]/g, (match) => htmlEscapeMap[match])
     .replace(/\n/g, "<br>");
 }
+
+/**
+ * source: https://stackoverflow.com/a/30810322/10362619, adapted
+ * @param {string} text
+ */
+export function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+
+  // Avoid scrolling to bottom
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  let successful = false;
+  try {
+    successful = document.execCommand("copy");
+  } catch (err) { }
+
+  document.body.removeChild(textArea);
+  return successful;
+}
+
+/**
+ * source: https://stackoverflow.com/a/30810322/10362619
+ * @param {string} text
+ */
+export function copyTextToClipboard(text) {
+  if (!navigator.clipboard) {
+    return fallbackCopyTextToClipboard(text);
+  }
+  return navigator.clipboard.writeText(text).then(function() {
+    return true;
+  }, function() {
+    return false;
+  });
+}
+
+/**
+ * Joins an array in a human readable format like "1, 2, 3 and 4"
+ * @param {any[]} array
+ * @param {string} separator
+ * @param {string} separatorLast
+ */
+export function joinReadable(array, separator, separatorLast) {
+  if (array.length < 3) {
+    return array.join(separatorLast);
+  } else {
+    const ar = Array.from(array);
+    const last = ar.pop();
+
+    return [ar.join(separator), last].join(separatorLast);
+  }
+}

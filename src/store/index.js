@@ -42,7 +42,13 @@ export default new Vuex.Store({
     //   notes: "new version notes should go here. how about\nline breaks?",
     //   release: new Date()
     // },
-    probablyOutdated: false
+    probablyOutdated: false,
+    /** @type {Store.ICloudUrl[]} */
+    icloudUrls: [
+      // { name: "CopyPaste Test Shortcut", url: "https://www.icloud.com/shortcuts/1", date: new Date() },
+      // { name: "CopyPaste Test Shortcut no items", url: "https://www.icloud.com/shortcuts/2", date: new Date() }
+    ],
+    icloudUrlsChanged: false
   },
   mutations: {
     shortcuts(state, data) {
@@ -132,9 +138,17 @@ export default new Vuex.Store({
     userChangesSaved(state) {
       state.userPreferencesChanged = false;
       state.snippetsChanged = false;
+      state.icloudUrlsChanged = false;
     },
     probablyOutdated(state, data) {
       state.probablyOutdated = data;
+    },
+    icloudUrls(state, data) {
+      state.icloudUrls = data;
+    },
+    removeiCloudUrl(state, url) {
+      state.icloudUrls.splice(state.icloudUrls.findIndex((i) => i.url === url), 1);
+      state.icloudUrlsChanged = true;
     }
   },
   actions: {
@@ -185,6 +199,12 @@ export default new Vuex.Store({
         } else if (filename === "import urls.json") {
           const content = JSON.parse(stringFromBinaryString(data));
           commit("importURLs", content);
+        } else if (filename === "icloud urls.json") {
+          const content = JSON.parse(stringFromBinaryString(data));
+          commit("icloudUrls", content.urls.map((i) => {
+            i.date = new Date(i.date);
+            return i;
+          }));
         }
       });
 
@@ -247,7 +267,7 @@ export default new Vuex.Store({
       return state.language.toMainMenu;
     },
     hasUnsavedChanges(state) {
-      return state.snippetsChanged || state.userPreferencesChanged;
+      return state.snippetsChanged || state.userPreferencesChanged || state.icloudUrlsChanged;
     },
     snippetsForSaving(state) {
       return {
@@ -272,6 +292,18 @@ export default new Vuex.Store({
           url: toImport.urls[index],
           image: shortcuts.find((s) => s.name === shortcut).image,
           done: false
+        };
+      });
+    },
+    /** @returns {Store.ICloudShortcut[]} */
+    icloudUrls(state) {
+      const shortcuts = state.shortcuts;
+      const icloudUrls = state.icloudUrls;
+      return icloudUrls.map((shortcut) => {
+        const s = shortcuts.find((s) => s.name === shortcut.name);
+        return {
+          ...shortcut,
+          image: s && s.image
         };
       });
     }

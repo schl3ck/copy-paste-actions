@@ -3,8 +3,9 @@ export default {
   name: "MenuItem",
   functional: true,
   props: {
+    /** @type {import("vue").PropOptions<MenuList.MenuItem>} */
     icon: {
-      type: String,
+      type: [String, Object],
       required: true
     },
     title: {
@@ -38,9 +39,23 @@ export default {
     ].includes(props.iconColor)
       ? "text-" + props.iconColor
       : "";
-    const iconColorStyle = iconColorClass
-      ? ""
-      : "color: " + props.iconColor;
+    const iconColorStyle = iconColorClass ? "" : "color: " + props.iconColor;
+
+    let icon;
+    if (typeof props.icon === "object" && "component" in props.icon) {
+      icon = createElement(props.icon.component, {
+        class: "card-img mr-3 fs-3x"
+      });
+    } else {
+      icon = createElement("BIcon", {
+        props: {
+          icon: props.icon,
+          ...props.iconOptions
+        },
+        class: `card-img mr-3 fs-3x ${iconColorClass}`,
+        style: iconColorStyle
+      });
+    }
 
     return createElement(
       "div",
@@ -54,14 +69,7 @@ export default {
             class: "d-flex align-items-center"
           },
           [
-            createElement("BIcon", {
-              props: {
-                icon: props.icon,
-                ...props.iconOptions
-              },
-              class: `card-img mr-3 fs-3x ${iconColorClass}`,
-              style: iconColorStyle
-            }),
+            icon,
             createElement("div", [
               createElement(
                 "h5",

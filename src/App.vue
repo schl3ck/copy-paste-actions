@@ -47,6 +47,7 @@ import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
 import ImportShortcuts from "@/views/ImportShortcuts.vue";
 import Preferences from "@/views/Preferences.vue";
 import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
+import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 import MainIcon from "@/icons/mainIcon.png";
@@ -74,6 +75,7 @@ export default {
     ImportShortcuts,
     Preferences,
     ConfirmNewUpdate,
+    ListiCloudUrls,
     ButtonBar
   },
   data() {
@@ -224,8 +226,12 @@ export default {
           );
           scrollPos = null;
         }
-        const compLang = this.lang[componentName[0].toLowerCase() + componentName.substr(1)];
-        document.title = "CopyPaste Actions - " + ((compLang && compLang.title) || componentName);
+        const compLang = this.lang[
+          componentName[0].toLowerCase() + componentName.substr(1)
+        ];
+        document.title =
+          "CopyPaste Actions - " +
+          ((compLang && compLang.title) || componentName);
         window.scrollTo({
           left: scrollPos ? scrollPos.x : 0,
           top: scrollPos ? scrollPos.y : 0,
@@ -341,11 +347,39 @@ export default {
   text-decoration: underline;
 }
 
-.slide-down-enter {
+.slide-down-enter,
+.slide-down-and-up-enter {
   transform: translateY(-100%);
 }
-.slide-down-enter-active {
+.slide-down-enter-active,
+.slide-down-and-up-enter-active {
   transition: transform 0.5s ease-out;
+}
+.slide-down-and-up-leave-active {
+  transform: translateY(-100%);
+  transition: transform 0.5s ease-in;
+}
+
+.fade-enter {
+  opacity: 0 !important;
+}
+.fade-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+.fade-leave-active {
+  opacity: 0 !important;
+  transition: opacity 0.3s ease-in;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #00000040;
+  opacity: 1;
+  z-index: 500;
 }
 
 .stacked-borders > div {
@@ -356,6 +390,35 @@ export default {
   &:not(:first-child) {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media (max-width: 575px) {
+  .custom-list-group-item {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .list-group-custom-flush {
+    &.no-top-bottom-border {
+      .list-group-item {
+        &:first-child {
+          border-top-width: 0;
+        }
+        &:last-child {
+          border-bottom-width: 0;
+        }
+      }
+    }
+    .list-group-item {
+      border-left-width: 0;
+      border-right-width: 0;
+      border-radius: 0;
+      z-index: 105;
+    }
   }
 }
 </style>

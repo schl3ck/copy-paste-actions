@@ -29,7 +29,10 @@ import {
   BIconArrowRight,
   BIconX,
   BIconTrash,
-  BIconEyeSlash
+  BIconEyeSlash,
+  BIconCloud,
+  BIconLink,
+  BIconClipboardPlus
 } from "bootstrap-vue";
 
 import store from "./store/index";
@@ -37,6 +40,7 @@ import App from "./App.vue";
 import IconSearchMinus from "@/icons/IconSearchMinus.vue";
 import IconSearchPlus from "@/icons/IconSearchPlus.vue";
 import IconSave from "@/icons/IconSave.vue";
+import IconCloudLink from "@/icons/IconCloudLink.vue";
 
 // make buffer globally available
 import { Buffer } from "buffer";
@@ -66,9 +70,13 @@ Vue.component("BIconArrowRight", BIconArrowRight);
 Vue.component("BIconX", BIconX);
 Vue.component("BIconTrash", BIconTrash);
 Vue.component("BIconEyeSlash", BIconEyeSlash);
+Vue.component("BIconCloud", BIconCloud);
+Vue.component("BIconLink", BIconLink);
+Vue.component("BIconClipboardPlus", BIconClipboardPlus);
 Vue.component("IconSearchMinus", IconSearchMinus);
 Vue.component("IconSearchPlus", IconSearchPlus);
 Vue.component("IconSave", IconSave);
+Vue.component("IconCloudLink", IconCloudLink);
 
 Vue.config.productionTip = false;
 Vue.config.performace = process.env.NODE_ENV === "development";
