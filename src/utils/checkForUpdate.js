@@ -9,7 +9,7 @@ export function checkForUpdate() {
     if (req.readyState === XMLHttpRequest.DONE) {
       if (req.status === 0 || (req.status >= 200 && status < 400)) {
         const res = req.response;
-        if (res.status === "success") {
+        if (res && res.result === "success") {
           const curVersion = store.state.preferences.Version.split(".");
           const newVersion = res.Version.split(".");
 
@@ -34,4 +34,5 @@ export function checkForUpdate() {
       }
     }
   };
+  req.send();
 }
