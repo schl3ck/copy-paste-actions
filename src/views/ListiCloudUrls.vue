@@ -198,7 +198,6 @@ export default {
     },
     /** @param {Store.ICloudShortcut} shortcut */
     async copyUrl(shortcut) {
-      console.log(shortcut);
       let res = copyTextToClipboard(shortcut.url);
       if (res instanceof Promise) {
         res = await res;

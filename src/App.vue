@@ -318,7 +318,7 @@ export default {
 .main-icon {
   width: 1em;
   height: 1em;
-  vertical-align: bottom;
+  vertical-align: -0.2rem;
 }
 .title {
   margin-bottom: 0.5rem;

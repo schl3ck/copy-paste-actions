@@ -66,7 +66,7 @@ export default {
         createElement(
           "div",
           {
-            class: "d-flex align-items-center"
+            class: "d-flex align-items-center h-100"
           },
           [
             icon,
