@@ -2,18 +2,28 @@
   <div
     class="card"
     :class="{
-      'bg-transparent': !(checkOverrides && snippet.discard && !editing) && !highlight,
+      'bg-transparent':
+        !(checkOverrides && snippet.discard && !editing) && !highlight,
       'bg-lightgray': checkOverrides && snippet.discard && !editing,
-      'alert-primary': highlight
+      'alert-primary': highlight,
     }"
   >
     <div class="card-body">
       <div class="row">
         <div class="col">
-          <div v-if="shortcutInsteadOfSnippetName && !editing" class="d-flex flex-row align-items-center">
-            <img v-if="snippet.shortcut.image" :src="snippet.shortcut.image" class="mr-2 img">
+          <div
+            v-if="shortcutInsteadOfSnippetName && !editing"
+            class="d-flex flex-row align-items-center"
+          >
+            <img
+              v-if="snippet.shortcut.image"
+              :src="snippet.shortcut.image"
+              class="mr-2 img"
+            >
             <label for="name" class="sr-only">{{ lang.shortcutName }}</label>
-            <span id="name" class="font-weight-bold">{{ snippet.shortcut.name }}</span>
+            <span id="name" class="font-weight-bold">{{
+              snippet.shortcut.name
+            }}</span>
           </div>
           <div v-else>
             <label for="name" class="sr-only">{{ lang.name }}</label>
@@ -28,7 +38,7 @@
                 'form-control-plaintext': !editing,
                 'form-control': editing,
                 'm-0 p-0': !editing,
-                'mb-1': editing
+                'mb-1': editing,
               }"
               :placeholder="lang.noSnippetName"
               @keyup.enter="saveEdit"
@@ -54,7 +64,9 @@
                   name="isClipboard"
                   :value="true"
                 >
-                <label for="isClipboard" class="custom-control-label">{{ lang.clipboardItem }}</label>
+                <label for="isClipboard" class="custom-control-label">
+                  {{ lang.clipboardItem }}
+                </label>
               </div>
               <div class="custom-control custom-radio">
                 <input
@@ -65,13 +77,17 @@
                   name="isClipboard"
                   :value="false"
                 >
-                <label for="isSnippet" class="custom-control-label">{{ lang.snippet }}</label>
+                <label for="isSnippet" class="custom-control-label">
+                  {{ lang.snippet }}
+                </label>
               </div>
             </div>
             <div>
               {{
-                (snippet.numberOfActions === 1 ? lang.actions.singular : lang.actions.plural)
-                  .replace(/\$number/g, snippet.numberOfActions)
+                (snippet.numberOfActions === 1
+                  ? lang.actions.singular
+                  : lang.actions.plural
+                ).replace(/\$number/g, snippet.numberOfActions)
               }}
             </div>
             <div v-if="snippet.newShortcut">
@@ -80,7 +96,10 @@
           </div>
         </div>
 
-        <div v-if="canEdit" class="col-auto d-flex align-items-center justify-content-center">
+        <div
+          v-if="canEdit"
+          class="col-auto d-flex align-items-center justify-content-center"
+        >
           <button class="btn btn-outline-dark" @click="startEdit">
             <BIcon icon="pencil-fill" />
             <span class="sr-only">{{ lang.edit }}</span>
@@ -92,35 +111,57 @@
         <div class="col">
           <div v-if="snippet.description && !editing">
             {{ lang.description }}<br>
-            <div class="card bg-transparent" :class="{'border border-dark': snippet.discard}">
-              <div class="card-body px-2 py-1" v-html="formatDescription(snippet.description)" />
+            <div
+              class="card bg-transparent"
+              :class="{ 'border border-dark': snippet.discard }"
+            >
+              <div
+                class="card-body px-2 py-1"
+                v-html="formatDescription(snippet.description)"
+              />
             </div>
           </div>
           <div v-else-if="editing">
             <label for="description">{{ lang.description }}</label>
-            <textarea id="description" v-model="description" class="form-control" />
+            <textarea
+              id="description"
+              v-model="description"
+              class="form-control"
+            />
           </div>
-          <div v-if="checkOverrides" class="custom-control custom-checkbox text-danger discard-exclude">
+          <div
+            v-if="checkOverrides"
+            class="custom-control custom-checkbox text-danger discard-exclude"
+          >
             <input
               :id="'discard_' + id"
               v-model="snippet.discard"
               type="checkbox"
               class="custom-control-input"
             >
-            <label :for="'discard_' + id" class="custom-control-label">{{ lang.discard }}</label>
+            <label :for="'discard_' + id" class="custom-control-label">{{
+              lang.discard
+            }}</label>
           </div>
         </div>
       </div>
 
       <button
         class="btn btn-block mt-2 discard-exclude"
-        :class="{'btn-primary': !showActionsBtnOutline, 'btn-outline-primary': showActionsBtnOutline}"
+        :class="{
+          'btn-primary': !showActionsBtnOutline,
+          'btn-outline-primary': showActionsBtnOutline,
+        }"
         @click="showActions"
       >
         {{ lang.showActions }}
       </button>
       <ButtonBar v-if="editing" :buttons="buttons" size="normal" class="mt-2" />
-      <button v-if="onSelect && !askDeletion" class="btn btn-block mt-2 btn-success" @click="onSelect(snippet)">
+      <button
+        v-if="onSelect && !askDeletion"
+        class="btn btn-block mt-2 btn-success"
+        @click="onSelect(snippet)"
+      >
         <BIcon icon="check" scale="1.75" class="mr-1" />
         {{ lang.selectSnippet }}
       </button>
@@ -137,9 +178,9 @@
         <span class="text-orange">
           <BIcon icon="exclamation-triangle-fill" />
           {{
-            lang.overrides
-              [snippet.discard ? "subjunctive" : "normal"]
-              [snippet.isClipboard ? "clipboard" : "snippet"]
+            lang.overrides[snippet.discard ? "subjunctive" : "normal"][
+              snippet.isClipboard ? "clipboard" : "snippet"
+            ]
           }}
         </span>
         <SnippetListItem :snippet="overrides" />
@@ -155,38 +196,38 @@ import { nl2br } from "@/utils/utils";
 export default {
   name: "SnippetListItem",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   props: {
     snippet: {
       type: Object,
-      required: true
+      required: true,
     },
     shortcutInsteadOfSnippetName: {
       type: Boolean,
-      default: false
+      default: false,
     },
     checkOverrides: {
       type: Boolean,
-      default: false
+      default: false,
     },
     editable: {
       type: Boolean,
-      default: true
+      default: true,
     },
     showActionsBtnOutline: {
       type: Boolean,
-      default: false
+      default: false,
     },
     /** @type {import("vue").PropOptions<(snippet: object) => void>} */
     onSelect: {
       type: Function,
-      default: null
+      default: null,
     },
     highlight: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -197,7 +238,7 @@ export default {
       /** @type {ButtonBar.Button[]} */
       buttons: [],
       id: (Math.random() * Number.MAX_SAFE_INTEGER).toFixed(0),
-      askDeletion: false
+      askDeletion: false,
     };
   },
   computed: {
@@ -222,9 +263,9 @@ export default {
       if (!this.checkOverrides) return null;
       return this.$store.state.snippets.find(
         (snippet) =>
-          snippet.name === this.snippet.name &&
-          snippet.isClipboard === this.snippet.isClipboard &&
-          snippet !== this.snippet
+          snippet.name === this.snippet.name
+          && snippet.isClipboard === this.snippet.isClipboard
+          && snippet !== this.snippet,
       );
     },
     /** @returns {ButtonBar.Button[]} */
@@ -234,20 +275,20 @@ export default {
           text: this.lang.delete,
           class: "btn-danger",
           icon: "trash",
-          click: this.delete
+          click: this.delete,
         },
         {
           text: this.lang.cancelEdit,
           class: "btn-secondary",
           icon: "x",
           iconOptions: {
-            scale: 1.5
+            scale: 1.5,
           },
           click: () => {
             this.askDeletion = false;
             this.editing = true;
-          }
-        }
+          },
+        },
       ];
     },
     /** @returns {string[]} */
@@ -255,7 +296,7 @@ export default {
       return this.lang.deleteMessage[
         this.snippet.isClipboard ? "clipboard" : "snippet"
       ].split("\n");
-    }
+    },
   },
   watch: {
     editing(value) {
@@ -271,7 +312,7 @@ export default {
     },
     snippet() {
       this.setData();
-    }
+    },
   },
   created() {
     this.setData();
@@ -280,17 +321,17 @@ export default {
         text: this.lang.doneEdit,
         class: "btn-success",
         icon: { component: "IconSave" },
-        click: this.saveEdit
+        click: this.saveEdit,
       },
       {
         text: this.lang.cancelEdit,
         class: "btn-secondary",
         icon: "x",
         iconOptions: {
-          scale: 1.5
+          scale: 1.5,
         },
-        click: this.cancelEdit
-      }
+        click: this.cancelEdit,
+      },
     ];
     if (!this.checkOverrides) {
       this.buttons.splice(1, 0, {
@@ -300,7 +341,7 @@ export default {
         click: () => {
           this.editing = false;
           this.askDeletion = true;
-        }
+        },
       });
     }
   },
@@ -332,18 +373,18 @@ export default {
       const props = {
         name: (this.name || "").trim() || this.globals.noSnippetName,
         isClipboard: this.isClipboard,
-        description: this.description
+        description: this.description,
       };
       this.$store.commit("updateSnippet", {
         snippet: this.snippet,
-        new: props
+        new: props,
       });
       this.cancelEdit();
     },
     showActions() {
       this.$root.$emit("navigate", "SnippetActions", {
         title: this.snippet.name,
-        actions: this.snippet.actions
+        actions: this.snippet.actions,
       });
     },
     formatDescription(desc) {
@@ -352,8 +393,8 @@ export default {
     delete() {
       this.$store.commit("removeSnippet", this.snippet);
       this.$store.commit("snippetListItemEditing", false);
-    }
-  }
+    },
+  },
 };
 </script>
 

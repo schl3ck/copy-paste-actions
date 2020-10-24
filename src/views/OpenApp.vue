@@ -25,7 +25,7 @@ import { openNow } from "@/utils/openApp";
 export default {
   name: "OpenApp",
   components: {
-    ProcessBar
+    ProcessBar,
   },
   data() {
     return {
@@ -36,10 +36,10 @@ export default {
       options: {
         closePage: false,
         toMainMenu: false,
-        messages: []
+        messages: [],
       },
       base64: "",
-      restoringState: false
+      restoringState: false,
     };
   },
   computed: {
@@ -66,18 +66,18 @@ export default {
     },
     historyReplaceState() {
       return !this.base64;
-    }
+    },
   },
   watch: {
     base64(newV) {
       if (
-        newV &&
-        !this.restoringState &&
-        this.preferences.Preferences.autoOpenApp
+        newV
+        && !this.restoringState
+        && this.preferences.Preferences.autoOpenApp
       ) {
         this.openNow();
       }
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
@@ -107,10 +107,9 @@ export default {
       // );
 
       this.timeoutIds = openNow(this.$root, this.base64, this.options);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

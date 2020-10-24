@@ -1,9 +1,5 @@
 {
-  "cleanUp": [
-    0,
-    1,
-    2
-  ],
+  "cleanUp": [0, 1, 2],
   "codeZoom": {
     "min": 0.1,
     "max": 5,

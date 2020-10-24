@@ -1,19 +1,21 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
   extends: [
     "plugin:vue/recommended",
-    "@vue/standard"
+    "@vue/standard",
   ],
   parserOptions: {
-    parser: "babel-eslint"
+    parser: "babel-eslint",
   },
   rules: {
     "max-len": ["error", {
-      code: 120,
-      ignoreRegExpLiterals: true
+      code: 80,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+      ignoreRegExpLiterals: true,
     }],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
@@ -21,8 +23,8 @@ module.exports = {
       "error",
       "double",
       {
-        avoidEscape: true
-      }
+        avoidEscape: true,
+      },
     ],
     indent: [
       "error",
@@ -30,38 +32,38 @@ module.exports = {
       {
         SwitchCase: 1,
         CallExpression: {
-          arguments: "off"
+          arguments: "off",
         },
-        ArrayExpression: 1
-      }
+        ArrayExpression: 1,
+      },
     ],
     "array-bracket-spacing": [
       "error",
-      "never"
+      "never",
     ],
     "object-curly-spacing": [
       "error",
-      "always"
+      "always",
     ],
     "space-in-parens": [
       "error",
-      "never"
+      "never",
     ],
     "no-empty": [
-      "off"
+      "off",
     ],
     "linebreak-style": [
       "off",
-      "windows"
+      "unix",
     ],
     semi: [
       "error",
-      "always"
+      "always",
     ],
     "no-unused-vars": "warn",
     "space-before-function-paren": [
       "error",
-      "never"
+      "never",
     ],
     "vue/max-attributes-per-line": [
       "error",
@@ -69,9 +71,37 @@ module.exports = {
         singleline: 5,
         multiline: {
           max: 1,
-          allowFirstLine: false
-        }
-      }
-    ]
-  }
+          allowFirstLine: false,
+        },
+      },
+    ],
+    "comma-dangle": [
+      "error", {
+        arrays: "always-multiline",
+        objects: "always-multiline",
+        imports: "always-multiline",
+        exports: "always-multiline",
+        functions: "always-multiline",
+      },
+    ],
+    "operator-linebreak": ["error", "before", {
+      overrides: {
+        "=": "after",
+        "*=": "after",
+        "**=": "after",
+        "/=": "after",
+        "%=": "after",
+        "+=": "after",
+        "-=": "after",
+        "<<=": "after",
+        ">>=": "after",
+        ">>>=": "after",
+        "&=": "after",
+        "^=": "after",
+        "|=": "after",
+        "&&=": "after",
+        "??=": "after",
+      },
+    }],
+  },
 };

@@ -6,7 +6,7 @@
       {{ updateData.version }}
     </h2>
     <h4>{{ lang.changelog }}</h4>
-    <p v-html="nl2br(updateData.notes)"></p>
+    <p v-html="nl2br(updateData.notes)" />
     <b class="mr-2">{{ lang.releaseDate }}</b>
     {{ updateData.release.toLocaleDateString() }}
     <template v-if="ignoredUpdate">
@@ -27,7 +27,7 @@ import { nl2br } from "@/utils/utils";
 export default {
   name: "ConfirmNewUpdate",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   computed: {
     /** @returns {object} */
@@ -44,7 +44,9 @@ export default {
     },
     /** @returns {boolean} */
     ignoredUpdate() {
-      return this.preferences.Preferences.ignoreVersion === this.updateData.version;
+      return (
+        this.preferences.Preferences.ignoreVersion === this.updateData.version
+      );
     },
     /** @returns {ButtonBar.Button[]} */
     buttons() {
@@ -56,7 +58,7 @@ export default {
           icon: "download",
           click: () => {
             location.href = this.updateData.url;
-          }
+          },
         },
         {
           text: this.lang.viewWebsite,
@@ -65,37 +67,35 @@ export default {
           click: () => {
             window.open(
               `https://www.routinehub.co/shortcut/${this.preferences["RoutineHub ID"]}/`,
-              "_blank"
+              "_blank",
             );
-          }
-        }
+          },
+        },
       ];
       if (!this.ignoredUpdate) {
-        res.push(
-        {
+        res.push({
           text: this.lang.ignore,
           class: "btn-warning",
           icon: "eye-slash",
           click: () => {
             this.$store.commit("userPreferences", {
-              ignoreVersion: this.updateData.version
+              ignoreVersion: this.updateData.version,
             });
             window.history.back();
-          }
+          },
         });
       }
       return res;
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", true);
     this.$store.commit("showBackbutton", false);
   },
   methods: {
-    nl2br
-  }
+    nl2br,
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -18,7 +18,8 @@ const bplist = require("./bplist");
  * @property {string[]} shortcuts[].uuids.groups
  * @property {string[]} shortcuts[].uuids.vars
  * @property {object[]} shortcuts[].actionsToRemove
- * @property {number} shortcuts[].actionsToRemove[].actions 0-based index of action
+ * @property {number} shortcuts[].actionsToRemove[].actions 0-based index of
+ * action
  * @property {number[]} shortcuts[].actionsToRemove[].excludedBy array of ids
  * @property {Buffer} shortcuts[].shortcut base64 encoded bplist
  */
@@ -62,13 +63,17 @@ function merge(dict) {
       insert.uuids.vars = castArray(insert.uuids.vars);
 
       let actions = JSON.stringify(insert.actions);
-      let uuidsToReplace = insert.uuids.groups.filter(g => shortcut.uuids.groups.includes(g));
-      uuidsToReplace = uuidsToReplace.concat(insert.uuids.vars.filter(v => shortcut.uuids.vars.includes(v)));
+      let uuidsToReplace = insert.uuids.groups.filter((g) =>
+        shortcut.uuids.groups.includes(g),
+      );
+      uuidsToReplace = uuidsToReplace.concat(
+        insert.uuids.vars.filter((v) => shortcut.uuids.vars.includes(v)),
+      );
 
       allUUIDs = allUUIDs.concat(insert.uuids.groups);
       allUUIDs = allUUIDs.concat(insert.uuids.vars);
 
-      uuidsToReplace.forEach(uuid => {
+      uuidsToReplace.forEach((uuid) => {
         let newUUID;
         do {
           newUUID = genUUID();
@@ -87,12 +92,10 @@ function merge(dict) {
     shortcut.shortcut.WFWorkflowActions.forEach((action, i) => {
       const remove = shortcut.actionsToRemove.find((a) => a.action === i);
       if (
-        !remove || (
-          !remove.excludedBy.includes(-1) &&
-          idsToExclude.filter(
-            id => remove.excludedBy.includes(id)
-          ).length === 0
-        )
+        !remove
+        || (!remove.excludedBy.includes(-1)
+          && idsToExclude.filter((id) => remove.excludedBy.includes(id)).length
+            === 0)
       ) {
         merged.push(action);
       } else {
@@ -109,9 +112,7 @@ function merge(dict) {
       shortcut.shortcut.WFWorkflowActions = merged;
       finishedShortcuts.push({
         name: shortcut.name,
-        shortcut: bplist
-          .create(shortcut.shortcut)
-          .toString("base64")
+        shortcut: bplist.create(shortcut.shortcut).toString("base64"),
       });
     }
   });
@@ -119,7 +120,7 @@ function merge(dict) {
   res.shortcuts = finishedShortcuts;
 
   return res;
-};
+}
 
 /* istanbul ignore next reason: don't test this wrapper for Web Workers */
 try {
@@ -135,7 +136,8 @@ try {
  * Notifies the parent of this Web Worker of a percentage update
  * @param {number} percent Number between 0 and 100
  */
-/* istanbul ignore next reason: don't test communication with Web Worker parent */
+/* istanbul ignore next reason: don't test communication with Web Worker
+  parent */
 function updatePercentage(percent) {
   try {
     self.postMessage(percent);

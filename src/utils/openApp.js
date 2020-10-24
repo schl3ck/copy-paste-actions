@@ -7,13 +7,19 @@ import store from "@/store/index";
  * Opens the Shortcut to perform some actions
  * @param {import("vue").default} root
  * @param {object} options
- * @param {string[]} options.actions Array of actions the Shortcut should perform
- * @param {boolean} [options.closePage] If `true`, closes the current page after the user switched to Shortcuts
- * @param {boolean} [options.toMainMenu] If `true`, switches to main menu after the user has been redirected to the app
+ * @param {string[]} options.actions Array of actions the Shortcut should
+ * perform
+ * @param {boolean} [options.closePage] If `true`, closes the current page after
+ * the user switched to Shortcuts
+ * @param {boolean} [options.toMainMenu] If `true`, switches to main menu after
+ * the user has been redirected to the app
  * @param {string[]} [options.messages] Messages that should be displayed
- * @param {object[]} [options.data] Array of files that are passed as data to the Shortcut
+ * @param {object[]} [options.data] Array of files that are passed as data to
+ * the Shortcut
  * @param {string} options.data[].name Filename
- * @param {string | ArrayBuffer | Uint8Array | Buffer | Blob} options.data[].content Content of the file
+ * @param {
+ *    string | ArrayBuffer | Uint8Array | Buffer | Blob
+ * } options.data[].content Content of the file
  * @param {object} [options.data[].tarOptions] Options for JSZip
  * @see https://github.com/schl3ck/tarballjs/blob/master/tarball.js#L380
  */
@@ -34,30 +40,39 @@ export function navigateAndBuildZip(root, options) {
     OpenApp.done = false;
     OpenApp.percent = null;
 
-    if (store.state.userPreferencesChanged && !options.actions.includes("Preferences.save")) {
+    if (
+      store.state.userPreferencesChanged
+      && !options.actions.includes("Preferences.save")
+    ) {
       options.actions.push("Preferences.save");
       options.data = options.data || [];
       options.data.push({
         name: "preferences.txt",
-        content: JSON.stringify(store.state.preferences.Preferences)
+        content: JSON.stringify(store.state.preferences.Preferences),
       });
     }
 
-    if (store.state.snippetsChanged && !options.actions.includes("Snippets.save")) {
+    if (
+      store.state.snippetsChanged
+      && !options.actions.includes("Snippets.save")
+    ) {
       options.actions.push("Snippets.save");
       options.data = options.data || [];
       options.data.push({
         name: "snippets.txt",
-        content: JSON.stringify(store.getters.snippetsForSaving)
+        content: JSON.stringify(store.getters.snippetsForSaving),
       });
     }
 
-    if (store.state.icloudUrlsChanged && !options.actions.includes("Shortcuts.saveiCloudUrls")) {
+    if (
+      store.state.icloudUrlsChanged
+      && !options.actions.includes("Shortcuts.saveiCloudUrls")
+    ) {
       options.actions.push("Shortcuts.saveiCloudUrls");
       options.data = options.data || [];
       options.data.push({
         name: "icloud urls.txt",
-        content: JSON.stringify({ urls: store.state.icloudUrls })
+        content: JSON.stringify({ urls: store.state.icloudUrls }),
       });
     }
 
@@ -68,7 +83,11 @@ export function navigateAndBuildZip(root, options) {
         if (typeof item.content === "string") {
           tar.addTextFile(item.name, item.content, item.tarOptions);
         } else {
-          tar.addFileArrayBuffer(item.name, Uint8Array.from(item.content), item.tarOptions);
+          tar.addFileArrayBuffer(
+            item.name,
+            Uint8Array.from(item.content),
+            item.tarOptions,
+          );
         }
       }
     }
@@ -99,23 +118,23 @@ const timeoutIds = [];
  * Open the shortcuts app now
  * @param {import("vue")} $root The root Vue instance
  * @param {string} shortcutInput A string that is passed to the shortcut
- * @param { {closePage?: boolean, toMainMenu?: boolean, doNotRun?: boolean} } options
+ * @param {
+ *    {closePage?: boolean, toMainMenu?: boolean, doNotRun?: boolean}
+ * } options
  */
 export function openNow($root, shortcutInput, options) {
   const close = () => {
     timeoutIds.push(
       setInterval(() => {
         window.close();
-      }, 250)
+      }, 250),
     );
   };
   const mainMenu = () => {
     $root.$emit("navigate", "MainMenu");
   };
-  const timeout = callback => {
-    timeoutIds.push(
-      setTimeout(callback, 2000)
-    );
+  const timeout = (callback) => {
+    timeoutIds.push(setTimeout(callback, 2000));
   };
 
   const action = options.closePage
@@ -131,11 +150,12 @@ export function openNow($root, shortcutInput, options) {
     console.log("switching to app");
     location.href = "workflow://";
   } else {
-    // assume that the method `navigateAndBuildZip` built the .tar.gz so there are any unsaved changes in it
+    // assume that the method `navigateAndBuildZip` built the .tar.gz so there
+    // are any unsaved changes in it
     store.commit("userChangesSaved");
 
     const url = `workflow://run-workflow?name=${encodeURIComponent(
-      store.state.preferences["Shortcut Name"]
+      store.state.preferences["Shortcut Name"],
     )}&input=text&text=${shortcutInput}`;
     // eslint-disable-next-line no-console
     console.log("switching to app with url", url);

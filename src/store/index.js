@@ -15,9 +15,7 @@ export default new Vuex.Store({
     /** @type {Store.Shortcut[]} */
     shortcuts: [],
     /** @type {Store.AppSettings} */
-    preferences: {
-
-    },
+    preferences: {},
     prefConstraints: prefConstraints,
     language: {},
     showMainTitle: true,
@@ -25,9 +23,10 @@ export default new Vuex.Store({
     /** @type {Store.ProcessResult[]} */
     processResult: [],
     globals: {
-      functionDefinition: "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], pause [n], resume [n], " +
-        "paste [replace [n]], insert [replace [n]]",
-      noSnippetName: " "
+      functionDefinition:
+        "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], "
+        + "pause [n], resume [n], paste [replace [n]], insert [replace [n]]",
+      noSnippetName: " ",
     },
     snippetListItemEditing: false,
     userPreferencesChanged: false,
@@ -45,15 +44,25 @@ export default new Vuex.Store({
     probablyOutdated: false,
     /** @type {Store.ICloudUrl[]} */
     icloudUrls: [
-      // { name: "CopyPaste Test Shortcut", url: "https://www.icloud.com/shortcuts/1", date: new Date() },
-      // { name: "CopyPaste Test Shortcut no items", url: "https://www.icloud.com/shortcuts/2", date: new Date() }
+      // {
+      //   name: "CopyPaste Test Shortcut",
+      //   url: "https://www.icloud.com/shortcuts/1",
+      //   date: new Date(),
+      // },
+      // {
+      //   name: "CopyPaste Test Shortcut no items",
+      //   url: "https://www.icloud.com/shortcuts/2",
+      //   date: new Date(),
+      // },
     ],
-    icloudUrlsChanged: false
+    icloudUrlsChanged: false,
   },
   mutations: {
     shortcuts(state, data) {
       state.shortcuts = data;
-      state.shortcuts.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+      state.shortcuts.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
+      );
     },
     preferences(state, data) {
       state.preferences = data;
@@ -97,7 +106,9 @@ export default new Vuex.Store({
         data = [data];
       }
       for (const item of data) {
-        const i = state.snippets.findIndex((s) => s.name === item.name && s.isClipboard === item.isClipboard);
+        const i = state.snippets.findIndex(
+          (s) => s.name === item.name && s.isClipboard === item.isClipboard,
+        );
         if (i >= 0) {
           state.snippets.splice(i, 1, item);
         } else {
@@ -112,7 +123,9 @@ export default new Vuex.Store({
         data = [data];
       }
       for (const item of data) {
-        const i = state.snippets.findIndex((s) => s.name === item.name && s.isClipboard === item.isClipboard);
+        const i = state.snippets.findIndex(
+          (s) => s.name === item.name && s.isClipboard === item.isClipboard,
+        );
         if (i >= 0) {
           state.snippets.splice(i, 1);
         }
@@ -121,11 +134,13 @@ export default new Vuex.Store({
       state.snippetsChanged = true;
     },
     /**
-     * @param { {snippet: object, new: object} } data `snippet` is the original object (must be the same reference!),
+     * @param {
+     *  {snippet: object, new: object}
+     * } data `snippet` is the original object (must be the same reference!),
      *  `new` contains all new properties
      */
     updateSnippet(state, data) {
-      const snippet = state.snippets.find(s => s === data.snippet);
+      const snippet = state.snippets.find((s) => s === data.snippet);
       Object.assign(snippet, data.new);
       state.snippetsChanged = true;
     },
@@ -147,49 +162,68 @@ export default new Vuex.Store({
       state.icloudUrls = data;
     },
     removeiCloudUrl(state, url) {
-      state.icloudUrls.splice(state.icloudUrls.findIndex((i) => i.url === url), 1);
+      state.icloudUrls.splice(
+        state.icloudUrls.findIndex((i) => i.url === url),
+        1,
+      );
       state.icloudUrlsChanged = true;
-    }
+    },
   },
   actions: {
     async loadShortcuts({ commit }) {
-      const zipData = document.getElementById("datastore").innerText.replace(/\s+/g, "");
+      const zipData = document
+        .getElementById("datastore")
+        .innerText.replace(/\s+/g, "");
       if (!zipData) return;
 
       const zipFiles = await new Promise((resolve, reject) => {
-        TarGZ.parse(atob(zipData), (f) => {
-          resolve(f.filter(f => !f.filename.startsWith("PaxHeader")).map(f => {
-            f.filename = stringFromBinaryString(f.filename);
-            return f;
-          }));
-        }, null, (error) => {
-          /* eslint-disable-next-line no-console */
-          console.error("Error in TarGZ.parse():", error);
-          reject(error);
-        });
+        TarGZ.parse(
+          atob(zipData),
+          (f) => {
+            resolve(
+              f
+                .filter((f) => !f.filename.startsWith("PaxHeader"))
+                .map((f) => {
+                  f.filename = stringFromBinaryString(f.filename);
+                  return f;
+                }),
+            );
+          },
+          null,
+          (error) => {
+            /* eslint-disable-next-line no-console */
+            console.error("Error in TarGZ.parse():", error);
+            reject(error);
+          },
+        );
       });
       const files = [];
 
       zipFiles.forEach(({ filename, data }) => {
         if (filename.endsWith("data.json")) {
           const content = JSON.parse(stringFromBinaryString(data));
-          files.push(...content.names.map((n, i) => {
-            return {
-              name: n,
-              size: content.size[i]
-            };
-          }));
+          files.push(
+            ...content.names.map((n, i) => {
+              return {
+                name: n,
+                size: content.size[i],
+              };
+            }),
+          );
         } else if (filename.endsWith(".png")) {
           const blob = new Blob([Buffer.from(data, "binary")]);
           files.push({
             name: filename.replace(/\.png$/, ""),
-            image: URL.createObjectURL(blob)
+            image: URL.createObjectURL(blob),
           });
-        } else if (filename.endsWith(".shortcut") || filename.endsWith(".wflow")) {
+        } else if (
+          filename.endsWith(".shortcut")
+          || filename.endsWith(".wflow")
+        ) {
           const content = Buffer.from(data, "binary");
           files.push({
             name: filename.replace(/\.(shortcut|wflow)$/, ""),
-            data: content
+            data: content,
           });
         } else if (filename === "snippets.json") {
           const snippets = JSON.parse(stringFromBinaryString(data));
@@ -201,10 +235,13 @@ export default new Vuex.Store({
           commit("importURLs", content);
         } else if (filename === "icloud urls.json") {
           const content = JSON.parse(stringFromBinaryString(data));
-          commit("icloudUrls", content.urls.map((i) => {
-            i.date = new Date(i.date);
-            return i;
-          }));
+          commit(
+            "icloudUrls",
+            content.urls.map((i) => {
+              i.date = new Date(i.date);
+              return i;
+            }),
+          );
         }
       });
 
@@ -212,8 +249,8 @@ export default new Vuex.Store({
         return assign({ selected: false }, ...i);
       });
       if (process.env.NODE_ENV === "development") {
-        let noImage = shortcuts.filter(s => !s.image);
-        let noSize = shortcuts.filter(s => !s.size);
+        let noImage = shortcuts.filter((s) => !s.image);
+        let noSize = shortcuts.filter((s) => !s.size);
         if (noImage.length || noSize.length) {
           if (noImage.length === noSize.length) {
             const fuzzy = new FlexSearch("match");
@@ -225,8 +262,8 @@ export default new Vuex.Store({
                 shortcuts.splice(shortcuts.indexOf(i), 1);
               }
             }
-            noImage = shortcuts.filter(s => !s.image);
-            noSize = shortcuts.filter(s => !s.size);
+            noImage = shortcuts.filter((s) => !s.image);
+            noSize = shortcuts.filter((s) => !s.size);
           }
           if (noImage.length || noSize.length) {
             // expose the two arrays for debugging
@@ -236,7 +273,7 @@ export default new Vuex.Store({
             console.warn(
               `There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`,
               noImage,
-              noSize
+              noSize,
             );
           }
         }
@@ -260,14 +297,18 @@ export default new Vuex.Store({
       if (!prefs) return;
 
       commit("language", prefs);
-    }
+    },
   },
   getters: {
     langToMainMenu(state) {
       return state.language.toMainMenu;
     },
     hasUnsavedChanges(state) {
-      return state.snippetsChanged || state.userPreferencesChanged || state.icloudUrlsChanged;
+      return (
+        state.snippetsChanged
+        || state.userPreferencesChanged
+        || state.icloudUrlsChanged
+      );
     },
     snippetsForSaving(state) {
       return {
@@ -277,9 +318,9 @@ export default new Vuex.Store({
             isClipboard: s.isClipboard,
             name: s.name,
             numberOfActions: s.numberOfActions,
-            uuids: s.uuids
+            uuids: s.uuids,
           };
-        })
+        }),
       };
     },
     /** @returns {Store.ShortcutsToImport} */
@@ -291,7 +332,7 @@ export default new Vuex.Store({
           name: shortcut,
           url: toImport.urls[index],
           image: shortcuts.find((s) => s.name === shortcut).image,
-          done: false
+          done: false,
         };
       });
     },
@@ -303,9 +344,9 @@ export default new Vuex.Store({
         const s = shortcuts.find((s) => s.name === shortcut.name);
         return {
           ...shortcut,
-          image: s && s.image
+          image: s && s.image,
         };
       });
-    }
-  }
+    },
+  },
 });

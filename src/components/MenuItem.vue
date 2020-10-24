@@ -6,24 +6,24 @@ export default {
     /** @type {import("vue").PropOptions<MenuList.MenuItem>} */
     icon: {
       type: [String, Object],
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     iconColor: {
       type: String,
-      default: "black"
+      default: "black",
     },
     iconOptions: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   render(createElement, context) {
     const props = context.props;
@@ -35,7 +35,7 @@ export default {
       "primary",
       "secondary",
       "dark",
-      "muted"
+      "muted",
     ].includes(props.iconColor)
       ? "text-" + props.iconColor
       : "";
@@ -44,29 +44,29 @@ export default {
     let icon;
     if (typeof props.icon === "object" && "component" in props.icon) {
       icon = createElement(props.icon.component, {
-        class: "card-img mr-3 fs-3x"
+        class: "card-img mr-3 fs-3x",
       });
     } else {
       icon = createElement("BIcon", {
         props: {
           icon: props.icon,
-          ...props.iconOptions
+          ...props.iconOptions,
         },
         class: `card-img mr-3 fs-3x ${iconColorClass}`,
-        style: iconColorStyle
+        style: iconColorStyle,
       });
     }
 
     return createElement(
       "div",
       {
-        class: "card-body"
+        class: "card-body",
       },
       [
         createElement(
           "div",
           {
-            class: "d-flex align-items-center h-100"
+            class: "d-flex align-items-center h-100",
           },
           [
             icon,
@@ -74,32 +74,32 @@ export default {
               createElement(
                 "h5",
                 {
-                  class: "card-title"
+                  class: "card-title",
                 },
                 [
                   props.title,
                   createElement(
                     "span",
                     {
-                      class: "sr-only"
+                      class: "sr-only",
                     },
-                    ["."]
-                  )
-                ]
+                    ["."],
+                  ),
+                ],
               ),
               createElement(
                 "div",
                 {
-                  class: "card-text"
+                  class: "card-text",
                 },
-                props.description
-              )
-            ]) // /div
-          ]
-        ) // /div.d-flex.align-items-center
-      ]
+                props.description,
+              ),
+            ]), // /div
+          ],
+        ), // /div.d-flex.align-items-center
+      ],
     ); // /div.card-body
-  }
+  },
 };
 </script>
 

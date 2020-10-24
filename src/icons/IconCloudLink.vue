@@ -6,17 +6,17 @@ export default {
       h("BIcon", {
         props: {
           stacked: true,
-          icon: "cloud"
-        }
+          icon: "cloud",
+        },
       }),
       h("BIcon", {
         props: {
           stacked: true,
           icon: "link",
-          scale: 0.5
-        }
-      })
+          scale: 0.5,
+        },
+      }),
     ]);
-  }
+  },
 };
 </script>

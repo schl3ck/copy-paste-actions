@@ -1,12 +1,21 @@
 <template functional>
-  <div class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center">
+  <div
+    :class="
+      'fixed-top fixed-bottom d-flex flex-column justify-content-center ' +
+        'align-items-center'
+    "
+  >
     <transition :name="props.restoringState ? '' : 'fade'">
       <div
         v-if="props.done"
         key="doneBlock"
         class="position-absolute w-100 d-flex flex-column align-items-center"
       >
-        <BIcon icon="check" class="text-success fs-3x text-center mb-1" scale="1.75" />
+        <BIcon
+          icon="check"
+          class="text-success fs-3x text-center mb-1"
+          scale="1.75"
+        />
         <button
           v-if="listeners.doneButtonClick"
           class="btn btn-success btn-lg"
@@ -15,23 +24,38 @@
           {{ props.doneButtonLabel }}
         </button>
         <div class="container">
-          <p v-for="message in props.messages" :key="message" class="text-center mt-2 mb-0">
+          <p
+            v-for="message in props.messages"
+            :key="message"
+            class="text-center mt-2 mb-0"
+          >
             {{ message }}
           </p>
         </div>
       </div>
-      <div v-else key="processingBlock" class="w-100 d-flex flex-column align-items-center">
+      <div
+        v-else
+        key="processingBlock"
+        class="w-100 d-flex flex-column align-items-center"
+      >
         <div class="w-75 margin text-center status-icon">
           <transition :name="props.restoringState ? '' : 'fade'">
-            <div v-if="props.percent === null" key="spinner" class="position-absolute spinner-container">
-              <span class="spinner-border text-primary position-relative" role="status" />
+            <div
+              v-if="props.percent === null"
+              key="spinner"
+              class="position-absolute spinner-container"
+            >
+              <span
+                class="spinner-border text-primary position-relative"
+                role="status"
+              />
             </div>
             <div v-else key="progress" class="position-absolute w-75">
               <div class="progress position-relative">
                 <div
                   class="progress-bar"
                   role="progressbar"
-                  :style="{'width': props.percent + '%'}"
+                  :style="{ width: props.percent + '%' }"
                   :aria-valuenow="props.percent"
                   aria-valuemin="0"
                   aria-valuemax="100"
@@ -54,22 +78,22 @@ export default {
     done: Boolean,
     percent: {
       type: Number,
-      default: null
+      default: null,
     },
     doneButtonLabel: {
       type: String,
-      default: ""
+      default: "",
     },
     statusLabel: {
       type: String,
-      default: ""
+      default: "",
     },
     /** @type {import("vue").PropOptions<string[]>} */
     messages: {
       type: Array,
-      default: () => []
-    }
-  }
+      default: () => [],
+    },
+  },
 };
 </script>
 

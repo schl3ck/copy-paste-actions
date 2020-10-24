@@ -10,14 +10,20 @@
           </div>
           <hr class="my-2 ml-3">
         </div>
-        <div v-for="(warning, index) in shortcut.warnings" :key="index" class="card ml-3">
+        <div
+          v-for="(warning, index) in shortcut.warnings"
+          :key="index"
+          class="card ml-3"
+        >
           <div class="card-body">
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <p class="card-text pre-line" v-html="printWarning(warning)" />
-            <p class="card-text">
-              {{ atAction(warning.action) }}<br>
-              <pre class="code rounded p-2 mb-0"><code>{{ warning.commentText }}</code></pre>
+            <p class="card-text pre-line mb-2" v-html="printWarning(warning)" />
+            <p class="card-text mb-1">
+              {{ atAction(warning.action) }}
             </p>
+            <pre
+              class="code rounded p-2 mb-0"
+            ><code>{{ warning.commentText }}</code></pre>
           </div>
         </div>
       </div>
@@ -38,12 +44,12 @@ import ButtonBar from "@/components/ButtonBar.vue";
 export default {
   name: "AnalyserWarnings",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   data() {
     return {
       /** @type {ButtonBar.Button[]} */
-      buttons: []
+      buttons: [],
     };
   },
   computed: {
@@ -58,14 +64,14 @@ export default {
             ).image;
             const o = {
               name: k,
-              warnings: v
+              warnings: v,
             };
             if (img) {
               o.image = img;
             }
             return o;
-          }
-        )
+          },
+        ),
       );
     },
     /** @returns {boolean} */
@@ -75,7 +81,7 @@ export default {
     /** @returns {object} */
     lang() {
       return this.$store.state.language.warnings;
-    }
+    },
   },
   created() {
     this.buttons = [
@@ -83,18 +89,18 @@ export default {
         class: "btn-outline-primary",
         icon: "chevron-left",
         text: this.$store.getters.langToMainMenu,
-        click: () => this.$root.$emit("navigate", "MainMenu")
-      }
+        click: () => this.$root.$emit("navigate", "MainMenu"),
+      },
     ];
     if (this.hasItems) {
       this.buttons.unshift({
         class: "btn-warning",
         icon: "play-fill",
         iconOptions: {
-          scale: 1.5
+          scale: 1.5,
         },
         text: this.lang.ignoreContinue,
-        click: () => this.$root.$emit("navigate", "FoundSnippets")
+        click: () => this.$root.$emit("navigate", "FoundSnippets"),
       });
     }
   },
@@ -109,13 +115,13 @@ export default {
       let text = escape(
         this.lang[warning.type].replace(
           /\$functionDefinition/g,
-          this.$store.state.globals.functionDefinition
-        )
+          this.$store.state.globals.functionDefinition,
+        ),
       );
       for (const [k, v] of Object.entries(warning.payload)) {
         text = text.replace(
           new RegExp("\\$" + k + "\\b", "g"),
-          `<code>${v}</code>`
+          `<code>${v}</code>`,
         );
       }
       return text;
@@ -123,10 +129,10 @@ export default {
     atAction(index) {
       return this.lang.atActionWithContent.replace(
         /\$action\b/g,
-        "" + (index + 1)
+        "" + (index + 1),
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

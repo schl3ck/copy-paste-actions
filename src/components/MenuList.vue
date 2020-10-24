@@ -10,30 +10,30 @@ export default {
      */
     items: {
       type: Array,
-      required: true
+      required: true,
     },
     columns: {
       type: Number,
-      default: 2
-    }
+      default: 2,
+    },
   },
   render(createElement, context) {
     if (!context.props.items) return;
 
-    const cards = context.props.items.map(i => {
+    const cards = context.props.items.map((i) => {
       return createElement(
         "button",
         {
           class: "col-md mb-2 card text-left",
           on: {
-            click: i.click
-          }
+            click: i.click,
+          },
         },
         [
           createElement(MenuItem, {
-            props: i
-          })
-        ]
+            props: i,
+          }),
+        ],
       );
     });
 
@@ -46,10 +46,10 @@ export default {
         createElement(
           "div",
           {
-            class: "row no-gutters"
+            class: "row no-gutters",
           },
-          currentChildren
-        )
+          currentChildren,
+        ),
       );
     };
 
@@ -64,7 +64,7 @@ export default {
       addToNodes();
     }
     return createElement("div", nodes);
-  }
+  },
 };
 </script>
 

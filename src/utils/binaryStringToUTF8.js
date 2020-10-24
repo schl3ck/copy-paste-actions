@@ -1,11 +1,13 @@
-
+/* eslint-disable max-len */
 /**
- * Converts a Uint8Array, which holds UTF-8 encoded text, into the correct string
+ * Converts a Uint8Array, which holds UTF-8 encoded text, into the correct
+ * string
  *
  * Source: https://weblog.rogueamoeba.com/2017/02/27/javascript-correctly-converting-a-byte-array-to-a-utf-8-string/
  * modified
  * @param {Uint8Array | number[]} data The input to convert
  */
+/* eslint-enable max-len */
 exports.stringFromUTF8Array = function stringFromUTF8Array(data) {
   const extraByteMap = [1, 1, 1, 1, 2, 2, 3, 0];
   var count = data.length;
@@ -15,14 +17,18 @@ exports.stringFromUTF8Array = function stringFromUTF8Array(data) {
     var ch = data[index++];
     if (ch & 0x80) {
       var extra = extraByteMap[(ch >> 3) & 0x07];
-      if (!(ch & 0x40) || !extra || ((index + extra) > count)) { return null; }
+      if (!(ch & 0x40) || !extra || index + extra > count) {
+        return null;
+      }
 
-      ch = ch & (0x3F >> extra);
+      ch = ch & (0x3f >> extra);
       for (; extra > 0; extra -= 1) {
         var chx = data[index++];
-        if ((chx & 0xC0) !== 0x80) { return null; }
+        if ((chx & 0xc0) !== 0x80) {
+          return null;
+        }
 
-        ch = (ch << 6) | (chx & 0x3F);
+        ch = (ch << 6) | (chx & 0x3f);
       }
     }
 

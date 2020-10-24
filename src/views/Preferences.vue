@@ -7,7 +7,12 @@
       <div class="card-header font-weight-bold">
         {{ lang.updateAvailable.title }}
       </div>
-      <div class="card-body pt-3 d-flex flex-row align-items-center justify-content-between">
+      <div
+        :class="
+          'card-body pt-3 ' +
+            'd-flex flex-row align-items-center justify-content-between'
+        "
+      >
         <div>
           <b class="mr-2">{{ lang.updateAvailable.version }}</b>
           {{ appSettings.Version }}
@@ -44,10 +49,17 @@
     <hr>
 
     <div ref="list" class="transition-padding-bottom">
-      <div v-for="(pref, index) in prefsWithLang" :key="pref.key" class="card mb-2">
+      <div
+        v-for="(pref, index) in prefsWithLang"
+        :key="pref.key"
+        class="card mb-2"
+      >
         <label
           :for="pref.key"
-          class="card-header d-flex flex-row justify-content-between align-items-center font-weight-bold"
+          :class="
+            'card-header font-weight-bold ' +
+              'd-flex flex-row justify-content-between align-items-center'
+          "
         >
           {{ pref.lang.title }}
           <div v-if="pref.type === 'boolean'" class="custom-switch2">
@@ -68,9 +80,13 @@
         </label>
         <ul v-if="pref.type !== 'boolean'" class="list-group list-group-flush">
           <li class="list-group-item">
-            <template v-if="pref.type==='number'">
+            <template v-if="pref.type === 'number'">
               <template v-if="Array.isArray(pref.constraints)">
-                <div v-for="constraint in pref.constraints" :key="constraint" class="custom-control custom-radio">
+                <div
+                  v-for="constraint in pref.constraints"
+                  :key="constraint"
+                  class="custom-control custom-radio"
+                >
                   <input
                     :id="pref.key + constraint"
                     v-model="preferences[pref.key]"
@@ -86,7 +102,10 @@
                   >{{ pref.lang.values[constraint] }}</label>
                 </div>
               </template>
-              <div v-else-if="pref.constraints" class="form-row align-items-center">
+              <div
+                v-else-if="pref.constraints"
+                class="form-row align-items-center"
+              >
                 <input
                   :id="pref.key"
                   v-model.number="preferences[pref.key]"
@@ -127,7 +146,11 @@
               <p class="mb-0">
                 <b>{{ lang.defaultsTo }}</b>
                 <code
-                  v-if="pref.type === 'string' || (pref.type === 'number' && !Array.isArray(pref.constraints))"
+                  v-if="
+                    pref.type === 'string' ||
+                      (pref.type === 'number' &&
+                        !Array.isArray(pref.constraints))
+                  "
                   class="ml-2"
                 >{{ getDefault(pref) }}</code>
                 <template v-else>
@@ -136,7 +159,11 @@
               </p>
             </div>
             <div class="mw-content align-self-center">
-              <button type="button" class="btn btn-outline-danger btn-sm" @click="reset(pref.key)">
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                @click="reset(pref.key)"
+              >
                 <BIcon icon="arrow-counterclockwise" />
               </button>
             </div>
@@ -160,22 +187,22 @@ import { navigateAndBuildZip } from "@/utils/openApp";
  * @typedef { {
  *   title: string,
  *   description: string,
- *   values?: {[key: string]: string}
+ *   values?: { [key: string]: string }
  * } } LangItem
  */
 /**
- * @typedef {number[] | {min: number, max: number, step: number}} Constraints
+ * @typedef {number[] | { min: number, max: number, step: number }} Constraints
  */
 export default {
   name: "Preferences",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   data() {
     return {
       /** @type {Store.Preferences} */
       preferences: {},
-      lastChanged: false
+      lastChanged: false,
     };
   },
   computed: {
@@ -215,8 +242,8 @@ export default {
                 ? this.lang.prefs[key]
                 : {
                   title: "" + key,
-                  description: "This language entry does not exist."
-                }
+                  description: "This language entry does not exist.",
+                },
           };
         });
       res.sort((a, b) => a.lang.title.localeCompare(b.lang.title));
@@ -225,13 +252,13 @@ export default {
     /** @returns {boolean} */
     hasChanges() {
       return Object.entries(this.preferences).some(
-        ([key, value]) => value !== this.prefGlobal[key]
+        ([key, value]) => value !== this.prefGlobal[key],
       );
     },
     /** @returns {boolean} */
     notDefaultValues() {
       return Object.entries(this.preferences).some(
-        ([key, value]) => value !== this.prefDefault[key]
+        ([key, value]) => value !== this.prefDefault[key],
       );
     },
     /** @returns {ButtonBar.Button[]} */
@@ -245,7 +272,7 @@ export default {
           icon: { component: "IconSave" },
           click: () => {
             this.$store.commit("userPreferences", this.preferences);
-          }
+          },
         });
         res.push({
           text: this.lang.saveToApp,
@@ -256,9 +283,9 @@ export default {
             navigateAndBuildZip(this.$root, {
               actions: ["Build.toSafari"],
               closePage: false,
-              toMainMenu: true
+              toMainMenu: true,
             });
-          }
+          },
         });
       }
       if (this.notDefaultValues) {
@@ -268,7 +295,7 @@ export default {
           icon: "arrow-counterclockwise",
           click: () => {
             this.preferences = Object.assign({}, this.prefDefault);
-          }
+          },
         });
       }
       if (this.hasChanges) {
@@ -277,11 +304,11 @@ export default {
           class: "btn-secondary",
           icon: "x",
           iconOptions: {
-            scale: 1.5
+            scale: 1.5,
           },
           click: () => {
             this.preferences = Object.assign({}, this.prefGlobal);
-          }
+          },
         });
       }
       return res;
@@ -339,9 +366,9 @@ export default {
           click: () => {
             navigateAndBuildZip(this.$root, {
               actions: ["Shortcuts.refreshImages", "Build.toMainMenu"],
-              closePage: true
+              closePage: true,
             });
-          }
+          },
         },
         {
           text: this.lang.clearIconCache,
@@ -350,17 +377,17 @@ export default {
           click: () => {
             navigateAndBuildZip(this.$root, {
               actions: ["Shortcuts.clearImages", "Build.toSafari"],
-              closePage: true
+              closePage: true,
             });
-          }
-        }
+          },
+        },
       ];
-    }
+    },
   },
   watch: {
     buttons() {
       this.setToolbarClearing();
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
@@ -412,7 +439,7 @@ export default {
           window.scrollBy({
             left: 0,
             top: height - prevHeight,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
         this.lastChanged = false;
@@ -423,8 +450,8 @@ export default {
     },
     showUpdate() {
       this.$root.$emit("navigate", "ConfirmNewUpdate");
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -9,7 +9,7 @@ const levelToColor = {
   info: "\x1b[104;30m INFO \x1b[0m",
   log: "\x1b[102;30m LOG \x1b[0m",
   warn: "\x1b[103;30m WARN \x1b[0m",
-  error: "\x1b[41;30m ERROR \x1b[0m"
+  error: "\x1b[41;30m ERROR \x1b[0m",
 };
 
 app.use(express.json({ limit: "50mb" }));
@@ -27,36 +27,47 @@ app.options("/console", (req, res) => {
 app.post("/console", (req, res) => {
   const now = new Date();
   const offset = now.getTimezoneOffset();
+  // prettier-ignore
   const timestamp = `${now.getFullYear().toString().padStart(4, "0")
   }-${now.getMonth().toString().padStart(2, "0")
   }-${now.getDate().toString().padStart(2, "0")
   }T${now.getHours().toString().padStart(2, "0")
   }:${now.getMinutes().toString().padStart(2, "0")
   }:${now.getSeconds().toString().padStart(2, "0")
-  }${(offset > 0 ? "-" : "+") +
-    Math.floor(Math.abs(offset) / 60).toString().padStart(2, "0") +
-    (Math.abs(offset) % 60).toString().padStart(2, "0")
+  }${(offset > 0 ? "-" : "+")
+    + Math.floor(Math.abs(offset) / 60).toString().padStart(2, "0")
+    + (Math.abs(offset) % 60).toString().padStart(2, "0")
   }`;
   /** @type { {level: string, callee: string, params: any[]} } */
   const data = req.body;
-  console[data.level](timestamp, levelToColor[data.level], ...data.params.map((p) => {
-    if (typeof p === "object" && !Array.isArray(p) && p !== null) {
-      for (const [k, v] of Object.entries(p)) {
-        if (typeof v === "string" && v.length > 5000) {
-          p[k] = v.substr(0, 5000) + " [...]";
+  console[data.level](
+    timestamp,
+    levelToColor[data.level],
+    ...data.params.map((p) => {
+      if (typeof p === "object" && !Array.isArray(p) && p !== null) {
+        for (const [k, v] of Object.entries(p)) {
+          if (typeof v === "string" && v.length > 5000) {
+            p[k] = v.substr(0, 5000) + " [...]";
+          }
         }
       }
-    }
-    return p;
-  }), "at " + data.callee);
+      return p;
+    }),
+    "at " + data.callee,
+  );
   setCORS(res);
   res.sendStatus(204);
 });
 
 app.listen(port, () => {
   const ips = getIP();
-  // you may need to change the ips.Ethernet[0] to something that exists on your system
-  console.log(`Listening on\n    http://localhost:${port}/console\n    http://${ips.Ethernet[0]}:${port}/console\n`);
+  // you may need to change the ips.Ethernet[0] to something that exists on
+  // your system
+  console.log(
+    `Listening on
+    http://localhost:${port}/console
+    http://${ips.Ethernet[0]}:${port}/console\n`,
+  );
 });
 
 // source https://stackoverflow.com/a/8440736/10362619

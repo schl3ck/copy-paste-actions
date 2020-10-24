@@ -15,16 +15,25 @@
     </div>
 
     <transition name="slide-down">
-      <div v-if="showUpdateBanner || showProbablyOutdated" class="fixed-top text-center stacked-borders">
-        <div v-if="showUpdateBanner" class="alert alert-info overlay-message update-available" @click="toUpdate">
-          {{ lang.updateAvailable.text }} <span class="link-style">{{ lang.updateAvailable.link }}</span>
+      <div
+        v-if="showUpdateBanner || showProbablyOutdated"
+        class="fixed-top text-center stacked-borders"
+      >
+        <div
+          v-if="showUpdateBanner"
+          class="alert alert-info overlay-message update-available"
+          @click="toUpdate"
+        >
+          {{ lang.updateAvailable.text }}
+          <span class="link-style">{{ lang.updateAvailable.link }}</span>
         </div>
         <div
           v-if="showProbablyOutdated"
           class="alert alert-danger overlay-message"
           @click="showProbablyOutdated = false"
         >
-          {{ lang.probablyOutdated.text }} <span class="link-style">{{ lang.probablyOutdated.link }}</span>
+          {{ lang.probablyOutdated.text }}
+          <span class="link-style">{{ lang.probablyOutdated.link }}</span>
         </div>
       </div>
     </transition>
@@ -76,20 +85,22 @@ export default {
     Preferences,
     ConfirmNewUpdate,
     ListiCloudUrls,
-    ButtonBar
+    ButtonBar,
   },
   data() {
     return {
       componentToDisplay: "MainMenu",
       /** @type {ButtonBar.Button[]} */
       buttons: [],
-      /** @type {Map<Vue, {scrollPos: {x: number, y: number}, props: object} } */
+      /** @type {
+       * Map<Vue, {scrollPos: {x: number, y: number}, props: object}>
+       * } */
       compSettings: new Map(),
       compProps: {},
       hideUpdateBanner: false,
       showProbablyOutdated: false,
       probablyOutdatedTimeouts: [],
-      mainIcon: MainIcon
+      mainIcon: MainIcon,
     };
   },
   computed: {
@@ -112,9 +123,9 @@ export default {
     /** @returns {Store.UpdateAvailable} */
     updateAvailable() {
       return (
-        this.$store.state.updateAvailable &&
-        this.$store.state.updateAvailable.version !==
-          this.preferences.Preferences.ignoreVersion
+        this.$store.state.updateAvailable
+        && this.$store.state.updateAvailable.version
+          !== this.preferences.Preferences.ignoreVersion
       );
     },
     /** @returns {boolean} */
@@ -124,7 +135,7 @@ export default {
     /** @returns {boolean} */
     probablyOutdated() {
       return this.$store.state.probablyOutdated;
-    }
+    },
   },
   watch: {
     showBackButton(val) {
@@ -139,7 +150,7 @@ export default {
         const id = setTimeout(() => {
           this.probablyOutdatedTimeouts.splice(
             this.probablyOutdatedTimeouts.indexOf(id),
-            1
+            1,
           );
           this.showProbablyOutdated = true;
         }, 2000);
@@ -153,14 +164,14 @@ export default {
           this.probablyOutdatedTimeouts = [];
         }
       }
-    }
+    },
   },
   created() {
     this.$root.$on("navigate", this.navigate);
     window.addEventListener("popstate", (event) => {
       const comp =
-        (event && event.state && event.state.componentToDisplay) ||
-        this.preferences.componentToDisplay;
+        (event && event.state && event.state.componentToDisplay)
+        || this.preferences.componentToDisplay;
       this.navigate(comp, new Popstate(event.state));
     });
 
@@ -173,8 +184,8 @@ export default {
         class: "btn-outline-primary",
         icon: "chevron-left",
         text: this.lang.toMainMenu,
-        click: this.toMainMenu
-      }
+        click: this.toMainMenu,
+      },
     ];
   },
   methods: {
@@ -198,9 +209,9 @@ export default {
         this.compSettings.set(this.componentToDisplay, {
           scrollPos: {
             x: window.scrollX,
-            y: window.scrollY
+            y: window.scrollY,
           },
-          props: this.compProps
+          props: this.compProps,
         });
       }
 
@@ -217,12 +228,12 @@ export default {
       Vue.nextTick(() => {
         const comp = this.getCurrentComponent();
         let scrollPos =
-          this.compSettings.has(componentName) &&
-          this.compSettings.get(componentName).scrollPos;
+          this.compSettings.has(componentName)
+          && this.compSettings.get(componentName).scrollPos;
         if (!(options instanceof Popstate)) {
           window.history[historyStateMethod](
             { componentToDisplay: componentName },
-            componentName
+            componentName,
           );
           scrollPos = null;
         }
@@ -230,19 +241,19 @@ export default {
           componentName[0].toLowerCase() + componentName.substr(1)
         ];
         document.title =
-          "CopyPaste Actions - " +
-          ((compLang && compLang.title) || componentName);
+          "CopyPaste Actions - "
+          + ((compLang && compLang.title) || componentName);
         window.scrollTo({
           left: scrollPos ? scrollPos.x : 0,
           top: scrollPos ? scrollPos.y : 0,
-          behavior: "auto"
+          behavior: "auto",
         });
         this.$root.$emit("navigated." + componentName, comp);
       });
     },
     getCurrentComponent() {
       return this.$children.find(
-        (c) => c.$options.name === this.componentToDisplay
+        (c) => c.$options.name === this.componentToDisplay,
       );
     },
     toMainMenu() {
@@ -251,8 +262,8 @@ export default {
     },
     toUpdate() {
       this.$root.$emit("navigate", "ConfirmNewUpdate");
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -34,7 +34,7 @@ import { joinReadable } from "@/utils/utils";
 export default {
   name: "MainMenu",
   components: {
-    MenuList
+    MenuList,
   },
   computed: {
     /** @returns {object} */
@@ -69,8 +69,8 @@ export default {
         joinReadable(
           changed.map((i) => this.mainMenu.unsavedChanges[i]),
           this.mainMenu.unsavedChanges.separator,
-          this.mainMenu.unsavedChanges.separatorLast
-        )
+          this.mainMenu.unsavedChanges.separatorLast,
+        ),
       );
     },
     /** @returns {MenuList.MenuItem[]} */
@@ -83,35 +83,35 @@ export default {
           click() {
             self.$root.$emit("navigate", "SelectShortcuts");
           },
-          ...this.mainMenu.selectShortcuts
+          ...this.mainMenu.selectShortcuts,
         },
         {
           icon: "pencil-fill",
           click() {
             self.$root.$emit("navigate", "ListSnippets", {
               editable: true,
-              clipboardFirst: true
+              clipboardFirst: true,
             });
           },
-          ...this.mainMenu.editSnippets
+          ...this.mainMenu.editSnippets,
         },
         {
           icon: "gear-wide-connected",
           click() {
             self.$root.$emit("navigate", "Preferences");
           },
-          ...this.mainMenu.preferences
+          ...this.mainMenu.preferences,
         },
         {
           icon: "question",
           iconOptions: {
-            scale: 1.75
+            scale: 1.75,
           },
           click() {
             alert("Select Shortcuts");
           },
-          ...this.mainMenu.help
-        }
+          ...this.mainMenu.help,
+        },
       ];
 
       if (this.icloudUrls.length > 0) {
@@ -120,7 +120,7 @@ export default {
           click() {
             self.$root.$emit("navigate", "ListiCloudUrls");
           },
-          ...this.mainMenu.icloudUrls
+          ...this.mainMenu.icloudUrls,
         });
       }
       return res;
@@ -128,7 +128,7 @@ export default {
     /** @returns {Store.ICloudShortcut[]} */
     icloudUrls() {
       return this.$store.getters.icloudUrls;
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", true);
@@ -138,12 +138,11 @@ export default {
     saveChanges() {
       // let the method itself append all changes
       navigateAndBuildZip(this.$root, {
-        actions: ["Build.toSafari"]
+        actions: ["Build.toSafari"],
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

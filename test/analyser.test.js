@@ -11,7 +11,7 @@ const {
   expectReturnObject,
   uniquePermutations,
   allPossibleScriptParams,
-  constructActionsToRemove
+  constructActionsToRemove,
 } = require("./analyser/utils");
 /* eslint-enable no-unused-vars */
 

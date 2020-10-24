@@ -9,16 +9,27 @@ class ShortcutBuilder {
 
   /**
    * Adds an action
-   * @param {Actions} action - The action to add
-   * @param {object} [params] - Some options to specify
-   * @param {string} [params.WFCommentActionText] - Text in a comment action
-   * @param {string} [params.GroupingIdentifier] - UUID that connects actions into groups
+   * @param {Actions} action The action to add
+   * @param {object} [params] Some options to specify
+   * @param {string} [params.WFCommentActionText] Text in a comment action
+   * @param {string} [params.GroupingIdentifier] UUID that connects actions
+   *    into groups
    * (for actions if, repeat/choose from menu)
    */
   addAction(action, params) {
     const a = ShortcutBuilder.actionToShortcutAction(action, params);
 
     this.actions.push(a);
+  }
+
+  /**
+   * Adds a comment to the actions
+   * @param {string} text The text in the comment
+   */
+  addComment(text) {
+    this.addAction(ShortcutBuilder.actions.Comment, {
+      WFCommentActionText: text,
+    });
   }
 
   /**
@@ -36,8 +47,10 @@ class ShortcutBuilder {
 
   /**
    * Adds the actions from another shortcut
-   * @param {ShortcutBuilder} shortcut The other shortcut containing the actions to add
-   * @param {number} position The index of an action after which the actions should be inserted.
+   * @param {ShortcutBuilder} shortcut The other shortcut containing the
+   *    actions to add
+   * @param {number} position The index of an action after which the actions
+   *    should be inserted.
    * Defaults to the end. 0-based
    * @param {(action: Action, index: number, array: Action[]) => Action} reviver
    */
@@ -60,13 +73,16 @@ class ShortcutBuilder {
 
   /**
    * Retrieves the actions from the shortcut, optionally filtered by a function.
-   * The resulting array has either length of `length` or less, if the end of the shortcut was reached earlier
-   * If arrays of length 2 are passed, then the first index is the start position and the second the length.
+   * The resulting array has either length of `length` or less, if the end of
+   *    the shortcut was reached earlier
+   * If arrays of length 2 are passed, then the first index is the start
+   *    position and the second the length.
    * With that you can extract from multiple indices at once
    *
-   * @param {number|[number, number]} from - The start index. If it is < 0, it is counted from the end of the actions
-   * @param {number|[number, number]} length - The number of actions to extract
-   * @param {[number, number][]} args - Any number of number arrays of the length 2
+   * @param {number|[number, number]} from The start index. If it is < 0,
+   *    it is counted from the end of the actions
+   * @param {number|[number, number]} length The number of actions to extract
+   * @param {[number, number][]} args Any number of number arrays of length 2
    * @returns {object[]}
    */
   getActions(from, length, ...args) {
@@ -85,10 +101,16 @@ class ShortcutBuilder {
 
       if (from < 0) from += this.actions.length;
       if (from < 0 || from >= this.actions.length) {
-        throw new RangeError(`The parameter "from" of range ${i} is outside of the range of actions`);
+        throw new RangeError(
+          `The parameter "from" of range ${i} is outside of the range of actions`,
+        );
       }
 
-      if (length < 0) { throw new RangeError(`The parameter "length" of range ${i} can't be smaller than 0`); }
+      if (length < 0) {
+        throw new RangeError(
+          `The parameter "length" of range ${i} can't be smaller than 0`,
+        );
+      }
       if (length === 0) return;
 
       if (!from && !length) {
@@ -97,7 +119,12 @@ class ShortcutBuilder {
       }
       if (!length) length = this.actions.length;
 
-      result.push(...this.actions.slice(from, Math.min(from + length, this.actions.length)));
+      result.push(
+        ...this.actions.slice(
+          from,
+          Math.min(from + length, this.actions.length),
+        ),
+      );
     });
 
     return result.map((a) => {
@@ -111,15 +138,15 @@ class ShortcutBuilder {
   }
 
   static actionToShortcutAction(action, params) {
-    if (!action) throw new TypeError("Parameter \"action\" is needed");
-    if (params && typeof (params) !== "object") throw new TypeError("Parameter \"params\" has to be an object");
+    if (!action) throw new TypeError('Parameter "action" is needed');
+    if (params && typeof params !== "object") {
+      throw new TypeError('Parameter "params" has to be an object');
+    }
 
     const a = {
       /** @type {string} */
       WFWorkflowActionIdentifier: action.id || "" + action,
-      WFWorkflowActionParameters: {
-
-      }
+      WFWorkflowActionParameters: {},
     };
     if (action.params) {
       Object.keys(action.params).forEach((p) => {
@@ -143,71 +170,71 @@ class ShortcutBuilder {
  */
 ShortcutBuilder.actions = {
   Comment: {
-    id: "is.workflow.actions.comment"
+    id: "is.workflow.actions.comment",
   },
   Dummy: {
-    id: "dummy.action"
+    id: "dummy.action",
   },
   If: {
     id: "is.workflow.actions.conditional",
     params: {
-      WFControlFlowMode: 0
-    }
+      WFControlFlowMode: 0,
+    },
   },
   Otherwise: {
     id: "is.workflow.actions.conditional",
     params: {
-      WFControlFlowMode: 1
-    }
+      WFControlFlowMode: 1,
+    },
   },
   EndIf: {
     id: "is.workflow.actions.conditional",
     params: {
-      WFControlFlowMode: 2
-    }
+      WFControlFlowMode: 2,
+    },
   },
   Repeat: {
     id: "is.workflow.actions.repeat.count",
     params: {
-      WFControlFlowMode: 0
-    }
+      WFControlFlowMode: 0,
+    },
   },
   EndRepeat: {
     id: "is.workflow.actions.repeat.count",
     params: {
-      WFControlFlowMode: 2
-    }
+      WFControlFlowMode: 2,
+    },
   },
   RepeatEach: {
     id: "is.workflow.actions.repeat.each",
     params: {
-      WFControlFlowMode: 0
-    }
+      WFControlFlowMode: 0,
+    },
   },
   EndRepeatEach: {
     id: "is.workflow.actions.repeat.each",
     params: {
-      WFControlFlowMode: 2
-    }
+      WFControlFlowMode: 2,
+    },
   },
   ChooseMenu: {
     id: "is.workflow.actions.choosefrommenu",
     params: {
-      WFControlFlowMode: 0
-    }
+      WFControlFlowMode: 0,
+    },
   },
   ChooseMenuItem: {
     id: "is.workflow.actions.choosefrommenu",
     params: {
-      WFControlFlowMode: 1
-    }
+      WFControlFlowMode: 1,
+    },
   },
   EndChooseMenu: {
     id: "is.workflow.actions.choosefrommenu",
     params: {
-      WFControlFlowMode: 2
-    }
-  }
+      WFControlFlowMode: 2,
+    },
+  },
 };
 
 module.exports = ShortcutBuilder;

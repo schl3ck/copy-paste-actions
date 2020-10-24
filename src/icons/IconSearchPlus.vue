@@ -8,8 +8,8 @@ export default {
         h("BIcon", {
           props: {
             icon: "search",
-            stacked: true
-          }
+            stacked: true,
+          },
         }),
         h("BIcon", {
           props: {
@@ -17,11 +17,11 @@ export default {
             stacked: true,
             scale: 0.9,
             "shift-h": -1.5,
-            "shift-v": 1.25
-          }
-        })
-      ])
+            "shift-v": 1.25,
+          },
+        }),
+      ]),
     ]);
-  }
+  },
 };
 </script>

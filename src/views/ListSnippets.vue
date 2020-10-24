@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column">
-    <div :class="{'order-2': !clipboardFirst}">
+    <div :class="{ 'order-2': !clipboardFirst }">
       <div class="sticky-top">
         <h2 class="mb-0">
           {{ lang.clipboard }}
@@ -24,7 +24,7 @@
         {{ lang.noSnippets.clipboard }}<span class="sr-only">.</span>
       </div>
     </div>
-    <div :class="{'order-1': !clipboardFirst}">
+    <div :class="{ 'order-1': !clipboardFirst }">
       <div class="sticky-top">
         <h2 class="mb-0">
           {{ lang.snippets }}
@@ -64,27 +64,27 @@ export default {
   name: "ListSnippets",
   components: {
     SnippetListItem,
-    ButtonBar
+    ButtonBar,
   },
   props: {
     editable: {
       type: Boolean,
-      default: true
+      default: true,
     },
     clipboardFirst: {
       type: Boolean,
-      default: true
+      default: true,
     },
     /** @type {import("vue").PropOptions<(snippet: object) => void>} */
     onSelect: {
       type: Function,
-      default: null
+      default: null,
     },
     /** The snippet to highlight */
     highlight: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     /** @returns {object} */
@@ -115,19 +115,17 @@ export default {
           click: () => {
             // let the method append all changes
             navigateAndBuildZip(this.$root, {
-              actions: [
-                "Build.toSafari"
-              ]
+              actions: ["Build.toSafari"],
             });
-          }
+          },
         });
       }
       return res;
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
-  }
+  },
 };
 </script>
 

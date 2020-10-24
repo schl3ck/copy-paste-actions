@@ -3,7 +3,11 @@ import { zip } from "@/utils/utils";
 
 export function checkForUpdate() {
   const req = new XMLHttpRequest();
-  req.open("GET", `https://routinehub.co/api/v1/shortcuts/${store.preferences["RoutineHub ID"]}/versions/latest`, true);
+  req.open(
+    "GET",
+    `https://routinehub.co/api/v1/shortcuts/${store.preferences["RoutineHub ID"]}/versions/latest`,
+    true,
+  );
   req.responseType = "json";
   req.onreadystatechange = function() {
     if (req.readyState === XMLHttpRequest.DONE) {
@@ -25,7 +29,7 @@ export function checkForUpdate() {
               version: newVersion.join("."),
               url: res.URL,
               notes: res.Notes,
-              release: new Date(res.Release)
+              release: new Date(res.Release),
             });
           }
         }

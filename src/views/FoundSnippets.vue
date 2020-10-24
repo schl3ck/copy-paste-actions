@@ -2,22 +2,26 @@
   <div>
     <h2>{{ lang.title }}</h2>
 
-    <div
-      v-show="hasConflicts"
-      ref="conflicts"
-      class="alert alert-danger"
-    >
+    <div v-show="hasConflicts" ref="conflicts" class="alert alert-danger">
       <h5 class="d-flex flex-row align-items-center">
-        <BIcon icon="exclamation-circle-fill" class="text-danger fs-2x mb-n1 mr-2" /> {{ lang.conflicts }}
+        <BIcon
+          icon="exclamation-circle-fill"
+          class="text-danger fs-2x mb-n1 mr-2"
+        />
+        {{ lang.conflicts }}
       </h5>
       <hr class="my-2">
 
-      <div v-for="(conflicts, key) in conflictingSnippets" :key="key" class="mb-2">
+      <div
+        v-for="(conflicts, key) in conflictingSnippets"
+        :key="key"
+        class="mb-2"
+      >
         <div v-for="(snippets, name) in conflicts" :key="name" class="mb-2">
           <div class="sticky-top alert-danger">
             <h5 class="mb-0">
               {{ key === "clipboard" ? lang.clipboardItem : lang.snippet }}
-              <span :class="{'font-italic': hasNoName(name)}">
+              <span :class="{ 'font-italic': hasNoName(name) }">
                 {{ noSnippetName(name) }}
               </span>
             </h5>
@@ -79,11 +83,11 @@ export default {
   name: "FoundSnippets",
   components: {
     SnippetListItem,
-    ButtonBar
+    ButtonBar,
   },
   data() {
     return {
-      editingElemTop: 0
+      editingElemTop: 0,
     };
   },
   computed: {
@@ -96,10 +100,11 @@ export default {
       return this.$store.state.processResult.shortcuts;
     },
     conflictingSnippets() {
-      /** @type { {clipboard: {[key: string]: object[]}, snippet: {[key: string]: object[]}} } */
       const res = {
+        /** @type { {[key: string]: object[]}} */
         clipboard: {},
-        snippet: {}
+        /** @type { {[key: string]: object[]}} */
+        snippet: {},
       };
 
       for (const shortcut of this.shortcuts) {
@@ -122,7 +127,7 @@ export default {
     },
     hasConflicts() {
       return Object.values(this.conflictingSnippets).some(
-        (c) => Object.keys(c).length > 0
+        (c) => Object.keys(c).length > 0,
       );
     },
     preferences() {
@@ -141,7 +146,7 @@ export default {
           text: this.lang.saveAndContinue,
           class: {
             "btn-success": this.enableContinueButton,
-            "btn-secondary": !this.enableContinueButton
+            "btn-secondary": !this.enableContinueButton,
           },
           icon: { component: "IconSave" },
           click: () => {
@@ -156,13 +161,13 @@ export default {
               window.scrollTo({
                 left: 0,
                 top: top,
-                behavior: "smooth"
+                behavior: "smooth",
               });
               return;
             }
 
             this.saveAndContinue();
-          }
+          },
         },
         {
           text: this.$store.state.language.toMainMenu,
@@ -170,14 +175,17 @@ export default {
           icon: "chevron-left",
           click: () => {
             this.$root.$emit("navigate", "MainMenu");
-          }
-        }
+          },
+        },
       ];
     },
     /** @returns {boolean} */
     historyReplaceState() {
-      return this.$store.state.preferences.Preferences.autoOverwriteSnippets && !this.hasConflicts;
-    }
+      return (
+        this.$store.state.preferences.Preferences.autoOverwriteSnippets
+        && !this.hasConflicts
+      );
+    },
   },
   watch: {
     hasConflicts(newVal) {
@@ -202,7 +210,7 @@ export default {
         getHeight();
         Vue.nextTick(correctScrollPos);
       }
-    }
+    },
   },
   activated() {
     if (this.historyReplaceState) {
@@ -231,10 +239,11 @@ export default {
       const elemRect = vm.$el.getBoundingClientRect();
       let stickyTop = vm.$el;
       // search for a possible .sticky-top sibling (the shortcut name)
-      // in case a saved snippet will be overridden and that one is edited, it doesn't have such a sibling
+      // in case a saved snippet will be overridden and that one is edited,
+      // it doesn't have such a sibling
       while (
-        stickyTop.nodeType !== Node.ELEMENT_NODE ||
-        !stickyTop.classList.contains("sticky-top")
+        stickyTop.nodeType !== Node.ELEMENT_NODE
+        || !stickyTop.classList.contains("sticky-top")
       ) {
         if (stickyTop.previousSibling === null) {
           stickyTop = stickyTop.parentElement;
@@ -243,23 +252,21 @@ export default {
         }
       }
       this.editingElemTop =
-        elemRect.top -
-        bodyRect.top -
-        (stickyTop ? stickyTop.getBoundingClientRect().height : 0);
+        elemRect.top
+        - bodyRect.top
+        - (stickyTop ? stickyTop.getBoundingClientRect().height : 0);
     },
     saveAndContinue() {
       let snippets = [];
       for (const shortcut of this.shortcuts) {
-        snippets = snippets.concat(
-                shortcut.snippets.filter((s) => !s.discard)
-        );
+        snippets = snippets.concat(shortcut.snippets.filter((s) => !s.discard));
       }
       if (snippets.length > 0) {
         this.$store.commit("replaceSnippets", snippets);
       }
       this.$root.$emit("navigate", "FoundInserts");
-    }
-  }
+    },
+  },
 };
 </script>
 

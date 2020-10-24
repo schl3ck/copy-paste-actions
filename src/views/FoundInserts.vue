@@ -23,20 +23,22 @@
             v-for="insert in shortcut.inserts"
             :key="shortcut.name + insert.id"
             class="card ml-3"
-            :class="{'bg-lightgray': insert.exclude}"
+            :class="{ 'bg-lightgray': insert.exclude }"
           >
             <div class="card-body">
               <span
                 class="card-title font-weight-bold"
-                :class="{'font-italic': hasNoName(insert.name)}"
+                :class="{ 'font-italic': hasNoName(insert.name) }"
               >{{ noSnippetName(insert.name) }}</span>
               <div class="card-text">
-                <div>{{ insert.isClipboard ? lang.clipboardItem : lang.snippet }}</div>
+                <div>
+                  {{ insert.isClipboard ? lang.clipboardItem : lang.snippet }}
+                </div>
                 <div v-if="insert.replacesNActions > 0">
                   {{
-                    lang
-                      .replacesNActions[insert.replacesNActions === 1 ? "singular" : "plural"]
-                      .replace("$number", insert.replacesNActions)
+                    lang.replacesNActions[
+                      insert.replacesNActions === 1 ? "singular" : "plural"
+                    ].replace("$number", insert.replacesNActions)
                   }}
                 </div>
                 <div>
@@ -51,11 +53,16 @@
                     type="checkbox"
                     class="custom-control-input"
                   >
-                  <label :for="'excludeInsert' + insert.id" class="custom-control-label">{{ lang.exclude }}</label>
+                  <label
+                    :for="'excludeInsert' + insert.id"
+                    class="custom-control-label"
+                  >{{ lang.exclude }}</label>
                 </div>
                 <div>
                   <hr class="my-2">
-                  {{ lang.inserts[insert.isClipboard ? "clipboard" : "snippet"] }}
+                  {{
+                    lang.inserts[insert.isClipboard ? "clipboard" : "snippet"]
+                  }}
                   <SnippetListItem
                     v-if="getSnippet(insert)"
                     :snippet="getSnippet(insert)"
@@ -63,11 +70,16 @@
                     show-actions-btn-outline
                   />
                   <div v-else>
-                    <i>{{ lang.noSnippetFound[insert.isClipboard ? "clipboard" : "snippet"] }}<span
-                      class="sr-only"
-                    >.</span></i>
+                    <i>{{
+                      lang.noSnippetFound[
+                        insert.isClipboard ? "clipboard" : "snippet"
+                      ]
+                    }}<span class="sr-only">.</span></i>
                   </div>
-                  <button class="btn btn-block btn-primary mt-2" @click="selectSnippet(insert)">
+                  <button
+                    class="btn btn-block btn-primary mt-2"
+                    @click="selectSnippet(insert)"
+                  >
                     {{ lang.selectSnippet }}
                   </button>
                 </div>
@@ -95,7 +107,7 @@ export default {
   name: "FoundInserts",
   components: {
     SnippetListItem,
-    ButtonBar
+    ButtonBar,
   },
   computed: {
     /** @returns {object} */
@@ -126,7 +138,7 @@ export default {
             ? "btn-success"
             : "btn-secondary",
           icon: { component: "IconSave" },
-          click: function() {
+          click: () => {
             if (!this.allInsertsHaveSnippetsOrExcluded) {
               alert(this.lang.insertWithoutSnippetOrNotExcluded);
               return;
@@ -144,23 +156,23 @@ export default {
             }
 
             this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
-          }.bind(this)
+          },
         },
         {
           text: this.$store.getters.langToMainMenu,
           class: "btn-outline-primary",
           icon: "chevron-left",
-          click: function() {
+          click: () => {
             this.$root.$emit("navigate", "MainMenu");
-          }.bind(this)
-        }
+          },
+        },
       ];
     },
     /** @returns {boolean} */
     allInsertsHaveSnippetsOrExcluded() {
       return this.shortcuts.every(
         (s) =>
-          s.inserts && s.inserts.every((i) => i.exclude || this.getSnippet(i))
+          s.inserts && s.inserts.every((i) => i.exclude || this.getSnippet(i)),
       );
     },
     /** @returns {boolean} */
@@ -170,10 +182,10 @@ export default {
     /** @returns {boolean} */
     historyReplaceState() {
       return (
-        this.preferences.Preferences.skipFoundInsertsOnNoInsert &&
-        this.noInserts
+        this.preferences.Preferences.skipFoundInsertsOnNoInsert
+        && this.noInserts
       );
-    }
+    },
   },
   activated() {
     if (this.historyReplaceState) {
@@ -196,8 +208,8 @@ export default {
     getSnippet(insert) {
       return this.snippets.find(
         (snippet) =>
-          snippet.name === insert.name &&
-          snippet.isClipboard === insert.isClipboard
+          snippet.name === insert.name
+          && snippet.isClipboard === insert.isClipboard,
       );
     },
     selectSnippet(insert) {
@@ -209,10 +221,10 @@ export default {
           insert.name = snippet.name;
           insert.isClipboard = snippet.isClipboard;
           window.history.back();
-        }
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

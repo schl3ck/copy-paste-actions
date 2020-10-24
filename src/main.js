@@ -32,7 +32,7 @@ import {
   BIconEyeSlash,
   BIconCloud,
   BIconLink,
-  BIconClipboardPlus
+  BIconClipboardPlus,
 } from "bootstrap-vue";
 
 import store from "./store/index";
@@ -88,12 +88,14 @@ store.dispatch("loadLanguage");
 
 const root = new Vue({
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
 
-loadShortcuts.then(() => {
-  root.$emit("loadShortcutsFinished");
-}).catch((err) => {
-  /* eslint-disable-next-line no-console */
-  console.error(err);
-});
+loadShortcuts
+  .then(() => {
+    root.$emit("loadShortcutsFinished");
+  })
+  .catch((err) => {
+    /* eslint-disable-next-line no-console */
+    console.error(err);
+  });

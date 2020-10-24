@@ -9,27 +9,37 @@ const {
   expectReturnObject,
   uniquePermutations,
   allPossibleScriptParams,
-  constructActionsToRemove
+  constructActionsToRemove,
 } = require("./utils");
 /* eslint-enable no-unused-vars */
 
 function permutationToCPAFunction(perm) {
-  const map = new Map(perm.map((i) => [i, { value: i, occurrence: 0, funcs: [] }]));
+  const map = new Map(
+    perm.map((i) => [i, { value: i, occurrence: 0, funcs: [] }]),
+  );
   perm.forEach((i) => map.get(i).occurrence++);
   map.forEach((i) => {
-    i.funcs = ["copy", ...("pause|resume|".repeat(i.occurrence / 2 - 1).split("|").filter((i) => i.length)), "end"];
+    i.funcs = [
+      "copy",
+      ..."pause|resume|"
+        .repeat(i.occurrence / 2 - 1)
+        .split("|")
+        .filter((i) => i.length),
+      "end",
+    ];
   });
   return perm.map((p) => {
     return {
       func: map.get(p).funcs.shift(),
-      itemNumber: p
+      itemNumber: p,
     };
   });
 }
 
 /**
  * @param {object} [options] Some options
- * @param {number} [options.maxPermutations] The maximum number of permutations to generate for each set
+ * @param {number} [options.maxPermutations] The maximum number of permutations
+ *    to generate for each set
  */
 module.exports = function(options) {
   options = options || {};
@@ -40,28 +50,28 @@ module.exports = function(options) {
         {
           title: "normal name",
           name: "simple name",
-          expectedName: "simple name"
+          expectedName: "simple name",
         },
         {
           title: "trim whitespace",
           name: " asdf  \t",
-          expectedName: "asdf"
+          expectedName: "asdf",
         },
         {
           title: "only whitespace",
           name: "   \t",
-          expectedName: " "
+          expectedName: " ",
         },
         {
           title: "emoji",
           name: "😭",
-          expectedName: "😭"
-        }
+          expectedName: "😭",
+        },
       ].forEach((mode) => {
         it(mode.title, function() {
           const params = allPossibleScriptParams[0];
           const sct = new ShortcutBuilder();
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: `:cpa:\ncopy\n${mode.name}` });
+          sct.addComment(`:cpa:\ncopy\n${mode.name}`);
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
           const dict = getParamForScript(sct);
@@ -83,11 +93,11 @@ module.exports = function(options) {
                     isClipboard: true,
                     numberOfActions: 1,
                     uuids: extractUUIDs(sct.getActions(1, 1)),
-                    actions: sct.getActions(1, 1)
-                  }
-                ]
-              }
-            ]
+                    actions: sct.getActions(1, 1),
+                  },
+                ],
+              },
+            ],
           });
         });
       });
@@ -102,93 +112,114 @@ module.exports = function(options) {
           if (i >= 0) items[i] += 2;
 
           describe(`Length: ${items.join(", ")}`, function() {
-            const firstPerm = items.map((l, i) => i.toString().repeat(l)).join("").split("").map((j) => parseInt(j));
+            const firstPerm = items
+              .map((l, i) => i.toString().repeat(l))
+              .join("")
+              .split("")
+              .map((j) => parseInt(j));
 
             let nPerms = 0;
             for (const perm of uniquePermutations.generatePatterns(firstPerm)) {
               const o = permutationToCPAFunction(perm);
 
-              if (options.maxPermutations && ++nPerms >= options.maxPermutations) return;
+              if (
+                options.maxPermutations
+                && ++nPerms >= options.maxPermutations
+              ) {
+                return;
+              }
 
-              describe("Permutation " + perm.join("").replace(/\d\d(?!$)/g, "$& "), function() {
-                allPossibleScriptParams.forEach((params) => {
-                  it(JSON.stringify(params), function() {
-                    const actionsToRemove = [];
-                    let snippets = [...(function * () {
-                      for (let i = 0; i < nItems; i++) {
-                        yield {
-                          result: {
-                            name: (i + 1).toString(),
-                            isClipboard: true,
-                            numberOfActions: 0,
-                            uuids: [],
-                            actions: []
-                          },
-                          recording: false
-                        };
-                      }
-                    })()];
-
-                    const sct = new ShortcutBuilder();
-                    sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                    o.forEach((o, i) => {
-                      sct.addAction(
-                        ShortcutBuilder.actions.Comment,
-                        { WFCommentActionText: `:cpa:\n${o.func}\n${o.itemNumber + 1}` }
-                      );
-                      sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                      actionsToRemove.push(i * 2 + 1);
-
-                      const snippet = snippets[o.itemNumber];
-                      switch (o.func) {
-                        case "copy":
-                        case "resume":
-                          snippet.recording = true;
-                          break;
-                        case "pause":
-                        case "end":
-                          snippet.recording = false;
-                          break;
-                      }
-
-                      snippets.forEach((snip, i) => {
-                        if (snip.recording) {
-                          let toAdd = -1;
-                          if (i !== o.itemNumber && !params.excludeAllCPAComments) {
-                            toAdd = -2;
+              describe(
+                "Permutation " + perm.join("").replace(/\d\d(?!$)/g, "$& "),
+                function() {
+                  allPossibleScriptParams.forEach((params) => {
+                    it(JSON.stringify(params), function() {
+                      const actionsToRemove = [];
+                      let snippets = [
+                        ...(function * () {
+                          for (let i = 0; i < nItems; i++) {
+                            yield {
+                              result: {
+                                name: (i + 1).toString(),
+                                isClipboard: true,
+                                numberOfActions: 0,
+                                uuids: [],
+                                actions: [],
+                              },
+                              recording: false,
+                            };
                           }
-                          snip.result.actions.push(...sct.getActions(toAdd));
+                        })(),
+                      ];
+
+                      const sct = new ShortcutBuilder();
+                      sct.addAction(ShortcutBuilder.actions.Dummy, {
+                        UUID: genUUID(),
+                      });
+                      o.forEach((o, i) => {
+                        sct.addComment(`:cpa:\n${o.func}\n${o.itemNumber + 1}`);
+                        sct.addAction(ShortcutBuilder.actions.Dummy, {
+                          UUID: genUUID(),
+                        });
+                        actionsToRemove.push(i * 2 + 1);
+
+                        const snippet = snippets[o.itemNumber];
+                        switch (o.func) {
+                          case "copy":
+                          case "resume":
+                            snippet.recording = true;
+                            break;
+                          case "pause":
+                          case "end":
+                            snippet.recording = false;
+                            break;
                         }
+
+                        snippets.forEach((snip, i) => {
+                          if (snip.recording) {
+                            let toAdd = -1;
+                            if (
+                              i !== o.itemNumber
+                              && !params.excludeAllCPAComments
+                            ) {
+                              toAdd = -2;
+                            }
+                            snip.result.actions.push(...sct.getActions(toAdd));
+                          }
+                        });
+                      });
+
+                      snippets = snippets.map((snip) => {
+                        // snip = snip.result;
+                        snip.result.numberOfActions =
+                          snip.result.actions.length;
+                        snip.result.uuids = extractUUIDs(snip.result.actions);
+                        return snip.result;
+                      });
+
+                      const dict = getParamForScript(sct);
+                      _.assign(dict, params);
+                      const res = script(dict);
+
+                      expectReturnObject(res, {
+                        nItems: nItems,
+                        warnings: [],
+                        shortcuts: [
+                          {
+                            name: getParamForScript(sct).shortcuts.name,
+                            actionsToRemove: constructActionsToRemove(
+                              params.cleanUp === 2 ? actionsToRemove : [],
+                            ),
+                            uuids: extractUUIDs(sct.getActions()),
+                            inserts: [],
+                            snippets: snippets,
+                          },
+                        ],
                       });
                     });
-
-                    snippets = snippets.map((snip) => {
-                      // snip = snip.result;
-                      snip.result.numberOfActions = snip.result.actions.length;
-                      snip.result.uuids = extractUUIDs(snip.result.actions);
-                      return snip.result;
-                    });
-
-                    const dict = getParamForScript(sct);
-                    _.assign(dict, params);
-                    const res = script(dict);
-
-                    expectReturnObject(res, {
-                      nItems: nItems,
-                      warnings: [],
-                      shortcuts: [
-                        {
-                          name: getParamForScript(sct).shortcuts.name,
-                          actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? actionsToRemove : []),
-                          uuids: extractUUIDs(sct.getActions()),
-                          inserts: [],
-                          snippets: snippets
-                        }
-                      ]
-                    });
                   });
-                });
-              });
+                },
+              );
             }
           });
         }
@@ -201,9 +232,9 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy 1" });
+              sct.addComment(":cpa:\ncopy 1");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste" });
+              sct.addComment(":cpa:\npaste");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
@@ -218,7 +249,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
-                      params.cleanUp === 2 ? [2] : []
+                      params.cleanUp === 2 ? [2] : [],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -227,8 +258,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 0,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -237,11 +268,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(1, 1)),
-                        actions: sct.getActions(1, 1)
-                      }
-                    ]
-                  }
-                ]
+                        actions: sct.getActions(1, 1),
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -250,9 +281,9 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy 1\nasdf" });
+              sct.addComment(":cpa:\ncopy 1\nasdf");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste" });
+              sct.addComment(":cpa:\npaste");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
@@ -267,7 +298,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
-                      params.cleanUp === 2 ? [2] : []
+                      params.cleanUp === 2 ? [2] : [],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -276,8 +307,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 0,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -286,11 +317,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(1, 1)),
-                        actions: sct.getActions(1, 1)
-                      }
-                    ]
-                  }
-                ]
+                        actions: sct.getActions(1, 1),
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -302,9 +333,9 @@ module.exports = function(options) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
               // use snippet and insert before save for better coverage
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ninsert replace 1" });
+              sct.addComment(":cpa:\ninsert replace 1");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave 1" });
+              sct.addComment(":cpa:\nsave 1");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
@@ -319,7 +350,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [2] : [],
-                      params.cleanUp === 2 ? [0, 1] : [1]
+                      params.cleanUp === 2 ? [0, 1] : [1],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -328,8 +359,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 0,
                         replacesNActions: 1,
-                        isClipboard: false
-                      }
+                        isClipboard: false,
+                      },
                     ],
                     snippets: [
                       {
@@ -338,11 +369,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(3, 1)),
-                        actions: sct.getActions(3, 1)
-                      }
-                    ]
-                  }
-                ]
+                        actions: sct.getActions(3, 1),
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -351,9 +382,9 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy 1\nasdf" });
+              sct.addComment(":cpa:\ncopy 1\nasdf");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace 1" });
+              sct.addComment(":cpa:\npaste replace 1");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
@@ -368,7 +399,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
-                      params.cleanUp === 2 ? [2, 3] : [3]
+                      params.cleanUp === 2 ? [2, 3] : [3],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -377,8 +408,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 1,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -387,11 +418,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(1, 1)),
-                        actions: sct.getActions(1, 1)
-                      }
-                    ]
-                  }
-                ]
+                        actions: sct.getActions(1, 1),
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -402,11 +433,11 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+              sct.addComment(":cpa:\ncopy");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste" });
+              sct.addComment(":cpa:\npaste");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
+              sct.addComment(":cpa:\nend");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
@@ -421,7 +452,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
-                      params.cleanUp === 2 ? [2] : []
+                      params.cleanUp === 2 ? [2] : [],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -430,8 +461,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 0,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -440,11 +471,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: 2,
                         uuids: extractUUIDs(sct.getActions([1, 1], [3, 1])),
-                        actions: sct.getActions([1, 1], [3, 1])
-                      }
-                    ]
-                  }
-                ]
+                        actions: sct.getActions([1, 1], [3, 1]),
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -453,18 +484,26 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
+              sct.addComment(":cpa:\ncopy\nasdf");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste" });
+              sct.addComment(":cpa:\npaste");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
+              sct.addComment(":cpa:\nend\nasdf");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
               _.assign(dict, params);
               const res = script(dict);
 
-              const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [[1, 1], [3, 1]] : [1, 3]);
+              const actions = sct.getActions.apply(
+                sct,
+                params.excludeAllCPAComments
+                  ? [
+                    [1, 1],
+                    [3, 1],
+                  ]
+                  : [1, 3],
+              );
 
               expectReturnObject(res, {
                 nItems: 2,
@@ -474,7 +513,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
-                      params.cleanUp === 2 ? [2] : []
+                      params.cleanUp === 2 ? [2] : [],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -483,8 +522,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 0,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -493,11 +532,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: actions.length,
                         uuids: extractUUIDs(actions),
-                        actions: actions
-                      }
-                    ]
-                  }
-                ]
+                        actions: actions,
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -508,11 +547,11 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+              sct.addComment(":cpa:\ncopy");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace 1" });
+              sct.addComment(":cpa:\npaste replace 1");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
+              sct.addComment(":cpa:\nend");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
@@ -527,7 +566,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
-                      params.cleanUp === 2 ? [2, 3] : [3]
+                      params.cleanUp === 2 ? [2, 3] : [3],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -536,8 +575,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 1,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -546,11 +585,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: 2,
                         uuids: extractUUIDs(sct.getActions([1, 1], [3, 1])),
-                        actions: sct.getActions([1, 1], [3, 1])
-                      }
-                    ]
-                  }
-                ]
+                        actions: sct.getActions([1, 1], [3, 1]),
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -559,18 +598,26 @@ module.exports = function(options) {
           allPossibleScriptParams.forEach(function(params) {
             it(JSON.stringify(params), function() {
               const sct = new ShortcutBuilder();
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
+              sct.addComment(":cpa:\ncopy\nasdf");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace 1" });
+              sct.addComment(":cpa:\npaste replace 1");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-              sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
+              sct.addComment(":cpa:\nend\nasdf");
               sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
               const dict = getParamForScript(sct);
               _.assign(dict, params);
               const res = script(dict);
 
-              const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [[1, 1], [3, 1]] : [1, 3]);
+              const actions = sct.getActions.apply(
+                sct,
+                params.excludeAllCPAComments
+                  ? [
+                    [1, 1],
+                    [3, 1],
+                  ]
+                  : [1, 3],
+              );
 
               expectReturnObject(res, {
                 nItems: 2,
@@ -580,7 +627,7 @@ module.exports = function(options) {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
-                      params.cleanUp === 2 ? [2, 3] : [3]
+                      params.cleanUp === 2 ? [2, 3] : [3],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -589,8 +636,8 @@ module.exports = function(options) {
                         name: " ",
                         position: 2,
                         replacesNActions: 1,
-                        isClipboard: true
-                      }
+                        isClipboard: true,
+                      },
                     ],
                     snippets: [
                       {
@@ -599,11 +646,11 @@ module.exports = function(options) {
                         newShortcut: "",
                         numberOfActions: actions.length,
                         uuids: extractUUIDs(actions),
-                        actions: actions
-                      }
-                    ]
-                  }
-                ]
+                        actions: actions,
+                      },
+                    ],
+                  },
+                ],
               });
             });
           });
@@ -616,14 +663,22 @@ module.exports = function(options) {
             allPossibleScriptParams.forEach(function(params) {
               it(JSON.stringify(params), function() {
                 const sct = new ShortcutBuilder();
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+                sct.addComment(":cpa:\npaste replace");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\ncopy");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend paste");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
 
                 const dict = getParamForScript(sct);
                 _.assign(dict, params);
@@ -639,7 +694,10 @@ module.exports = function(options) {
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 6] : [], actionsToRemove),
+                      actionsToRemove: constructActionsToRemove(
+                        params.cleanUp === 2 ? [2, 6] : [],
+                        actionsToRemove,
+                      ),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
                         {
@@ -647,8 +705,8 @@ module.exports = function(options) {
                           name: " ",
                           position: 0,
                           replacesNActions: 2,
-                          isClipboard: true
-                        }
+                          isClipboard: true,
+                        },
                       ],
                       snippets: [
                         {
@@ -657,11 +715,11 @@ module.exports = function(options) {
                           newShortcut: "",
                           numberOfActions: 2,
                           uuids: extractUUIDs(sct.getActions([3, 1], [5, 1])),
-                          actions: sct.getActions([3, 1], [5, 1])
-                        }
-                      ]
-                    }
-                  ]
+                          actions: sct.getActions([3, 1], [5, 1]),
+                        },
+                      ],
+                    },
+                  ],
                 });
               });
             });
@@ -670,20 +728,36 @@ module.exports = function(options) {
             allPossibleScriptParams.forEach(function(params) {
               it(JSON.stringify(params), function() {
                 const sct = new ShortcutBuilder();
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+                sct.addComment(":cpa:\npaste replace");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\ncopy\nasdf");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend paste");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend\nasdf");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
 
                 const dict = getParamForScript(sct);
                 _.assign(dict, params);
                 const res = script(dict);
 
-                const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [[3, 1], [5, 1]] : [3, 3]);
+                const actions = sct.getActions.apply(
+                  sct,
+                  params.excludeAllCPAComments
+                    ? [
+                      [3, 1],
+                      [5, 1],
+                    ]
+                    : [3, 3],
+                );
                 const actionsToRemove = [1, 3];
                 if (!params.excludeAllCPAComments) actionsToRemove.push(2);
                 if (params.cleanUp > 0) actionsToRemove.push(4);
@@ -695,16 +769,21 @@ module.exports = function(options) {
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 6] : [], actionsToRemove),
+                      actionsToRemove: constructActionsToRemove(
+                        params.cleanUp === 2 ? [2, 6] : [],
+                        actionsToRemove,
+                      ),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
                         {
                           id: 0,
                           name: " ",
                           position: 0,
-                          replacesNActions: params.excludeAllCPAComments ? 2 : 3,
-                          isClipboard: true
-                        }
+                          replacesNActions: params.excludeAllCPAComments
+                            ? 2
+                            : 3,
+                          isClipboard: true,
+                        },
                       ],
                       snippets: [
                         {
@@ -713,11 +792,11 @@ module.exports = function(options) {
                           newShortcut: "",
                           numberOfActions: actions.length,
                           uuids: extractUUIDs(actions),
-                          actions: actions
-                        }
-                      ]
-                    }
-                  ]
+                          actions: actions,
+                        },
+                      ],
+                    },
+                  ],
                 });
               });
             });
@@ -728,14 +807,22 @@ module.exports = function(options) {
             allPossibleScriptParams.forEach(function(params) {
               it(JSON.stringify(params), function() {
                 const sct = new ShortcutBuilder();
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+                sct.addComment(":cpa:\ncopy");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\npaste replace");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend paste");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
 
                 const dict = getParamForScript(sct);
                 _.assign(dict, params);
@@ -751,7 +838,10 @@ module.exports = function(options) {
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [0, 4] : [], actionsToRemove),
+                      actionsToRemove: constructActionsToRemove(
+                        params.cleanUp === 2 ? [0, 4] : [],
+                        actionsToRemove,
+                      ),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
                         {
@@ -759,8 +849,8 @@ module.exports = function(options) {
                           name: " ",
                           position: 2,
                           replacesNActions: 2,
-                          isClipboard: true
-                        }
+                          isClipboard: true,
+                        },
                       ],
                       snippets: [
                         {
@@ -769,11 +859,11 @@ module.exports = function(options) {
                           newShortcut: "",
                           numberOfActions: 2,
                           uuids: extractUUIDs(sct.getActions([1, 1], [3, 1])),
-                          actions: sct.getActions([1, 1], [3, 1])
-                        }
-                      ]
-                    }
-                  ]
+                          actions: sct.getActions([1, 1], [3, 1]),
+                        },
+                      ],
+                    },
+                  ],
                 });
               });
             });
@@ -782,20 +872,36 @@ module.exports = function(options) {
             allPossibleScriptParams.forEach(function(params) {
               it(JSON.stringify(params), function() {
                 const sct = new ShortcutBuilder();
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+                sct.addComment(":cpa:\ncopy\nasdf");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\npaste replace");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend\nasdf");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend paste");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
 
                 const dict = getParamForScript(sct);
                 _.assign(dict, params);
                 const res = script(dict);
 
-                const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [[1, 1], [3, 1]] : [1, 3]);
+                const actions = sct.getActions.apply(
+                  sct,
+                  params.excludeAllCPAComments
+                    ? [
+                      [1, 1],
+                      [3, 1],
+                    ]
+                    : [1, 3],
+                );
                 const actionsToRemove = [3, 5];
                 if (!params.excludeAllCPAComments) actionsToRemove.push(4);
                 if (params.cleanUp > 0) actionsToRemove.push(6);
@@ -807,16 +913,21 @@ module.exports = function(options) {
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [0, 4] : [], actionsToRemove),
+                      actionsToRemove: constructActionsToRemove(
+                        params.cleanUp === 2 ? [0, 4] : [],
+                        actionsToRemove,
+                      ),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
                         {
                           id: 0,
                           name: " ",
                           position: 2,
-                          replacesNActions: params.excludeAllCPAComments ? 2 : 3,
-                          isClipboard: true
-                        }
+                          replacesNActions: params.excludeAllCPAComments
+                            ? 2
+                            : 3,
+                          isClipboard: true,
+                        },
                       ],
                       snippets: [
                         {
@@ -825,11 +936,11 @@ module.exports = function(options) {
                           newShortcut: "",
                           numberOfActions: actions.length,
                           uuids: extractUUIDs(actions),
-                          actions: actions
-                        }
-                      ]
-                    }
-                  ]
+                          actions: actions,
+                        },
+                      ],
+                    },
+                  ],
                 });
               });
             });
@@ -840,14 +951,22 @@ module.exports = function(options) {
             allPossibleScriptParams.forEach(function(params) {
               it(JSON.stringify(params), function() {
                 const sct = new ShortcutBuilder();
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+                sct.addComment(":cpa:\npaste replace");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\ncopy");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend paste");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
 
                 const dict = getParamForScript(sct);
                 _.assign(dict, params);
@@ -863,7 +982,10 @@ module.exports = function(options) {
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 4] : [], actionsToRemove),
+                      actionsToRemove: constructActionsToRemove(
+                        params.cleanUp === 2 ? [2, 4] : [],
+                        actionsToRemove,
+                      ),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
                         {
@@ -871,8 +993,8 @@ module.exports = function(options) {
                           name: " ",
                           position: 0,
                           replacesNActions: 3,
-                          isClipboard: true
-                        }
+                          isClipboard: true,
+                        },
                       ],
                       snippets: [
                         {
@@ -881,11 +1003,11 @@ module.exports = function(options) {
                           newShortcut: "",
                           numberOfActions: 1,
                           uuids: extractUUIDs(sct.getActions(3, 1)),
-                          actions: sct.getActions(3, 1)
-                        }
-                      ]
-                    }
-                  ]
+                          actions: sct.getActions(3, 1),
+                        },
+                      ],
+                    },
+                  ],
                 });
               });
             });
@@ -894,14 +1016,22 @@ module.exports = function(options) {
             allPossibleScriptParams.forEach(function(params) {
               it(JSON.stringify(params), function() {
                 const sct = new ShortcutBuilder();
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-                sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-                sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+                sct.addComment(":cpa:\npaste replace");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\ncopy\nasdf");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend\nasdf");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
+                sct.addComment(":cpa:\nend paste");
+                sct.addAction(ShortcutBuilder.actions.Dummy, {
+                  UUID: genUUID(),
+                });
 
                 const dict = getParamForScript(sct);
                 _.assign(dict, params);
@@ -919,16 +1049,21 @@ module.exports = function(options) {
                   shortcuts: [
                     {
                       name: getParamForScript(sct).shortcuts.name,
-                      actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [2, 4] : [], actionsToRemove),
+                      actionsToRemove: constructActionsToRemove(
+                        params.cleanUp === 2 ? [2, 4] : [],
+                        actionsToRemove,
+                      ),
                       uuids: extractUUIDs(sct.getActions()),
                       inserts: [
                         {
                           id: 0,
                           name: " ",
                           position: 0,
-                          replacesNActions: params.excludeAllCPAComments ? 3 : 5,
-                          isClipboard: true
-                        }
+                          replacesNActions: params.excludeAllCPAComments
+                            ? 3
+                            : 5,
+                          isClipboard: true,
+                        },
                       ],
                       snippets: [
                         {
@@ -937,11 +1072,11 @@ module.exports = function(options) {
                           newShortcut: "",
                           numberOfActions: actions.length,
                           uuids: extractUUIDs(actions),
-                          actions: actions
-                        }
-                      ]
-                    }
-                  ]
+                          actions: actions,
+                        },
+                      ],
+                    },
+                  ],
                 });
               });
             });

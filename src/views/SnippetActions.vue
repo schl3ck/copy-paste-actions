@@ -2,7 +2,7 @@
   <div>
     <div class="fixed-top container pb-2">
       <div class="d-flex justify-content-between align-items-end pb-2 w-100">
-        <h2 class="flex-grow-1 mb-0" :class="{'font-italic': hasNoName}">
+        <h2 class="flex-grow-1 mb-0" :class="{ 'font-italic': hasNoName }">
           {{ hasNoName ? lang.noSnippetName : title }}
         </h2>
         <button type="button" class="close" aria-label="Close" @click="close">
@@ -26,7 +26,7 @@
     </div>
     <pre
       class="margin-for-fixed text-pre width-maxcontent"
-      :style="{'font-size': zoom + 'rem'}"
+      :style="{ 'font-size': zoom + 'rem' }"
     ><code
       ref="code"
       class="lang-json"
@@ -45,17 +45,17 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     /** @type {import("vue").PropOptions<object[]>} */
     actions: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      zoom: 1
+      zoom: 1,
     };
   },
   computed: {
@@ -69,10 +69,7 @@ export default {
     },
     /** @returns {object} */
     highlighted() {
-      return hljs.highlight(
-        "json",
-        JSON.stringify(this.actions, null, 2)
-      );
+      return hljs.highlight("json", JSON.stringify(this.actions, null, 2));
     },
     /** @returns {string} */
     actionsHighlighted() {
@@ -81,7 +78,7 @@ export default {
     /** @returns {object} */
     preferences() {
       return this.$store.state.preferences.Preferences;
-    }
+    },
   },
   created() {
     this.zoom = this.preferences.codeZoom;
@@ -120,8 +117,8 @@ export default {
     },
     saveZoom() {
       this.$store.commit("userPreferences", { codeZoom: this.zoom });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -13,10 +13,12 @@ exports.extractUUIDs = function(actions) {
   if (!Array.isArray(actions)) actions = [actions];
   const uuids = {
     groups: new Set(),
-    vars: new Set()
+    vars: new Set(),
   };
   actions.forEach((action) => {
-    if (!action || !action.WFWorkflowActionParameters) { return; }
+    if (!action || !action.WFWorkflowActionParameters) {
+      return;
+    }
     const u = action.WFWorkflowActionParameters.UUID;
     const g = action.WFWorkflowActionParameters.GroupingIdentifier;
     if (u) uuids.vars.add(u);
@@ -41,16 +43,26 @@ exports.constructActionsToRemove = function(snippets, inserts) {
     } else {
       res.push({
         action: index,
-        excludedBy: [id]
+        excludedBy: [id],
       });
     }
   }
-  snippets && snippets.forEach((snippet) => {
-    if (Array.isArray(snippet)) { snippet.forEach((s) => addAction(s, -1)); } else { addAction(snippet, -1); }
-  });
-  inserts && inserts.forEach((insert, index) => {
-    if (Array.isArray(insert)) { insert.forEach((i) => addAction(i, index)); } else { addAction(insert, 0); }
-  });
+  snippets
+    && snippets.forEach((snippet) => {
+      if (Array.isArray(snippet)) {
+        snippet.forEach((s) => addAction(s, -1));
+      } else {
+        addAction(snippet, -1);
+      }
+    });
+  inserts
+    && inserts.forEach((insert, index) => {
+      if (Array.isArray(insert)) {
+        insert.forEach((i) => addAction(i, index));
+      } else {
+        addAction(insert, 0);
+      }
+    });
   res.sort((a, b) => a.action - b.action);
   return res;
 };

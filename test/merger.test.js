@@ -13,14 +13,21 @@ const script = require("../src/utils/merger.worker");
  * @param { {name: string, shortcut: string}[] } shortcuts
  */
 function expectResult(res, shortcuts) {
-  expect(res, "result").to.be.an("object").and.have.property("shortcuts");
+  expect(res, "result")
+    .to.be.an("object")
+    .and.have.property("shortcuts");
   expect(res.shortcuts, "result.shortcuts").to.be.instanceOf(Array);
   expect(res.shortcuts, "result.shortcuts").to.have.length(shortcuts.length);
   if (shortcuts.length > 0) {
     for (const [i, o] of res.shortcuts.entries()) {
-      expect(o, `result.shortcuts[${i}]`).to.have.property("name", shortcuts[i].name);
+      expect(o, `result.shortcuts[${i}]`).to.have.property(
+        "name",
+        shortcuts[i].name,
+      );
       o.shortcut = bplist.parse(Buffer.from(o.shortcut, "base64"))[0];
-      shortcuts[i].shortcut = bplist.parse(Buffer.from(shortcuts[i].shortcut, "base64"))[0];
+      shortcuts[i].shortcut = bplist.parse(
+        Buffer.from(shortcuts[i].shortcut, "base64"),
+      )[0];
 
       /**
        * @typedef {object} Action
@@ -31,27 +38,30 @@ function expectResult(res, shortcuts) {
        */
       /** @type {Action[]} */
       const shouldActions = shortcuts[i].shortcut.WFWorkflowActions;
-      expect(o.shortcut, `result.shortcuts[${i}].shortcut`).to.have.property("WFWorkflowActions");
+      const messageStart = `result.shortcuts[${i}].shortcut`;
+      expect(o.shortcut, messageStart).to.have.property("WFWorkflowActions");
 
       /** @type {Action[]} */
       const oActions = o.shortcut.WFWorkflowActions;
-      expect(oActions, `result.shortcuts[${i}].shortcut.actions`).to.be.instanceOf(Array);
-      expect(oActions, `result.shortcuts[${i}].shortcut.actions`).to.have.length(shouldActions.length);
+      expect(oActions, `${messageStart}.actions`).to.be.instanceOf(Array);
+      expect(oActions, `${messageStart}.actions`).to.have.length(
+        shouldActions.length,
+      );
 
       for (const [j, oAction] of oActions.entries()) {
         if (shouldActions[j].WFWorkflowActionParameters.UUID === "*") {
-          let a;
-          shouldActions[j].WFWorkflowActionParameters.UUID = (
-            (a = oAction) && (a = a.WFWorkflowActionParameters) && a.UUID
-          );
+          shouldActions[j].WFWorkflowActionParameters.UUID =
+            oAction?.WFWorkflowActionParameters?.UUID;
         }
-        if (shouldActions[j].WFWorkflowActionParameters.GroupingIdentifier === "*") {
-          let a;
-          shouldActions[j].WFWorkflowActionParameters.GroupingIdentifier = (
-            (a = oAction) && (a = a.WFWorkflowActionParameters) && a.GroupingIdentifier
-          );
+        if (
+          shouldActions[j].WFWorkflowActionParameters.GroupingIdentifier === "*"
+        ) {
+          shouldActions[j].WFWorkflowActionParameters.GroupingIdentifier =
+            oAction?.WFWorkflowActionParameters?.GroupingIdentifier;
         }
-        expect(oAction, `result.shortcuts[${i}].shortcut.actions[${j}]`).to.deep.equal(shouldActions[j]);
+        expect(oAction, `${messageStart}.actions[${j}]`).to.deep.equal(
+          shouldActions[j],
+        );
       }
     }
   }
@@ -72,9 +82,9 @@ describe("Merger", function() {
           inserts: [],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     const res = script(dict);
@@ -100,14 +110,14 @@ describe("Merger", function() {
               id: 0,
               position: 3,
               actions: insert.actions,
-              uuids: extractUUIDs(insert.getActions())
-            }
+              uuids: extractUUIDs(insert.getActions()),
+            },
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     const res = script(dict);
@@ -133,14 +143,14 @@ describe("Merger", function() {
               id: 0,
               position: 2,
               actions: insert.actions,
-              uuids: extractUUIDs(insert.getActions())
-            }
+              uuids: extractUUIDs(insert.getActions()),
+            },
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     sct.addShortcut(insert);
@@ -149,13 +159,14 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build()
-      }
+        shortcut: sct.build(),
+      },
     ]);
   });
 
-  // it should ever only add actions after the comment action, therfore it shouldn't be possible to insert them
-  // as the start (only with deleting the comment action)
+  // it should ever only add actions after the comment action, therfore it
+  // shouldn't be possible to insert them as the start
+  // (only with deleting the comment action)
   it("insert an action at 0 = after the first", function() {
     const sct = new ShortcutBuilder();
     sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
@@ -175,14 +186,14 @@ describe("Merger", function() {
               id: 0,
               position: 0,
               actions: insert.actions,
-              uuids: extractUUIDs(insert.getActions())
-            }
+              uuids: extractUUIDs(insert.getActions()),
+            },
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     sct.addShortcut(insert, 0);
@@ -191,8 +202,8 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build()
-      }
+        shortcut: sct.build(),
+      },
     ]);
   });
 
@@ -216,14 +227,14 @@ describe("Merger", function() {
               id: 0,
               position: 2,
               actions: insert.actions,
-              uuids: extractUUIDs(insert.getActions())
-            }
+              uuids: extractUUIDs(insert.getActions()),
+            },
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: "*" });
@@ -232,26 +243,39 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build()
-      }
+        shortcut: sct.build(),
+      },
     ]);
   });
 
   it("change the GroupUUID of the cloned action", function() {
-    const groupID = genUUID(); const uuid = genUUID();
+    const groupID = genUUID();
+    const uuid = genUUID();
     const sct = new ShortcutBuilder();
     sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
     sct.addAction(ShortcutBuilder.actions.If, { GroupingIdentifier: groupID });
     sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-    sct.addAction(ShortcutBuilder.actions.Otherwise, { GroupingIdentifier: groupID });
+    sct.addAction(ShortcutBuilder.actions.Otherwise, {
+      GroupingIdentifier: groupID,
+    });
     sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-    sct.addAction(ShortcutBuilder.actions.EndIf, { GroupingIdentifier: groupID, UUID: uuid });
+    sct.addAction(ShortcutBuilder.actions.EndIf, {
+      GroupingIdentifier: groupID,
+      UUID: uuid,
+    });
     sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
     const insert = new ShortcutBuilder();
-    insert.addAction(ShortcutBuilder.actions.If, { GroupingIdentifier: groupID });
-    insert.addAction(ShortcutBuilder.actions.Otherwise, { GroupingIdentifier: groupID });
-    insert.addAction(ShortcutBuilder.actions.EndIf, { GroupingIdentifier: groupID, UUID: uuid });
+    insert.addAction(ShortcutBuilder.actions.If, {
+      GroupingIdentifier: groupID,
+    });
+    insert.addAction(ShortcutBuilder.actions.Otherwise, {
+      GroupingIdentifier: groupID,
+    });
+    insert.addAction(ShortcutBuilder.actions.EndIf, {
+      GroupingIdentifier: groupID,
+      UUID: uuid,
+    });
 
     /** @type {Parameters<typeof script>[0]} */
     const dict = {
@@ -263,14 +287,14 @@ describe("Merger", function() {
               id: 0,
               position: 3,
               actions: insert.actions,
-              uuids: extractUUIDs(insert.getActions())
-            }
+              uuids: extractUUIDs(insert.getActions()),
+            },
           ],
           actionsToRemove: [],
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     sct.addShortcut(insert, 3, (action) => {
@@ -285,8 +309,8 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build()
-      }
+        shortcut: sct.build(),
+      },
     ]);
   });
 
@@ -304,9 +328,9 @@ describe("Merger", function() {
           inserts: [],
           actionsToRemove: constructActionsToRemove([0]),
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     sct.removeAction(0);
@@ -315,8 +339,8 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build()
-      }
+        shortcut: sct.build(),
+      },
     ]);
   });
 
@@ -338,14 +362,14 @@ describe("Merger", function() {
               id: 0,
               position: 0,
               actions: insert.actions,
-              uuids: extractUUIDs(insert.getActions())
-            }
+              uuids: extractUUIDs(insert.getActions()),
+            },
           ],
           actionsToRemove: constructActionsToRemove(null, [0]),
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     sct.removeAction(0);
@@ -354,8 +378,8 @@ describe("Merger", function() {
     expectResult(res, [
       {
         name: "asdf",
-        shortcut: sct.build()
-      }
+        shortcut: sct.build(),
+      },
     ]);
   });
 
@@ -375,9 +399,9 @@ describe("Merger", function() {
           inserts: [],
           actionsToRemove: constructActionsToRemove(null, [0]),
           uuids: extractUUIDs(sct.getActions()),
-          shortcut: sct.build()
-        }
-      ]
+          shortcut: sct.build(),
+        },
+      ],
     };
 
     const res = script(dict);

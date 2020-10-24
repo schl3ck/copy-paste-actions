@@ -11,8 +11,10 @@
       <button
         v-for="shortcut in urls"
         :key="shortcut.url"
-        :class="'list-group-item list-group-item-action custom-list-group-item d-flex align-items-center ' +
-          'cursor-pointer text-left'"
+        :class="
+          'list-group-item list-group-item-action custom-list-group-item ' +
+            'd-flex align-items-center cursor-pointer text-left'
+        "
         @click="openUrl(shortcut)"
       >
         <img
@@ -25,7 +27,9 @@
           <span>{{ shortcut.name }}</span>
           <span class="sr-only">.</span>
           <br>
-          <span class="small text-secondary">{{ lang.date }} {{ shortcut.date.toLocaleString() }}</span>
+          <span
+            class="small text-secondary"
+          >{{ lang.date }} {{ shortcut.date.toLocaleString() }}</span>
         </div>
         <div class="btn-group ml-auto">
           <button class="btn btn-outline-dark" @click="copyUrl(shortcut)">
@@ -45,16 +49,26 @@
     </div>
 
     <transition name="fade">
-      <div v-if="askDeletion !== null" class="backdrop" @click="askDeletion = null" />
+      <div
+        v-if="askDeletion !== null"
+        class="backdrop"
+        @click="askDeletion = null"
+      />
     </transition>
 
     <transition name="slide-down-and-up">
       <div
         v-if="copySuccessfull !== null"
         class="fixed-top text-center overlay-message alert"
-        :class="{'alert-success': copySuccessfull , 'alert-danger': !copySuccessfull}"
+        :class="{
+          'alert-success': copySuccessfull,
+          'alert-danger': !copySuccessfull,
+        }"
       >
-        <BIcon :icon="copySuccessfull ? 'check' : 'exclamation-triangle-fill'" :scale="copySuccessfull ? 2 : 1.2" />
+        <BIcon
+          :icon="copySuccessfull ? 'check' : 'exclamation-triangle-fill'"
+          :scale="copySuccessfull ? 2 : 1.2"
+        />
         {{ copySuccessfull ? lang.copySuccess : lang.copyFailed }}
         <template v-if="copySuccessfull === false">
           <br><input
@@ -71,15 +85,25 @@
     <transition name="slide-down-and-up">
       <div
         v-if="askDeletion !== null"
-        class="fixed-top text-center overlay-message alert alert-danger d-flex flex-column"
+        :class="
+          'fixed-top text-center overlay-message alert alert-danger ' +
+            'd-flex flex-column'
+        "
       >
-        <div class="card mb-2 text-body py-2 px-3 d-flex align-items-center flex-row">
+        <div
+          :class="
+            'card mb-2 text-body py-2 px-3 d-flex align-items-center ' +
+              'flex-row'
+          "
+        >
           <img :src="askDeletion.image" class="icon mr-2" alt="icon">
           <div>
             <span>{{ askDeletion.name }}</span>
             <span class="sr-only">.</span>
             <br>
-            <span class="small text-secondary">{{ lang.date }} {{ askDeletion.date.toLocaleString() }}</span>
+            <span class="small text-secondary">
+              {{ lang.date }} {{ askDeletion.date.toLocaleString() }}
+            </span>
           </div>
         </div>
         <span>{{ lang.deleteNote }}</span>
@@ -98,14 +122,14 @@ import { navigateAndBuildZip } from "@/utils/openApp";
 export default {
   name: "ListiCloudUrls",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   data() {
     return {
       copySuccessfull: null,
       urlToCopy: "",
       /** @type {Store.ICloudShortcut | null} */
-      askDeletion: null
+      askDeletion: null,
     };
   },
   computed: {
@@ -127,19 +151,19 @@ export default {
           click: () => {
             this.deleteUrl(this.askDeletion);
             this.askDeletion = null;
-          }
+          },
         },
         {
           text: this.lang.cancel,
           class: "btn-secondary",
           icon: "x",
           iconOptions: {
-            scale: 1.5
+            scale: 1.5,
           },
           click: () => {
             this.askDeletion = null;
-          }
-        }
+          },
+        },
       ];
     },
     /** @returns {boolean} */
@@ -159,13 +183,13 @@ export default {
               navigateAndBuildZip(this.$root, {
                 actions: ["Build.toSafari"],
                 toMainMenu: true,
-                closePage: false
+                closePage: false,
               });
-            }
-          }
+            },
+          },
         ]
         : [];
-    }
+    },
   },
   watch: {
     copySuccessfull(val) {
@@ -181,7 +205,7 @@ export default {
     buttons() {
       const height = this.$refs.toolbar.clientHeight;
       this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
@@ -192,7 +216,7 @@ export default {
     openUrl(shortcut) {
       const url = shortcut.url.replace(
         /^https:\/\/(www\.)?icloud\.com\//,
-        "shortcuts://"
+        "shortcuts://",
       );
       window.location.href = url;
     },
@@ -213,8 +237,8 @@ export default {
     /** @param {Store.ICloudShortcut} shortcut */
     deleteUrl(shortcut) {
       this.$store.commit("removeiCloudUrl", shortcut.url);
-    }
-  }
+    },
+  },
 };
 </script>
 

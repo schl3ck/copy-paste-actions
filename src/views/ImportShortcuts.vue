@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h3 class="mt-2">{{ lang.importing }}</h3>
+    <h3 class="mt-2">
+      {{ lang.importing }}
+    </h3>
     <div class="alert alert-warning">
       {{ lang.note.replace(/\$n/g, toImport.length) }}
     </div>
@@ -13,13 +15,17 @@
       >
         <div class="d-flex w-100 justify-content-between align-items-center">
           <div class="d-flex align-items-center">
-            <img v-if="shortcut.image" :src="shortcut.image" class="image mr-2">
+            <img
+              v-if="shortcut.image"
+              :src="shortcut.image"
+              class="image mr-2"
+            >
             {{ shortcut.name }}
           </div>
           <BIcon
             icon="check"
             class="text-success ml-3 icon"
-            :class="{'invisible': !shortcut.done}"
+            :class="{ invisible: !shortcut.done }"
           />
         </div>
       </button>
@@ -35,17 +41,19 @@
 import ButtonBar from "@/components/ButtonBar.vue";
 import { openURLAndCloseSelf } from "@/utils/openApp";
 
-/** @typedef { {name: string, url: string, image?: string, done: boolean} } Shortcut */
+/** @typedef {
+ *  { name: string, url: string, image?: string, done: boolean }
+ * } Shortcut */
 
 export default {
   name: "ImportShortcuts",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   data() {
     /** @type {Shortcut[]} */
     return {
-      toImport: []
+      toImport: [],
     };
   },
   computed: {
@@ -58,24 +66,24 @@ export default {
       return [
         {
           text:
-            this.toImport.filter((s) => s.done).length ===
-            this.toImport.length - 1
+            this.toImport.filter((s) => s.done).length
+            === this.toImport.length - 1
               ? this.lang.importLast
               : this.lang.import,
           class: "btn-success",
           icon: "download",
-          click: function() {
+          click: () => {
             this.open(this.toImport.find((s) => !s.done));
-          }.bind(this)
+          },
         },
         {
           text: this.$store.getters.langToMainMenu,
           class: "btn-outline-primary",
           icon: "chevron-left",
-          click: () => this.$root.$emit("navigate", "MainMenu")
-        }
+          click: () => this.$root.$emit("navigate", "MainMenu"),
+        },
       ];
-    }
+    },
   },
   mounted() {
     this.$root.$once("loadShortcutsFinished", this.init);
@@ -96,8 +104,8 @@ export default {
       } else {
         location.href = shortcut.url;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

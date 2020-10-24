@@ -28,15 +28,20 @@ const script = require("../../src/utils/analyser.worker");
 
 const possibleScriptParams = {
   excludeAllCPAComments: [false, true],
-  cleanUp: [0, 1, 2]
+  cleanUp: [0, 1, 2],
 };
 /**
- * @typedef {Pick<Parameters<typeof script>[0], "excludeAllCPAComments" | "cleanUp">} PossibleParams
+ * @typedef {
+ *    Pick<Parameters<typeof script>[0], "excludeAllCPAComments" | "cleanUp">
+ * } PossibleParams
  */
 /** @type {PossibleParams[]} */
 const allPossibleScriptParams = [];
 (function() {
-  const combinations = Object.values(possibleScriptParams).reduce((acc, ar) => acc * ar.length, 1);
+  const combinations = Object.values(possibleScriptParams).reduce(
+    (acc, ar) => acc * ar.length,
+    1,
+  );
   const keys = Object.keys(possibleScriptParams);
   const indices = {};
   const max = {};
@@ -62,13 +67,14 @@ const allPossibleScriptParams = [];
 
 /**
  * Returns an object with all needed parameters for the script
- * @param {ShortcutBuilder|Array|Object} shortcut - The Shortcut to use in the parameter
+ * @param {ShortcutBuilder|Array|Object} shortcut - The Shortcut to use in the
+ *    parameter
  */
 function getParamForScript(shortcut) {
   if (shortcut instanceof ShortcutBuilder) {
     shortcut = {
       name: "Test Shortcut",
-      shortcut: shortcut.build()
+      shortcut: shortcut.build(),
     };
   }
 
@@ -78,7 +84,7 @@ function getParamForScript(shortcut) {
     cleanUp: 0,
     commentMarker: ":cpa:",
     noSnippetName: " ",
-    defaultNewShortcutName: "Untitled Shortcut"
+    defaultNewShortcutName: "Untitled Shortcut",
   };
 }
 
@@ -99,10 +105,12 @@ function getParamForScript(shortcut) {
  * @param {object} obj - The object to test
  * @param {object} props - How the object should look like
  * @param {number} props.nItems
- * @param {string[]} props.warnings - An array of strings that should be contained in `obj.warnings`
+ * @param {string[]} props.warnings - An array of strings that should be
+ * contained in `obj.warnings`
  * @param {object[]} props.shortcuts
  * @param {string} props.shortcuts[].name
- * @param {number[]} props.shortcuts[].actionsToRemove - An array of positions of actions that should be removed.
+ * @param {number[]} props.shortcuts[].actionsToRemove - An array of positions
+ * of actions that should be removed.
  * 0-based.
  * @param {UUIDs} props.shortcuts[].uuids - See {@link UUIDs}
  * @param {object[]} props.shortcuts[].inserts
@@ -120,70 +128,98 @@ function expectReturnObject(obj, props) {
 
   expect(obj, "obj").to.have.property("warnings");
   expect(obj.warnings, "obj.warnings").to.be.instanceOf(Array);
-  expect(obj.warnings.length, "obj.warnings.length").to.equal(props.warnings.length);
+  expect(obj.warnings.length, "obj.warnings.length").to.equal(
+    props.warnings.length,
+  );
   expect(obj.warnings, "obj.warnings").to.deep.equal(props.warnings);
 
   expect(obj, "obj").to.have.property("shortcuts");
   expect(obj.shortcuts, "obj.shortcuts").to.be.instanceOf(Array);
-  expect(obj.shortcuts.length, "obj.shortcuts.length").to.equal(props.shortcuts.length);
+  expect(obj.shortcuts.length, "obj.shortcuts.length").to.equal(
+    props.shortcuts.length,
+  );
 
   // ============ all shortcuts ===============
   obj.shortcuts.forEach((obj, i) => {
-    expect(obj, `obj.shortcuts[${i}].name`).to.have.property("name", props.shortcuts[i].name);
-
-    expect(obj, `obj.shortcuts[${i}]`).to.have.property("actionsToRemove");
-    expect(obj.actionsToRemove, `obj.shortcuts[${i}].actionsToRemove`).to.be.instanceOf(Array);
-    expect(obj.actionsToRemove, `obj.shortcuts[${i}].actionsToRemove`).to.have.deep.members(
-      props.shortcuts[i].actionsToRemove
+    const messageStart = `obj.shortcuts[${i}]`;
+    expect(obj, `${messageStart}.name`).to.have.property(
+      "name",
+      props.shortcuts[i].name,
     );
 
-    expect(obj, `obj.shortcuts[${i}]`).to.have.property("uuids");
-    expect(obj.uuids, `obj.shortcuts[${i}].uuids`).to.deep.equal(props.shortcuts[i].uuids);
+    expect(obj, messageStart).to.have.property("actionsToRemove");
+    expect(
+      obj.actionsToRemove,
+      `${messageStart}.actionsToRemove`,
+    ).to.be.instanceOf(Array);
+    expect(
+      obj.actionsToRemove,
+      `${messageStart}.actionsToRemove`,
+    ).to.have.deep.members(props.shortcuts[i].actionsToRemove);
+
+    expect(obj, `${messageStart}`).to.have.property("uuids");
+    expect(obj.uuids, `${messageStart}.uuids`).to.deep.equal(
+      props.shortcuts[i].uuids,
+    );
 
     // ============= all inserts ===============
-    expect(obj, `obj.shortcuts[${i}]`).to.have.property("inserts");
-    expect(obj.inserts, `obj.shortcuts[${i}].inserts`).to.have.deep.members(props.shortcuts[i].inserts);
-
-    // =========== all snippets ============
-    expect(obj, `obj.shortcuts[${i}]`).to.have.property("snippets");
-    expect(obj.snippets, `obj.shortcuts[${i}].snippets`).to.be.instanceOf(Object);
-    expect(Object.keys(obj.snippets), `obj.shortcuts[${i}].snippets.keys`).to.have.length(
-      props.shortcuts[i].snippets.length
+    expect(obj, `${messageStart}`).to.have.property("inserts");
+    expect(obj.inserts, `${messageStart}.inserts`).to.have.deep.members(
+      props.shortcuts[i].inserts,
     );
 
+    // =========== all snippets ============
+    expect(obj, `${messageStart}`).to.have.property("snippets");
+    expect(obj.snippets, `${messageStart}.snippets`).to.be.instanceOf(Object);
+    expect(
+      Object.keys(obj.snippets),
+      `${messageStart}.snippets.keys`,
+    ).to.have.length(props.shortcuts[i].snippets.length);
+
     props.shortcuts[i].snippets.forEach((snippet, j) => {
-      expect(obj.snippets.map(s => s.name), `obj.shortcuts[${i}].snippets.names`).to.be.an("array").that.includes(
-        snippet.name
-      );
+      expect(
+        obj.snippets.map((s) => s.name),
+        `obj.shortcuts[${i}].snippets.names`,
+      )
+        .to.be.an("array")
+        .that.includes(snippet.name);
 
       let o = obj.snippets.find((s) => s.name === snippet.name);
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}]`).to.be.an("object").and.ok;
+      const messageStart = `obj.shortcuts[${i}].snippets[${j}]`;
+      expect(o, messageStart).to.be.an("object").and.ok;
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].name`).to.have.property("name", snippet.name);
+      expect(o, `${messageStart}.name`).to.have.property("name", snippet.name);
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].isClipboard`).to.have.property("isClipboard", snippet.isClipboard);
+      expect(o, `${messageStart}.isClipboard`).to.have.property(
+        "isClipboard",
+        snippet.isClipboard,
+      );
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].newShortcut`).to.have.property(
+      expect(o, `${messageStart}.newShortcut`).to.have.property(
         "newShortcut",
-        snippet.newShortcut || ""
+        snippet.newShortcut || "",
       );
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].numberOfActions`).to.have.property(
+      expect(o, `${messageStart}.numberOfActions`).to.have.property(
         "numberOfActions",
-        snippet.numberOfActions
+        snippet.numberOfActions,
       );
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}]`).to.have.property("uuids");
-      expect(o.uuids, `obj.shortcuts[${i}].snippets[${j}].uuids`).to.have.property("groups");
-      expect(o.uuids.groups, `obj.shortcuts[${i}].snippets[${j}].uuids.groups`).to.have.members(snippet.uuids.groups);
-      expect(o.uuids, `obj.shortcuts[${i}].snippets[${j}].uuids`).to.have.property("vars");
-      expect(o.uuids.vars, `obj.shortcuts[${i}].snippets[${j}].uuids.vars`).to.have.members(snippet.uuids.vars);
+      expect(o, `${messageStart}`).to.have.property("uuids");
+      expect(o.uuids, `${messageStart}.uuids`).to.have.property("groups");
+      expect(o.uuids.groups, `${messageStart}.uuids.groups`).to.have.members(
+        snippet.uuids.groups,
+      );
+      expect(o.uuids, `${messageStart}.uuids`).to.have.property("vars");
+      expect(o.uuids.vars, `${messageStart}.uuids.vars`).to.have.members(
+        snippet.uuids.vars,
+      );
 
-      expect(o, `obj.shortcuts[${i}].snippets[${j}]`).to.have.property("actions");
+      expect(o, `${messageStart}`).to.have.property("actions");
       o = o.actions;
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions`).to.be.instanceOf(Array);
-      expect(o, `obj.shortcuts[${i}].snippets[${j}].actions`).to.deep.equal(snippet.actions);
+      expect(o, `${messageStart}.actions`).to.be.instanceOf(Array);
+      expect(o, `${messageStart}.actions`).to.deep.equal(snippet.actions);
     });
   });
 }
@@ -198,11 +234,11 @@ const contextForImports = {
   uniquePermutations: {
     generate: uniquePermutations.uniquePermutations,
     generatePatterns: uniquePermutations.uniquePermutationPatterns,
-    combined: uniquePermutations.combinedPermutations
+    combined: uniquePermutations.combinedPermutations,
   },
   allPossibleScriptParams,
   constructActionsToRemove,
-  genUUID: ShortcutBuilder.genUUID
+  genUUID: ShortcutBuilder.genUUID,
 };
 
 module.exports = contextForImports;

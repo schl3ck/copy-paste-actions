@@ -3,29 +3,33 @@ import Merger from "./merger.worker";
 
 const WorkerClasses = {
   analyser: Analyser,
-  merger: Merger
+  merger: Merger,
 };
 
 const WorkerCache = {
   analyser: null,
-  merger: null
+  merger: null,
 };
 const allWorkers = [];
 
 window.clearCache = function() {
-  allWorkers.forEach(w => w.terminate());
+  allWorkers.forEach((w) => w.terminate());
   WorkerCache.analyser = WorkerCache.merger = null;
 };
 
 /**
  * Calls the specified script multiple times
  * @param {"analyser" | "merger"} script The script to call
- * @param {Parameters<typeof Analyser>[0] | Parameters<typeof Merger>[0]} dict The dict argument of the script
- * @param {(number) => void} [update] Will be called with updates to the total percentage from 0 to 100
+ * @param {Parameters<typeof Analyser>[0] | Parameters<typeof Merger>[0]} dict
+ * The dict argument of the script
+ * @param {(number) => void} [update] Will be called with updates to the total
+ * percentage from 0 to 100
  */
 export default function(script, dict, update) {
   if (!(script in WorkerClasses)) {
-    throw new TypeError('Argument script must be either "analyser" or "merger"');
+    throw new TypeError(
+      'Argument script must be either "analyser" or "merger"',
+    );
   }
 
   let totalPercentage = 0;

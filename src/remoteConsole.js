@@ -1,3 +1,7 @@
+/* eslint comma-dangle: ["error", "never"]
+   -----
+   This script is not process by babel so we maybe need pre es5 compatibility
+   */
 var enableRemoteConsole = false;
 
 function customStringify(inp) {
@@ -40,8 +44,8 @@ function logToServer(level, callee, params) {
     xmlHttp.open("POST", "REMOTE_CONSOLE_URL", true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
     xmlHttp.send(json);
-  } catch (err) { }
-};
+  } catch (err) {}
+}
 
 try {
   if (module && module.exports) {
@@ -50,7 +54,7 @@ try {
       logToServer: logToServer
     };
   }
-} catch (err) { }
+} catch (err) {}
 
 try {
   if (window && enableRemoteConsole) {
@@ -74,7 +78,13 @@ try {
     console.error = handler("error");
 
     var oldOnerror = window.onerror;
-    window.onerror = function onerror(event, source, lineNumber, column, errorObj) {
+    window.onerror = function onerror(
+      event,
+      source,
+      lineNumber,
+      column,
+      errorObj
+    ) {
       oldOnerror && oldOnerror(event, source, lineNumber, column, errorObj);
       logToServer("error", "", {
         event: event,
@@ -84,4 +94,4 @@ try {
       });
     };
   }
-} catch (err) { }
+} catch (err) {}

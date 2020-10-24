@@ -1,5 +1,6 @@
 /**
- * Returns the total height of an element including its padding, border and margin
+ * Returns the total height of an element including its padding, border and
+ * margin
  * @param {HTMLElement} element
  * @returns {number}
  */
@@ -25,9 +26,9 @@ export function getFullHeight(element) {
  * @param  {...Array} arrays
  */
 export function * zip(...arrays) {
-  const len = Math.min(...arrays.map(a => a.length));
+  const len = Math.min(...arrays.map((a) => a.length));
   for (let i = 0; i < len; i++) {
-    yield arrays.map(a => a[i]);
+    yield arrays.map((a) => a[i]);
   }
 }
 
@@ -35,7 +36,7 @@ const htmlEscapeMap = {
   "<": "&lt;",
   ">": "&gt;",
   "&": "&amp;",
-  '"': "&quot;"
+  '"': "&quot;",
 };
 /**
  * HTML escapes the text and converts every `\n` to `<br>`
@@ -67,7 +68,7 @@ export function fallbackCopyTextToClipboard(text) {
   let successful = false;
   try {
     successful = document.execCommand("copy");
-  } catch (err) { }
+  } catch (err) {}
 
   document.body.removeChild(textArea);
   return successful;
@@ -81,11 +82,14 @@ export function copyTextToClipboard(text) {
   if (!navigator.clipboard) {
     return fallbackCopyTextToClipboard(text);
   }
-  return navigator.clipboard.writeText(text).then(function() {
-    return true;
-  }, function() {
-    return false;
-  });
+  return navigator.clipboard.writeText(text).then(
+    function() {
+      return true;
+    },
+    function() {
+      return false;
+    },
+  );
 }
 
 /**

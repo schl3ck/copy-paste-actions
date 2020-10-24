@@ -4,9 +4,11 @@
       v-for="(button, index) in buttons"
       :key="button.text"
       class="col px-0 corner"
-      :class="{'pr-sm-1 pt-sm-0': first(index),
-               'px-sm-0': middle(index),
-               'pb-1 pl-sm-1 pb-sm-0': last(index)}"
+      :class="{
+        'pr-sm-1 pt-sm-0': first(index),
+        'px-sm-0': middle(index),
+        'pb-1 pl-sm-1 pb-sm-0': last(index),
+      }"
     >
       <button
         class="btn w-100 h-100"
@@ -21,11 +23,19 @@
           <component :is="button.icon.component" />
         </span>
         <img
-          v-else-if="typeof button.icon === 'string' && button.icon.startsWith('data:image')"
+          v-else-if="
+            typeof button.icon === 'string' &&
+              button.icon.startsWith('data:image')
+          "
           :src="button.icon"
           class="icon mr-2"
         >
-        <BIcon v-else :icon="button.icon" v-bind="button.iconOptions" class="mr-2" />
+        <BIcon
+          v-else
+          :icon="button.icon"
+          v-bind="button.iconOptions"
+          class="mr-2"
+        />
         {{ button.text }}
       </button>
     </div>
@@ -41,14 +51,14 @@ export default {
      * } */
     buttons: {
       type: Array,
-      required: true
+      required: true,
     },
     size: {
       validator(value) {
         return ["small", "normal", "big"].includes(value);
       },
-      default: "big"
-    }
+      default: "big",
+    },
   },
   computed: {
     /** @returns {string} */
@@ -61,7 +71,7 @@ export default {
         default:
           return "";
       }
-    }
+    },
   },
   methods: {
     first(index) {
@@ -72,8 +82,8 @@ export default {
     },
     last(index) {
       return index === this.buttons.length - 1 && this.buttons.length > 1;
-    }
-  }
+    },
+  },
 };
 </script>
 

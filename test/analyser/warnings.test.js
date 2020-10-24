@@ -9,7 +9,7 @@ const {
   expectReturnObject,
   uniquePermutations,
   allPossibleScriptParams,
-  constructActionsToRemove
+  constructActionsToRemove,
 } = require("./utils");
 /* eslint-enable no-unused-vars */
 
@@ -18,7 +18,7 @@ module.exports = function() {
     it("Incomplete CPA comment", function() {
       const params = allPossibleScriptParams[0];
       const sct = new ShortcutBuilder();
-      sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:" });
+      sct.addComment(":cpa:");
       sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
       const dict = getParamForScript(sct);
@@ -31,9 +31,10 @@ module.exports = function() {
           {
             shortcut: getParamForScript(sct).shortcuts.name,
             action: 0,
-            commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-            type: "incomplete"
-          }
+            commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters
+              .WFCommentActionText,
+            type: "incomplete",
+          },
         ],
         shortcuts: [
           {
@@ -41,16 +42,16 @@ module.exports = function() {
             actionsToRemove: [],
             uuids: extractUUIDs(sct.getActions()),
             inserts: [],
-            snippets: []
-          }
-        ]
+            snippets: [],
+          },
+        ],
       });
     });
 
     it("Wrong function name", function() {
       const params = allPossibleScriptParams[0];
       const sct = new ShortcutBuilder();
-      sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsvdnkl" });
+      sct.addComment(":cpa:\nsvdnkl");
       sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
       const dict = getParamForScript(sct);
@@ -63,12 +64,13 @@ module.exports = function() {
           {
             shortcut: getParamForScript(sct).shortcuts.name,
             action: 0,
-            commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+            commentText: sct.getActions(0, 1)[0].WFWorkflowActionParameters
+              .WFCommentActionText,
             type: "wrongFunction",
             payload: {
-              function: "svdnkl"
-            }
-          }
+              function: "svdnkl",
+            },
+          },
         ],
         shortcuts: [
           {
@@ -76,9 +78,9 @@ module.exports = function() {
             actionsToRemove: [],
             uuids: extractUUIDs(sct.getActions()),
             inserts: [],
-            snippets: []
-          }
-        ]
+            snippets: [],
+          },
+        ],
       });
     });
 
@@ -86,12 +88,12 @@ module.exports = function() {
       it("Pause", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
+        sct.addComment(":cpa:\npaste replace");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
+        sct.addComment(":cpa:\npause");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
+        sct.addComment(":cpa:\nresume");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -104,21 +106,23 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "pauseResumeInPaste",
               payload: {
-                function: "pause"
-              }
+                function: "pause",
+              },
             },
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 5,
-              commentText: sct.getActions(5, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(5, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "funcNoStart",
               payload: {
-                function: "resume"
-              }
-            }
+                function: "resume",
+              },
+            },
           ],
           shortcuts: [
             {
@@ -126,20 +130,20 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
       it("Resume", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ninsert replace" });
+        sct.addComment(":cpa:\ninsert replace");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
+        sct.addComment(":cpa:\nresume");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
+        sct.addComment(":cpa:\npause");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -152,21 +156,23 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "pauseResumeInInsert",
               payload: {
-                function: "resume"
-              }
+                function: "resume",
+              },
             },
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 5,
-              commentText: sct.getActions(5, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(5, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "funcNoStart",
               payload: {
-                function: "pause"
-              }
-            }
+                function: "pause",
+              },
+            },
           ],
           shortcuts: [
             {
@@ -174,9 +180,9 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
     });
@@ -185,17 +191,20 @@ module.exports = function() {
       allPossibleScriptParams.forEach(function(params) {
         it(JSON.stringify(params), function() {
           const sct = new ShortcutBuilder();
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
+          sct.addComment(":cpa:\ncopy\nasdf");
+          sct.addComment(":cpa:\npause");
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
+          sct.addComment(":cpa:\nresume");
+          sct.addComment(":cpa:\nend");
 
           const dict = getParamForScript(sct);
           _.assign(dict, params);
           const res = script(dict);
 
-          const actions = sct.getActions.apply(sct, params.excludeAllCPAComments ? [2, 1] : [1]);
+          const actions = sct.getActions.apply(
+            sct,
+            params.excludeAllCPAComments ? [2, 1] : [1],
+          );
 
           expectReturnObject(res, {
             nItems: 1,
@@ -203,35 +212,40 @@ module.exports = function() {
               {
                 shortcut: getParamForScript(sct).shortcuts.name,
                 action: 1,
-                commentText: sct.getActions(1, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                commentText: sct.getActions(1, 1)[0].WFWorkflowActionParameters
+                  .WFCommentActionText,
                 type: "funcNoStart",
                 payload: {
-                  function: "pause"
-                }
+                  function: "pause",
+                },
               },
               {
                 shortcut: getParamForScript(sct).shortcuts.name,
                 action: 3,
-                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                  .WFCommentActionText,
                 type: "funcNoStart",
                 payload: {
-                  function: "resume"
-                }
+                  function: "resume",
+                },
               },
               {
                 shortcut: getParamForScript(sct).shortcuts.name,
                 action: 4,
-                commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters
+                  .WFCommentActionText,
                 type: "funcNoStart",
                 payload: {
-                  function: "end"
-                }
-              }
+                  function: "end",
+                },
+              },
             ],
             shortcuts: [
               {
                 name: getParamForScript(sct).shortcuts.name,
-                actionsToRemove: constructActionsToRemove(params.cleanUp === 2 ? [0] : []),
+                actionsToRemove: constructActionsToRemove(
+                  params.cleanUp === 2 ? [0] : [],
+                ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
                 snippets: [
@@ -241,11 +255,11 @@ module.exports = function() {
                     newShortcut: "",
                     numberOfActions: actions.length,
                     uuids: extractUUIDs(actions),
-                    actions: actions
-                  }
-                ]
-              }
-            ]
+                    actions: actions,
+                  },
+                ],
+              },
+            ],
           });
         });
       });
@@ -255,15 +269,15 @@ module.exports = function() {
       allPossibleScriptParams.forEach(function(params) {
         it(JSON.stringify(params), function() {
           const sct = new ShortcutBuilder();
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy 1" });
+          sct.addComment(":cpa:\ncopy 1");
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
+          sct.addComment(":cpa:\nend");
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave 1" });
+          sct.addComment(":cpa:\nsave 1");
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
+          sct.addComment(":cpa:\nend");
           sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
           const dict = getParamForScript(sct);
@@ -276,21 +290,23 @@ module.exports = function() {
               {
                 shortcut: getParamForScript(sct).shortcuts.name,
                 action: 3,
-                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                  .WFCommentActionText,
                 type: "funcClipboardFinished",
                 payload: {
-                  function: "end"
-                }
+                  function: "end",
+                },
               },
               {
                 shortcut: getParamForScript(sct).shortcuts.name,
                 action: 8,
-                commentText: sct.getActions(8, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+                commentText: sct.getActions(8, 1)[0].WFWorkflowActionParameters
+                  .WFCommentActionText,
                 type: "funcSnippetFinished",
                 payload: {
-                  function: "end"
-                }
-              }
+                  function: "end",
+                },
+              },
             ],
             shortcuts: [
               {
@@ -298,9 +314,9 @@ module.exports = function() {
                 actionsToRemove: constructActionsToRemove([]),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
-                snippets: []
-              }
-            ]
+                snippets: [],
+              },
+            ],
           });
         });
       });
@@ -310,8 +326,8 @@ module.exports = function() {
       const params = allPossibleScriptParams[0];
       const sct = new ShortcutBuilder();
       sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-      sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
-      sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend insert" });
+      sct.addComment(":cpa:\nend paste");
+      sct.addComment(":cpa:\nend insert");
 
       const dict = getParamForScript(sct);
       _.assign(dict, params);
@@ -323,15 +339,17 @@ module.exports = function() {
           {
             shortcut: getParamForScript(sct).shortcuts.name,
             action: 1,
-            commentText: sct.getActions(1, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-            type: "pasteEndNoStart"
+            commentText: sct.getActions(1, 1)[0].WFWorkflowActionParameters
+              .WFCommentActionText,
+            type: "pasteEndNoStart",
           },
           {
             shortcut: getParamForScript(sct).shortcuts.name,
             action: 2,
-            commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-            type: "insertEndNoStart"
-          }
+            commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+              .WFCommentActionText,
+            type: "insertEndNoStart",
+          },
         ],
         shortcuts: [
           {
@@ -339,9 +357,9 @@ module.exports = function() {
             actionsToRemove: [],
             uuids: extractUUIDs(sct.getActions()),
             inserts: [],
-            snippets: []
-          }
-        ]
+            snippets: [],
+          },
+        ],
       });
     });
 
@@ -349,11 +367,11 @@ module.exports = function() {
       it("clipboard -> !clipboard", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npaste replace" });
+        sct.addComment(":cpa:\npaste replace");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend insert" });
+        sct.addComment(":cpa:\nend insert");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
+        sct.addComment(":cpa:\nend paste");
 
         const dict = getParamForScript(sct);
         _.assign(dict, params);
@@ -365,15 +383,17 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "insertEndPasteStart"
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "insertEndPasteStart",
             },
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 4,
-              commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "pasteEndNoStart"
-            }
+              commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "pasteEndNoStart",
+            },
           ],
           shortcuts: [
             {
@@ -381,19 +401,19 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
       it("!clipboard -> clipboard", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ninsert replace" });
+        sct.addComment(":cpa:\ninsert replace");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend paste" });
+        sct.addComment(":cpa:\nend paste");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend insert" });
+        sct.addComment(":cpa:\nend insert");
 
         const dict = getParamForScript(sct);
         _.assign(dict, params);
@@ -405,15 +425,17 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "pasteEndInsertStart"
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "pasteEndInsertStart",
             },
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 4,
-              commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "insertEndNoStart"
-            }
+              commentText: sct.getActions(4, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "insertEndNoStart",
+            },
           ],
           shortcuts: [
             {
@@ -421,9 +443,9 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
     });
@@ -432,9 +454,9 @@ module.exports = function() {
       it("clipboard item, no name, no end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -447,9 +469,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "duplicateClipboardNoName"
-            }
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "duplicateClipboardNoName",
+            },
           ],
           shortcuts: [
             {
@@ -463,19 +486,19 @@ module.exports = function() {
                   isClipboard: true,
                   numberOfActions: 2,
                   uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1])
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions([1, 1], [3, 1]),
+                },
+              ],
+            },
+          ],
         });
       });
       it("clipboard item, some name, no end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
+        sct.addComment(":cpa:\ncopy\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
+        sct.addComment(":cpa:\ncopy\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -488,12 +511,13 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "duplicateClipboardWithName",
               payload: {
-                name: "asdf"
-              }
-            }
+                name: "asdf",
+              },
+            },
           ],
           shortcuts: [
             {
@@ -507,20 +531,20 @@ module.exports = function() {
                   isClipboard: true,
                   numberOfActions: 2,
                   uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1])
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions([1, 1], [3, 1]),
+                },
+              ],
+            },
+          ],
         });
       });
       it("clipboard item, no name, with end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\nend");
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -533,9 +557,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 3,
-              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "duplicateClipboardNoName"
-            }
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "duplicateClipboardNoName",
+            },
           ],
           shortcuts: [
             {
@@ -549,20 +574,20 @@ module.exports = function() {
                   isClipboard: true,
                   numberOfActions: 1,
                   uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1)
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions(1, 1),
+                },
+              ],
+            },
+          ],
         });
       });
       it("clipboard item, some name, with end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
+        sct.addComment(":cpa:\ncopy\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy\nasdf" });
+        sct.addComment(":cpa:\nend\nasdf");
+        sct.addComment(":cpa:\ncopy\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -575,12 +600,13 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 3,
-              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "duplicateClipboardWithName",
               payload: {
-                name: "asdf"
-              }
-            }
+                name: "asdf",
+              },
+            },
           ],
           shortcuts: [
             {
@@ -594,19 +620,19 @@ module.exports = function() {
                   isClipboard: true,
                   numberOfActions: 1,
                   uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1)
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions(1, 1),
+                },
+              ],
+            },
+          ],
         });
       });
       it("snippet, no name", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -619,9 +645,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "duplicateSnippetNoName"
-            }
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "duplicateSnippetNoName",
+            },
           ],
           shortcuts: [
             {
@@ -635,19 +662,19 @@ module.exports = function() {
                   isClipboard: false,
                   numberOfActions: 2,
                   uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1])
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions([1, 1], [3, 1]),
+                },
+              ],
+            },
+          ],
         });
       });
       it("snippet, some name", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave\nasdf" });
+        sct.addComment(":cpa:\nsave\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave\nasdf" });
+        sct.addComment(":cpa:\nsave\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -660,12 +687,13 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "duplicateSnippetWithName",
               payload: {
-                name: "asdf"
-              }
-            }
+                name: "asdf",
+              },
+            },
           ],
           shortcuts: [
             {
@@ -679,20 +707,20 @@ module.exports = function() {
                   isClipboard: false,
                   numberOfActions: 2,
                   uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1])
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions([1, 1], [3, 1]),
+                },
+              ],
+            },
+          ],
         });
       });
       it("snippet, no name, with end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nend");
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -705,9 +733,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 3,
-              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "duplicateSnippetNoName"
-            }
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "duplicateSnippetNoName",
+            },
           ],
           shortcuts: [
             {
@@ -721,20 +750,20 @@ module.exports = function() {
                   isClipboard: false,
                   numberOfActions: 1,
                   uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1)
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions(1, 1),
+                },
+              ],
+            },
+          ],
         });
       });
       it("snippet, some name, with end", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave\nasdf" });
+        sct.addComment(":cpa:\nsave\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nend\nasdf" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave\nasdf" });
+        sct.addComment(":cpa:\nend\nasdf");
+        sct.addComment(":cpa:\nsave\nasdf");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -747,12 +776,13 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 3,
-              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
               type: "duplicateSnippetWithName",
               payload: {
-                name: "asdf"
-              }
-            }
+                name: "asdf",
+              },
+            },
           ],
           shortcuts: [
             {
@@ -766,24 +796,24 @@ module.exports = function() {
                   isClipboard: false,
                   numberOfActions: 1,
                   uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1)
-                }
-              ]
-            }
-          ]
+                  actions: sct.getActions(1, 1),
+                },
+              ],
+            },
+          ],
         });
       });
     });
 
-    describe("\"resume\" on wrong place", function() {
+    describe('"resume" on wrong place', function() {
       it("clipboard", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\nresume");
+        sct.addComment(":cpa:\nresume");
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -796,9 +826,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "resumeWhileResumeClipboard"
-            }
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "resumeWhileResumeClipboard",
+            },
           ],
           shortcuts: [
             {
@@ -806,19 +837,19 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
       it("snippets", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nresume" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nresume");
+        sct.addComment(":cpa:\nresume");
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -831,9 +862,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 2,
-              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "resumeWhileResumeSnippet"
-            }
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "resumeWhileResumeSnippet",
+            },
           ],
           shortcuts: [
             {
@@ -841,22 +873,22 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
     });
-    describe("\"pause\" on wrong place", function() {
+    describe('"pause" on wrong place', function() {
       it("clipboard", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\ncopy" });
+        sct.addComment(":cpa:\npause");
+        sct.addComment(":cpa:\npause");
+        sct.addComment(":cpa:\npause");
+        sct.addComment(":cpa:\ncopy");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -869,9 +901,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 3,
-              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "pauseWhilePauseClipboard"
-            }
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "pauseWhilePauseClipboard",
+            },
           ],
           shortcuts: [
             {
@@ -879,20 +912,20 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
       it("snippets", function() {
         const params = allPossibleScriptParams[0];
         const sct = new ShortcutBuilder();
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\npause" });
-        sct.addAction(ShortcutBuilder.actions.Comment, { WFCommentActionText: ":cpa:\nsave" });
+        sct.addComment(":cpa:\npause");
+        sct.addComment(":cpa:\npause");
+        sct.addComment(":cpa:\npause");
+        sct.addComment(":cpa:\nsave");
         sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
         const dict = getParamForScript(sct);
@@ -905,9 +938,10 @@ module.exports = function() {
             {
               shortcut: getParamForScript(sct).shortcuts.name,
               action: 3,
-              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters.WFCommentActionText,
-              type: "pauseWhilePauseSnippet"
-            }
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "pauseWhilePauseSnippet",
+            },
           ],
           shortcuts: [
             {
@@ -915,9 +949,9 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: []
-            }
-          ]
+              snippets: [],
+            },
+          ],
         });
       });
     });

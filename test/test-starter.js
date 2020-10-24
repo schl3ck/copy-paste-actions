@@ -12,7 +12,9 @@ const all = args[0] === "--all" || args[0] === "-a";
 if (all) args.splice(0, args.length);
 
 let files = fs.readdirSync(dir).filter((f) => /\.test\.js$/.test(f));
-if (args && args.length) { files = files.filter((f) => f.trim().startsWith(args[0])); }
+if (args && args.length) {
+  files = files.filter((f) => f.trim().startsWith(args[0]));
+}
 
 let prom;
 if (files.length > 1 && !all) {
@@ -24,15 +26,14 @@ No arguments  presents this prompt
 --all, -a     run all test files
 <filename>    run only the test files that start with this
 `);
-  prom = inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "file",
-        message: "Choose the file to test",
-        choices: files
-      }
-    ]);
+  prom = inquirer.prompt([
+    {
+      type: "list",
+      name: "file",
+      message: "Choose the file to test",
+      choices: files,
+    },
+  ]);
 } else if (all) {
   console.log("\nExecuting all tests:\n\t" + files.join("\n\t"));
   prom = Promise.resolve({ files });
@@ -40,38 +41,37 @@ No arguments  presents this prompt
   console.log("\nFound only one file. Executing: " + files[0] + "\n");
   prom = Promise.resolve({ file: files[0] });
 }
-prom
-  .then((answer) => {
-    const mocha = new Mocha({
-      bail: true,
-      reporter: "progress",
-      timeout: 60000
-    });
-    if (answer.file) {
-      mocha.addFile(path.join(dir, answer.file));
-    } else if (answer.files) {
-      for (const file of answer.files) {
-        mocha.addFile(path.join(dir, file));
-      }
-    } else {
-      console.error("\nERROR: no files given to test!");
-      process.exit(1);
-    }
-    let testCount = 0;
-    mocha.rootHooks({
-      beforeAll() {
-        testCount = this.test.parent.total();
-      }
-    });
-    const start = new Date();
-    mocha.run(function(failiures) {
-      const duration = new Date() - start;
-
-      console.log(`Took ${duration} ms`);
-      console.log("Number of tests: " + testCount);
-      const timePerTest = duration / testCount;
-      console.log(`Time per test: ${timePerTest} ms`);
-
-      process.exitCode = failiures ? 1 : 0;
-    });
+prom.then((answer) => {
+  const mocha = new Mocha({
+    bail: true,
+    reporter: "progress",
+    timeout: 60000,
   });
+  if (answer.file) {
+    mocha.addFile(path.join(dir, answer.file));
+  } else if (answer.files) {
+    for (const file of answer.files) {
+      mocha.addFile(path.join(dir, file));
+    }
+  } else {
+    console.error("\nERROR: no files given to test!");
+    process.exit(1);
+  }
+  let testCount = 0;
+  mocha.rootHooks({
+    beforeAll() {
+      testCount = this.test.parent.total();
+    },
+  });
+  const start = new Date();
+  mocha.run(function(failiures) {
+    const duration = new Date() - start;
+
+    console.log(`Took ${duration} ms`);
+    console.log("Number of tests: " + testCount);
+    const timePerTest = duration / testCount;
+    console.log(`Time per test: ${timePerTest} ms`);
+
+    process.exitCode = failiures ? 1 : 0;
+  });
+});

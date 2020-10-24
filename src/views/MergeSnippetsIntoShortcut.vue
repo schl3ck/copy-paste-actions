@@ -9,9 +9,16 @@
     />
     <div
       v-if="noItems"
-      class="fixed-top fixed-bottom d-flex flex-column justify-content-center align-items-center container"
+      :class="
+        'fixed-top fixed-bottom container ' +
+          'd-flex flex-column justify-content-center align-items-center'
+      "
     >
-      <BIcon v-if="!unsavedChanges" icon="check" class="center-icon text-success" />
+      <BIcon
+        v-if="!unsavedChanges"
+        icon="check"
+        class="center-icon text-success"
+      />
       <span class="text-center">{{ lang.noItemsFound }}</span>
       <button class="btn btn-primary" @click="openApp">
         {{ lang.openApp }}
@@ -28,7 +35,7 @@ import { navigateAndBuildZip, openNow } from "@/utils/openApp";
 export default {
   name: "MergeSnippetsIntoShortcut",
   components: {
-    ProcessBar
+    ProcessBar,
   },
   data() {
     return {
@@ -36,7 +43,7 @@ export default {
       status: "\u00A0",
       restoringState: false,
       done: false,
-      noItems: false
+      noItems: false,
     };
   },
   computed: {
@@ -48,8 +55,8 @@ export default {
     shortcutsToProcess() {
       return this.$store.state.processResult.shortcuts.filter(
         (s) =>
-          (s.inserts && s.inserts.filter((i) => !i.exclude).length) ||
-          (s.actionsToRemove && s.actionsToRemove.length)
+          (s.inserts && s.inserts.filter((i) => !i.exclude).length)
+          || (s.actionsToRemove && s.actionsToRemove.length),
       );
     },
     /** @returns {object[]} */
@@ -63,8 +70,8 @@ export default {
             name: s.name,
             shortcut: {
               ...this.shortcutsToProcess.find((pr) => pr.name === s.name),
-              shortcut: s.data
-            }
+              shortcut: s.data,
+            },
           };
         });
     },
@@ -73,7 +80,7 @@ export default {
     },
     unsavedChanges() {
       return this.$store.getters.hasUnsavedChanges;
-    }
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
@@ -84,14 +91,16 @@ export default {
     init() {
       if (this.shortcuts.length > 0) {
         const dict = {
-          shortcuts: this.shortcuts.map((s) => s.shortcut)
+          shortcuts: this.shortcuts.map((s) => s.shortcut),
         };
 
         this.status = this.lang.processing;
         worker("merger", dict, (percent) => {
           this.percent = percent;
         }).then(
-          /** @param { {shortcuts: {name: string, shortcut: string}[]} } result */
+          /** @param {
+           *  { shortcuts: { name: string, shortcut: string }[] }
+           * } result */
           (result) => {
             this.done = true;
             navigateAndBuildZip(this.$root, {
@@ -100,17 +109,17 @@ export default {
                 "Shortcuts.getNames",
                 "Snippets.get",
                 "Snippets.save",
-                "Shortcuts.import"
+                "Shortcuts.import",
               ],
               closePage: true,
               data: result.shortcuts.map((s) => {
                 return {
                   name: s.name + ".shortcut",
-                  content: Buffer.from(s.shortcut, "base64")
+                  content: Buffer.from(s.shortcut, "base64"),
                 };
-              })
+              }),
             });
-          }
+          },
         );
       } else {
         this.noItems = true;
@@ -122,7 +131,7 @@ export default {
             // rely on automatic injection of unsaved settings/snippets
             actions: ["Build.toSafari"],
             closePage: false,
-            messages: [this.lang.noItemsFound, this.lang.unsavedChanges]
+            messages: [this.lang.noItemsFound, this.lang.unsavedChanges],
           });
         }
       }
@@ -133,10 +142,10 @@ export default {
     openApp() {
       openNow(this.$root, "", {
         closePage: true,
-        doNotRun: true
+        doNotRun: true,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

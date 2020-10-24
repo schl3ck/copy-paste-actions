@@ -5,7 +5,12 @@
         {{ lang.title }}
       </h2>
       <div class="list-group list-group-custom-flush no-top-bottom-border">
-        <div class="list-group-item custom-list-group-item no-rounded-bottom border-bottom p-0">
+        <div
+          :class="
+            'list-group-item custom-list-group-item no-rounded-bottom ' +
+              'border-bottom p-0'
+          "
+        >
           <div class="input-group flex-row">
             <span class="sr-only">{{ lang.searchCaption }}</span>
             <input
@@ -16,45 +21,75 @@
               :placeholder="lang.searchCaption"
             >
             <div class="input-group-append">
-              <button type="button" class="btn px-2" @click="toggleShowMode('selected')">
+              <button
+                type="button"
+                class="btn px-2"
+                @click="toggleShowMode('selected')"
+              >
                 <BIcon icon="list-check" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowSelected }}</span>
-                <span class="sr-only">{{ langNumberOfShortcutsSelected.before }}</span>
-                <span class="badge badge-pill badge-primary">{{ selectedCount }}</span>
-                <span class="sr-only">{{ langNumberOfShortcutsSelected.after }}</span>
+                <span class="sr-only">{{
+                  langNumberOfShortcutsSelected.before
+                }}</span>
+                <span class="badge badge-pill badge-primary">{{
+                  selectedCount
+                }}</span>
+                <span class="sr-only">{{
+                  langNumberOfShortcutsSelected.after
+                }}</span>
               </button>
-              <button type="button" class="btn px-2" @click="toggleShowMode('loaded')">
+              <button
+                type="button"
+                class="btn px-2"
+                @click="toggleShowMode('loaded')"
+              >
                 <BIcon icon="file-earmark-fill" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowLoaded }}</span>
-                <span class="sr-only">{{ langNumberOfShortcutsLoaded.before }}</span>
-                <span class="badge badge-pill badge-primary">{{ loadedCount }}</span>
-                <span class="sr-only">{{ langNumberOfShortcutsLoaded.after }}</span>
+                <span class="sr-only">{{
+                  langNumberOfShortcutsLoaded.before
+                }}</span>
+                <span class="badge badge-pill badge-primary">{{
+                  loadedCount
+                }}</span>
+                <span class="sr-only">{{
+                  langNumberOfShortcutsLoaded.after
+                }}</span>
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div ref="list" class="list-group list-group-custom-flush no-top-bottom-border no-rounded-top">
+    <div
+      ref="list"
+      :class="
+        'list-group list-group-custom-flush no-top-bottom-border ' +
+          'no-rounded-top'
+      "
+    >
       <div v-show="filteredShortcuts && filteredShortcuts.length">
         <div
           v-show="displayShortcuts.shortcuts.length === 0"
           class="list-group-item custom-list-group-item text-center"
         >
-          <i>{{ displayShortcuts.noItemsLang }}<span class="sr-only">.</span></i>
+          <i>
+            {{ displayShortcuts.noItemsLang }}<span class="sr-only">.</span>
+          </i>
         </div>
         <template v-show="displayShortcuts.shortcuts.length > 0">
           <button
             v-for="shortcut in displayShortcuts.shortcuts"
             :key="shortcut.name"
-            :class="'list-group-item list-group-item-action custom-list-group-item d-flex align-items-center ' +
-              'cursor-pointer text-left'"
+            :class="
+              'list-group-item list-group-item-action custom-list-group-item ' +
+                'd-flex align-items-center cursor-pointer text-left'
+            "
             @click="toggleSelection(shortcut)"
           >
             <BIcon
               icon="check"
               class="text-primary mr-2 fs-2x"
-              :class="{'invisible': !shortcut.selected}"
+              :class="{ invisible: !shortcut.selected }"
               scale="1.5"
             />
             <img
@@ -63,17 +98,18 @@
               class="mr-2 icon"
               alt="icon"
             >
-            <span>{{ shortcut.name }}</span>
-            <span class="sr-only">.</span>
-            <span class="ml-auto small text-secondary text-right"><span
-              class="text-nowrap"
-            >{{ shortcut.size | fileSize }}</span><template v-if="shortcut.data"><span
-              class="sr-only"
-            >.</span><br><span
-              class="text-nowrap"
-            >
-              <BIcon icon="file-earmark-fill" class="mr-1" />{{ lang.shortcutLoaded }}
-            </span></template></span>
+            <span>{{ shortcut.name }}<span class="sr-only">.</span></span>
+            <div class="ml-auto small text-secondary text-right">
+              <div class="text-nowrap">
+                {{ shortcut.size | fileSize }}<span class="sr-only">.</span>
+              </div>
+              <template v-if="shortcut.data">
+                <div class="text-nowrap">
+                  <BIcon icon="file-earmark-fill" class="mr-1" />
+                  {{ lang.shortcutLoaded }}
+                </div>
+              </template>
+            </div>
           </button>
         </template>
       </div>
@@ -101,10 +137,11 @@ import { debounce } from "lodash";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 function splitLanguageString(str) {
-  const parts = (" " + str + " ").split("$number", 2); // ensure that there are 2 parts every time
+  // ensure that there are 2 parts every time
+  const parts = (" " + str + " ").split("$number", 2);
   return {
     before: parts && parts.length ? parts[0].trim() : "",
-    after: parts && parts.length ? parts[1].trim() : str.trim()
+    after: parts && parts.length ? parts[1].trim() : str.trim(),
   };
 }
 
@@ -115,7 +152,7 @@ function splitLanguageString(str) {
 export default {
   name: "SelectShortcuts",
   components: {
-    ButtonBar
+    ButtonBar,
   },
   filters: {
     fileSize(size) {
@@ -127,7 +164,7 @@ export default {
       }
 
       return Math.round(size * 100) / 100 + unit;
-    }
+    },
   },
   data() {
     return {
@@ -135,7 +172,7 @@ export default {
       filteredShortcuts: [],
       fuzzy: null,
       /** @type {ShowMode} */
-      show: ""
+      show: "",
     };
   },
   computed: {
@@ -175,23 +212,23 @@ export default {
     loadedCount() {
       return this.loadedShortcuts.length;
     },
-    /** @returns { {shortcuts: object[], noItemsLang: string} } */
+    /** @returns { { shortcuts: object[], noItemsLang: string } } */
     displayShortcuts() {
       switch (this.show) {
         case "selected":
           return {
             shortcuts: this.selectedShortcuts,
-            noItemsLang: this.lang.nothingSelected
+            noItemsLang: this.lang.nothingSelected,
           };
         case "loaded":
           return {
             shortcuts: this.loadedShortcuts,
-            noItemsLang: this.lang.nothingLoaded
+            noItemsLang: this.lang.nothingLoaded,
           };
         default:
           return {
             shortcuts: this.filteredShortcuts,
-            noItemsLang: this.lang.nothingAvailable
+            noItemsLang: this.lang.nothingAvailable,
           };
       }
     },
@@ -203,15 +240,15 @@ export default {
           icon: "hammer",
           text: this.lang.continueProcessing,
           click: this.toProcessShortcuts,
-          disabled: !this.hasSelection
-        }
+          disabled: !this.hasSelection,
+        },
       ];
-    }
+    },
   },
   watch: {
     searchText(newV) {
       this.debouncedSearch(newV);
-    }
+    },
   },
   created() {
     this.debouncedSearch = debounce(this.search, 400);
@@ -264,8 +301,8 @@ export default {
       } else {
         this.show = mode;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
