@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>51/51</span>
+                <span class='fraction'>53/53</span>
             </div>
         
             
@@ -202,7 +202,9 @@
 <a name='L143'></a><a href='#L143'>143</a>
 <a name='L144'></a><a href='#L144'>144</a>
 <a name='L145'></a><a href='#L145'>145</a>
-<a name='L146'></a><a href='#L146'>146</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -237,6 +239,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -267,7 +270,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -293,9 +300,7 @@
 <span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">29x</span>
@@ -318,11 +323,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -367,7 +371,8 @@ const bplist = require("./bplist");
  * @property {string[]} shortcuts[].uuids.groups
  * @property {string[]} shortcuts[].uuids.vars
  * @property {object[]} shortcuts[].actionsToRemove
- * @property {number} shortcuts[].actionsToRemove[].actions 0-based index of action
+ * @property {number} shortcuts[].actionsToRemove[].actions 0-based index of
+ * action
  * @property {number[]} shortcuts[].actionsToRemove[].excludedBy array of ids
  * @property {Buffer} shortcuts[].shortcut base64 encoded bplist
  */
@@ -411,13 +416,17 @@ function merge(dict) {
       insert.uuids.vars = castArray(insert.uuids.vars);
 &nbsp;
       let actions = JSON.stringify(insert.actions);
-      let uuidsToReplace = insert.uuids.groups.filter(g =&gt; shortcut.uuids.groups.includes(g));
-      uuidsToReplace = uuidsToReplace.concat(insert.uuids.vars.filter(v =&gt; shortcut.uuids.vars.includes(v)));
+      let uuidsToReplace = insert.uuids.groups.filter((g) =&gt;
+        shortcut.uuids.groups.includes(g),
+      );
+      uuidsToReplace = uuidsToReplace.concat(
+        insert.uuids.vars.filter((v) =&gt; shortcut.uuids.vars.includes(v)),
+      );
 &nbsp;
       allUUIDs = allUUIDs.concat(insert.uuids.groups);
       allUUIDs = allUUIDs.concat(insert.uuids.vars);
 &nbsp;
-      uuidsToReplace.forEach(uuid =&gt; {
+      uuidsToReplace.forEach((uuid) =&gt; {
         let newUUID;
         do {
           newUUID = genUUID();
@@ -436,12 +445,10 @@ function merge(dict) {
     shortcut.shortcut.WFWorkflowActions.forEach((action, i) =&gt; {
       const remove = shortcut.actionsToRemove.find((a) =&gt; a.action === i);
       if (
-        !remove || (
-          !remove.excludedBy.includes(-1) &amp;&amp;
-          idsToExclude.filter(
-            id =&gt; remove.excludedBy.includes(id)
-          ).length === 0
-        )
+        !remove
+        || (!remove.excludedBy.includes(-1)
+          &amp;&amp; idsToExclude.filter((id) =&gt; remove.excludedBy.includes(id)).length
+            === 0)
       ) {
         merged.push(action);
       } else {
@@ -458,9 +465,7 @@ function merge(dict) {
       shortcut.shortcut.WFWorkflowActions = merged;
       finishedShortcuts.push({
         name: shortcut.name,
-        shortcut: bplist
-          .create(shortcut.shortcut)
-          .toString("base64")
+        shortcut: bplist.create(shortcut.shortcut).toString("base64"),
       });
     }
   });
@@ -468,7 +473,7 @@ function merge(dict) {
   res.shortcuts = finishedShortcuts;
 &nbsp;
   return res;
-};
+}
 &nbsp;
 /* istanbul ignore next reason: don't test this wrapper for Web Workers */
 try {
@@ -484,7 +489,8 @@ try {
  * Notifies the parent of this Web Worker of a percentage update
  * @param {number} percent Number between 0 and 100
  */
-/* istanbul ignore next reason: don't test communication with Web Worker parent */
+/* istanbul ignore next reason: don't test communication with Web Worker
+  parent */
 function updatePercentage(percent) {
   try {
     self.postMessage(percent);
@@ -499,7 +505,7 @@ function updatePercentage(percent) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Oct 09 2020 23:33:38 GMT+0200 (Mitteleuropäische Sommerzeit)
+                at Sat Oct 24 2020 23:58:19 GMT+0200 (Mitteleuropäische Sommerzeit)
             </div>
         </div>
         <script src="prettify.js"></script>
