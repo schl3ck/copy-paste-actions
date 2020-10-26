@@ -2,8 +2,15 @@
   <div id="app" ref="app" class="container">
     <div v-if="showMainTitle" class="sticky-top">
       <span class="title text-warning">
-        <img :src="mainIcon" class="main-icon">
-        {{ preferences["Shortcut Name"] }}
+        <svg viewBox="0 0 500 55" fill="currentColor">
+          <image
+            :href="mainIcon"
+            width="50"
+            height="50"
+            preserveAspectRatio="xMinYMid meet"
+          />
+          <text x="60" y="40">{{ preferences["Shortcut Name"] }}</text>
+        </svg>
       </span>
       <hr>
     </div>
@@ -333,16 +340,13 @@ export default {
 }
 .title {
   margin-bottom: 0.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  font-size: 1.55rem;
-
-  @media (min-width: 375px) {
-    font-size: 1.95rem;
-    font-weight: 500;
-  }
-  @media (min-width: 576px) {
-    font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1;
+  font-size: 2.8rem;
+  white-space: nowrap;
+  > svg {
+    width: 100%;
+    max-width: 400px;
   }
 }
 
