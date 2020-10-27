@@ -21,12 +21,21 @@ export default {
     if (!context.props.items) return;
 
     const cards = context.props.items.map((i) => {
-      return createElement(
+      const el = createElement(
         "button",
         {
           class: "col-md mb-2 card text-left",
           on: {
-            click: i.click,
+            click: (event) => {
+              // hack clicked styles
+              /** @type {HTMLButtonElement} */
+              const btn = el.elm;
+              btn.classList.add("btn-clicked");
+              setTimeout(() => {
+                i.click(event);
+                btn.classList.remove("btn-clicked");
+              }, 10);
+            },
           },
         },
         [
@@ -35,6 +44,7 @@ export default {
           }),
         ],
       );
+      return el;
     });
 
     const nodes = [];
@@ -74,5 +84,10 @@ export default {
 }
 .col-md {
   margin: 0 0.25rem;
+}
+.btn-clicked {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  background: #00000020;
 }
 </style>
