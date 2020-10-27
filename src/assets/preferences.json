@@ -15,7 +15,8 @@
     "switchCaption": false,
     "ignoreVersion": false,
     "skipFoundInsertsOnNoInsert": false,
-    "autoOverwriteSnippets": false
+    "autoOverwriteSnippets": false,
+    "autoLoadShortcuts": []
   },
   "iOS Version": "13.4",
   "Preferences": {
@@ -29,7 +30,8 @@
     "switchCaption": false,
     "ignoreVersion": false,
     "skipFoundInsertsOnNoInsert": false,
-    "autoOverwriteSnippets": false
+    "autoOverwriteSnippets": false,
+    "autoLoadShortcuts": []
   },
   "componentToDisplay": "MainMenu"
 }

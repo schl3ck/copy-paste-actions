@@ -10,11 +10,11 @@
 
 ## Preferences
 * add link from each setting to docs/help
-* add pref to select shortcuts that should be loaded every time (how to flag if the auto-loaded shouldn't be analysed?)
 * add pref to automatically parse auto-loaded shortcuts
 * how to access settings to turn auto-parse off when overwrite = true?  
   solution: display confirmation screen with the loaded shortcuts
 * make debounce time of shortcut search a preference?
+* preferences version system
 
 ## Analyser
 * modify function "paste"/"insert" to allow inserting multiple copies at once

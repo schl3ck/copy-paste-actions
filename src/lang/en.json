@@ -232,6 +232,11 @@
     "refreshIconCacheNote": "Refreshing the cache may take several minutes depending on the number of shortcuts on your device.",
     "refreshIconCache": "Refresh icon cache",
     "clearIconCache": "Clear icon cache",
+    "defaultArray": {
+      "empty": "None",
+      "separator": ", ",
+      "separatorLast": " and "
+    },
     "prefs": {
       "autoOpenApp": {
         "title": "Automatically open Shortcuts",
@@ -277,8 +282,18 @@
       "autoOverwriteSnippets": {
         "title": "Automatically save all snippets",
         "description": "Automatically saves all snippets overwriting already existing snippets and clipboard items. This preference is ignored when there are name conflicts between new snippets/clipboard items."
+      },
+      "autoLoadShortcuts": {
+        "title": "Load specific shortcuts every time",
+        "description": "Automatically load specific shortcuts that you are using often with this shortcut. This way you don't have to bounce back to the Shortcuts app to load them for processing.",
+        "valueTitle": "Selected shortcuts:",
+        "valueTitleEmptySelection": "No shortcuts selected"
       }
     }
+  },
+  "prefAutoLoadShortcuts": {
+    "note": "Please select the shortcuts you want to autmatically load on every execution of this shortcut.",
+    "done": "Done"
   },
   "confirmNewUpdate": {
     "title": "New update",

@@ -198,6 +198,7 @@ export default new Vuex.Store({
         );
       });
       const files = [];
+      let selectedShortcuts = [];
 
       zipFiles.forEach(({ filename, data }) => {
         if (filename.endsWith("data.json")) {
@@ -242,11 +243,15 @@ export default new Vuex.Store({
               return i;
             }),
           );
+        } else if (filename === "selectedShortcuts.json") {
+          const content = JSON.parse(stringFromBinaryString(data));
+          selectedShortcuts = content.names;
         }
       });
 
       const shortcuts = map(values(groupBy(files, "name")), (i) => {
-        return assign({ selected: false }, ...i);
+        const name = i[0].name;
+        return assign({ selected: selectedShortcuts.includes(name) }, ...i);
       });
       if (process.env.NODE_ENV === "development") {
         let noImage = shortcuts.filter((s) => !s.image);

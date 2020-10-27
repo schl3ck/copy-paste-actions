@@ -64,6 +64,7 @@ import ImportShortcuts from "@/views/ImportShortcuts.vue";
 import Preferences from "@/views/Preferences.vue";
 import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
 import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
+import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 import MainIcon from "@/icons/mainIcon.png";
@@ -92,6 +93,7 @@ export default {
     Preferences,
     ConfirmNewUpdate,
     ListiCloudUrls,
+    PrefAutoLoadShortcuts,
     ButtonBar,
   },
   data() {

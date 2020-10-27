@@ -4,6 +4,14 @@
       <h2 class="pt-1">
         {{ lang.title }}
       </h2>
+
+      <div
+        v-if="message"
+        class="alert"
+        :class="messageVariant"
+        v-html="message"
+      />
+
       <div class="list-group list-group-custom-flush no-top-bottom-border">
         <div
           :class="
@@ -166,6 +174,32 @@ export default {
       return Math.round(size * 100) / 100 + unit;
     },
   },
+  props: {
+    continue: {
+      type: Function,
+      default: null,
+    },
+    continueLabel: {
+      type: String,
+      default: "",
+    },
+    continueIcon: {
+      type: String,
+      default: "",
+    },
+    message: {
+      type: String,
+      default: "",
+    },
+    messageVariant: {
+      type: String,
+      default: "",
+    },
+    acceptNoSelection: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       searchText: "",
@@ -236,11 +270,14 @@ export default {
     buttons() {
       return [
         {
-          class: this.hasSelection ? "btn-success" : "btn-secondary",
-          icon: "hammer",
-          text: this.lang.continueProcessing,
+          class:
+            this.acceptNoSelection || this.hasSelection
+              ? "btn-success"
+              : "btn-secondary",
+          icon: this.continueIcon || "hammer",
+          text: this.continueLabel || this.lang.continueProcessing,
           click: this.toProcessShortcuts,
-          disabled: !this.hasSelection,
+          disabled: !this.acceptNoSelection && !this.hasSelection,
         },
       ];
     },
@@ -290,9 +327,15 @@ export default {
       shortcut.selected = !shortcut.selected;
     },
     toProcessShortcuts() {
-      if (this.shortcuts.every((s) => !s.selected)) return;
+      if (!this.acceptNoSelection && !this.hasSelection) {
+        return;
+      }
 
-      this.$root.$emit("navigate", "ConfirmSelectedShortcuts");
+      if (this.continue) {
+        this.continue();
+      } else {
+        this.$root.$emit("navigate", "ConfirmSelectedShortcuts");
+      }
     },
     /** @param {ShowMode} mode */
     toggleShowMode(mode) {

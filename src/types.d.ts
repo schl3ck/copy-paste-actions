@@ -117,3 +117,37 @@ declare namespace MenuList {
     click: () => void;
   }
 }
+
+declare namespace Preferences {
+  interface LangItem {
+    title: string;
+    description: string;
+    /** Used for an enum */
+    values?: { [key: string]: string };
+    /** Used for an array */
+    valueTitle?: string;
+    /** Used for an array */
+    valueTitleEmptySelection?: string;
+  }
+
+  type Constraints = number[] | { min: number; max: number; step: number };
+
+  interface PrefSubtype<T, K> {
+    value: T;
+    type: K;
+  }
+
+  interface PrefWithLangBase {
+    key: string;
+    constraints: Constraints;
+    lang: LangItem;
+  }
+
+  type PrefWithLang = PrefWithLangBase &
+    (
+      | PrefSubtype<number, "number">
+      | PrefSubtype<string, "string">
+      | PrefSubtype<boolean, "boolean">
+      | PrefSubtype<string[], "array">
+    );
+}

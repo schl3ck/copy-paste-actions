@@ -60,6 +60,7 @@
             'card-header font-weight-bold ' +
               'd-flex flex-row justify-content-between align-items-center'
           "
+          @click="pref.type === 'array' ? openPrefSettings(pref) : ''"
         >
           {{ pref.lang.title }}
           <div v-if="pref.type === 'boolean'" class="custom-switch2">
@@ -77,6 +78,12 @@
               :for="pref.key"
             />
           </div>
+          <span
+            v-if="pref.type === 'array'"
+            class="p-2"
+          >
+            <b-icon icon="chevron-left" rotate="180" scale="1.5" />
+          </span>
         </label>
         <ul v-if="pref.type !== 'boolean'" class="list-group list-group-flush">
           <li class="list-group-item">
@@ -135,6 +142,19 @@
               @keyup.esc="$event.target.blur()"
               @change="prefChanged(index)"
             >
+            <div v-else-if="pref.type === 'array'">
+              <template v-if="pref.value.length > 0">
+                {{ pref.lang.valueTitle }}
+                <ul class="list-root-style pl-4">
+                  <li v-for="val in pref.value" :key="val">
+                    {{ val }}
+                  </li>
+                </ul>
+              </template>
+              <template v-else>
+                {{ pref.lang.valueTitleEmptySelection }}
+              </template>
+            </div>
           </li>
         </ul>
         <div class="card-body py-2">
@@ -182,17 +202,8 @@
 import Vue from "vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
+import { joinReadable } from "@/utils/utils";
 
-/**
- * @typedef { {
- *   title: string,
- *   description: string,
- *   values?: { [key: string]: string }
- * } } LangItem
- */
-/**
- * @typedef {number[] | { min: number, max: number, step: number }} Constraints
- */
 export default {
   name: "Preferences",
   components: {
@@ -203,6 +214,7 @@ export default {
       /** @type {Store.Preferences} */
       preferences: {},
       lastChanged: false,
+      openedSubPage: false,
     };
   },
   computed: {
@@ -225,18 +237,21 @@ export default {
     lang() {
       return this.$store.state.language.preferences;
     },
+    /** @return {Preferences.PrefWithLang[]} */
     prefsWithLang() {
+      /** @type {Preferences.PrefWithLang[]} */
       const res = Object.entries(this.preferences)
         .filter(([key, val]) => key !== "ignoreVersion")
         .map(([key, val]) => {
           return {
             key,
-            /** @type {string | number | boolean} */
             value: val,
-            type: typeof this.prefDefault[key],
-            /** @type {Constraints} */
+            type:
+              typeof this.prefDefault[key] === "object"
+              && Array.isArray(this.prefDefault[key])
+                ? "array"
+                : typeof this.prefDefault[key],
             constraints: this.prefConstraints[key],
-            /** @type {LangItem} */
             lang:
               key in this.lang.prefs
                 ? this.lang.prefs[key]
@@ -365,7 +380,13 @@ export default {
           icon: "arrow-counterclockwise",
           click: () => {
             navigateAndBuildZip(this.$root, {
-              actions: ["Shortcuts.refreshImages", "Build.toMainMenu"],
+              actions: [
+                "Preferences.get",
+                "Snippets.get",
+                "Shortcuts.refreshImages",
+                "Shortcuts.getNames",
+                "Build.mainMenu",
+              ],
               closePage: true,
             });
           },
@@ -392,7 +413,10 @@ export default {
   activated() {
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", false);
-    this.preferences = Object.assign({}, this.prefGlobal);
+    if (!this.openedSubPage) {
+      this.preferences = Object.assign({}, this.prefGlobal);
+    }
+    this.openedSubPage = false;
   },
   mounted() {
     this.setToolbarClearing();
@@ -413,6 +437,15 @@ export default {
             return pref.lang.values
               ? pref.lang.values[def]
               : `Language item for "${pref.key}.values" not found`;
+          } else {
+            return def;
+          }
+        case "object":
+          if (Array.isArray(def)) {
+            const lang = this.lang.defaultArray;
+            return def.length === 0
+              ? lang.empty
+              : joinReadable(def, lang.separator, lang.separatorLast);
           } else {
             return def;
           }
@@ -451,6 +484,20 @@ export default {
     showUpdate() {
       this.$root.$emit("navigate", "ConfirmNewUpdate");
     },
+    /** @param {Preferences.PrefWithLang} pref */
+    openPrefSettings(pref) {
+      this.openedSubPage = true;
+      this.$root.$emit(
+        "navigate",
+        "Pref" + pref.key[0].toUpperCase() + pref.key.substring(1),
+        {
+          pref,
+          save: (newValue) => {
+            this.preferences[pref.key] = newValue;
+          },
+        },
+      );
+    },
   },
 };
 </script>
@@ -462,6 +509,10 @@ export default {
 
 .rotate-180 {
   transform: rotate(180deg);
+}
+
+.list-root-style > li {
+  list-style: initial;
 }
 
 .custom-switch2 {
