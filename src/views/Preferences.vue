@@ -62,7 +62,7 @@
           "
           @click="pref.type === 'array' ? openPrefSettings(pref) : ''"
         >
-          {{ pref.lang.title }}
+          <div class="mr-5">{{ pref.lang.title }}</div>
           <div v-if="pref.type === 'boolean'" class="custom-switch2">
             <input
               :id="pref.key"
@@ -200,6 +200,7 @@
 
 <script>
 import Vue from "vue";
+import deepEqual from "deep-eql";
 import ButtonBar from "@/components/ButtonBar.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable } from "@/utils/utils";
@@ -273,7 +274,7 @@ export default {
     /** @returns {boolean} */
     notDefaultValues() {
       return Object.entries(this.preferences).some(
-        ([key, value]) => value !== this.prefDefault[key],
+        ([key, value]) => !deepEqual(value, this.prefDefault[key]),
       );
     },
     /** @returns {ButtonBar.Button[]} */
