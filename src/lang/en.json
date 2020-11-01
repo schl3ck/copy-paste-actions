@@ -5,22 +5,22 @@
     "link": "More info"
   },
   "probablyOutdated": {
-    "text": "The state of this page is probably outdated. Please close it and run the shortcut again.",
+    "text": "The state of this page is probably outdated. Please close it and run this shortcut again.",
     "link": "Dismiss"
   },
   "mainMenu": {
     "title": "Main Menu",
     "selectShortcuts": {
       "title": "Select Shortcuts",
-      "description": "Search for Shortcuts to select which will be processed"
+      "description": "Search for shortcuts to select which should be processed"
     },
     "editSnippets": {
       "title": "Edit Snippets",
-      "description": "Edit your saved Snippets and clipboard items"
+      "description": "Edit your saved snippets and clipboard items"
     },
     "preferences": {
       "title": "Preferences",
-      "description": "Change how this Shortcut operates"
+      "description": "Change how this shortcut operates"
     },
     "help": {
       "title": "Help",
@@ -46,19 +46,19 @@
     "title": "Select Shortcuts",
     "searchCaption": "Enter search term",
     "continueProcessing": "Process Shortcuts",
-    "srNumberOfShortcutsSelected": "$number Shortcuts selected.",
-    "srNumberOfShortcutsLoaded": "$number Shortcuts loaded.",
-    "srShowSelected": "Toggle showing all selected Shortcuts.",
-    "srShowLoaded": "Toggle showing all loaded Shortcuts.",
-    "nothingSelected": "No Shortcuts selected",
-    "nothingLoaded": "No Shortcuts loaded",
-    "nothingAvailable": "No Shortcuts found (not possible, because this shortcut exists)",
+    "srNumberOfShortcutsSelected": "$number shortcuts selected.",
+    "srNumberOfShortcutsLoaded": "$number shortcuts loaded.",
+    "srShowSelected": "Toggle showing all selected shortcuts.",
+    "srShowLoaded": "Toggle showing all loaded shortcuts.",
+    "nothingSelected": "No shortcuts selected",
+    "nothingLoaded": "No shortcuts loaded",
+    "nothingAvailable": "No shortcuts found (not possible, because this shortcut exists)",
     "searchNoMatch": "Nothing found",
     "loading": "Loading...",
     "shortcutLoaded": "Loaded"
   },
   "confirmSelectedShortcuts": {
-    "title": "Confirm selected Shortcuts",
+    "title": "Confirm selected shortcuts",
     "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?",
     "shortcutsLoaded": "All selected shortcuts are already loaded.\nDo you want to continue and use them or reload them?",
     "reload": "Reload",
@@ -125,7 +125,7 @@
       "plural": "Contains $number actions",
       "singular": "Contains $number action"
     },
-    "newShortcut": "Creates Shortcut: $name",
+    "newShortcut": "Creates shortcut: $name",
     "edit": "Edit",
     "doneEdit": "Save",
     "cancelEdit": "Cancel",
@@ -192,12 +192,12 @@
     "processing": "Processing...",
     "noShortcuts": "No shortcuts to process",
     "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions.",
-    "unsavedChanges": "However there are unsaved changes. To save them, the shortcuts app has to be opened.",
+    "unsavedChanges": "However there are unsaved changes. To save them, the Shortcuts app has to be opened.",
     "openApp": "Open Shortcuts"
   },
   "importShortcuts": {
     "title": "List of shortcuts to import",
-    "importing": "Importing Shortcuts",
+    "importing": "Importing shortcuts",
     "note": "$n shortcuts will be imported. Please tap on the button \"Import\" to import a shortcut. After importing one shortcut, please return here to import the next one. You can also tap on the shortcut itself to import it.",
     "import": "Import",
     "importLast": "Import last"
@@ -209,7 +209,7 @@
     "switchOff": "Off",
     "resetAll": "Reset all",
     "saveLocal": "Save locally",
-    "saveToApp": "Save in shortcuts",
+    "saveToApp": "Save in Shortcuts",
     "discardChanges": "Discard changes",
     "updateAvailable": {
       "title": "New update available!",
