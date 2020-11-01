@@ -1,6 +1,7 @@
 # TODO list
 
 * enable checking for updates on RoutineHub
+* display message when an auto-loaded shortcut is missing
 
 ## Snippet list
 * search bar
@@ -10,11 +11,9 @@
 
 ## Preferences
 * add link from each setting to docs/help
-* add pref to automatically parse auto-loaded shortcuts
-* how to access settings to turn auto-parse off when overwrite = true?  
-  solution: display confirmation screen with the loaded shortcuts
 * make debounce time of shortcut search a preference?
 * preferences version system
+* search bar
 
 ## Analyser
 * modify function "paste"/"insert" to allow inserting multiple copies at once
@@ -23,3 +22,4 @@
 ## FAQ
 * insert whole shortcut into another (one copy action at the top, nothing else)
 * browser history/back function
+* mention large URL size => slow webpage

@@ -288,6 +288,10 @@
         "description": "Automatically load specific shortcuts that you are using often with this shortcut. This way you don't have to bounce back to the Shortcuts app to load them for processing.",
         "valueTitle": "Selected shortcuts:",
         "valueTitleEmptySelection": "No shortcuts selected"
+      },
+      "autoAnalyseShortcuts": {
+        "title": "Automatically analyse auto-loaded shortcuts",
+        "description": "Automatically analyse the auto-loaded shortcuts when this shortcut is run. You will need to confirm this to give you a chance to turn this setting off again."
       }
     }
   },
@@ -315,5 +319,14 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "save": "Save with Shortcuts"
+  },
+  "confirmAutoAnalyser": {
+    "title": "Analyse auto-loaded shortcuts?",
+    "message": "You've enabled to automatically analyse the auto-loaded shortcuts.\nDo you want to proceed?",
+    "noShortcuts": "You've enabled to automatically analyse the auto-loaded shortcuts, but no shortcuts were selected to be automatically loaded or they haven't been found.",
+    "analyse": "Analyse",
+    "selectAutoLoadShortcuts": "Select Shortcuts to Auto-Load",
+    "disablePreference": "Disable Preference",
+    "toMainMenu": "To Main Menu"
   }
 }

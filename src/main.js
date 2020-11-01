@@ -81,15 +81,17 @@ Vue.component("IconCloudLink", IconCloudLink);
 Vue.config.productionTip = false;
 Vue.config.performace = process.env.NODE_ENV === "development";
 
+let root;
+
 // load data from HTML file
 const loadShortcuts = store.dispatch("loadShortcuts");
-store.dispatch("loadPreferences");
 store.dispatch("loadLanguage");
-
-const root = new Vue({
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
+store.dispatch("loadPreferences").then(() => {
+  root = new Vue({
+    store,
+    render: (h) => h(App),
+  }).$mount("#app");
+});
 
 loadShortcuts
   .then(() => {

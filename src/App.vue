@@ -65,6 +65,7 @@ import Preferences from "@/views/Preferences.vue";
 import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
 import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
 import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
+import ConfirmAutoAnalyser from "@/views/ConfirmAutoAnalyser.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 import MainIcon from "@/icons/mainIcon.png";
@@ -94,6 +95,7 @@ export default {
     ConfirmNewUpdate,
     ListiCloudUrls,
     PrefAutoLoadShortcuts,
+    ConfirmAutoAnalyser,
     ButtonBar,
   },
   data() {
@@ -186,7 +188,16 @@ export default {
 
     const component = this.preferences.componentToDisplay;
     // "navigate" to the predefined page to push a state onto the history stack
-    if (component) this.$root.$emit("navigate", component);
+    if (component) {
+      if (
+        this.$store.state.preferences.Preferences.autoAnalyseShortcuts
+        && component === "MainMenu"
+      ) {
+        this.$root.$emit("navigate", "ConfirmAutoAnalyser");
+      } else {
+        this.$root.$emit("navigate", component);
+      }
+    }
 
     this.buttons = [
       {
