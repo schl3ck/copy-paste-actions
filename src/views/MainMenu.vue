@@ -79,7 +79,7 @@ export default {
       /** @type {MenuList.MenuItem[]} */
       const res = [
         {
-          icon: "hammer",
+          icon: "list-check",
           click() {
             self.$root.$emit("navigate", "SelectShortcuts");
           },
