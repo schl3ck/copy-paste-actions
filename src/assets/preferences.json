@@ -4,7 +4,9 @@
   "RoutineHub ID": 2083,
   "Storage": "iCloud",
   "Preferences Version": 0,
+  "First Run": false,
   "Default Preferences": {
+    "language": "en",
     "autoOpenApp": false,
     "excludeAllCPAComments": true,
     "cleanUp": 1,
@@ -21,6 +23,7 @@
   },
   "iOS Version": "13.4",
   "Preferences": {
+    "language": "en",
     "autoOpenApp": false,
     "excludeAllCPAComments": true,
     "cleanUp": 1,

@@ -11,8 +11,6 @@
 
 ## Preferences
 * add link from each setting to docs/help
-* make debounce time of shortcut search a preference?
-* preferences version system
 * search bar
 
 ## Analyser

@@ -20,4 +20,4 @@ try {
   fs.rmdirSync(resolve("dist/js"), { recursive: true });
 } catch (err) {}
 
-console.log("\x1b[1;42;37m DONE \x1b[0m Deleted all unnecessary files");
+console.log("\x1b[42;30m DONE \x1b[0m Deleted all unnecessary files");
