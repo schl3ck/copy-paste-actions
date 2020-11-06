@@ -645,6 +645,8 @@ function analyse(dict) {
               }`,
               ...payload,
             });
+            // there seems to be a misconfiguration => don't process the rest
+            ignoreErrorsForSnippet = current.snippet = true;
           }
           return;
         }
@@ -740,7 +742,7 @@ function analyse(dict) {
               },
             });
             // there seems to be a misconfiguration => don't process it
-            current.snippet = null;
+            ignoreErrorsForSnippet = current.snippet = true;
             return;
           }
         }

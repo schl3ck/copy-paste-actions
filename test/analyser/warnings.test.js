@@ -266,57 +266,95 @@ module.exports = function() {
     });
 
     describe("Reached end before function", function() {
-      allPossibleScriptParams.forEach(function(params) {
-        it(JSON.stringify(params), function() {
-          const sct = new ShortcutBuilder();
-          sct.addComment(":cpa:\ncopy 1");
-          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addComment(":cpa:\nend");
-          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addComment(":cpa:\nsave 1");
-          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
-          sct.addComment(":cpa:\nend");
-          sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+      describe("clipboard", function() {
+        allPossibleScriptParams.forEach(function(params) {
+          it(JSON.stringify(params), function() {
+            const sct = new ShortcutBuilder();
+            sct.addComment(":cpa:\ncopy 1");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addComment(":cpa:\nend");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addComment(":cpa:\nsave 1");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addComment(":cpa:\nend");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
 
-          const dict = getParamForScript(sct);
-          _.assign(dict, params);
-          const res = script(dict);
+            const dict = getParamForScript(sct);
+            _.assign(dict, params);
+            const res = script(dict);
 
-          expectReturnObject(res, {
-            nItems: 0,
-            warnings: [
-              {
-                shortcut: getParamForScript(sct).shortcuts.name,
-                action: 3,
-                commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
-                  .WFCommentActionText,
-                type: "funcClipboardFinished",
-                payload: {
-                  function: "end",
+            expectReturnObject(res, {
+              nItems: 0,
+              warnings: [
+                {
+                  shortcut: getParamForScript(sct).shortcuts.name,
+                  action: 3,
+                  commentText: sct.getActions(3, 1)[0]
+                    .WFWorkflowActionParameters.WFCommentActionText,
+                  type: "funcClipboardFinished",
+                  payload: {
+                    function: "end",
+                  },
                 },
-              },
-              {
-                shortcut: getParamForScript(sct).shortcuts.name,
-                action: 8,
-                commentText: sct.getActions(8, 1)[0].WFWorkflowActionParameters
-                  .WFCommentActionText,
-                type: "funcSnippetFinished",
-                payload: {
-                  function: "end",
+              ],
+              shortcuts: [
+                {
+                  name: getParamForScript(sct).shortcuts.name,
+                  actionsToRemove: constructActionsToRemove([]),
+                  uuids: extractUUIDs(sct.getActions()),
+                  inserts: [],
+                  snippets: [],
                 },
-              },
-            ],
-            shortcuts: [
-              {
-                name: getParamForScript(sct).shortcuts.name,
-                actionsToRemove: constructActionsToRemove([]),
-                uuids: extractUUIDs(sct.getActions()),
-                inserts: [],
-                snippets: [],
-              },
-            ],
+              ],
+            });
+          });
+        });
+      });
+      describe("snippet", function() {
+        allPossibleScriptParams.forEach(function(params) {
+          it(JSON.stringify(params), function() {
+            const sct = new ShortcutBuilder();
+            sct.addComment(":cpa:\nsave 1");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addComment(":cpa:\nend");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addComment(":cpa:\ncopy 1");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+            sct.addComment(":cpa:\nend");
+            sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+
+            const dict = getParamForScript(sct);
+            _.assign(dict, params);
+            const res = script(dict);
+
+            expectReturnObject(res, {
+              nItems: 0,
+              warnings: [
+                {
+                  shortcut: getParamForScript(sct).shortcuts.name,
+                  action: 3,
+                  commentText: sct.getActions(3, 1)[0]
+                    .WFWorkflowActionParameters.WFCommentActionText,
+                  type: "funcSnippetFinished",
+                  payload: {
+                    function: "end",
+                  },
+                },
+              ],
+              shortcuts: [
+                {
+                  name: getParamForScript(sct).shortcuts.name,
+                  actionsToRemove: constructActionsToRemove([]),
+                  uuids: extractUUIDs(sct.getActions()),
+                  inserts: [],
+                  snippets: [],
+                },
+              ],
+            });
           });
         });
       });
@@ -464,7 +502,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -480,15 +518,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: " ",
-                  isClipboard: true,
-                  numberOfActions: 2,
-                  uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1]),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -506,7 +536,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -525,15 +555,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: "asdf",
-                  isClipboard: true,
-                  numberOfActions: 2,
-                  uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1]),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -552,7 +574,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -568,15 +590,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: " ",
-                  isClipboard: true,
-                  numberOfActions: 1,
-                  uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -595,7 +609,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -614,15 +628,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: "asdf",
-                  isClipboard: true,
-                  numberOfActions: 1,
-                  uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -640,7 +646,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -656,15 +662,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: " ",
-                  isClipboard: false,
-                  numberOfActions: 2,
-                  uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1]),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -682,7 +680,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -701,15 +699,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: "asdf",
-                  isClipboard: false,
-                  numberOfActions: 2,
-                  uuids: extractUUIDs(sct.getActions(1, 3)),
-                  actions: sct.getActions([1, 1], [3, 1]),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -728,7 +718,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -744,15 +734,7 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: " ",
-                  isClipboard: false,
-                  numberOfActions: 1,
-                  uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1),
-                },
-              ],
+              snippets: [],
             },
           ],
         });
@@ -771,7 +753,7 @@ module.exports = function() {
         const res = script(dict);
 
         expectReturnObject(res, {
-          nItems: 1,
+          nItems: 0,
           warnings: [
             {
               shortcut: getParamForScript(sct).shortcuts.name,
@@ -790,15 +772,77 @@ module.exports = function() {
               actionsToRemove: [],
               uuids: extractUUIDs(sct.getActions()),
               inserts: [],
-              snippets: [
-                {
-                  name: "asdf",
-                  isClipboard: false,
-                  numberOfActions: 1,
-                  uuids: extractUUIDs(sct.getActions(1, 1)),
-                  actions: sct.getActions(1, 1),
-                },
-              ],
+              snippets: [],
+            },
+          ],
+        });
+      });
+      it("clipboard item & snippet, no end", function() {
+        const params = allPossibleScriptParams[0];
+        const sct = new ShortcutBuilder();
+        sct.addComment(":cpa:\ncopy");
+        sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+        sct.addComment(":cpa:\nsave");
+        sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+
+        const dict = getParamForScript(sct);
+        _.assign(dict, params);
+        const res = script(dict);
+
+        expectReturnObject(res, {
+          nItems: 0,
+          warnings: [
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 2,
+              commentText: sct.getActions(2, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "duplicateClipboardNoName",
+            },
+          ],
+          shortcuts: [
+            {
+              name: getParamForScript(sct).shortcuts.name,
+              actionsToRemove: [],
+              uuids: extractUUIDs(sct.getActions()),
+              inserts: [],
+              snippets: [],
+            },
+          ],
+        });
+      });
+      it("clipboard item & snippet, with end", function() {
+        const params = allPossibleScriptParams[0];
+        const sct = new ShortcutBuilder();
+        sct.addComment(":cpa:\ncopy");
+        sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+        sct.addComment(":cpa:\nend");
+        sct.addComment(":cpa:\nsave");
+        sct.addAction(ShortcutBuilder.actions.Dummy, { UUID: genUUID() });
+        sct.addComment(":cpa:\nend");
+
+        const dict = getParamForScript(sct);
+        _.assign(dict, params);
+        const res = script(dict);
+
+        expectReturnObject(res, {
+          nItems: 0,
+          warnings: [
+            {
+              shortcut: getParamForScript(sct).shortcuts.name,
+              action: 3,
+              commentText: sct.getActions(3, 1)[0].WFWorkflowActionParameters
+                .WFCommentActionText,
+              type: "duplicateClipboardNoName",
+            },
+          ],
+          shortcuts: [
+            {
+              name: getParamForScript(sct).shortcuts.name,
+              actionsToRemove: [],
+              uuids: extractUUIDs(sct.getActions()),
+              inserts: [],
+              snippets: [],
             },
           ],
         });
