@@ -329,5 +329,27 @@
     "selectAutoLoadShortcuts": "Select Shortcuts to Auto-Load",
     "disablePreference": "Disable Preference",
     "toMainMenu": "To Main Menu"
+  },
+  "helpMenu": {
+    "title": "Help",
+    "getStarted": {
+      "title": "Get Started",
+      "description": "No idea how this shortcut works? Start here"
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Maybe the answer is right there"
+    },
+    "documentation": {
+      "title": "Documentation",
+      "description": "Everything about this shortcut"
+    },
+    "bugReport": {
+      "title": "Report a bug/feature",
+      "description": "Found a bug or have an idea for this shortcut?"
+    }
+  },
+  "helpGetStarted": {
+    "html": "this is filled in by the languages merging script"
   }
 }

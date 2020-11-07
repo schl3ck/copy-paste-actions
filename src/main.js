@@ -13,7 +13,6 @@ import {
   BIconHammer,
   BIconPencilFill,
   BIconGearWideConnected,
-  BIconQuestion,
   BIconCheck,
   BIconChevronLeft,
   BIconListCheck,
@@ -33,6 +32,10 @@ import {
   BIconCloud,
   BIconLink,
   BIconClipboardPlus,
+  BIconInfoCircle,
+  BIconQuestionCircle,
+  BIconBook,
+  BIconBug,
 } from "bootstrap-vue";
 
 import store from "./store/index";
@@ -53,7 +56,6 @@ Vue.component("BIconstack", BIconstack);
 Vue.component("BIconHammer", BIconHammer);
 Vue.component("BIconPencilFill", BIconPencilFill);
 Vue.component("BIconGearWideConnected", BIconGearWideConnected);
-Vue.component("BIconQuestion", BIconQuestion);
 Vue.component("BIconCheck", BIconCheck);
 Vue.component("BIconChevronLeft", BIconChevronLeft);
 Vue.component("BIconListCheck", BIconListCheck);
@@ -73,6 +75,10 @@ Vue.component("BIconEyeSlash", BIconEyeSlash);
 Vue.component("BIconCloud", BIconCloud);
 Vue.component("BIconLink", BIconLink);
 Vue.component("BIconClipboardPlus", BIconClipboardPlus);
+Vue.component("BIconInfoCircle", BIconInfoCircle);
+Vue.component("BIconQuestionCircle", BIconQuestionCircle);
+Vue.component("BIconBook", BIconBook);
+Vue.component("BIconBug", BIconBug);
 Vue.component("IconSearchMinus", IconSearchMinus);
 Vue.component("IconSearchPlus", IconSearchPlus);
 Vue.component("IconSave", IconSave);

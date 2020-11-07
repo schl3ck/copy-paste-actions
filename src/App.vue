@@ -66,6 +66,8 @@ import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
 import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
 import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
 import ConfirmAutoAnalyser from "@/views/ConfirmAutoAnalyser.vue";
+import HelpMenu from "@/views/HelpMenu.vue";
+import HelpGetStarted from "@/views/HelpGetStarted.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 import MainIcon from "@/icons/mainIcon.png";
@@ -96,6 +98,8 @@ export default {
     ListiCloudUrls,
     PrefAutoLoadShortcuts,
     ConfirmAutoAnalyser,
+    HelpMenu,
+    HelpGetStarted,
     ButtonBar,
   },
   data() {

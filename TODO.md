@@ -17,7 +17,3 @@
 * modify function "paste"/"insert" to allow inserting multiple copies at once
 * new function "merge" to simply replace all non recursive "Run Shortcut" actions with their referenced shortcut (with option to exclude some)
 
-## FAQ
-* insert whole shortcut into another (one copy action at the top, nothing else)
-* browser history/back function
-* mention large URL size => slow webpage

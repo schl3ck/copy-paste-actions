@@ -103,12 +103,9 @@ export default {
           ...this.mainMenu.preferences,
         },
         {
-          icon: "question",
-          iconOptions: {
-            scale: 1.75,
-          },
+          icon: "question-circle",
           click() {
-            alert("Select Shortcuts");
+            self.$root.$emit("navigate", "HelpMenu");
           },
           ...this.mainMenu.help,
         },

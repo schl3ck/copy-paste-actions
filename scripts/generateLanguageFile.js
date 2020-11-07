@@ -1,5 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+const MarkdownIt = require("markdown-it");
+const md = new MarkdownIt({
+  breaks: true,
+}).use(require("markdown-it-anchor"), {
+  level: 1,
+  permalink: false,
+});
 
 const result = {
   available: {},
@@ -19,13 +26,37 @@ for (const file of fs.readdirSync(path.resolve(srcDir), {
     result[langCode] = content;
   }
 }
-
-if (!fs.existsSync(path.resolve(distDir))) {
-  fs.mkdirSync(path.resolve(distDir));
+for (const folder of fs.readdirSync(path.resolve(srcDir), {
+  withFileTypes: true,
+})) {
+  if (folder.isDirectory()) {
+    const basePath = path.join(srcDir, folder.name);
+    for (const file of fs.readdirSync(path.resolve(basePath), {
+      withFileTypes: true,
+    })) {
+      if (file.isFile() && file.name.endsWith(".md")) {
+        const content = fs.readFileSync(
+          path.resolve(basePath, file.name),
+          "utf-8",
+        );
+        const langCode = file.name.replace(/\.md$/, "");
+        result[langCode][folder.name] = {
+          html: md.render(content),
+        };
+      }
+    }
+  }
 }
-fs.writeFileSync(
-  path.resolve(distDir, "language.json"),
-  JSON.stringify(result, null, 2),
-);
 
-console.log("\x1b[42;30m DONE \x1b[0m\n");
+if (process.env.NODE_ENV === "development") {
+  module.exports = result.en;
+} else {
+  if (!fs.existsSync(path.resolve(distDir))) {
+    fs.mkdirSync(path.resolve(distDir));
+  }
+  fs.writeFileSync(
+    path.resolve(distDir, "language.json"),
+    JSON.stringify(result, null, 2),
+  );
+  console.log("\x1b[42;30m DONE \x1b[0m\n");
+}
