@@ -84,7 +84,7 @@ function getParamForScript(shortcut) {
     cleanUp: 0,
     commentMarker: ":cpa:",
     noSnippetName: " ",
-    defaultNewShortcutName: "Untitled Shortcut",
+    defaultNewShortcutName: "New Shortcut",
   };
 }
 
@@ -196,10 +196,10 @@ function expectReturnObject(obj, props) {
         snippet.isClipboard,
       );
 
-      expect(o, `${messageStart}.newShortcut`).to.have.property(
-        "newShortcut",
-        snippet.newShortcut || "",
-      );
+      // expect(o, `${messageStart}.newShortcut`).to.have.property(
+      //   "newShortcut",
+      //   snippet.newShortcut || "",
+      // );
 
       expect(o, `${messageStart}.numberOfActions`).to.have.property(
         "numberOfActions",

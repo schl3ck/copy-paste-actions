@@ -260,10 +260,6 @@
         "title": "Comment marker",
         "description": "The special marker on the first line of the comment that tells this shortcut to parse the comment."
       },
-      "defaultNewShortcutName": {
-        "title": "New shortcut name",
-        "description": "The name that should be used for a new shortcut when no name was provided."
-      },
       "includeShortcutImages": {
         "title": "Load shortcut icons",
         "description": "Load the cached icons every time this shortcut is executed. Needs the cache to be refreshed manually at the top of the preferences page."

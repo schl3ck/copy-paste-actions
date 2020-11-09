@@ -67,7 +67,7 @@ ActionRange.prototype.isValid = function() {
  * it is recognized as a function
  * @property {string} noSnippetName name of new snippet, when no one was
  * provided
- * @property {string} defaultNewShortcutName default: "Untitled Shortcut"
+ * @property {string} defaultNewShortcutName default: "New Shortcut"
  */
 
 /**
@@ -129,7 +129,7 @@ function analyse(dict) {
   snippet, if you want to change it.
 
   new: if given, pastes the action range in a new shortcut, optionally with
-       the given name, otherwise with the name "Untitled Shortcut"
+       the given name, otherwise with the name "New Shortcut"
 
   The line headings are optional, meaning "function: cut" is the same as "cut".
 
@@ -159,11 +159,6 @@ function analyse(dict) {
   This copies the actions 1, 2 and 4 into the new shortcut called "copy result"
     and stores it in the private clipboard (if you have enabled either iCloud or
     Dropbox) or in the system clipboard
-
-  Another example:
-
-  Comment
-    :cpa:
 
   */
 
@@ -216,12 +211,12 @@ function analyse(dict) {
   }
   if (!dict.commentMarker) dict.commentMarker = ":cpa:";
   if (!dict.noSnippetName) dict.noSnippetName = " ";
-  if (!dict.defaultNewShortcutName) {
-    dict.defaultNewShortcutName = "Untitled Shortcut";
-  }
+  // if (!dict.defaultNewShortcutName) {
+  //   dict.defaultNewShortcutName = "New Shortcut";
+  // }
 
   dict.commentMarker = dict.commentMarker.toLowerCase();
-  const allUsedNewShortcutNames = [];
+  // const allUsedNewShortcutNames = [];
 
   /**
    * @typedef {object} Action
@@ -458,17 +453,17 @@ function analyse(dict) {
 
       let func = text[1].trim().toLowerCase();
       let name = (text[2] || "").trim();
-      let newShortcut = (text[3] || "").trim();
+      // let newShortcut = (text[3] || "").trim();
 
-      if (/^new:?\s*/i.test(name)) {
-        newShortcut = name;
-        name = "";
-      }
+      // if (/^new:?\s*/i.test(name)) {
+      //   newShortcut = name;
+      //   name = "";
+      // }
 
       // strip optional line titles
       func = func.replace(/^\s*function:?\s*/i, "").trim();
       name = name.replace(/^\s*name:?\s*/i, "").trim() || dict.noSnippetName;
-      newShortcut = newShortcut.replace(/^\s*new:?\s*/i, "new").trim();
+      // newShortcut = newShortcut.replace(/^\s*new:?\s*/i, "new").trim();
 
       if (!regex.validateFunc.test(func)) {
         warnings.push({
@@ -483,13 +478,13 @@ function analyse(dict) {
         return;
       }
 
-      if (newShortcut) {
-        if (newShortcut.startsWith("new")) {
-          newShortcut = newShortcut.replace(/^new\s*/, "").trim();
-        }
-        newShortcut = newShortcut || dict.defaultNewShortcutName;
-        allUsedNewShortcutNames.push(newShortcut);
-      }
+      // if (newShortcut) {
+      //   if (newShortcut.startsWith("new")) {
+      //     newShortcut = newShortcut.replace(/^new\s*/, "").trim();
+      //   }
+      //   newShortcut = newShortcut || dict.defaultNewShortcutName;
+      //   allUsedNewShortcutNames.push(newShortcut);
+      // }
 
       const isClipboard = regex.isClipboard.test(func);
 
@@ -520,12 +515,11 @@ function analyse(dict) {
         funcN: funcN,
         endsInsert: endsInsert,
         name: name,
-        newShortut: newShortcut,
+        // newShortut: newShortcut,
         isClipboard: isClipboard,
         removes: remove,
         textForWarning: textForWarning,
         action: action,
-        newShortcut: newShortcut,
       });
     }); // end comments.forEach()
 
@@ -1272,21 +1266,21 @@ function analyse(dict) {
     });
   }); // end shortcuts.forEach()
 
-  const map = new Map(
-    allUsedNewShortcutNames.map((i) => {
-      return [i, { name: i, used: 0 }];
-    }),
-  );
-  result.forEach((shortcut) => {
-    shortcut.snippets
-      && Object.values(shortcut.snippets).forEach((snippet) => {
-        if (!snippet.newShortcut) return;
-        const num = map.get(snippet.newShortcut).used++;
-        if (num > 0) {
-          snippet.newShortcut += " " + num;
-        }
-      });
-  });
+  // const map = new Map(
+  //   allUsedNewShortcutNames.map((i) => {
+  //     return [i, { name: i, used: 0 }];
+  //   }),
+  // );
+  // result.forEach((shortcut) => {
+  //   shortcut.snippets
+  //     && Object.values(shortcut.snippets).forEach((snippet) => {
+  //       if (!snippet.newShortcut) return;
+  //       const num = map.get(snippet.newShortcut).used++;
+  //       if (num > 0) {
+  //         snippet.newShortcut += " " + num;
+  //       }
+  //     });
+  // });
 
   return {
     shortcuts: result,
