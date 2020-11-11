@@ -87,7 +87,7 @@ Marks the end of a snippet/clipboard item. When `paste` is specified it marks th
 ```
 pause [n]
 ```
-Pauses the clipboard item/snippet of "recording" actions so the following actions are not included in the clipboard item/snippet. Any action count from previous functions is paused as well. Optionally specify a number `n` to pause only for that number of actions.
+Pauses the clipboard item/snippet of "recording" actions so the following actions are not included in the clipboard item/snippet. Any action count from previous functions is paused as well. Optionally specify a number `n` to pause only for that number of actions. If a number is given it overrides the count from any previous `pause` function.
 
 If no number is given, it pauses until the end of the shortcut or until an `end` function is found, whichever comes first.
 
@@ -97,7 +97,7 @@ This function is only supported in selections started with `copy`, `cut` and `sa
 ```
 resume [n]
 ```
-Resumes a paused clipboard item/snippet so the following actions are again included in the clipboard item/snippet. Any action count from a previous `pause`function is paused and all other functions is resumed. Optionally specify a number `n` to resume only for that number of actions and pause afterwards again.
+Resumes a paused clipboard item/snippet so the following actions are again included in the clipboard item/snippet. Any action count from a previous `pause`function is paused and all other functions is resumed. Optionally specify a number `n` to resume only for that number of actions and pause afterwards again. If a number is given it overrides the count from any previous `pause` function.
 
 If no number is given, it resumes until the end of the shortcut or until an `end` function is found, whichever comes first.
 
@@ -128,7 +128,7 @@ Counting is influenced by the `pause` and `resume` functions. It works like this
 | action     | yes           | 5          |             |   {.table-success}
 | action     |               |            |             | 
 
-{.table .table-responsive .table-sm .nowrap-first-column}
+{.table .table-responsive .table-sm .nowrap-first-column .mb-0}
 
 _action_ is only a placeholder for any other action that is available in Shortcuts. {.text-secondary .small}
 
@@ -158,6 +158,3 @@ Functions that remove actions will only remove a block when it is completely wit
 
 ## Magic variables
 In shortcuts you can use the output of an action as a magic variable in other actions. The action producing the result sets the variable and all other actions using it only store a reference to the variable. On insertion of an action the references are kept, but any action saving to a magic variable will be changed so that it doesn't override any existing magic variable.
-
-## Preferences
-### for every pref
