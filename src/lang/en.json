@@ -347,5 +347,8 @@
   },
   "helpGetStarted": {
     "html": "this is filled in by the languages merging script"
+  },
+  "helpDocumentation": {
+    "html": "this is filled in by the languages merging script"
   }
 }

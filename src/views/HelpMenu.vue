@@ -40,7 +40,7 @@ export default {
           ...this.lang.documentation,
           icon: "book",
           click: () => {
-            alert("Documentation");
+            this.$root.$emit("navigate", "HelpDocumentation");
           },
         },
         {

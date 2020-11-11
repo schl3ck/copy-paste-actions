@@ -3,10 +3,27 @@ const path = require("path");
 const MarkdownIt = require("markdown-it");
 const md = new MarkdownIt({
   breaks: true,
-}).use(require("markdown-it-anchor"), {
-  level: 1,
-  permalink: false,
-});
+})
+  .use(require("markdown-it-anchor").default, {
+    level: 1,
+    permalink: false,
+  })
+  .use(require("markdown-it-attrs"), {
+    allowedAttributes: ["class"],
+  })
+  .use(require("markdown-it-container"), "heads-up", {
+    render: function(tokens, idx) {
+      if (tokens[idx].nesting === 1) {
+        // opening tag
+        return (
+          '<div class="alert alert-info">\n'
+        );
+      } else {
+        // closing tag
+        return "</div>\n";
+      }
+    },
+  });
 
 const result = {
   available: {},

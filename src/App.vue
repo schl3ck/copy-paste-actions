@@ -1,6 +1,6 @@
 <template>
   <div id="app" ref="app" class="container">
-    <div v-if="showMainTitle" class="sticky-top">
+    <div v-if="showMainTitle" id="mainTitle" class="sticky-top">
       <span class="title text-warning">
         <svg viewBox="0 0 500 55" fill="currentColor">
           <image
@@ -12,7 +12,7 @@
           <text x="60" y="40">{{ preferences["Shortcut Name"] }}</text>
         </svg>
       </span>
-      <hr>
+      <hr class="mt-1">
     </div>
     <keep-alive>
       <component :is="componentToDisplay" v-bind="compProps" />
@@ -68,6 +68,7 @@ import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
 import ConfirmAutoAnalyser from "@/views/ConfirmAutoAnalyser.vue";
 import HelpMenu from "@/views/HelpMenu.vue";
 import HelpGetStarted from "@/views/HelpGetStarted.vue";
+import HelpDocumentation from "@/views/HelpDocumentation.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 import MainIcon from "@/icons/mainIcon.png";
@@ -100,6 +101,7 @@ export default {
     ConfirmAutoAnalyser,
     HelpMenu,
     HelpGetStarted,
+    HelpDocumentation,
     ButtonBar,
   },
   data() {
