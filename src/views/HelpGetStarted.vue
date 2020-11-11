@@ -27,6 +27,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@use "@/styles/markdownRendered";
+<style lang="scss" scoped>
+
 </style>

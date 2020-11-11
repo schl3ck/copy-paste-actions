@@ -292,6 +292,8 @@ export default {
 </script>
 
 <style lang="scss">
+@use "@/styles/markdownRendered";
+
 .sticky-top {
   position: sticky;
   top: 0;
