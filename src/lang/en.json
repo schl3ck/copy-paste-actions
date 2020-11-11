@@ -88,24 +88,24 @@
     "ignoreContinue": "Ignore & Continue",
     "noItemsFound": "No further snippets or inserts found.",
     "incomplete": "Found an incomplete CopyPaste Actions comment.",
-    "wrongFunction": "Wrong function name.\nExpected one of $functionDefinition, but got \"$function\" instead.",
-    "pauseResumeInPaste": "Found \"$function\" in a paste replace range, which is not supported.",
-    "pauseResumeInInsert": "Found \"$function\" in an insert replace range, which is not supported.",
+    "wrongFunction": "Wrong function name.\nExpected one of $functionDefinition but got `$function` instead.",
+    "pauseResumeInPaste": "Found function `$function` in a paste replace range, which is not supported.",
+    "pauseResumeInInsert": "Found function `$function` in an insert replace range, which is not supported.",
     "duplicateClipboardNoName": "There is already a clipboard item without a name.",
-    "duplicateClipboardWithName": "There is already a clipboard item with the name \"$name\".",
+    "duplicateClipboardWithName": "There is already a clipboard item with the name `$name`.",
     "duplicateSnippetNoName": "There is already a snippet without a name.",
-    "duplicateSnippetWithName": "There is already a snippet with the name \"$name\".",
+    "duplicateSnippetWithName": "There is already a snippet with the name `$name`.",
     "pasteEndNoStart": "Found the end of a paste replace section without any start.",
     "insertEndNoStart": "Found the end of an insert replace section without any start.",
-    "pasteEndInsertStart": "Found the end of a paste replace section without any start. Maybe you meant \"end insert\"?",
-    "insertEndPasteStart": "Found the end of an insert replace section without any start. Maybe you meant \"end paste\"?",
-    "funcNoStart": "Found \"$function\" without any start.\nMaybe you specified a number after the start function e.g. \"copy 5\" to copy only the next 5 actions and forgot to remove this comment, or there was an error with the start comment, or you forgot to specify \"end paste\" or \"end insert\" to end a paste/an insert range, or you forgot to specify the name of the clipboard item/snippet.",
-    "funcClipboardFinished": "Found \"$function\" after the clipboard item has already finished.\nMaybe you've specified a count on the start function (e.g. \"copy 5\") that finished before reaching the current function.",
-    "funcSnippetFinished": "Found \"$function\" after the snippet has already finished.\nMaybe you've specified a count on the start function (e.g. \"save 5\") that finished before reaching the current function.",
-    "pauseWhilePauseClipboard": "Found function \"pause\" while current clipboard item is already paused.",
-    "pauseWhilePauseSnippet": "Found function \"pause\" while current snippet is already paused.",
-    "resumeWhileResumeClipboard": "Found function \"resume\" while current clipboard item is already continuing.",
-    "resumeWhileResumeSnippet": "Found function \"resume\" while current snippet is already continuing."
+    "pasteEndInsertStart": "Found the end of a paste replace section without any start. Maybe you meant `end insert`?",
+    "insertEndPasteStart": "Found the end of an insert replace section without any start. Maybe you meant `end paste`?",
+    "funcNoStart": "Found function `$function` without any start.\nPossible reasons:\n* Maybe you specified a number after the start function e.g. `copy 5` to copy only the next 5 actions and forgot to remove this comment.\n* There was an error with the start comment.\n* You forgot to specify `end paste` or `end insert` to end a paste/an insert range.\n* You forgot to specify the name of the clipboard item/snippet.",
+    "funcClipboardFinished": "Found function `$function` after the clipboard item has already finished.\nMaybe you've specified a count on the start function (e.g. `copy 5`) that finished before reaching the current function.",
+    "funcSnippetFinished": "Found function `$function` after the snippet has already finished.\nMaybe you've specified a count on the start function (e.g. `save 5`) that finished before reaching the current function.",
+    "pauseWhilePauseClipboard": "Found function `pause` while current clipboard item is already paused.",
+    "pauseWhilePauseSnippet": "Found function `pause` while current snippet is already paused.",
+    "resumeWhileResumeClipboard": "Found function `resume` while current clipboard item is already continuing.",
+    "resumeWhileResumeSnippet": "Found function `resume` while current snippet is already continuing."
   },
   "foundSnippets": {
     "title": "Found Snippets",
@@ -249,10 +249,10 @@
       },
       "cleanUp": {
         "title": "Clean up of special comments",
-        "description": "Controls the removal of the special comments after being processed. Comments that threw a warning are never removed.",
+        "description": "Controls the removal of the special comments after being processed. Comment actions that threw a warning are never removed.",
         "values": {
           "0": "Remove none",
-          "1": "Remove functions \"pause\", \"resume\" and \"end\" when the surrounding actions are also removed",
+          "1": "Remove functions `pause`, `resume` and `end` when they are part of a selection started with `cut`, `save remove`, `paste replace` or `insert replace`",
           "2": "Remove all"
         }
       },
@@ -288,7 +288,7 @@
       },
       "autoAnalyseShortcuts": {
         "title": "Automatically analyse auto-loaded shortcuts",
-        "description": "Automatically analyse the auto-loaded shortcuts when this shortcut is run. You will need to confirm this to give you a chance to turn this setting off again."
+        "description": "Automatically analyse the auto-loaded shortcuts when this shortcut is run. You will need to confirm this to give you a way to turn this setting off again."
       }
     }
   },

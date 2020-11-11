@@ -24,8 +24,14 @@ export default new Vuex.Store({
     processResult: [],
     globals: {
       functionDefinition:
-        "cut [n], copy [n], save [remove|replace] [n], end [paste|insert], "
-        + "pause [n], resume [n], paste [replace [n]], insert [replace [n]]",
+        "<ul class=\"mb-0\"><li><code>cut [n]</code></li>"
+        + "<li><code>copy [n]</code></li>"
+        + "<li><code>save [remove|replace] [n]</code></li>"
+        + "<li><code>end [paste|insert]</code></li>"
+        + "<li><code>pause [n]</code></li>"
+        + "<li><code>resume [n]</code></li>"
+        + "<li><code>paste [replace [n]]</code></li>"
+        + "<li><code>insert [replace [n]]</code></li></ul>",
       noSnippetName: " ",
     },
     snippetListItemEditing: false,

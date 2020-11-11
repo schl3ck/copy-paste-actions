@@ -46,7 +46,11 @@
       </div>
     </div>
 
-    <hr>
+    <hr
+      :class="{
+        'mt-1': !updateAvailable && !prefGlobal.includeShortcutImages
+      }"
+    >
 
     <div ref="list" class="transition-padding-bottom">
       <div
@@ -106,7 +110,8 @@
                   <label
                     class="custom-control-label"
                     :for="pref.key + constraint"
-                  >{{ pref.lang.values[constraint] }}</label>
+                    v-html="pref.lang.values[constraint]"
+                  />
                 </div>
               </template>
               <div
@@ -144,27 +149,23 @@
             >
             <div v-else-if="pref.type === 'array'">
               <template v-if="pref.value.length > 0">
-                {{ pref.lang.valueTitle }}
+                <div v-html="pref.lang.valueTitle" />
                 <ul class="list-root-style pl-4">
                   <li v-for="val in pref.value" :key="val">
                     {{ val }}
                   </li>
                 </ul>
               </template>
-              <template v-else>
-                {{ pref.lang.valueTitleEmptySelection }}
-              </template>
+              <div v-else v-html="pref.lang.valueTitleEmptySelection" />
             </div>
           </li>
         </ul>
         <div class="card-body py-2">
           <div class="d-flex flex-row justify-content-between">
             <div class="text-muted small mr-3">
-              <p class="mb-1">
-                {{ pref.lang.description }}
-              </p>
+              <p class="mb-1" v-html="pref.lang.description" />
               <p class="mb-0">
-                <b>{{ lang.defaultsTo }}</b>
+                <b>{{ lang.defaultsTo }} </b>
                 <code
                   v-if="
                     pref.type === 'string' ||
@@ -173,9 +174,7 @@
                   "
                   class="ml-2"
                 >{{ getDefault(pref) }}</code>
-                <template v-else>
-                  {{ getDefault(pref) }}
-                </template>
+                <span v-else v-html="getDefault(pref)" />
               </p>
             </div>
             <div class="mw-content align-self-center">

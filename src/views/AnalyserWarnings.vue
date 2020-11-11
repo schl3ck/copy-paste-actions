@@ -17,7 +17,7 @@
         >
           <div class="card-body">
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <p class="card-text pre-line mb-2" v-html="printWarning(warning)" />
+            <p class="card-text mb-2" v-html="printWarning(warning)" />
             <p class="card-text mb-1">
               {{ atAction(warning.action) }}
             </p>
@@ -112,17 +112,12 @@ export default {
   },
   methods: {
     printWarning(warning) {
-      let text = escape(
-        this.lang[warning.type].replace(
-          /\$functionDefinition/g,
-          this.$store.state.globals.functionDefinition,
-        ),
+      let text = this.lang[warning.type].replace(
+        /\$functionDefinition/g,
+        this.$store.state.globals.functionDefinition,
       );
       for (const [k, v] of Object.entries(warning.payload)) {
-        text = text.replace(
-          new RegExp("\\$" + k + "\\b", "g"),
-          `<code>${v}</code>`,
-        );
+        text = text.replace(new RegExp("\\$" + k + "\\b", "g"), v);
       }
       return text;
     },

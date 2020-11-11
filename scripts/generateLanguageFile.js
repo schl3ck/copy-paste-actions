@@ -37,16 +37,26 @@ for (const file of fs.readdirSync(path.resolve(srcDir), {
   if (file.isFile() && file.name.endsWith(".json")) {
     const content = JSON.parse(
       fs.readFileSync(path.resolve(srcDir, file.name), "utf-8"),
+      function(key, value) {
+        if (typeof value === "string") {
+          return md.renderInline(value);
+        } else {
+          return value;
+        }
+      },
     );
     const langCode = file.name.replace(/\.json$/, "");
     result.available[content.language] = langCode;
     result[langCode] = content;
   }
 }
+/** @type {string[]} */
+const folders = [];
 for (const folder of fs.readdirSync(path.resolve(srcDir), {
   withFileTypes: true,
 })) {
   if (folder.isDirectory()) {
+    folders.push(folder.name);
     const basePath = path.join(srcDir, folder.name);
     for (const file of fs.readdirSync(path.resolve(basePath), {
       withFileTypes: true,
@@ -61,6 +71,17 @@ for (const folder of fs.readdirSync(path.resolve(srcDir), {
           html: md.render(content),
         };
       }
+    }
+  }
+}
+
+// default to english if the markdown file doesn't exist
+for (const [langCode, lang] of Object.entries(result)) {
+  if (langCode === "available") continue;
+
+  for (const folder of folders) {
+    if (!(folder in lang)) {
+      lang[folder] = result.en[folder];
     }
   }
 }
