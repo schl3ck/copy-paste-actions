@@ -4,6 +4,7 @@
 * [Function syntax](#function-syntax)
 * [Counting actions](#counting-actions)
 * [Treatment of blocks in selections](#treatment-of-blocks-in-selections)
+* [Magic Variables](#magic-variables)
 
 ## Function syntax
 The overall syntax for the comment actions is
@@ -113,24 +114,24 @@ E.g.: a shortcut containing only a `Choose from Menu` block with two options and
 
 Counting is influenced by the `pause` and `resume` functions. It works like this:
 
-|            | action copied | copy count | pause count | resume count 
-|------------|---------------|------------|-------------|-
+|            | action copied | copy count | pause count | resume count |
+|------------|:-------------:|:----------:|:-----------:|:------------:|
 | action     |               |            |             | 
 | `copy 5`   |               |            |             | 
-| action     | yes           | 1          |             |   {.table-success}
-| action     | yes           | 2          |             |   {.table-success}
+| action     | ✔️           | 1          |             |   {.table-success}
+| action     | ✔️           | 2          |             |   {.table-success}
 | `pause 2`  |               |            |             | 
-| action     | no            |            | 1           |   {.table-warning}
+| action     | ❌           |            | 1           |   {.table-warning}
 | `resume 2` |               |            |             | 
-| action     | yes           | 3          |             | 1 {.table-success}
-| action     | yes           | 4          |             | 2 {.table-success}
-| action     | no            |            | 2           |   {.table-warning}
-| action     | yes           | 5          |             |   {.table-success}
+| action     | ✔️           | 3          |             | 1 {.table-success}
+| action     | ✔️           | 4          |             | 2 {.table-success}
+| action     | ❌           |            | 2           |   {.table-warning}
+| action     | ✔️           | 5          |             |   {.table-success}
 | action     |               |            |             | 
 
 {.table .table-responsive .table-sm .nowrap-first-column .mb-0}
 
-_action_ is only a placeholder for any other action that is available in Shortcuts. {.text-secondary .small}
+_action_ is only a placeholder for any other action that is available in Shortcuts except block actions like `If`. {.text-secondary .small}
 
 It is probably easier to just place functions everywhere you need one instead of using a number system like in this example, but since I wanted to be able to specify a number, I also had to handle special cases like this example.
 
@@ -141,18 +142,18 @@ Functions that copy actions will include all actions from a block when at least 
 
 Functions that remove actions will only remove a block when it is completely within the selection. In the following example the action `If` won't be removed even though it is inside the selection.
 
-|           | copied | removed
-|-----------|--------|-
-| action    | no     | no
+|           | copied | removed |
+|-----------|:------:|:-------:|
+| action    | ❌    | ❌
 | `cut`     |        | 
-| action    | yes    | yes
-| If        | yes    | no
-| action    | yes    | yes
+| action    | ✔️    | ✔️
+| If        | ✔️    | ❌
+| action    | ✔️    | ✔️
 | `end`     |        | 
-| Otherwise | yes    | no
-| action    | no     | no
-| End If    | yes    | no
-| action    | no     | no
+| Otherwise | ✔️    | ❌
+| action    | ❌    | ❌
+| End If    | ✔️    | ❌
+| action    | ❌    | ❌
 
 {.table .table-sm .table-striped .table-responsive}
 
