@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import example1screenshot from "@/assets/example1screenshot.jpg";
 import handleAnchorLinksMixin from "@/utils/handleAnchorLinksMixin";
 
 export default {
@@ -16,10 +15,7 @@ export default {
     },
     /** @returns {string} */
     html() {
-      return this.lang.html.replace(
-        /<p>#example1screenshot<\/p>/gm,
-        `<p><img class="example-image" src="${example1screenshot}"></p>`,
-      );
+      return this.lang.html;
     },
   },
   activated() {
@@ -30,16 +26,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.markdown-content ::v-deep {
-  > div > p:last-child {
-    margin-bottom: 0;
-  }
-
-  .table.nowrap-first-column td:first-child {
-    white-space: nowrap;
-  }
-  .table > tbody > tr:last-child {
-    border-bottom: 1px solid #dee2e6;
-  }
-}
 </style>

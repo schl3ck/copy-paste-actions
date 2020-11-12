@@ -17,3 +17,16 @@ code {
   width: 22rem;
   max-width: 100%;
 }
+
+.markdown-content {
+  > div > p:last-child {
+    margin-bottom: 0;
+  }
+
+  .table.nowrap-first-column td:first-child {
+    white-space: nowrap;
+  }
+  .table > tbody > tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+  }
+}
