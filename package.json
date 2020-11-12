@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && vue-cli-service build --mode targz --no-clean && node scripts/postbuild.js",
+    "build": "vue-cli-service build && vue-cli-service build --mode targz --no-clean && node scripts/postbuild.js && npm run generateLanguageFile",
     "build:main": "vue-cli-service build && node scripts/postbuild.js",
     "build:targz": "vue-cli-service build --mode targz && node scripts/postbuild.js",
     "lint": "vue-cli-service lint",
