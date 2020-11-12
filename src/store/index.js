@@ -24,7 +24,7 @@ export default new Vuex.Store({
     processResult: [],
     globals: {
       functionDefinition:
-        "<ul class=\"mb-0\"><li><code>cut [n]</code></li>"
+        '<ul class="mb-0"><li><code>cut [n]</code></li>'
         + "<li><code>copy [n]</code></li>"
         + "<li><code>save [remove|replace] [n]</code></li>"
         + "<li><code>end [paste|insert]</code></li>"

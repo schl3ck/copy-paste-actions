@@ -29,13 +29,13 @@ export default {
   activated() {
     // redirect to SelectShortcuts so we don't need to implement the same
     // functionality again
-    const selectedShortcuts = this.shortcuts.filter(s => s.selected);
+    const selectedShortcuts = this.shortcuts.filter((s) => s.selected);
     const normalSelectedShortcuts = selectedShortcuts;
     for (const shortcut of selectedShortcuts) {
       shortcut.selected = false;
     }
     for (const shortcut of this.pref.value) {
-      const s = this.shortcuts.find(s => s.name === shortcut);
+      const s = this.shortcuts.find((s) => s.name === shortcut);
       s && (s.selected = true);
     }
     this.$root.$emit("navigate", "SelectShortcuts", {
@@ -45,8 +45,8 @@ export default {
       continueLabel: this.lang.done,
       continueIcon: "check",
       continue: () => {
-        const selectedShortcuts = this.shortcuts.filter(s => s.selected);
-        this.save(selectedShortcuts.map(s => s.name));
+        const selectedShortcuts = this.shortcuts.filter((s) => s.selected);
+        this.save(selectedShortcuts.map((s) => s.name));
         for (const shortcut of selectedShortcuts) {
           shortcut.selected = false;
         }

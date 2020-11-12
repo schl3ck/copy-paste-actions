@@ -43,16 +43,14 @@ const htmlEscapeMap = {
  * @param {string} text
  */
 export function escapeHTML(text) {
-  return text
-    .replace(/[<>"&]/g, (match) => htmlEscapeMap[match]);
+  return text.replace(/[<>"&]/g, (match) => htmlEscapeMap[match]);
 }
 /**
  * HTML escapes the text and converts every `\n` to `<br>`
  * @param {string} text
  */
 export function nl2br(text) {
-  return escapeHTML(text)
-    .replace(/\n/g, "<br>");
+  return escapeHTML(text).replace(/\n/g, "<br>");
 }
 
 /**

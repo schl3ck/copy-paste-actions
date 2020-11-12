@@ -15,9 +15,7 @@ const md = new MarkdownIt({
     render: function(tokens, idx) {
       if (tokens[idx].nesting === 1) {
         // opening tag
-        return (
-          '<div class="alert alert-info">\n'
-        );
+        return '<div class="alert alert-info">\n';
       } else {
         // closing tag
         return "</div>\n";

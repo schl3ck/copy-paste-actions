@@ -48,7 +48,7 @@
 
     <hr
       :class="{
-        'mt-1': !updateAvailable && !prefGlobal.includeShortcutImages
+        'mt-1': !updateAvailable && !prefGlobal.includeShortcutImages,
       }"
     >
 
@@ -82,10 +82,7 @@
               :for="pref.key"
             />
           </div>
-          <span
-            v-if="pref.type === 'array'"
-            class="p-2"
-          >
+          <span v-if="pref.type === 'array'" class="p-2">
             <b-icon icon="chevron-left" rotate="180" scale="1.5" />
           </span>
         </label>
