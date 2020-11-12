@@ -7,7 +7,6 @@
     "build": "vue-cli-service build && vue-cli-service build --mode targz --no-clean && node scripts/postbuild.js && npm run generateLanguageFile",
     "build:main": "vue-cli-service build && node scripts/postbuild.js",
     "build:targz": "vue-cli-service build --mode targz && node scripts/postbuild.js",
-    "lint": "vue-cli-service lint",
     "test": "node test/test-starter.js",
     "coverage": "nyc npm test",
     "remoteConsoleServer": "node scripts/remoteConsoleServer.js",
@@ -54,6 +53,7 @@
     "eslint-plugin-vue": "^6.1.2",
     "express": "^4.17.1",
     "glob": "^7.1.6",
+    "lint-staged": "^10.5.1",
     "markdown-it": "^12.0.2",
     "markdown-it-anchor": "^6.0.0",
     "markdown-it-attrs": "^3.0.3",
@@ -75,6 +75,15 @@
     "reporter": [
       "text-summary",
       "html"
+    ]
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue,json,ts}": [
+      "prettier-eslint --write",
+      "git add"
     ]
   }
 }
