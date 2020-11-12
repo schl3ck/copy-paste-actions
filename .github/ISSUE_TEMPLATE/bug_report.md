@@ -25,9 +25,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Details (please complete the following information):**
  - Device: [e.g. iPhone 12 Pro]
- - OS: [e.g. iOS 14.2]
- - Your default Browser [e.g. Safari]
- - Version of the shortcut [e.g. 2]
+ - iOS: [e.g. 14.2]
+ - Your default Browser: [e.g. Safari]
+ - Version of the shortcut: [e.g. 2.0.0]
 
 **Additional context**
 Add any other context about the problem here.
