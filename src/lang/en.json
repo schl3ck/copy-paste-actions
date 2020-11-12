@@ -346,12 +346,15 @@
     }
   },
   "helpGetStarted": {
+    "title": "Getting started",
     "html": "this is filled in by the languages merging script"
   },
   "helpFAQ": {
+    "title": "FAQ",
     "html": "this is filled in by the languages merging script"
   },
   "helpDocumentation": {
+    "title": "Documentation",
     "html": "this is filled in by the languages merging script"
   }
 }
