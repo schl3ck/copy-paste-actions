@@ -6,19 +6,27 @@ export default Vue.extend({
       /** @param {HTMLAnchorElement} element */
       (element) => {
         const id = element.getAttribute("href").substr(1);
-        element.setAttribute("href", "#");
-        element.addEventListener("click", (event) => {
-          event.preventDefault();
-          let top = document.getElementById(id).offsetTop;
-          if (this.$store.state.showMainTitle) {
-            top -= document.getElementById("mainTitle").offsetHeight;
-          }
-          window.scrollTo({
-            left: 0,
-            top: top,
-            behavior: "auto",
+        if (id.length > 0) {
+          element.setAttribute("href", "#");
+          element.addEventListener("click", (event) => {
+            event.preventDefault();
+            let top = document.getElementById(id).offsetTop;
+            if (this.$store.state.showMainTitle) {
+              top -= document.getElementById("mainTitle").offsetHeight;
+            }
+            window.scrollTo({
+              left: 0,
+              top: top,
+              behavior: "auto",
+            });
           });
-        });
+        } else if (element.hasAttribute("data-page")) {
+          const page = element.getAttribute("data-page");
+          element.addEventListener("click", (event) => {
+            event.preventDefault();
+            this.$root.$emit("navigate", page);
+          });
+        }
       },
     );
   },

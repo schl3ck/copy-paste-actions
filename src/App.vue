@@ -68,6 +68,7 @@ import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
 import ConfirmAutoAnalyser from "@/views/ConfirmAutoAnalyser.vue";
 import HelpMenu from "@/views/HelpMenu.vue";
 import HelpGetStarted from "@/views/HelpGetStarted.vue";
+import HelpFAQ from "@/views/HelpFAQ.vue";
 import HelpDocumentation from "@/views/HelpDocumentation.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
@@ -101,6 +102,7 @@ export default {
     ConfirmAutoAnalyser,
     HelpMenu,
     HelpGetStarted,
+    HelpFAQ,
     HelpDocumentation,
     ButtonBar,
   },

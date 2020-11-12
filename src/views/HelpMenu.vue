@@ -33,7 +33,7 @@ export default {
           ...this.lang.faq,
           icon: "question-circle",
           click: () => {
-            alert("FAQ");
+            this.$root.$emit("navigate", "HelpFAQ");
           },
         },
         {

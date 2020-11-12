@@ -9,7 +9,7 @@ const md = new MarkdownIt({
     permalink: false,
   })
   .use(require("markdown-it-attrs"), {
-    allowedAttributes: ["class"],
+    allowedAttributes: ["class", "data-page"],
   })
   .use(require("markdown-it-container"), "heads-up", {
     render: function(tokens, idx) {
