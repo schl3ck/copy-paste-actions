@@ -47,7 +47,7 @@ export default {
           ...this.lang.bugReport,
           icon: "bug",
           click: () => {
-            alert("bug report");
+            this.$root.$emit("navigate", "HelpBugReport");
           },
         },
       ];

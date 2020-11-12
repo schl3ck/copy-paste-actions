@@ -70,6 +70,7 @@ import HelpMenu from "@/views/HelpMenu.vue";
 import HelpGetStarted from "@/views/HelpGetStarted.vue";
 import HelpFAQ from "@/views/HelpFAQ.vue";
 import HelpDocumentation from "@/views/HelpDocumentation.vue";
+import HelpBugReport from "@/views/HelpBugReport.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 
 import MainIcon from "@/icons/mainIcon.png";
@@ -104,6 +105,7 @@ export default {
     HelpGetStarted,
     HelpFAQ,
     HelpDocumentation,
+    HelpBugReport,
     ButtonBar,
   },
   data() {

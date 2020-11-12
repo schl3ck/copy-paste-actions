@@ -356,5 +356,9 @@
   "helpDocumentation": {
     "title": "Documentation",
     "html": "this is filled in by the languages merging script"
+  },
+  "helpBugReport": {
+    "title": "Report a bug/feature",
+    "html": "this is filled in by the languages merging script"
   }
 }
