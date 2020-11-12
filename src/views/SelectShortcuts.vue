@@ -165,7 +165,7 @@ export default {
   filters: {
     fileSize(size) {
       let unit = " B";
-      const units = [" kB", "MB", "GB"];
+      const units = [" kB", " MB", " GB"];
       while (units.length && size >= 1024) {
         size /= 1024;
         unit = units.shift();
