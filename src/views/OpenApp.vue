@@ -1,11 +1,11 @@
 <template>
   <div>
     <ProcessBar
-      :restoring-state="restoringState"
+      :restoringState="restoringState"
       :done="done"
       :percent="percent"
-      :done-button-label="lang.openApp"
-      :status-label="lang.buildingUrl"
+      :doneButtonLabel="lang.openApp"
+      :statusLabel="lang.buildingUrl"
       :messages="options.messages"
       @doneButtonClick="openNow"
     />
@@ -56,12 +56,12 @@ export default {
       return this.secondsBeforeTimeout === null
         ? ""
         : this.secondsBeforeTimeout <= 0
-          ? this.lang.closingNow
-          : (this.options.closePage
+        ? this.lang.closingNow
+        : (this.options.closePage
             ? this.lang.closingIn
             : this.options.toMainMenu
-              ? this.lang.returningToMainMenuIn
-              : ""
+            ? this.lang.returningToMainMenuIn
+            : ""
           ).replace("$seconds", this.secondsBeforeTimeout);
     },
     historyReplaceState() {
@@ -71,9 +71,9 @@ export default {
   watch: {
     base64(newV) {
       if (
-        newV
-        && !this.restoringState
-        && this.preferences.Preferences.autoOpenApp
+        newV &&
+        !this.restoringState &&
+        this.preferences.Preferences.autoOpenApp
       ) {
         this.openNow();
       }

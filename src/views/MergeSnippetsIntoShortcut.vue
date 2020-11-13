@@ -2,10 +2,10 @@
   <div>
     <ProcessBar
       v-if="!noItems && !unsavedChanges"
-      :restoring-state="restoringState"
+      :restoringState="restoringState"
       :percent="percent"
       :done="done"
-      :status-label="status"
+      :statusLabel="status"
     />
     <div
       v-if="noItems"
@@ -55,8 +55,8 @@ export default {
     shortcutsToProcess() {
       return this.$store.state.processResult.shortcuts.filter(
         (s) =>
-          (s.inserts && s.inserts.filter((i) => !i.exclude).length)
-          || (s.actionsToRemove && s.actionsToRemove.length),
+          (s.inserts && s.inserts.filter((i) => !i.exclude).length) ||
+          (s.actionsToRemove && s.actionsToRemove.length)
       );
     },
     /** @returns {object[]} */
@@ -119,7 +119,7 @@ export default {
                 };
               }),
             });
-          },
+          }
         );
       } else {
         this.noItems = true;

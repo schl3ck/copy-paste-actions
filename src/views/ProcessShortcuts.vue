@@ -12,10 +12,10 @@
     </div>
     <ProcessBar
       v-else
-      :restoring-state="restoringState"
+      :restoringState="restoringState"
       :percent="percent"
       :done="done"
-      :status-label="status"
+      :statusLabel="status"
     />
   </div>
 </template>
