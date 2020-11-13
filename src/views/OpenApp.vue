@@ -56,12 +56,12 @@ export default {
       return this.secondsBeforeTimeout === null
         ? ""
         : this.secondsBeforeTimeout <= 0
-        ? this.lang.closingNow
-        : (this.options.closePage
+          ? this.lang.closingNow
+          : (this.options.closePage
             ? this.lang.closingIn
             : this.options.toMainMenu
-            ? this.lang.returningToMainMenuIn
-            : ""
+              ? this.lang.returningToMainMenuIn
+              : ""
           ).replace("$seconds", this.secondsBeforeTimeout);
     },
     historyReplaceState() {
@@ -71,9 +71,9 @@ export default {
   watch: {
     base64(newV) {
       if (
-        newV &&
-        !this.restoringState &&
-        this.preferences.Preferences.autoOpenApp
+        newV
+        && !this.restoringState
+        && this.preferences.Preferences.autoOpenApp
       ) {
         this.openNow();
       }

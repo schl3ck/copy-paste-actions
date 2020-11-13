@@ -55,8 +55,8 @@ export default {
     shortcutsToProcess() {
       return this.$store.state.processResult.shortcuts.filter(
         (s) =>
-          (s.inserts && s.inserts.filter((i) => !i.exclude).length) ||
-          (s.actionsToRemove && s.actionsToRemove.length)
+          (s.inserts && s.inserts.filter((i) => !i.exclude).length)
+          || (s.actionsToRemove && s.actionsToRemove.length),
       );
     },
     /** @returns {object[]} */
@@ -119,7 +119,7 @@ export default {
                 };
               }),
             });
-          }
+          },
         );
       } else {
         this.noItems = true;

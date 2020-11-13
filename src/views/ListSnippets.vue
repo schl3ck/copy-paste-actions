@@ -5,7 +5,7 @@
         <h2 class="mb-0">
           {{ lang.clipboard }}
         </h2>
-        <hr class="my-2" />
+        <hr class="my-2">
       </div>
 
       <template v-if="clipboard && clipboard.length">
@@ -29,7 +29,7 @@
         <h2 class="mb-0">
           {{ lang.snippets }}
         </h2>
-        <hr class="my-2" />
+        <hr class="my-2">
       </div>
 
       <template v-if="snippets && snippets.length">
