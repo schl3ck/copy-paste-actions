@@ -289,12 +289,21 @@
       "autoAnalyseShortcuts": {
         "title": "Automatically analyse auto-loaded shortcuts",
         "description": "Automatically analyse the auto-loaded shortcuts when this shortcut is run. You will need to confirm this to give you a way to turn this setting off again."
+      },
+      "language": {
+        "title": "Change language",
+        "description": "",
+        "valueTitle": "Current language:"
       }
     }
   },
   "prefAutoLoadShortcuts": {
     "note": "Please select the shortcuts you want to autmatically load on every execution of this shortcut.",
     "done": "Done"
+  },
+  "prefLanguage": {
+    "title": "Change language",
+    "message": "Please note that you have to save your changes to the Shortcuts app before the language is applied."
   },
   "confirmNewUpdate": {
     "title": "New update",

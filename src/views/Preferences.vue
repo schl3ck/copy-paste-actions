@@ -53,89 +53,144 @@
     >
 
     <div ref="list" class="transition-padding-bottom">
-      <div
-        v-for="(pref, index) in prefsWithLang"
-        :key="pref.key"
-        class="card mb-2"
-      >
-        <label
-          :for="pref.key"
-          :class="
-            'card-header font-weight-bold ' +
-              'd-flex flex-row justify-content-between align-items-center'
-          "
-          @click="pref.type === 'array' ? openPrefSettings(pref) : ''"
+      <div v-for="(pref, index) in prefsWithLang" :key="pref.key">
+        <PrefItem
+          v-if="pref.type === 'boolean'"
+          :pref="pref.key"
+          :title="pref.lang.title"
+          :description="pref.lang.description"
+          :defaultValue="pref.default"
+          @reset="reset"
         >
-          <div class="mr-5">{{ pref.lang.title }}</div>
-          <div v-if="pref.type === 'boolean'" class="custom-switch2">
-            <input
-              :id="pref.key"
-              v-model="preferences[pref.key]"
-              type="checkbox"
-              class="custom-control-input"
-              @change="prefChanged(index)"
-            >
-            <label class="custom-control-label" :for="pref.key" />
-            <label
-              v-if="preferences.switchCaption || pref.key === 'switchCaption'"
-              class="custom-control-label-caption"
-              :for="pref.key"
-            />
-          </div>
-          <span v-if="pref.type === 'array'" class="p-2">
-            <b-icon icon="chevron-left" rotate="180" scale="1.5" />
-          </span>
-        </label>
-        <ul v-if="pref.type !== 'boolean'" class="list-group list-group-flush">
-          <li class="list-group-item">
-            <template v-if="pref.type === 'number'">
-              <template v-if="Array.isArray(pref.constraints)">
-                <div
-                  v-for="constraint in pref.constraints"
-                  :key="constraint"
-                  class="custom-control custom-radio"
-                >
-                  <input
-                    :id="pref.key + constraint"
-                    v-model="preferences[pref.key]"
-                    type="radio"
-                    :name="pref.key"
-                    class="custom-control-input"
-                    :value="constraint"
-                    @change="prefChanged(index)"
-                  >
-                  <label
-                    class="custom-control-label"
-                    :for="pref.key + constraint"
-                    v-html="pref.lang.values[constraint]"
-                  />
-                </div>
-              </template>
+          <template #header>
+            <div class="custom-switch2">
+              <input
+                :id="pref.key"
+                v-model="preferences[pref.key]"
+                type="checkbox"
+                class="custom-control-input"
+                @change="prefChanged(index)"
+              >
+              <label class="custom-control-label" :for="pref.key" />
+              <label
+                v-if="preferences.switchCaption || pref.key === 'switchCaption'"
+                class="custom-control-label-caption"
+                :for="pref.key"
+              />
+            </div>
+          </template>
+        </PrefItem>
+        <PrefItem
+          v-else-if="pref.type === 'array'"
+          :pref="pref.key"
+          :title="pref.lang.title"
+          :description="pref.lang.description"
+          :defaultValue="pref.default"
+          @click="openPrefSettings(pref)"
+          @reset="reset"
+        >
+          <template #header>
+            <span class="">
+              <b-icon icon="chevron-left" rotate="180" scale="1.5" />
+            </span>
+          </template>
+          <template #section>
+            <template v-if="pref.value.length > 0">
+              <div v-html="pref.lang.valueTitle" />
+              <ul class="list-root-style pl-4">
+                <li v-for="val in pref.value" :key="val">
+                  {{ val }}
+                </li>
+              </ul>
+            </template>
+            <div v-else v-html="pref.lang.valueTitleEmptySelection" />
+          </template>
+        </PrefItem>
+        <PrefItem
+          v-else-if="pref.type === 'list'"
+          :pref="pref.key"
+          :title="pref.lang.title"
+          :description="pref.lang.description"
+          :defaultValue="pref.default"
+          @click="openPrefSettings(pref)"
+          @reset="reset"
+        >
+          <template #header>
+            <span class="">
+              <b-icon icon="chevron-left" rotate="180" scale="1.5" />
+            </span>
+          </template>
+          <template #section>
+            <span v-html="pref.lang.valueTitle" />
+            {{ pref.value }}
+          </template>
+        </PrefItem>
+        <PrefItem
+          v-else-if="pref.type === 'number'"
+          :pref="pref.key"
+          :title="pref.lang.title"
+          :description="pref.lang.description"
+          :defaultValue="pref.default"
+          @reset="reset"
+        >
+          <template #section>
+            <template v-if="Array.isArray(pref.constraints)">
               <div
-                v-else-if="pref.constraints"
-                class="form-row align-items-center"
+                v-for="constraint in pref.constraints"
+                :key="constraint"
+                class="custom-control custom-radio"
               >
                 <input
-                  :id="pref.key"
-                  v-model.number="preferences[pref.key]"
-                  type="range"
-                  class="custom-range col-10"
-                  :min="pref.constraints.min"
-                  :max="pref.constraints.max"
-                  :step="pref.constraints.step"
+                  :id="pref.key + constraint"
+                  v-model="preferences[pref.key]"
+                  type="radio"
+                  :name="pref.key"
+                  class="custom-control-input"
+                  :value="constraint"
                   @change="prefChanged(index)"
                 >
-                <input
-                  v-model.number="preferences[pref.key]"
-                  type="number"
-                  class="form-control col-2"
-                  :step="pref.constraints.step"
-                  @change="prefChanged(index)"
-                >
+                <label
+                  class="custom-control-label"
+                  :for="pref.key + constraint"
+                  v-html="pref.lang.values[constraint]"
+                />
               </div>
             </template>
+            <div
+              v-else-if="pref.constraints"
+              class="form-row align-items-center"
+            >
+              <input
+                :id="pref.key"
+                v-model.number="preferences[pref.key]"
+                type="range"
+                class="custom-range col-10"
+                :min="pref.constraints.min"
+                :max="pref.constraints.max"
+                :step="pref.constraints.step"
+                @change="prefChanged(index)"
+              >
+              <input
+                v-model.number="preferences[pref.key]"
+                type="number"
+                class="form-control col-2"
+                :step="pref.constraints.step"
+                @change="prefChanged(index)"
+              >
+            </div>
+          </template>
+        </PrefItem>
+        <PrefItem
+          v-else-if="pref.type === 'string'"
+          :pref="pref.key"
+          :title="pref.lang.title"
+          :description="pref.lang.description"
+          :defaultValue="pref.default"
+          @reset="reset"
+        >
+          <template #section>
             <input
-              v-else-if="pref.type === 'string'"
+              v-if="pref.type === 'string'"
               :id="pref.key"
               v-model="preferences[pref.key]"
               type="text"
@@ -144,47 +199,8 @@
               @keyup.esc="$event.target.blur()"
               @change="prefChanged(index)"
             >
-            <div v-else-if="pref.type === 'array'">
-              <template v-if="pref.value.length > 0">
-                <div v-html="pref.lang.valueTitle" />
-                <ul class="list-root-style pl-4">
-                  <li v-for="val in pref.value" :key="val">
-                    {{ val }}
-                  </li>
-                </ul>
-              </template>
-              <div v-else v-html="pref.lang.valueTitleEmptySelection" />
-            </div>
-          </li>
-        </ul>
-        <div class="card-body py-2">
-          <div class="d-flex flex-row justify-content-between">
-            <div class="text-muted small mr-3">
-              <p class="mb-1" v-html="pref.lang.description" />
-              <p class="mb-0">
-                <b>{{ lang.defaultsTo }} </b>
-                <code
-                  v-if="
-                    pref.type === 'string' ||
-                      (pref.type === 'number' &&
-                        !Array.isArray(pref.constraints))
-                  "
-                  class="ml-2"
-                >{{ getDefault(pref) }}</code>
-                <span v-else v-html="getDefault(pref)" />
-              </p>
-            </div>
-            <div class="mw-content align-self-center">
-              <button
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                @click="reset(pref.key)"
-              >
-                <BIcon icon="arrow-counterclockwise" />
-              </button>
-            </div>
-          </div>
-        </div>
+          </template>
+        </PrefItem>
       </div>
     </div>
 
@@ -198,6 +214,7 @@
 import Vue from "vue";
 import deepEqual from "deep-eql";
 import ButtonBar from "@/components/ButtonBar.vue";
+import PrefItem from "@/components/PrefItem.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable } from "@/utils/utils";
 
@@ -205,6 +222,7 @@ export default {
   name: "Preferences",
   components: {
     ButtonBar,
+    PrefItem,
   },
   data() {
     return {
@@ -240,22 +258,73 @@ export default {
       const res = Object.entries(this.preferences)
         .filter(([key, val]) => key !== "ignoreVersion")
         .map(([key, val]) => {
+          const defaultVal = this.prefDefault[key];
+          const prefConstraint = this.prefConstraints[key];
+          const lang =
+            key in this.lang.prefs
+              ? this.lang.prefs[key]
+              : {
+                title: "" + key,
+                description: "This language entry does not exist.",
+              };
+
+          /** @type {Preferences.PrefWithLang["type"]} */
+          let type = typeof defaultVal;
+          if (type === "object" && Array.isArray(defaultVal)) {
+            type = "array";
+          } else if (
+            type === "string"
+            && Array.isArray(prefConstraint)
+            && prefConstraint.every((p) => typeof p === "string")
+          ) {
+            type = "list";
+          }
+
+          let def;
+          switch (type) {
+            case "boolean":
+              def = this.lang[defaultVal ? "switchOn" : "switchOff"];
+              break;
+            case "number":
+              if (Array.isArray(prefConstraint)) {
+                def = lang.values
+                  ? lang.values[defaultVal]
+                  : `Language item for "${key}.values" not found`;
+              } else {
+                def = `<code>${defaultVal}</code>`;
+              }
+              break;
+            case "array": {
+              const arrayLang = this.lang.defaultArray;
+              def =
+                defaultVal.length === 0
+                  ? arrayLang.empty
+                  : joinReadable(
+                      defaultVal,
+                      arrayLang.separator,
+                      arrayLang.separatorLast,
+                  );
+              break;
+            }
+            case "string":
+              if (Array.isArray(prefConstraint)) {
+                def = defaultVal;
+              } else {
+                def = `<code>${defaultVal}</code>`;
+              }
+              break;
+            default:
+              def = defaultVal;
+              break;
+          }
+
           return {
             key,
             value: val,
-            type:
-              typeof this.prefDefault[key] === "object"
-              && Array.isArray(this.prefDefault[key])
-                ? "array"
-                : typeof this.prefDefault[key],
-            constraints: this.prefConstraints[key],
-            lang:
-              key in this.lang.prefs
-                ? this.lang.prefs[key]
-                : {
-                  title: "" + key,
-                  description: "This language entry does not exist.",
-                },
+            type: type,
+            constraints: prefConstraint,
+            lang: lang,
+            default: def,
           };
         });
       res.sort((a, b) => a.lang.title.localeCompare(b.lang.title));
@@ -266,6 +335,10 @@ export default {
       return Object.entries(this.preferences).some(
         ([key, value]) => value !== this.prefGlobal[key],
       );
+    },
+    /** @returns {boolean} */
+    hasGlobalUnsavedChanges() {
+      return this.$store.state.userPreferencesChanged;
     },
     /** @returns {boolean} */
     notDefaultValues() {
@@ -286,6 +359,8 @@ export default {
             this.$store.commit("userPreferences", this.preferences);
           },
         });
+      }
+      if (this.hasChanges || this.hasGlobalUnsavedChanges) {
         res.push({
           text: this.lang.saveToApp,
           class: "btn-success",
@@ -419,37 +494,6 @@ export default {
     this.setToolbarClearing();
   },
   methods: {
-    /**
-     * @param { {key: string, constraints: Constraints, lang: LangItem} } pref
-     * @returns {string}
-     */
-    getDefault(pref) {
-      const def = this.prefDefault[pref.key];
-      switch (typeof def) {
-        case "boolean":
-          return this.lang[def ? "switchOn" : "switchOff"];
-
-        case "number":
-          if (Array.isArray(pref.constraints)) {
-            return pref.lang.values
-              ? pref.lang.values[def]
-              : `Language item for "${pref.key}.values" not found`;
-          } else {
-            return def;
-          }
-        case "object":
-          if (Array.isArray(def)) {
-            const lang = this.lang.defaultArray;
-            return def.length === 0
-              ? lang.empty
-              : joinReadable(def, lang.separator, lang.separatorLast);
-          } else {
-            return def;
-          }
-        default:
-          return def;
-      }
-    },
     /** @param {string} key */
     reset(key) {
       this.preferences[key] = this.prefDefault[key];
@@ -514,17 +558,18 @@ export default {
 
 .custom-switch2 {
   font-size: 1.75rem;
+  line-height: 0.857;
   > .custom-control-label {
     &::before {
       height: 1em;
-      top: 0.25em;
+      top: -0.05em;
       left: -1.75em;
       width: 1.75em;
       pointer-events: all;
       border-radius: 0.5em;
     }
     &::after {
-      top: calc(0.25em + 2px);
+      top: calc(-0.05em + 2px);
       left: calc(-1.75em + 2px);
       width: calc(1em - 4px);
       height: calc(1em - 4px);
@@ -544,7 +589,7 @@ export default {
       display: block;
       position: absolute;
       content: "";
-      top: 0.5em;
+      top: 0.2em;
       left: -2.05em;
       width: 2px;
       height: 0.5em;
@@ -557,7 +602,7 @@ export default {
       display: block;
       position: absolute;
       content: "";
-      top: 0.5em;
+      top: 0.2em;
       left: -0.7em;
       width: 0.5em;
       height: 0.5em;

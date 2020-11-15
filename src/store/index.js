@@ -16,7 +16,7 @@ export default new Vuex.Store({
     shortcuts: [],
     /** @type {Store.AppSettings} */
     preferences: {},
-    prefConstraints: prefConstraints,
+    prefConstraints: Object.assign({}, prefConstraints),
     language: {},
     showMainTitle: true,
     showBackButton: false,
@@ -71,7 +71,14 @@ export default new Vuex.Store({
       );
     },
     preferences(state, data) {
+      const lookup = Object.fromEntries(
+        Object.entries(data.availableLanguages).map(([key, val]) => [val, key]),
+      );
+      data["Default Preferences"].language =
+        lookup[data["Default Preferences"].language];
+      data.Preferences.language = lookup[data.Preferences.language];
       state.preferences = data;
+      state.prefConstraints.language = Object.keys(data.availableLanguages);
     },
     userPreferences(state, data) {
       Object.assign(state.preferences.Preferences, data);
@@ -333,6 +340,11 @@ export default new Vuex.Store({
           };
         }),
       };
+    },
+    preferencesForSaving(state) {
+      const prefs = Object.assign({}, state.preferences.Preferences);
+      prefs.language = state.preferences.availableLanguages[prefs.language];
+      return prefs;
     },
     /** @returns {Store.ShortcutsToImport} */
     shortcutsToImport(state) {

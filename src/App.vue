@@ -62,9 +62,10 @@ import ListSnippets from "@/views/ListSnippets.vue";
 import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
 import ImportShortcuts from "@/views/ImportShortcuts.vue";
 import Preferences from "@/views/Preferences.vue";
+import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
+import PrefLanguage from "@/views/PrefLanguage.vue";
 import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
 import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
-import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
 import ConfirmAutoAnalyser from "@/views/ConfirmAutoAnalyser.vue";
 import HelpMenu from "@/views/HelpMenu.vue";
 import HelpGetStarted from "@/views/HelpGetStarted.vue";
@@ -97,9 +98,10 @@ export default {
     MergeSnippetsIntoShortcut,
     ImportShortcuts,
     Preferences,
+    PrefAutoLoadShortcuts,
+    PrefLanguage,
     ConfirmNewUpdate,
     ListiCloudUrls,
-    PrefAutoLoadShortcuts,
     ConfirmAutoAnalyser,
     HelpMenu,
     HelpGetStarted,

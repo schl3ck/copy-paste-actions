@@ -48,16 +48,19 @@ declare namespace Store {
   }
 
   interface Preferences {
+    language: string;
     autoOpenApp: boolean;
     excludeAllCPAComments: boolean;
     cleanUp: 0 | 1 | 2;
     commentMarker: string;
-    defaultNewShortcutName: string;
     includeShortcutImages: boolean;
     codeZoom: number;
     switchCaption: boolean;
     ignoreVersion: false | string;
     skipFoundInsertsOnNoInsert: boolean;
+    autoOverwriteSnippets: boolean;
+    autoLoadShortcuts: string[];
+    autoAnalyseShortcuts: boolean;
   }
   interface AppSettings {
     "Shortcut Name": string;
@@ -69,6 +72,7 @@ declare namespace Store {
     "iOS Version": string;
     Preferences: Preferences;
     componentToDisplay: string;
+    availableLanguages: { [key: string]: string };
   }
 
   interface UpdateData {
@@ -130,17 +134,20 @@ declare namespace Preferences {
     valueTitleEmptySelection?: string;
   }
 
-  type Constraints = number[] | { min: number; max: number; step: number };
-
   interface PrefSubtype<T, K> {
     value: T;
     type: K;
+    constraints: K extends "number"
+      ? number[] | { min: number; max: number; step: number }
+      : K extends "list"
+      ? string[]
+      : undefined;
   }
 
   interface PrefWithLangBase {
     key: string;
-    constraints: Constraints;
     lang: LangItem;
+    default: string;
   }
 
   type PrefWithLang = PrefWithLangBase &
@@ -149,5 +156,6 @@ declare namespace Preferences {
       | PrefSubtype<string, "string">
       | PrefSubtype<boolean, "boolean">
       | PrefSubtype<string[], "array">
+      | PrefSubtype<string, "list">
     );
 }

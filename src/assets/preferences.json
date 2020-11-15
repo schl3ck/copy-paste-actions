@@ -36,5 +36,8 @@
     "autoLoadShortcuts": [],
     "autoAnalyseShortcuts": false
   },
-  "componentToDisplay": "MainMenu"
+  "componentToDisplay": "MainMenu",
+  "availableLanguages": {
+    "English": "en"
+  }
 }

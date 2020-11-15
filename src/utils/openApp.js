@@ -48,7 +48,7 @@ export function navigateAndBuildZip(root, options) {
       options.data = options.data || [];
       options.data.push({
         name: "preferences.txt",
-        content: JSON.stringify(store.state.preferences.Preferences),
+        content: JSON.stringify(store.getters.preferencesForSaving),
       });
     }
 
