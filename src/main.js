@@ -3,8 +3,6 @@ import Vue from "vue";
 import "bootstrap.css";
 import "bootstrap.reboot";
 import "highlight.js/styles/xcode.css";
-// import "jquery";
-// import "bootstrap.js";
 
 import "bootstrap-vue/dist/bootstrap-vue-icons.min.css";
 import {
@@ -44,6 +42,7 @@ import IconSearchMinus from "@/icons/IconSearchMinus.vue";
 import IconSearchPlus from "@/icons/IconSearchPlus.vue";
 import IconSave from "@/icons/IconSave.vue";
 import IconCloudLink from "@/icons/IconCloudLink.vue";
+import { checkForUpdate } from "@/utils/checkForUpdate";
 
 // make buffer globally available
 import { Buffer } from "buffer";
@@ -97,6 +96,7 @@ store.dispatch("loadPreferences").then(() => {
     store,
     render: (h) => h(App),
   }).$mount("#app");
+  checkForUpdate();
 });
 
 loadShortcuts

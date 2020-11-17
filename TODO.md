@@ -1,6 +1,5 @@
 # TODO list
 
-* enable checking for updates on GitHub (RoutineHub version file copied into Github repo)
 * display message when an auto-loaded shortcut is missing
 
 ## Snippet list

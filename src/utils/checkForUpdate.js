@@ -5,36 +5,43 @@ export function checkForUpdate() {
   const req = new XMLHttpRequest();
   req.open(
     "GET",
-    `https://routinehub.co/api/v1/shortcuts/${store.preferences["RoutineHub ID"]}/versions/latest`,
+    "https://api.github.com/repos/schl3ck/copy-paste-actions/contents/version.json",
     true,
   );
+  req.setRequestHeader("Accept", "application/vnd.github.v3+json");
   req.responseType = "json";
   req.onreadystatechange = function() {
     if (req.readyState === XMLHttpRequest.DONE) {
       if (req.status === 0 || (req.status >= 200 && status < 400)) {
         const res = req.response;
-        if (res && res.result === "success") {
-          const curVersion = store.state.preferences.Version.split(".");
-          const newVersion = res.Version.split(".");
+        let file = res.content;
+        if (res.encoding === "base64") {
+          file = atob(file);
+        } else {
+          console.error("unknown encoding:", res.encoding);
+        }
+        file = JSON.parse(file);
+        const curVersion = store.state.preferences.Version.split(".");
+        const newVersion = file.Version.split(".");
 
-          let isNewer = false;
-          for (const [c, n] of zip(curVersion, newVersion)) {
-            if (parseInt(n) > parseInt(c)) {
-              isNewer = true;
-              break;
-            }
+        let isNewer = false;
+        for (const [c, n] of zip(curVersion, newVersion)) {
+          if (parseInt(n) > parseInt(c)) {
+            isNewer = true;
+            break;
           }
-          if (isNewer) {
-            store.commit("updateAvailable", {
-              version: newVersion.join("."),
-              url: res.URL,
-              notes: res.Notes,
-              release: new Date(res.Release),
-            });
-          }
+        }
+        if (isNewer) {
+          store.commit("updateAvailable", {
+            version: newVersion.join("."),
+            url: file.URL,
+            notes: file.Notes,
+            release: new Date(file.Release),
+          });
         }
       } else {
         // request failed. Do nothing?
+        console.log("check for update failed:", req);
       }
     }
   };
