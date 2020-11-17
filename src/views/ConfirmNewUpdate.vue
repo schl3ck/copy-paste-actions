@@ -6,7 +6,9 @@
       {{ updateData.version }}
     </h2>
     <h4>{{ lang.changelog }}</h4>
-    <p v-html="nl2br(updateData.notes)" />
+    <p class="update-notes">
+      {{ updateData.notes }}
+    </p>
     <b class="mr-2">{{ lang.releaseDate }}</b>
     {{ updateData.release.toLocaleDateString() }}
     <template v-if="ignoredUpdate">
@@ -22,7 +24,6 @@
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
 import RoutineHubIcon from "@/icons/routinehub.png";
-import { nl2br } from "@/utils/utils";
 
 export default {
   name: "ConfirmNewUpdate",
@@ -92,10 +93,11 @@ export default {
     this.$store.commit("showMainTitle", true);
     this.$store.commit("showBackbutton", false);
   },
-  methods: {
-    nl2br,
-  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.update-notes {
+  white-space: pre-wrap;
+}
+</style>
