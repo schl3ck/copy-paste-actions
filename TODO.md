@@ -10,7 +10,6 @@
 * move shortcuts with snippets/inserts to top (controllable by preference?)
 
 ## Preferences
-* add link from each setting to docs/help
 * search bar
 
 ## Analyser
