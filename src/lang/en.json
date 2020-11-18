@@ -244,12 +244,12 @@
         "description": "When the app should be opened to e.g. load or import or save snippets you will be redirected to Shortcuts without an interaction from you."
       },
       "excludeAllCPAComments": {
-        "title": "Exclude special comments",
-        "description": "Exclude the special formatted comments this shortcut works with from being included in other snippets and clipboard items."
+        "title": "Exclude functions",
+        "description": "Exclude the functions (special comment actions) this shortcut works with from being included in other snippets and clipboard items."
       },
       "cleanUp": {
-        "title": "Clean up of special comments",
-        "description": "Controls the removal of the special comments after being processed. Comment actions that threw a warning are never removed.",
+        "title": "Clean up of functions",
+        "description": "Controls the removal of functions (special comment actions) after being processed. Functions that threw a warning are never removed.",
         "values": {
           "0": "Remove none",
           "1": "Remove functions `pause`, `resume` and `end` when they are part of a selection started with `cut`, `save remove`, `paste replace` or `insert replace`",

@@ -108,7 +108,7 @@ This function is only supported in selections started with `copy`, `cut` and `sa
 There are some special rules about counting actions.
 
 * comment actions containing functions are never counted for their own selection.
-* if the preference `Exclude special comments` is turned on, the comment actions containing functions are not counted, otherwise functions concerning other selections are counted too.
+* if the preference `Exclude functions` is turned on, the comment actions containing functions are not counted, otherwise only functions concerning other selections are counted too.
 * actions that are part of a block (e.g. `Otherwise`, `End If`, `End Repeat`, every `Choose from Menu` section) counts also as an action.  
 E.g.: a shortcut containing only a `Choose from Menu` block with two options and nothing else contains 4 actions (`Choose from Menu`, the first option, the second option and `End Choose from Menu`). A shortcut containing an empty `If` block contains 3 actions (`If`, `Otherwise` and `End If`).
 
