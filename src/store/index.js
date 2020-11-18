@@ -249,10 +249,11 @@ export default new Vuex.Store({
           const content = JSON.parse(stringFromBinaryString(data));
           commit("importURLs", content);
         } else if (filename === "icloud urls.json") {
-          const content = JSON.parse(stringFromBinaryString(data));
+          let content = JSON.parse(stringFromBinaryString(data));
+          content = Array.isArray(content.urls) ? content.urls : [content.urls];
           commit(
             "icloudUrls",
-            content.urls.map((i) => {
+            content.map((i) => {
               i.date = new Date(i.date);
               return i;
             }),
