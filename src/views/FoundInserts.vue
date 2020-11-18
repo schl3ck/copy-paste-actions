@@ -144,16 +144,7 @@ export default {
               return;
             }
 
-            // assign snippet to insert
-            for (const shortcut of this.shortcuts) {
-              for (const insert of shortcut.inserts) {
-                if (!insert.exclude) {
-                  const snippet = this.getSnippet(insert);
-                  insert.actions = snippet.actions;
-                  insert.uuids = snippet.uuids;
-                }
-              }
-            }
+            this.assignSnippetsToInserts();
 
             this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
           },
@@ -180,15 +171,27 @@ export default {
       return this.shortcuts.every((s) => !s.inserts || s.inserts.length === 0);
     },
     /** @returns {boolean} */
+    autoAcceptInserts() {
+      return (
+        this.preferences.Preferences.autoAcceptInserts
+        && this.allInsertsHaveSnippetsOrExcluded
+      );
+    },
+    /** @returns {boolean} */
     historyReplaceState() {
       return (
-        this.preferences.Preferences.skipFoundInsertsOnNoInsert
-        && this.noInserts
+        (this.preferences.Preferences.skipFoundInsertsOnNoInsert
+          && this.noInserts)
+        || this.autoAcceptInserts
       );
     },
   },
   activated() {
     if (this.historyReplaceState) {
+      if (this.autoAcceptInserts) {
+        this.assignSnippetsToInserts();
+      }
+
       this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
       return;
     }
@@ -223,6 +226,17 @@ export default {
           window.history.back();
         },
       });
+    },
+    assignSnippetsToInserts() {
+      for (const shortcut of this.shortcuts) {
+        for (const insert of shortcut.inserts) {
+          if (!insert.exclude) {
+            const snippet = this.getSnippet(insert);
+            insert.actions = snippet.actions;
+            insert.uuids = snippet.uuids;
+          }
+        }
+      }
     },
   },
 };

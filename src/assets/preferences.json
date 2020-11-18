@@ -18,7 +18,8 @@
     "skipFoundInsertsOnNoInsert": false,
     "autoOverwriteSnippets": false,
     "autoLoadShortcuts": [],
-    "autoAnalyseShortcuts": false
+    "autoAnalyseShortcuts": false,
+    "autoAcceptInserts": false
   },
   "iOS Version": "13.4",
   "Preferences": {
@@ -34,7 +35,8 @@
     "skipFoundInsertsOnNoInsert": false,
     "autoOverwriteSnippets": false,
     "autoLoadShortcuts": [],
-    "autoAnalyseShortcuts": false
+    "autoAnalyseShortcuts": false,
+    "autoAcceptInserts": false
   },
   "componentToDisplay": "MainMenu",
   "availableLanguages": {

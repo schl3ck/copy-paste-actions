@@ -249,7 +249,7 @@
       },
       "cleanUp": {
         "title": "Clean up of functions",
-        "description": "Controls the removal of functions (special comment actions) after being processed. Functions that threw a warning are never removed.",
+        "description": "Controls the removal of functions (special comment actions) after being processed.\nFunctions that threw a warning are never removed.",
         "values": {
           "0": "Remove none",
           "1": "Remove functions `pause`, `resume` and `end` when they are part of a selection started with `cut`, `save remove`, `paste replace` or `insert replace`",
@@ -262,7 +262,7 @@
       },
       "includeShortcutImages": {
         "title": "Load shortcut icons",
-        "description": "Load the cached icons every time this shortcut is executed. Needs the cache to be refreshed manually at the top of the preferences page."
+        "description": "Load the cached icons every time this shortcut is executed.\nNeeds the cache to be refreshed manually at the top of the preferences page."
       },
       "codeZoom": {
         "title": "Zoom level of snippet contents",
@@ -278,7 +278,7 @@
       },
       "autoOverwriteSnippets": {
         "title": "Automatically save all snippets",
-        "description": "Automatically saves all snippets overwriting already existing snippets and clipboard items. This preference is ignored when there are name conflicts between new snippets/clipboard items."
+        "description": "Automatically saves all snippets overwriting already existing snippets and clipboard items.\nThis preference is ignored when there are name conflicts between new snippets/clipboard items."
       },
       "autoLoadShortcuts": {
         "title": "Load specific shortcuts every time",
@@ -294,6 +294,10 @@
         "title": "Change language",
         "description": "",
         "valueTitle": "Current language:"
+      },
+      "autoAcceptInserts": {
+        "title": "Automatically accept all inserts",
+        "description": "Automatically accept all found inserts with their matching snippet/clipboard item. If there are none then this acts also as if the preference _Skip Found Inserts page_ is enabled.\nThis preference is ignored when there are inserts with no matching snippet/clipboard item."
       }
     }
   },

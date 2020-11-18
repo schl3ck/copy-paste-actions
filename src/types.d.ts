@@ -61,6 +61,7 @@ declare namespace Store {
     autoOverwriteSnippets: boolean;
     autoLoadShortcuts: string[];
     autoAnalyseShortcuts: boolean;
+    autoAcceptInserts: boolean;
   }
   interface AppSettings {
     "Shortcut Name": string;
