@@ -24,6 +24,14 @@ module.exports = {
     config.plugins.delete("prefetch");
 
     config.module
+      .rule("images")
+      .use("url-loader")
+      .tap((options) => {
+        options.limit = undefined;
+        return options;
+      });
+
+    config.module
       .rule("text")
       .test(/\.txt$/i)
       .use("raw-loader")
