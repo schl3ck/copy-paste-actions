@@ -334,6 +334,7 @@
     "title": "Analyse auto-loaded shortcuts?",
     "message": "You've enabled to automatically analyse the auto-loaded shortcuts.\nDo you want to proceed?",
     "noShortcuts": "You've enabled to automatically analyse the auto-loaded shortcuts, but no shortcuts were selected to be automatically loaded or they haven't been found.",
+    "loadedShortcuts": "Loaded shortcuts:",
     "analyse": "Analyse",
     "selectAutoLoadShortcuts": "Select Shortcuts to Auto-Load",
     "disablePreference": "Disable Preference",

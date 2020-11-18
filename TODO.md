@@ -1,7 +1,7 @@
 # TODO list
 
 * display message when an auto-loaded shortcut is missing
-* display all auto-loaded shortcuts
+* display outdated message after importing shortcuts
 
 ## Snippet list
 * search bar

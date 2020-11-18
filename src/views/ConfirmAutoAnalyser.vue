@@ -1,7 +1,31 @@
 <template>
   <div>
     <h2>{{ lang.title }}</h2>
-    <div ref="content" v-html="message" />
+    <div ref="content">
+      <p v-html="message" />
+      <h5>{{ lang.loadedShortcuts }}</h5>
+      <div :class="['list-group', 'list-group-custom-flush']">
+        <div
+          v-for="shortcut in loadedShortcuts"
+          :key="shortcut.name"
+          :class="[
+            'list-group-item',
+            'custom-list-group-item',
+            'd-flex',
+            'align-items-center',
+            'text-left',
+          ]"
+        >
+          <img
+            v-if="shortcut.image"
+            :src="shortcut.image"
+            class="mr-2 icon"
+            alt="icon"
+          >
+          <span>{{ shortcut.name }}<span class="sr-only">.</span></span>
+        </div>
+      </div>
+    </div>
 
     <div ref="toolbar" class="fixed-bottom container">
       <ButtonBar :buttons="buttons" />
@@ -97,6 +121,10 @@ export default {
         },
       ]);
     },
+    /** @returns {Store.Shortcut[]} */
+    loadedShortcuts() {
+      return this.$store.state.shortcuts.filter((s) => s.data);
+    },
   },
   created() {
     if (this.$store.state.shortcuts?.length) {
@@ -111,10 +139,15 @@ export default {
   },
   methods: {
     checkShortcuts() {
-      this.noShortcuts = this.$store.state.shortcuts.every((s) => !s.data);
+      this.noShortcuts = this.loadedShortcuts.length === 0;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon {
+  width: 30px;
+  height: 30px;
+}
+</style>
