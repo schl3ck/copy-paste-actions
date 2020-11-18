@@ -32,11 +32,11 @@
           >{{ lang.date }} {{ shortcut.date.toLocaleString() }}</span>
         </div>
         <div class="btn-group ml-auto">
-          <button class="btn btn-outline-dark" @click="copyUrl(shortcut)">
+          <button class="btn btn-outline-dark" @click.stop="copyUrl(shortcut)">
             <BIcon icon="clipboard-plus" />
             <span class="sr-only">{{ lang.copy }}.</span>
           </button>
-          <button class="btn btn-danger" @click="askDeletion = shortcut">
+          <button class="btn btn-danger" @click.stop="askDeletion = shortcut">
             <BIcon icon="trash" />
             <span class="sr-only">{{ lang.delete }}.</span>
           </button>
