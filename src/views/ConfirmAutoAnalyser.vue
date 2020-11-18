@@ -11,7 +11,6 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
-import { escapeHTML } from "@/utils/utils";
 
 export default {
   name: "ConfirmAutoAnalyser",
@@ -30,9 +29,11 @@ export default {
     },
     /** @returns {string} */
     message() {
-      return "<p>" + this.noShortcuts
-        ? this.lang.noShortcuts
-        : this.lang.message + "</p>";
+      return (
+        "<p>"
+        + (this.noShortcuts ? this.lang.noShortcuts : this.lang.message)
+        + "</p>"
+      );
     },
     /** @returns {ButtonBar.Button[]} */
     buttons() {
@@ -103,8 +104,8 @@ export default {
     }
   },
   activated() {
-    this.$store.commit("displayMainTitle", true);
-    this.$store.commit("displayBackButton", false);
+    this.$store.commit("showMainTitle", true);
+    this.$store.commit("showBackButton", false);
   },
   mounted() {
     const height = this.$refs.toolbar.clientHeight;
