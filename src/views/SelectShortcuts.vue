@@ -75,7 +75,9 @@
           'no-rounded-top'
       "
     >
-      <div v-show="filteredShortcuts && filteredShortcuts.length">
+      <div
+        v-show="displayShortcuts.shortcuts && displayShortcuts.shortcuts.length"
+      >
         <div
           v-show="displayShortcuts.shortcuts.length === 0"
           class="list-group-item custom-list-group-item text-center"
@@ -121,12 +123,16 @@
           </button>
         </template>
       </div>
-      <div v-show="filteredShortcuts && filteredShortcuts.length === 0">
+      <div
+        v-show="
+          displayShortcuts.shortcuts && displayShortcuts.shortcuts.length === 0
+        "
+      >
         <div class="list-group-item custom-list-group-item text-center">
           <i>{{ lang.searchNoMatch }}<span class="sr-only">.</span></i>
         </div>
       </div>
-      <div v-show="!filteredShortcuts">
+      <div v-show="!displayShortcuts.shortcuts">
         <div class="list-group-item custom-list-group-item text-center">
           <i>{{ lang.loading }}</i>
         </div>
