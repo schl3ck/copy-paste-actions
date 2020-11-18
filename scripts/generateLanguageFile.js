@@ -1,10 +1,14 @@
 const fs = require("fs");
 const path = require("path");
 const MarkdownIt = require("markdown-it");
+let MarkdownItAnchor = require("markdown-it-anchor");
+if (typeof MarkdownItAnchor !== "function" && "default" in MarkdownItAnchor) {
+  MarkdownItAnchor = MarkdownItAnchor.default;
+}
 const md = new MarkdownIt({
   breaks: true,
 })
-  .use(require("markdown-it-anchor").default, {
+  .use(MarkdownItAnchor, {
     level: 1,
     permalink: false,
   })
@@ -94,5 +98,6 @@ if (process.env.NODE_ENV === "development") {
     path.resolve(distDir, "language.json"),
     JSON.stringify(result, null, 2),
   );
+  // eslint-disable-next-line no-console
   console.log("\x1b[42;30m DONE \x1b[0m\n");
 }
