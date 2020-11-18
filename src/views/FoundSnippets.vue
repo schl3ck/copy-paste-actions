@@ -78,6 +78,7 @@ import Vue from "vue";
 import SnippetListItem from "@/components/SnippetListItem.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 import { getFullHeight } from "@/utils/utils";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "FoundSnippets",
@@ -85,6 +86,7 @@ export default {
     SnippetListItem,
     ButtonBar,
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       editingElemTop: 0,
@@ -221,8 +223,6 @@ export default {
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", false);
     this.$root.$on("snippetBeginEdit", this.onSnippetEdit);
-    const height = this.$refs.toolbar.clientHeight;
-    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   deactivated() {
     this.$root.$off("snippetBeginEdit", this.onSnippetEdit);

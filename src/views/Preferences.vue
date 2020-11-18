@@ -217,6 +217,7 @@ import ButtonBar from "@/components/ButtonBar.vue";
 import PrefItem from "@/components/PrefItem.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable } from "@/utils/utils";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "Preferences",
@@ -224,6 +225,7 @@ export default {
     ButtonBar,
     PrefItem,
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       /** @type {Store.Preferences} */
@@ -489,9 +491,6 @@ export default {
       this.preferences = Object.assign({}, this.prefGlobal);
     }
     this.openedSubPage = false;
-  },
-  mounted() {
-    this.setToolbarClearing();
   },
   methods: {
     /** @param {string} key */

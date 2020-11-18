@@ -118,12 +118,14 @@ import Vue from "vue";
 import ButtonBar from "@/components/ButtonBar.vue";
 import { copyTextToClipboard } from "@/utils/utils";
 import { navigateAndBuildZip } from "@/utils/openApp";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "ListiCloudUrls",
   components: {
     ButtonBar,
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       copySuccessfull: null,

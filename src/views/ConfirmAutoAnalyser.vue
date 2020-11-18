@@ -11,12 +11,14 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "ConfirmAutoAnalyser",
   components: {
     ButtonBar,
   },
+  mixins: [handleButtonToolbarMixin("content", "toolbar")],
   data() {
     return {
       noShortcuts: false,
@@ -106,10 +108,6 @@ export default {
   activated() {
     this.$store.commit("showMainTitle", true);
     this.$store.commit("showBackButton", false);
-  },
-  mounted() {
-    const height = this.$refs.toolbar.clientHeight;
-    this.$refs.content.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   methods: {
     checkShortcuts() {

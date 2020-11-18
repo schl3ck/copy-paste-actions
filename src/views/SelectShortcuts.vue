@@ -103,7 +103,7 @@
               scale="1.5"
             />
             <img
-              v-show="shortcut.image"
+              v-if="shortcut.image"
               :src="shortcut.image"
               class="mr-2 icon"
               alt="icon"
@@ -149,6 +149,7 @@
 import FlexSearch from "flexsearch";
 import { debounce } from "lodash";
 import ButtonBar from "@/components/ButtonBar.vue";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 function splitLanguageString(str) {
   // ensure that there are 2 parts every time
@@ -180,6 +181,7 @@ export default {
       return Math.round(size * 100) / 100 + unit;
     },
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   props: {
     continue: {
       type: Function,
@@ -302,10 +304,6 @@ export default {
       this.filteredShortcuts = null;
       this.$root.$once("loadShortcutsFinished", this.init.bind(this));
     }
-  },
-  mounted() {
-    const height = this.$refs.toolbar.clientHeight;
-    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   activated() {
     this.$store.commit("showMainTitle", false);

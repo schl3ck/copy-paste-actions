@@ -7,7 +7,7 @@
       v-hml="lang.note.replace(/\$n/g, toImport.length)"
       class="alert alert-warning"
     />
-    <div class="list-group">
+    <div ref="list" class="list-group">
       <button
         v-for="shortcut in toImport"
         :key="shortcut.name"
@@ -41,6 +41,7 @@
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
 import { openURLAndCloseSelf } from "@/utils/openApp";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 /** @typedef {
  *  { name: string, url: string, image?: string, done: boolean }
@@ -51,6 +52,7 @@ export default {
   components: {
     ButtonBar,
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     /** @type {Shortcut[]} */
     return {

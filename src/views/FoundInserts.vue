@@ -102,6 +102,7 @@
 <script>
 import SnippetListItem from "@/components/SnippetListItem.vue";
 import ButtonBar from "@/components/ButtonBar.vue";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "FoundInserts",
@@ -109,6 +110,7 @@ export default {
     SnippetListItem,
     ButtonBar,
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   computed: {
     /** @returns {object} */
     lang() {
@@ -198,8 +200,6 @@ export default {
 
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", false);
-    const height = this.$refs.toolbar.clientHeight;
-    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   methods: {
     noSnippetName(val) {

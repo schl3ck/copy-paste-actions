@@ -38,14 +38,16 @@
 </template>
 
 <script>
-import { groupBy, mapValues, escape } from "lodash";
+import { groupBy, mapValues } from "lodash";
 import ButtonBar from "@/components/ButtonBar.vue";
+import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "AnalyserWarnings",
   components: {
     ButtonBar,
   },
+  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       /** @type {ButtonBar.Button[]} */
@@ -107,8 +109,6 @@ export default {
   activated() {
     this.$store.commit("showBackButton", false);
     this.$store.commit("showMainTitle", false);
-    const height = this.$refs.toolbar.clientHeight;
-    this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
   },
   methods: {
     printWarning(warning) {
