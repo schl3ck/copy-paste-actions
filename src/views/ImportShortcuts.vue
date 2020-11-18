@@ -3,9 +3,10 @@
     <h3 class="mt-2">
       {{ lang.importing }}
     </h3>
-    <div class="alert alert-warning">
-      {{ lang.note.replace(/\$n/g, toImport.length) }}
-    </div>
+    <div
+      v-hml="lang.note.replace(/\$n/g, toImport.length)"
+      class="alert alert-warning"
+    />
     <div class="list-group">
       <button
         v-for="shortcut in toImport"

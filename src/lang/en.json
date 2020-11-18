@@ -199,7 +199,7 @@
   "importShortcuts": {
     "title": "List of shortcuts to import",
     "importing": "Importing shortcuts",
-    "note": "$n shortcuts will be imported. Please tap on the button \"Import\" to import a shortcut. After importing one shortcut, please return here to import the next one. You can also tap on the shortcut itself to import it.",
+    "note": "$n shortcuts will be imported. Please tap on the button _Import_ to import a shortcut. After importing one shortcut, please return here to import the next one. You can also tap on the shortcut itself to import it.",
     "import": "Import",
     "importLast": "Import last"
   },

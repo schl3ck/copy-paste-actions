@@ -36,7 +36,7 @@
           v-bind="button.iconOptions"
           class="mr-2"
         />
-        {{ button.text }}
+        <span v-html="button.text" />
       </button>
     </div>
   </div>
