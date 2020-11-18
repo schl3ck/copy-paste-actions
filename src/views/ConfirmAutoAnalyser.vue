@@ -30,13 +30,9 @@ export default {
     },
     /** @returns {string} */
     message() {
-      return (
-        "<p>"
-        + escapeHTML(
-          this.noShortcuts ? this.lang.noShortcuts : this.lang.message,
-        ).replace(/\n+/g, "</p><p>")
-        + "</p>"
-      );
+      return "<p>" + this.noShortcuts
+        ? this.lang.noShortcuts
+        : this.lang.message + "</p>";
     },
     /** @returns {ButtonBar.Button[]} */
     buttons() {

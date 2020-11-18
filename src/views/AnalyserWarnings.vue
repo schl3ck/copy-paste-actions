@@ -80,7 +80,7 @@ export default {
     },
     /** @returns {object} */
     lang() {
-      return this.$store.state.language.warnings;
+      return this.$store.state.language.analyserWarnings;
     },
   },
   created() {

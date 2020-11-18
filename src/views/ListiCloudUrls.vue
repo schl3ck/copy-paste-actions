@@ -106,7 +106,7 @@
             </span>
           </div>
         </div>
-        <span>{{ lang.deleteNote }}</span>
+        <span v-html="lang.deleteNote" />
         <ButtonBar :buttons="confirmDeleteButtons" size="normal" />
       </div>
     </transition>

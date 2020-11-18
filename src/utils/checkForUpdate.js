@@ -18,6 +18,7 @@ export function checkForUpdate() {
         if (res.encoding === "base64") {
           file = atob(file);
         } else {
+          // eslint-disable-next-line no-console
           console.error("unknown encoding:", res.encoding);
         }
         file = JSON.parse(file);
@@ -41,6 +42,7 @@ export function checkForUpdate() {
         }
       } else {
         // request failed. Do nothing?
+        // eslint-disable-next-line no-console
         console.log("check for update failed:", req);
       }
     }

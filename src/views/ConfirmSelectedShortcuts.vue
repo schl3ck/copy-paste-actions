@@ -17,9 +17,10 @@
             :icon="loaded ? 'file-earmark-fill' : 'exclamation-circle-fill'"
             class="fs-5x text-warning mb-2"
           />
-          <span class="text-center pre-line">{{
-            loaded ? lang.shortcutsLoaded : shortcutsSizeLarge
-          }}</span>
+          <span
+            class="text-center"
+            v-html="loaded ? lang.shortcutsLoaded : shortcutsSizeLarge"
+          />
         </div>
         <ButtonBar :buttons="buttons" />
       </template>

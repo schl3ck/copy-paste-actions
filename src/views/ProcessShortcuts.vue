@@ -8,7 +8,7 @@
       "
     >
       <span class="sad-face">:(</span>
-      <span class="text-center">{{ lang.noItemsFound }}</span>
+      <span class="text-center" v-html="lang.noItemsFound" />
     </div>
     <ProcessBar
       v-else

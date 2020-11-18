@@ -82,7 +82,7 @@
     "noShortcuts": "No shortcuts to process",
     "noItemsFound": "No snippets or inserts were found.\nPlease check, if you have the correct syntax in the comment actions."
   },
-  "warnings": {
+  "analyserWarnings": {
     "title": "Warnings",
     "atActionWithContent": "Found at action $action with content",
     "ignoreContinue": "Ignore & Continue",

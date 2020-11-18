@@ -295,7 +295,7 @@ export default {
     langDeleteMessage() {
       return this.lang.deleteMessage[
         this.snippet.isClipboard ? "clipboard" : "snippet"
-      ].split("\n");
+      ].split("<br>");
     },
   },
   watch: {
