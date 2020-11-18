@@ -71,9 +71,10 @@ export default new Vuex.Store({
       );
     },
     preferences(state, data) {
-      const lookup = Object.fromEntries(
-        Object.entries(data.availableLanguages).map(([key, val]) => [val, key]),
-      );
+      const lookup = {};
+      for (const [key, val] of Object.entries(data.availableLanguages)) {
+        lookup[val] = key;
+      }
       data["Default Preferences"].language =
         lookup[data["Default Preferences"].language];
       data.Preferences.language = lookup[data.Preferences.language];
