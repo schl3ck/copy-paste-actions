@@ -25,7 +25,7 @@
       </div>
     </div>
     <pre
-      class="margin-for-fixed text-pre width-maxcontent"
+      class="margin-for-fixed text-pre width-maxcontent bg-transparent"
       :style="{ 'font-size': zoom + 'rem' }"
     ><code
       ref="code"
