@@ -12,7 +12,7 @@ export function checkForUpdate() {
   req.responseType = "json";
   req.onreadystatechange = function() {
     if (req.readyState === XMLHttpRequest.DONE) {
-      if (req.status === 0 || (req.status >= 200 && status < 400)) {
+      if (req.status === 0 || (req.status >= 200 && req.status < 400)) {
         const res = req.response;
         let file = res.content;
         if (res.encoding === "base64") {
