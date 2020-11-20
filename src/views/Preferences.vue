@@ -53,7 +53,11 @@
     >
 
     <div ref="list" class="transition-padding-bottom">
-      <div v-for="(pref, index) in prefsWithLang" :key="pref.key">
+      <div
+        v-for="(pref, index) in prefsWithLang"
+        :id="pref.key"
+        :key="pref.key"
+      >
         <PrefItem
           v-if="pref.type === 'boolean'"
           :pref="pref.key"
@@ -231,6 +235,7 @@ export default {
       /** @type {Store.Preferences} */
       preferences: {},
       lastChanged: false,
+      /** @type {false | string} */
       openedSubPage: false,
     };
   },
@@ -243,6 +248,7 @@ export default {
     prefGlobal() {
       return this.appSettings.Preferences;
     },
+    /** @returns {object} */
     prefConstraints() {
       return this.$store.state.prefConstraints;
     },
@@ -487,10 +493,14 @@ export default {
   activated() {
     this.$store.commit("showMainTitle", false);
     this.$store.commit("showBackButton", false);
-    if (!this.openedSubPage) {
+    if (this.openedSubPage) {
+      this.openedSubPage = false;
+      this.$nextTick(() => {
+        this.scrollTo(this.openedSubPage);
+      });
+    } else {
       this.preferences = Object.assign({}, this.prefGlobal);
     }
-    this.openedSubPage = false;
   },
   methods: {
     /** @param {string} key */
@@ -526,7 +536,7 @@ export default {
     },
     /** @param {Preferences.PrefWithLang} pref */
     openPrefSettings(pref) {
-      this.openedSubPage = true;
+      this.openedSubPage = pref.key;
       this.$root.$emit(
         "navigate",
         "Pref" + pref.key[0].toUpperCase() + pref.key.substring(1),
@@ -537,6 +547,17 @@ export default {
           },
         },
       );
+    },
+    /** @param {string} pref */
+    scrollTo(pref) {
+      const el = document.getElementById(pref);
+      if (el) {
+        window.scrollTo({
+          left: 0,
+          top: el.offsetTop,
+          behavior: "smooth",
+        });
+      }
     },
   },
 };
