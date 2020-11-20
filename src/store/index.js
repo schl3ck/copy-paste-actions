@@ -373,5 +373,8 @@ export default new Vuex.Store({
         };
       });
     },
+    loadedShortcuts(state) {
+      return state.shortcuts.filter((s) => s.data);
+    },
   },
 });

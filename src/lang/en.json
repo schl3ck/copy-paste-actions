@@ -282,7 +282,7 @@
       },
       "autoLoadShortcuts": {
         "title": "Load specific shortcuts every time",
-        "description": "Automatically load specific shortcuts that you are using often with this shortcut. This way you don't have to bounce back to the Shortcuts app to load them for processing.",
+        "description": "Automatically load specific shortcuts that you are using often with this shortcut. This way you don't have to bounce back to the Shortcuts app to load them for processing.\nPreviously selected shortcuts that were renamed/deleted and thus are missing are automatically deselected when you update the selection.",
         "valueTitle": "Selected shortcuts:",
         "valueTitleEmptySelection": "No shortcuts selected"
       },
@@ -374,5 +374,10 @@
   "helpBugReport": {
     "title": "Report a bug/feature",
     "html": "this is filled in by the languages merging script"
+  },
+  "missingShortcuts": {
+    "title": "Missing shortcuts!",
+    "message": "Some shortcuts weren't found but should've been loaded (maybe you've renamed/deleted them):",
+    "toPreference": "Go to Preference"
   }
 }

@@ -1,6 +1,5 @@
 # TODO list
 
-* display message when an auto-loaded shortcut is missing
 * display outdated message after importing shortcuts
 
 ## Snippet list

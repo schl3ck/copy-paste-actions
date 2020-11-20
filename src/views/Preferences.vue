@@ -102,7 +102,11 @@
             <template v-if="pref.value.length > 0">
               <div v-html="pref.lang.valueTitle" />
               <ul class="list-root-style pl-4">
-                <li v-for="val in pref.value" :key="val">
+                <li
+                  v-for="val in pref.value"
+                  :key="val"
+                  v-html="pref.key === 'autoLoadShortcuts' ? val : ''"
+                >
                   {{ val }}
                 </li>
               </ul>
@@ -220,7 +224,7 @@ import deepEqual from "deep-eql";
 import ButtonBar from "@/components/ButtonBar.vue";
 import PrefItem from "@/components/PrefItem.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
-import { joinReadable } from "@/utils/utils";
+import { joinReadable, escapeHTML } from "@/utils/utils";
 import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
@@ -230,6 +234,12 @@ export default {
     PrefItem,
   },
   mixins: [handleButtonToolbarMixin("list", "toolbar")],
+  props: {
+    scrollToPref: {
+      type: String,
+      default: null,
+    },
+  },
   data() {
     return {
       /** @type {Store.Preferences} */
@@ -286,6 +296,18 @@ export default {
             && prefConstraint.every((p) => typeof p === "string")
           ) {
             type = "list";
+          }
+
+          if (key === "autoLoadShortcuts") {
+            val = val.map((name) => {
+              const shortcut = this.loadedShortcuts.find(
+                (s) => s.name === name,
+              );
+              return (
+                (escapeHTML(name)
+                + (!shortcut?.data ? " <i>(missing)</i>" : ""))
+              );
+            });
           }
 
           let def;
@@ -484,6 +506,10 @@ export default {
         },
       ];
     },
+    /** @returns {Store.Shortcut[]} */
+    loadedShortcuts() {
+      return this.$store.getters.loadedShortcuts;
+    },
   },
   watch: {
     buttons() {
@@ -500,6 +526,11 @@ export default {
       });
     } else {
       this.preferences = Object.assign({}, this.prefGlobal);
+      if (this.scrollToPref) {
+        this.$nextTick(() => {
+          this.scrollTo(this.scrollToPref);
+        });
+      }
     }
   },
   methods: {
@@ -544,6 +575,9 @@ export default {
           pref,
           save: (newValue) => {
             this.preferences[pref.key] = newValue;
+            // assign again in case the user went back and forward again in the
+            // history
+            this.openedSubPage = pref.key;
           },
         },
       );

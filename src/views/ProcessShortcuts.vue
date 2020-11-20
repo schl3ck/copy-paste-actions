@@ -45,7 +45,7 @@ export default {
     },
     /** @returns {object[]} */
     shortcuts() {
-      let loaded = this.$store.state.shortcuts.filter((s) => s.data);
+      let loaded = this.$store.getters.loadedShortcuts;
       if (loaded.some((s) => s.selected)) {
         loaded = loaded.filter((s) => s.selected);
       }

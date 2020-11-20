@@ -3,8 +3,9 @@
     <h2>{{ lang.title }}</h2>
     <div ref="content">
       <p v-html="message" />
+      <MissingShortcuts />
       <h5>{{ lang.loadedShortcuts }}</h5>
-      <div :class="['list-group', 'list-group-custom-flush']">
+      <div class="list-group list-group-custom-flush">
         <div
           v-for="shortcut in loadedShortcuts"
           :key="shortcut.name"
@@ -35,12 +36,14 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
+import MissingShortcuts from "@/components/MissingShortcuts.vue";
 import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "ConfirmAutoAnalyser",
   components: {
     ButtonBar,
+    MissingShortcuts,
   },
   mixins: [handleButtonToolbarMixin("content", "toolbar")],
   data() {
@@ -123,7 +126,7 @@ export default {
     },
     /** @returns {Store.Shortcut[]} */
     loadedShortcuts() {
-      return this.$store.state.shortcuts.filter((s) => s.data);
+      return this.$store.getters.loadedShortcuts;
     },
   },
   created() {

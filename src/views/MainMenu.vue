@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MissingShortcuts skipMainMenu />
     <template v-if="hasUnsavedChanges">
       <div class="card bg-warning mb-2">
         <div class="card-header font-weight-bold">
@@ -28,6 +29,7 @@
 
 <script>
 import MenuList from "@/components/MenuList.vue";
+import MissingShortcuts from "@/components/MissingShortcuts.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable } from "@/utils/utils";
 
@@ -35,6 +37,7 @@ export default {
   name: "MainMenu",
   components: {
     MenuList,
+    MissingShortcuts,
   },
   computed: {
     /** @returns {object} */
