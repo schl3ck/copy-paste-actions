@@ -139,6 +139,8 @@ export default {
       // let the method itself append all changes
       navigateAndBuildZip(this.$root, {
         actions: ["Build.toSafari"],
+        toMainMenu: true,
+        closePage: false,
       });
     },
   },
