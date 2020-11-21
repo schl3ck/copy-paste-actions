@@ -1,5 +1,8 @@
 <template>
-  <div v-if="missingShortcuts.length" class="card bg-info-light mb-3">
+  <div
+    v-if="!changedAutoLoadShortcuts && missingShortcuts.length"
+    class="card bg-info-light mb-3"
+  >
     <div class="card-header font-weight-bold">
       {{ lang.title }}
     </div>
@@ -51,6 +54,10 @@ export default {
     /** @returns {object} */
     lang() {
       return this.$store.state.language.missingShortcuts;
+    },
+    /** @returns {boolean} */
+    changedAutoLoadShortcuts() {
+      return this.$store.state.changedAutoLoadShortcuts;
     },
     /** @returns {(Store.Shortcut | string)[]} */
     missingShortcuts() {

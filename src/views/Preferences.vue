@@ -299,13 +299,17 @@ export default {
           }
 
           if (key === "autoLoadShortcuts") {
+            const changedAutoLoadShortcuts = this.$store.state
+              .changedAutoLoadShortcuts;
             val = val.map((name) => {
               const shortcut = this.loadedShortcuts.find(
                 (s) => s.name === name,
               );
               return (
                 (escapeHTML(name)
-                + (!shortcut?.data ? " <i>(missing)</i>" : ""))
+                + (!changedAutoLoadShortcuts && !shortcut?.data
+                  ? " <i>(missing)</i>"
+                  : ""))
               );
             });
           }
@@ -578,6 +582,10 @@ export default {
             // assign again in case the user went back and forward again in the
             // history
             this.openedSubPage = pref.key;
+
+            if (pref.key === "autoLoadShortcuts") {
+              this.$store.commit("changedAutoLoadShortcuts");
+            }
           },
         },
       );

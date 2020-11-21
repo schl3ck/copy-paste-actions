@@ -63,6 +63,7 @@ export default new Vuex.Store({
       // },
     ],
     icloudUrlsChanged: false,
+    changedAutoLoadShortcuts: false,
   },
   mutations: {
     shortcuts(state, data) {
@@ -182,6 +183,9 @@ export default new Vuex.Store({
         1,
       );
       state.icloudUrlsChanged = true;
+    },
+    changedAutoLoadShortcuts(state) {
+      state.changedAutoLoadShortcuts = true;
     },
   },
   actions: {
