@@ -55,7 +55,7 @@
     <div ref="list" class="transition-padding-bottom">
       <div
         v-for="(pref, index) in prefsWithLang"
-        :id="pref.key"
+        :id="pref.key + 'Card'"
         :key="pref.key"
       >
         <PrefItem
@@ -584,7 +584,7 @@ export default {
     },
     /** @param {string} pref */
     scrollTo(pref) {
-      const el = document.getElementById(pref);
+      const el = document.getElementById(pref + "Card");
       if (el) {
         window.scrollTo({
           left: 0,
