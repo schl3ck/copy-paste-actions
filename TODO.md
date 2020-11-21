@@ -1,7 +1,5 @@
 # TODO list
 
-* display outdated message after importing shortcuts
-
 ## Snippet list
 * search bar
 

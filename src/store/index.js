@@ -38,6 +38,7 @@ export default new Vuex.Store({
     userPreferencesChanged: false,
     snippets: [],
     snippetsChanged: false,
+    /** @type { {shortcuts: string[], urls: string[]} } */
     importURLs: null,
     /** @type {Store.UpdateAvailable} */
     updateAvailable: false,
@@ -348,7 +349,7 @@ export default new Vuex.Store({
       prefs.language = state.preferences.availableLanguages[prefs.language];
       return prefs;
     },
-    /** @returns {Store.ShortcutsToImport} */
+    /** @returns {Store.ShortcutToImport} */
     shortcutsToImport(state) {
       const shortcuts = state.shortcuts;
       const toImport = state.importURLs;

@@ -4,8 +4,8 @@
       {{ lang.importing }}
     </h3>
     <div
-      v-hml="lang.note.replace(/\$n/g, toImport.length)"
       class="alert alert-warning"
+      v-html="lang.note.replace(/\$n/g, toImport.length)"
     />
     <div ref="list" class="list-group">
       <button
@@ -25,7 +25,8 @@
           </div>
           <BIcon
             icon="check"
-            class="text-success ml-3 icon"
+            scale="3"
+            class="text-success ml-3"
             :class="{ invisible: !shortcut.done }"
           />
         </div>
@@ -43,10 +44,6 @@ import ButtonBar from "@/components/ButtonBar.vue";
 import { openURLAndCloseSelf } from "@/utils/openApp";
 import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
-/** @typedef {
- *  { name: string, url: string, image?: string, done: boolean }
- * } Shortcut */
-
 export default {
   name: "ImportShortcuts",
   components: {
@@ -54,8 +51,8 @@ export default {
   },
   mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
-    /** @type {Shortcut[]} */
     return {
+      /** @type {Store.ShortcutToImport[]} */
       toImport: [],
     };
   },
@@ -103,6 +100,7 @@ export default {
     open(shortcut) {
       shortcut.done = true;
       if (this.toImport.every((s) => s.done)) {
+        this.$store.commit("probablyOutdated", true);
         openURLAndCloseSelf(shortcut.url);
       } else {
         location.href = shortcut.url;
@@ -121,9 +119,5 @@ export default {
 .px-2-5 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-.icon {
-  font-size: 1.5rem;
 }
 </style>

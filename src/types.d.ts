@@ -84,7 +84,7 @@ declare namespace Store {
   }
   type UpdateAvailable = false | UpdateData;
 
-  interface ShortcutsToImport {
+  interface ShortcutToImport {
     name: string;
     url: string;
     image: string;
