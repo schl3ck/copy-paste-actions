@@ -43,7 +43,10 @@ export function checkForUpdate() {
       } else {
         // request failed. Do nothing?
         // eslint-disable-next-line no-console
-        console.log("check for update failed:", req);
+        console.log(
+          `check for update failed: ${req.statusText} (${req.status})`,
+          req,
+        );
       }
     }
   };
