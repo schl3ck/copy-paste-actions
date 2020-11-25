@@ -22,3 +22,6 @@ I then tried to make a webpage since some parts already ran with JavaScript and 
 
 ### Why do I have to close the page/tab myself?
 It _should_ close itself. In my tests with websites containing only the logic to close themself it just works, but for no apparent reason it doesn't work here. Since I don't own a Mac, I can't really debug the website and have stopped investigating the problem to finish the rest of the shortcut and deal with it later.
+
+### Where can I find the source code?
+The source code for the website part of this shortcut is available on GitHub: https://www.github.com/schl3ck/copy-paste-actions
