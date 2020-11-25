@@ -2,20 +2,23 @@
 // next line is for ESLint
 /* globals base64 */
 
-const TarGZ = require("./utils/targz");
+import TarGZ from "./utils/targz";
+import { stringFromBinaryString } from "@/utils/binaryStringToUTF8";
 
-const errorReport = document.getElementById("errorReport");
-const errorHelper = document.getElementById("errorHelper");
+window.addEventListener("DOMContentLoaded", function() {
+  const errorReport = document.getElementById("errorReport");
+  const errorHelper = document.getElementById("errorHelper");
 
-TarGZ.parse(atob(base64), load, null, error);
+  TarGZ.parse(atob(base64), load, null, error);
 
-function load(files, h) {
-  // rewrite whole page with contents
-  document.open();
-  document.write(files[0].data);
-  document.close();
-}
-function error(error) {
-  errorReport.innerText = error;
-  errorHelper.style.display = "block";
-}
+  function load(files, h) {
+    // rewrite whole page with contents
+    document.open();
+    document.write(stringFromBinaryString(files[0].data));
+    document.close();
+  }
+  function error(error) {
+    errorReport.innerText = error;
+    errorHelper.style.display = "block";
+  }
+});
