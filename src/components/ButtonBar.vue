@@ -36,7 +36,7 @@
           class="icon mr-2"
         >
         <BIcon
-          v-else
+          v-else-if="typeof button.icon === 'string'"
           :icon="button.icon"
           v-bind="button.iconOptions"
           class="mr-2"

@@ -74,6 +74,7 @@ declare namespace Store {
     Preferences: Preferences;
     componentToDisplay: string;
     availableLanguages: { [key: string]: string };
+    "First Run": boolean;
   }
 
   interface UpdateData {
@@ -105,7 +106,7 @@ declare namespace ButtonBar {
   interface Button {
     text: string;
     class: string;
-    icon: string | { component: string };
+    icon?: string | { component: string };
     iconOptions?: object;
     disabled?: boolean;
     click?: Function;

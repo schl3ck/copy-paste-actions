@@ -87,6 +87,9 @@ export default new Vuex.Store({
       Object.assign(state.preferences.Preferences, data);
       state.userPreferencesChanged = true;
     },
+    firstRun(state) {
+      state.preferences["First Run"] = false;
+    },
     language(state, data) {
       state.language = data;
     },

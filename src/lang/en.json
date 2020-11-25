@@ -379,5 +379,11 @@
     "title": "Missing shortcuts!",
     "message": "Some shortcuts weren't found but should've been loaded (maybe you've renamed/deleted them):",
     "toPreference": "Go to Preference"
+  },
+  "firstRun": {
+    "greeting": "Hi!",
+    "message": "Thank you for checking out my shortcut!\n\nIt seems like this is the first time you're executing this shortcut. Do you want to view the _Get Started_ guide?\n\nP.S.: You can use the browser history to navigate between the menus!",
+    "viewGetStarted": "View _Get Started_",
+    "close": "Dismiss"
   }
 }

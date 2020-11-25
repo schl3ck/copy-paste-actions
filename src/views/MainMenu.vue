@@ -24,12 +24,15 @@
       <hr>
     </template>
     <MenuList :items="menuItems" :columns="2" />
+
+    <FirstRun v-if="firstRun" />
   </div>
 </template>
 
 <script>
 import MenuList from "@/components/MenuList.vue";
 import MissingShortcuts from "@/components/MissingShortcuts.vue";
+import FirstRun from "@/components/FirstRun.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable } from "@/utils/utils";
 
@@ -38,6 +41,7 @@ export default {
   components: {
     MenuList,
     MissingShortcuts,
+    FirstRun,
   },
   computed: {
     /** @returns {object} */
@@ -129,6 +133,10 @@ export default {
     icloudUrls() {
       return this.$store.getters.icloudUrls;
     },
+    /** @returns {boolean} */
+    firstRun() {
+      return this.$store.state.preferences["First Run"];
+    },
   },
   activated() {
     this.$store.commit("showMainTitle", true);
@@ -147,4 +155,4 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="scss" scoped></style>
