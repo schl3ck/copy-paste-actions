@@ -358,7 +358,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 110;
-  background: white;
+  background: var(--background-color);
 }
 .list-group.no-rounded-top .list-group-item:first-child {
   border-top-left-radius: 0;
@@ -389,7 +389,7 @@ export default {
   padding: 0.375rem 0.75rem;
 
   &:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
   }
 }
 </style>

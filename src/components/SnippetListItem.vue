@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card"
+    class="card background-transition"
     :class="{
       'bg-transparent':
         !(checkOverrides && snippet.discard && !editing) && !highlight,
@@ -32,7 +32,7 @@
               v-model="name"
               type="text"
               :readonly="!editing"
-              class="card-title font-weight-bold"
+              class="card-title font-weight-bold bg-transparent"
               :class="{
                 'font-italic': hasNoName,
                 'form-control-plaintext': !editing,
@@ -403,8 +403,11 @@ export default {
   width: 30px;
   height: 30px;
 }
+.background-transition {
+  transition: background-color 0.2s ease;
+}
 .bg-lightgray {
-  background-color: lightgray !important;
+  background-color: var(--darken-background) !important;
 }
 .text-orange {
   color: var(--orange);

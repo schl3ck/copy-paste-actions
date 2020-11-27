@@ -1,0 +1,96 @@
+body {
+  --dark-background-color: black;
+  --dark-text-color: #ddd;
+  --dark-darken-background: #ffffff40;
+  --dark-darken-background-light: rgba(255, 255, 255, 0.1);
+  --dark-code-bg: #ffffff28;
+  --light-background-color: white;
+  --light-text-color: #212529;
+  --light-darken-background: #00000040;
+  --light-darken-background-light: rgba(0, 0, 0, 0.03);
+  --light-code-bg: #00000018;
+}
+
+body {
+  --background-color: var(--light-background-color);
+  --darken-background: var(--light-darken-background);
+  --code-bg: var(--light-code-bg);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body {
+    --background-color: var(--dark-background-color);
+    --text-color: var(--dark-text-color);
+    --darken-background: var(--dark-darken-background);
+    --darken-background-light: var(--dark-darken-background-light);
+    --code-bg: var(--dark-code-bg);
+  }
+
+  body,
+  input[type="text"],
+  .list-group-item,
+  .form-control {
+    background: var(--background-color);
+    color: var(--text-color);
+  }
+  button,
+  .btn:not([class~="btn-warning"]):not([class~="btn-light"]):not([class~="btn-outline-dark"]),
+  pre,
+  .table {
+    color: var(--text-color);
+  }
+  .table-primary,
+  .table-secondary,
+  .table-success,
+  .table-danger,
+  .table-warning,
+  .table-info,
+  .table-light {
+    color: var(--light-text-color);
+  }
+  .custom-control-label::before {
+    background-color: var(--background-color);
+  }
+  .card {
+    background-color: var(--background-color);
+    border-color: var(--darken-background);
+  }
+  .card-header,
+  .custom-range::-webkit-slider-runnable-track,
+  .custom-range::-moz-range-track {
+    background-color: var(--darken-background-light);
+  }
+  .border-bottom,
+  .list-group-item,
+  .card-header,
+  .form-control {
+    border-color: var(--darken-background) !important;
+  }
+  .list-group-item-action:hover,
+  .list-group-item-action:focus {
+    background: var(--darken-background);
+    color: var(--text-color);
+  }
+  [class*="btn-outline-"] {
+    border-width: 2px;
+  }
+  .alert-primary {
+    background-color: #001e3d;
+    color: #61b0ff;
+  }
+  .bg-warning {
+    color: var(--light-text-color);
+  }
+  .close {
+    text-shadow: none;
+  }
+  .text-secondary {
+    color: #acbbc9 !important;
+  }
+
+  .alert-info {
+    color: #7fd1df;
+    background-color: #1a3237;
+    border-color: #164e57;
+  }
+}

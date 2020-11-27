@@ -132,9 +132,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.code {
-  background: #eee;
-}
 .pre-line {
   margin-top: -0.4rem;
 }
@@ -142,7 +139,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: white;
+  background: var(--background-color);
 }
 .img {
   width: 40px;

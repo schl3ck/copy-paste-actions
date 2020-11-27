@@ -124,7 +124,7 @@ export default {
 
 <style lang="scss" scoped>
 .fixed-top {
-  background: white;
+  background: var(--background-color);
 }
 .margin-for-fixed {
   margin-top: 6rem;

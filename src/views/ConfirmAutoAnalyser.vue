@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
+    <div ref="toolbar" class="fixed-bottom container bg-opaque">
       <ButtonBar :buttons="buttons" />
     </div>
   </div>
@@ -152,5 +152,8 @@ export default {
 .icon {
   width: 30px;
   height: 30px;
+}
+.bg-opaque {
+  background: var(--background-color);
 }
 </style>

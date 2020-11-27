@@ -655,7 +655,7 @@ export default {
       left: -2.05em;
       width: 2px;
       height: 0.5em;
-      background: white;
+      background: var(--background-color);
       border-radius: 2px;
       opacity: 0;
       transition: transform 0.15s ease-in-out, opacity 0.15s ease-out;

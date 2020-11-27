@@ -2,7 +2,7 @@ import smoothscroll from "smoothscroll-polyfill";
 import Vue from "vue";
 import "bootstrap.css";
 import "bootstrap.reboot";
-import "highlight.js/styles/xcode.css";
+import "@/styles/highlightjs.scss";
 
 import "bootstrap-vue/dist/bootstrap-vue-icons.min.css";
 import {

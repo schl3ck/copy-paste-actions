@@ -1,5 +1,5 @@
 pre {
-  background: #00000018;
+  background: var(--code-bg);
   padding: 0.5rem 0.75rem;
   border-radius: 0.2rem;
   code {
@@ -9,7 +9,7 @@ pre {
   }
 }
 code {
-  background: #00000018;
+  background: var(--code-bg);
   padding: 0.1rem 0.2rem;
   border-radius: 0.2rem;
 }
@@ -19,7 +19,7 @@ code {
 }
 
 .markdown-content {
-  > div > p:last-child {
+  > .alert > p:last-child {
     margin-bottom: 0;
   }
 

@@ -1,0 +1,10 @@
+@use "vs2015";
+@use "xcode";
+
+@media screen and (prefers-color-scheme: dark) {
+  @include vs2015.styles;
+}
+
+@media print, (prefers-color-scheme: light) {
+  @include xcode.styles;
+}

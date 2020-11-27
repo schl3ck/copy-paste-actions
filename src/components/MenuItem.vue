@@ -18,7 +18,7 @@ export default {
     },
     iconColor: {
       type: String,
-      default: "black",
+      default: "",
     },
     iconOptions: {
       type: Object,
@@ -39,7 +39,8 @@ export default {
     ].includes(props.iconColor)
       ? "text-" + props.iconColor
       : "";
-    const iconColorStyle = iconColorClass ? "" : "color: " + props.iconColor;
+    const iconColorStyle =
+      iconColorClass || !props.iconColor ? "" : "color: " + props.iconColor;
 
     let icon;
     if (typeof props.icon === "object" && "component" in props.icon) {

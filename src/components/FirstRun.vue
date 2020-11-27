@@ -1,5 +1,5 @@
 <template>
-  <div class="backdrop">
+  <div class="backdrop d-flex align-items-center justify-content-center">
     <div class="container">
       <div class="card card-body position-relative">
         <h2>{{ lang.greeting }}</h2>
@@ -57,18 +57,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #00000080;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .close {
   position: absolute;
   top: 0;

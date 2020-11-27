@@ -88,6 +88,6 @@ export default {
 .btn-clicked {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  background: #00000020;
+  background: var(--darken-background);
 }
 </style>

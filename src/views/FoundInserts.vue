@@ -253,6 +253,6 @@ export default {
 }
 
 .bg-lightgray {
-  background-color: lightgray !important;
+  background-color: var(--darken-background) !important;
 }
 </style>

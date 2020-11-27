@@ -301,12 +301,13 @@ export default {
 
 <style lang="scss">
 @use "@/styles/markdownRendered";
+@use "@/styles/darkMode";
 
 .sticky-top {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: white;
+  background: var(--background-color);
   padding-top: 0.5rem;
 }
 .fixed-bottom {
@@ -315,7 +316,7 @@ export default {
   left: 0;
   right: 0;
   z-index: 1030;
-  background: white;
+  background: var(--background-color);
 }
 
 .fs-1x5 {
@@ -419,7 +420,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #00000040;
+  background: var(--darken-background);
   opacity: 1;
   z-index: 500;
 }

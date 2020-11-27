@@ -102,6 +102,6 @@ export default {
 
 <style lang="scss" scoped>
 .bg-info-light {
-  background-color: #7acedb;
+  background-color: #51c0d17a;
 }
 </style>
