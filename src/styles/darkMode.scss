@@ -29,7 +29,8 @@ body {
   body,
   input[type="text"],
   .list-group-item,
-  .form-control {
+  .form-control,
+  .form-control:focus {
     background: var(--background-color);
     color: var(--text-color);
   }
@@ -38,6 +39,10 @@ body {
   pre,
   .table {
     color: var(--text-color);
+  }
+  .btn-outline-dark {
+    color: #999999;
+    border-color: #999999;
   }
   .table-primary,
   .table-secondary,
@@ -78,6 +83,16 @@ body {
     background-color: #001e3d;
     color: #61b0ff;
   }
+  .alert-warning {
+    color: #e3ca7f;
+    background-color: #605636;
+    border-color: #645119;
+  }
+  .alert-info {
+    color: #7fd1df;
+    background-color: #1a3237;
+    border-color: #164e57;
+  }
   .bg-warning {
     color: var(--light-text-color);
   }
@@ -86,11 +101,5 @@ body {
   }
   .text-secondary {
     color: #acbbc9 !important;
-  }
-
-  .alert-info {
-    color: #7fd1df;
-    background-color: #1a3237;
-    border-color: #164e57;
   }
 }
