@@ -215,6 +215,7 @@ export default {
       fuzzy: null,
       /** @type {ShowMode} */
       show: "",
+      startUp: true,
     };
   },
   computed: {
@@ -256,23 +257,31 @@ export default {
     },
     /** @returns { { shortcuts: object[], noItemsLang: string } } */
     displayShortcuts() {
+      let res;
       switch (this.show) {
         case "selected":
-          return {
+          res = {
             shortcuts: this.selectedShortcuts,
             noItemsLang: this.lang.nothingSelected,
           };
+          break;
         case "loaded":
-          return {
+          res = {
             shortcuts: this.loadedShortcuts,
             noItemsLang: this.lang.nothingLoaded,
           };
+          break;
         default:
-          return {
+          res = {
             shortcuts: this.filteredShortcuts,
             noItemsLang: this.lang.nothingAvailable,
           };
+          break;
       }
+      if (this.startUp && res.shortcuts.length > 30) {
+        res.shortcuts = res.shortcuts.slice(0, 30);
+      }
+      return res;
     },
     /** @returns {ButtonBar.Button[]} */
     buttons() {
@@ -311,11 +320,14 @@ export default {
   },
   methods: {
     init() {
-      window.fuzzy = this.fuzzy = FlexSearch.create();
+      this.fuzzy = FlexSearch.create();
       this.shortcuts.forEach((s, i) => {
         this.fuzzy.add(i, s.name);
       });
       this.search("");
+      setTimeout(() => {
+        this.startUp = false;
+      }, 500);
     },
     search(value) {
       if (value) {
