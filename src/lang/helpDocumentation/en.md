@@ -98,7 +98,7 @@ This function is only supported in selections started with `copy`, `cut` and `sa
 ```
 resume [n]
 ```
-Resumes a paused clipboard item/snippet so the following actions are again included in the clipboard item/snippet. Any action count from a previous `pause`function is paused and all other functions is resumed. Optionally specify a number `n` to resume only for that number of actions and pause afterwards again. If a number is given it overrides the count from any previous `pause` function.
+Resumes a paused clipboard item/snippet so the following actions are again included in the clipboard item/snippet. Any action count from a previous `pause` function is paused and any action count from all other functions is resumed. Optionally specify a number `n` to resume only for that number of actions and pause afterwards again. If a number is given it overrides the count from any previous `resume` function.
 
 If no number is given, it resumes until the end of the shortcut or until an `end` function is found, whichever comes first.
 
