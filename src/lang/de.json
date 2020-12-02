@@ -1,0 +1,386 @@
+{
+  "language": "Deutsch",
+  "toMainMenu": "Zum Hauptmenü",
+  "updateAvailable": {
+    "text": "Neue Version verfügbar!",
+    "link": "Mehr"
+  },
+  "probablyOutdated": {
+    "text": "Der Zustand dieser Seite is vermutlich nicht mehr aktuell. Bitte schließe sie und starte den Kurzbefehl erneut.",
+    "link": "Ausblenden"
+  },
+  "mainMenu": {
+    "title": "Hauptmenü",
+    "selectShortcuts": {
+      "title": "Kurzbefehle auswählen",
+      "description": "Wähle die Kurzbefehle aus, die bearbeitet werden sollen"
+    },
+    "editSnippets": {
+      "title": "Editiere die Ausschnitte",
+      "description": "Editiere deine gespeicherten Ausschnitte und Ziwschenablagenelemente"
+    },
+    "preferences": {
+      "title": "Einstellungen",
+      "description": "Ändere die Funktionsweise dieses Kurzbefehls"
+    },
+    "help": {
+      "title": "Hilfe",
+      "description": "Wenn du nicht weiter weißt, fang hier an"
+    },
+    "icloudUrls": {
+      "title": "iCloud URLs",
+      "description": "Alle erzeugten iCloud URLs, mit denen die bearbeiteten Kurzbefehle importiert wurden"
+    },
+    "unsavedChanges": {
+      "title": "Ungespeicherte Änderungen",
+      "message": "Du hast die $list geändert, was noch nicht mit der Kurzbefehle-App gespeichert wurde.",
+      "snippets": "Ausschnitte",
+      "preferences": "Einstellungen",
+      "icloudUrls": "iCloud URLs",
+      "separator": ", ",
+      "separatorLast": " und ",
+      "looseChanges": "Du verlierst deine Änderungen, wenn du die Seite neu ladest oder sie ohne zu speichern schließt!",
+      "save": "Jetzt speichern"
+    }
+  },
+  "selectShortcuts": {
+    "title": "Kurzbefehle auswählen",
+    "searchCaption": "Suchbegriff eingeben",
+    "continueProcessing": "Ausgewählte bearbeiten",
+    "srNumberOfShortcutsSelected": "$number Kurzbefehle ausgewählt.",
+    "srNumberOfShortcutsLoaded": "$number Kurzbefehle geladen.",
+    "srShowSelected": "Zeige oder verstecke alle ausgewählten Kurzbefehle.",
+    "srShowLoaded": "Zeige oder verstecke alle geladenen Kurzbefehele.",
+    "nothingSelected": "Keine Kurzbefehle ausgewählt",
+    "nothingLoaded": "Keine Kurzbefehle geladen",
+    "nothingAvailable": "Keine Kurzbefehle gefunden (nicht möglich, da dieser Kurzbehfehl existiert)",
+    "searchNoMatch": "Nichts gefunden",
+    "loading": "Laden...",
+    "shortcutLoaded": "Geladen"
+  },
+  "confirmSelectedShortcuts": {
+    "title": "Bestätige die ausgewählten Kurzbefehle",
+    "shortcutsSizeLarge": "Die ausgewählten Kurzbefehle sind recht groß ($size). Die Kurzbefehle-App oder Safari stürzt möglicherweise ab, wenn zu viele Daten übertragen werden.\nMöchtest du fortfahren?",
+    "shortcutsLoaded": "Alle ausgewählten Kurzbefehle sind bereits geladen.\nMöchtest du fortfahren und die Geladenen verwenden oder möchtest du sie neu laden?\n\nBeachte, dass eine alte Version geladen ist, wenn du die Kurzebfehle seit dem Starten dieses Kurzbefehls verändert hast!",
+    "reload": "Neu laden",
+    "continue": "Weiter",
+    "back": "Zurück"
+  },
+  "openApp": {
+    "title": "Kurzbefehle-App öffnen",
+    "buildingUrl": "URL um die Kurzbefehle-App zu öffnen wird erstellt...",
+    "done": "Fertig",
+    "openApp": "Kurzbefehle-App öffnen",
+    "closingIn": "Diese Seite wird in $seconds Sekunden geschlossen",
+    "closingNow": "Diese Seite schließt jetzt...",
+    "returningToMainMenuIn": "Kehre automatisch zum Hauptmenü in $seconds Sekunden zurück...",
+    "cancel": "Abbrechen"
+  },
+  "processShortcuts": {
+    "title": "Bearbeiten von deinen Kurzbefehlen",
+    "processing": "Bearbeite...",
+    "noShortcuts": "Keine Kurzbefehle zum Bearbeiten gefunden",
+    "noItemsFound": "Es wurden keine Ausschnitte oder Einsatzpunkt gefunden.\nBitte überprüfe, ob du die richtige Syntax in den Kommentaraktionen verwendet hast."
+  },
+  "analyserWarnings": {
+    "title": "Warnhinweise",
+    "atActionWithContent": "Gefunden bei Aktion Nummer $action mit dem Inhalt",
+    "ignoreContinue": "Ignorieren & Weiter",
+    "noItemsFound": "Keine weitern Ausschnitte oder Einsatzpunkte gefunden.",
+    "incomplete": "Der CopyPaste Actions-Kommentar ist unvollständig.",
+    "wrongFunction": "Falscher Funktionsname.\nEs wurde eines von $functionDefinition erwartet, aber `$function` gefunden.",
+    "pauseResumeInPaste": "Die Funktion `$function` wurde in einem `paste replace`-Abschnitt gefunden, was nicht unterstützt ist.",
+    "pauseResumeInInsert": "Die Funktion `$function` wurde in einem `insert replace`-Abschnitt gefunden, was nicht unterstützt ist.",
+    "duplicateClipboardNoName": "Es existiert bereits ein Zwischenablagenelement ohne einen Namen.",
+    "duplicateClipboardWithName": "Es existiert bereits ein Zwischenablagenelement mit dem Namen `$name`.",
+    "duplicateSnippetNoName": "Es ecistiert bereits ein Ausschnitt ohne einen Namen.",
+    "duplicateSnippetWithName": "Es ecistiert bereits ein Ausschnitt mit dem Namen `$name`.",
+    "pasteEndNoStart": "Das Ende eines `paste replace`-Abschnitts wurde ohne einem Anfang gefunden.",
+    "insertEndNoStart": "Das Ende eines `insert replace`-Abschnitts wurde ohne einem Anfang gefunden.",
+    "pasteEndInsertStart": "Das Ende eines `paste replace`-Abschnitts wurde ohne einem Anfang gefunden. Vielleicht meintest du `end insert`?",
+    "insertEndPasteStart": "Das Ende eines `insert replace`-Abschnitts wurde ohne einem Anfang gefunden. Vielleicht meintest du `end paste`?",
+    "funcNoStart": "Die Funktion `$function` wurde ohne einem Anfang gefunden.\nMögliche Gründe:\n* Vielleicht hast du eine Zahl nach der Startfunktion angegeben (z.B. `copy 5`, um nur die nächsten 5 Aktionen zu kopieren) und hast vergessen diese Funktion zu entfernen.\n* Es gab einen Fehler in der Startfunktion.\n* Du hast vergessen `end paste` oder `end insert` anzugeben um eine `paste replace` oder `insert replace` zu Beenden.\n* Du hast bei der Startfunktion einen Namen verwendet und vergessen ihn hier wieder anzugeben.",
+    "funcClipboardFinished": "Die Funktion `$function` wurde gefunden, nachdem ein Zwischenablagenelement bereits ein Ende hatte.\nVielleicht hast du eine Zahl an Aktionen bei der Startfunktion angegeben (z.B. `copy 5`), die die Auswahl beendet hat, bevor die aktuelle Funktion erreicht wurde.",
+    "funcSnippetFinished": "Die Funktion `$function` wurde gefunden, nachdem ein Ausschnitt bereits ein Ende hatte.\nVielleicht hast du eine Zahl an Aktionen bei der Startfunktion angegeben (z.B. `save 5`), die die Auswahl beendet hat, bevor die aktuelle Funktion erreicht wurde.",
+    "pauseWhilePauseClipboard": "Die Funktion `pause` wurde gefunden, während das aktuelle Zwischenablagenelement pausiert ist.",
+    "pauseWhilePauseSnippet": "Die Funktion `pause` wurde gefunden, während der aktuelle Ausschnitt pausiert ist.",
+    "resumeWhileResumeClipboard": "Die Funktion `resume` wurde gefunden, während das aktuelle Zwischenablagenelement bereits fortgesetzt wird.",
+    "resumeWhileResumeSnippet": "Die Funktion `resume` wurde gefunden, während der aktuelle Ausschnitt bereits fortgesetzt wird."
+  },
+  "foundSnippets": {
+    "title": "Gefundene Ausscnitte",
+    "conflicts": "Konflikte",
+    "noSnippetsFound": "Keine Ausschnitte oder Zwischenablagenelemente gefunden",
+    "noSnippetName": "Kein Name angegeben",
+    "clipboardItem": "Zwischenablagenelemente:",
+    "snippet": "Ausschnitte:",
+    "saveAndContinue": "Speichern & Weiter",
+    "resolveConflicts": "Bitte löse die Konflikte, die oben angezeigt werden, bevor du fortfährst",
+    "finishEditing": "Du hast angefangen einen Ausschnitt oder ein Zwischenablagenelement zu bearbeiten. Bitte speichere oder brich die Bearbeitung ab, bevor du fortfährst"
+  },
+  "snippetListItem": {
+    "noSnippetName": "Kein Name angegeben",
+    "clipboardItem": "Zwischenablagenelement",
+    "snippet": "Ausschnitt",
+    "actions": {
+      "plural": "Beinhält $number Aktionen",
+      "singular": "Beinhält $number Aktion"
+    },
+    "edit": "Bearbeiten",
+    "doneEdit": "Speichern",
+    "cancelEdit": "Abbrechen",
+    "delete": "Löschen",
+    "deleteMessage": {
+      "clipboard": "Möchtest du wirklich dieses Zwischenablagenelement löschen?\nDie Änderungen müssen manuell mit der Kurzbefehle-App gespeichert werden! Du kannst dieses Zwischenablagenelement so lange wiederherstellen, indem du diese Seite schließt und den Kurzbefehl erneut ausführst, so lange du die Änderungen nicht gespeichert hast.",
+      "snippet": "Möchtest du wirklich diesen Ausschnitt löschen?\nDie Änderungen müssen manuell mit der Kurzbefehle-App gespeichert werden! Du kannst diesen Ausschnitt so lange wiederherstellen, indem du diese Seite schließt und den Kurzbefehl erneut ausführst, so lange du die Änderungen nicht gespeichert hast."
+    },
+    "name": "Name:",
+    "description": "Beschreibung",
+    "showActions": "Zeige Aktionen an (JSON)",
+    "discard": "Verwerfen",
+    "overrides": {
+      "normal": {
+        "clipboard": "Dies wird das folgende Zwischenablagenelement überschreiben:",
+        "snippet": "Dies wird den folgenden Ausschnitt überschreiben:"
+      },
+      "subjunctive": {
+        "clipboard": "Dies würde das folgende Zwischenablagenelement überschreiben:",
+        "snippet": "Dies würde den folgenden Ausschnitt überschreiben:"
+      }
+    },
+    "selectSnippet": "Ausschnitt auswählen"
+  },
+  "foundInserts": {
+    "title": "Gefundene Einsetzpunkte",
+    "noInserts": "Es wurde kein Einsetzpunkt in den Kurzbefehlen gefunden",
+    "noInsertsFound": "Keine Einsetzpunkte gefunden",
+    "noSnippetName": "Kein Name angegeben",
+    "clipboardItem": "Zwischenablagenelement",
+    "snippet": "Ausschnitt",
+    "saveAndContinue": "Speichern & Weiter",
+    "replacesNActions": {
+      "singular": "Ersetzt $number Aktion",
+      "plural": "Ersetzt $number Aktionen"
+    },
+    "insertAfterAction": "Fügt nach Aktion Nummer $number ein",
+    "inserts": {
+      "clipboard": "Dies setzt das folgende Zwischenablagenelement ein:",
+      "snippet": "Dies setzt den folgenden Ausschnitt ein:"
+    },
+    "exclude": "Nicht einsetzen",
+    "selectSnippet": "Ausschnitt auswählen",
+    "noSnippetFound": {
+      "clipboard": "Kein Zwischenablagenelement gefunden",
+      "snippet": "Keinen Ausschnitt gefunden"
+    },
+    "insertWithoutSnippetOrNotExcluded": "Mindestens einem Einsetzpunkt wurde kein Ausschnitt zugewiesen (oder makiere ihn als _Nicht einsetzen_)"
+  },
+  "listSnippets": {
+    "title": "Liste der Ausschnitte",
+    "clipboard": "Zwischenablagenelemente",
+    "snippets": "Ausschnitte",
+    "back": "Zurück",
+    "noSnippets": {
+      "clipboard": "Keine Zwischenablagenelemente gefunden",
+      "snippets": "Keine Ausschnitte gefunden"
+    },
+    "save": "Jetzt Speichern"
+  },
+  "mergeSnippetsIntoShortcut": {
+    "title": "Ausschnitte werden eingefügt",
+    "processing": "Bearbeiten...",
+    "noShortcuts": "Keine Kurzbefehle zum Bearbeiten",
+    "noItemsFound": "Fertig! Es wurde nichts zum Einfügen gefunden und kein Ausschnitt oder Zwischenablagenelement hat Aktionen entfernt.",
+    "unsavedChanges": "Allerdings gibt es ungespeicherte Änderungen. Um diese zu Speichern muss die Kurzbefehle-App geöffnet werden.",
+    "openApp": "Öffne _Kurzbefehle_"
+  },
+  "importShortcuts": {
+    "title": "Kurzbefehle zum Importieren",
+    "note": "$n Kurzbefehle müssen importiert werden. Bitte tippe auf _Importieren_ um einen Kurzbefehl zu Importieren. Kehre danach wieder hierher zurück, um den nächsten Kurzbefehl zu importieren. Du kannst auch auf einen Kurzbefehl tippen um ihn zu importieren.",
+    "import": "Importieren",
+    "importLast": "Letzten impotieren"
+  },
+  "preferences": {
+    "title": "Einstellungen",
+    "default": "Standardeinstellung:",
+    "switchOn": "Ein",
+    "switchOff": "Aus",
+    "resetAll": "Alles zurücksetzen",
+    "saveLocal": "Lokal speichern",
+    "saveToApp": "In Kurzbefehle speichern",
+    "discardChanges": "Änderungen verwerfen",
+    "updateAvailable": {
+      "title": "Neues Update verfügbar!",
+      "version": "Version:",
+      "releaseDate": "Veröffentlicht:",
+      "ignored": "Du hast dieses Update ignoriert."
+    },
+    "shortcutIconCache": "Kurzbefehliconcache",
+    "nIconsCached": {
+      "noIconNoShortcut": "Derzeit ist kein Icon im Cache gespeichert und kein Kurzbefel ohne einem Icon.",
+      "noIconSingularShortcut": "Derzeit ist kein Icon im Cache gespeichert und $shortcuts Kurzbefehl ohne einem Icon.",
+      "noIconPluralShortcut": "Derzeit ist kein Icon im Cache gespeichert und $shortcuts Kurzbefehle ohne einem Icon.",
+      "singularIconNoShortcut": "Derzeit ist $icons Icon im cache und kein Kurzbefel ohne einem Icon.",
+      "singularIconSingularShortcut": "Derzeit ist $icons Icon im cache und $shortcuts Kurzbefehl ohne einem Icon.",
+      "singularIconPluralShortcut": "Derzeit ist $icons Icon im cache und $shortcuts Kurzbefehle ohne einem Icon.",
+      "pluralIconNoShortcut": "Derzeit sind $icons Icons im Cache und kein Kurzbefel ohne einem Icon.",
+      "pluralIconSingularShortcut": "Derzeit sind $icons Icons im Cache und $shortcuts Kurzbefehl ohne einem Icon.",
+      "pluralIconPluralShortcut": "Derzeit sind $icons Icons im Cache und $shortcuts Kurzbefehle ohne einem Icon."
+    },
+    "refreshIconCacheNote": "Den Cach zu erneuern kann mehrere Minuten in anspruch nehmen, je nachdem wieviele Kurzbefehle auf deinem Gerät vorhanden sind.",
+    "refreshIconCache": "Iconcache erneuern",
+    "clearIconCache": "Iconcache löschen",
+    "defaultArray": {
+      "empty": "Nichts",
+      "separator": ", ",
+      "separatorLast": " und "
+    },
+    "prefs": {
+      "autoOpenApp": {
+        "title": "Automatisch die Kurzbefehle-App öffnen",
+        "description": "Wenn die App geöffnet werden soll, um zum Beispiel Ausschnitte zu laden, zu importieren oder zu speichern, wirst du ohne Interaktion von dir zur Kurzbefehle-App weitergeleitet."
+      },
+      "excludeAllCPAComments": {
+        "title": "Funktionen ausschließen",
+        "description": "Schließe die Funktionen (die speziellen Kommentare), mit denen dieser Kurzbefehl arbeitet, von anderen Ausschnitten und Zwischenablagenelementen aus. Wenn du dies deaktivierst, werden die Kommentaraktionen kopiert, falls sie sich in einer Auswahl befinden."
+      },
+      "cleanUp": {
+        "title": "Entfernen von Funktionen",
+        "description": "Bestimmt das Entfernen von Funktionen (die speziellen Kommentare), nachdem sie bearbeitet wurden.\nFunktionen, die einen Fehler beinhalten und dadurch eine Warnung erzeugen, werden niemals entfernt.",
+        "values": {
+          "0": "Keine Funktionen entfernen",
+          "1": "Nur die Funktionen `pause`, `resume` und `end` entfernen, wenn sie Teil einer Auswahl sind, die mit `cut`, `save remove`, `paste replace` oder `insert replace` begonnen wurde",
+          "2": "Alle Funktionen entfernen"
+        }
+      },
+      "commentMarker": {
+        "title": "Kommentarmarkierung",
+        "description": "Dies ist die spezielle Markierung in der ersten Zeile eines Kommentars, die diesem Kurzbefehl anzeigt, dass der Kommentar verarbeitet werden soll."
+      },
+      "includeShortcutImages": {
+        "title": "Kurzbefehlicons laden",
+        "description": "Ladet die gecacheten Icons jedes Mal, wenn dieser Kurzbefehl ausgeführt wird.\nDu musst manuell den Cache am Anfang der Einstellungenseite erneuern, wenn neue Kurzbefehle hinzugekommen sind oder ein Icon geändert wurde."
+      },
+      "codeZoom": {
+        "title": "Zoomstufe des Ausschnittinhalts",
+        "description": "Steuert die Zoomstufe des Ausschnittinhalts. Kann auch auf der entsprechenden Seite verändert werden."
+      },
+      "switchCaption": {
+        "title": "Markierung auf Schaltern",
+        "description": "Zeigt eine Markierung auf den Schaltern an, wie auch in der iOS Einstellungen App."
+      },
+      "skipFoundInsertsOnNoInsert": {
+        "title": "Seite _Gefundene Einsetzpunkte_ überspringen",
+        "description": "Die Seite _Gefundene Einsetzpunkte_ überspringen, wenn kein Einsetzpunkt gefunden wurde."
+      },
+      "autoOverwriteSnippets": {
+        "title": "Automatisch alle Ausschnitte speichern",
+        "description": "Speichert autmatisch alle Ausschnitte, wobei existierende überschrieben werden.\nDieses Einstellunge wird ignoriert, wenn es Namenskonflikte zwischen neuen Ausschnitten/Zwischenablagenelementen gibt."
+      },
+      "autoLoadShortcuts": {
+        "title": "Lade spezifische Kurzbefehle jedes mal",
+        "description": "Lade spezifische Kurzbefehle bei jeder Ausführung, die du oft mit diesem Kurzbefehl verwendest. Dadurch musst du nicht nochmal zur Kurzbefehle-App zurück, um sie zum Bearbeiten zu laden.\nKurzbefehle, die aktuell ausgewählt sind, aber nicht mehr existieren, weil sie umbenannt oder gelöscht wurden, werden automatisch abgewählt, wenn du die Auswahl aktualisierst.",
+        "valueTitle": "Ausgewhälte Kurzbefehle:",
+        "valueTitleEmptySelection": "Keine Kurzbefehle ausgewählt"
+      },
+      "autoAnalyseShortcuts": {
+        "title": "Analysiere autmatisch die geladenen Kurzbefehle",
+        "description": "Analysiere automatisch die geladenen Kurzbefehle, wenn dieser Kurzbefehl gestartet wird. Du musst dies bestätigen, damit du eine Möglichkeit hast, diese Einstellung wieder deaktivieren zu können."
+      },
+      "language": {
+        "title": "Sprache",
+        "description": "",
+        "valueTitle": "Aktuelle Sprache:"
+      },
+      "autoAcceptInserts": {
+        "title": "Alle Einsetzpunkte automatisch aktzeptieren",
+        "description": "Alle gefundenen Einsetzpunkte werden automatisch mit den zusammenpassenden Ausschnitten/Zwischenablagenelementen aktzeptiert. Wenn keine Einsetzpunkte gefunden wurden, verhält sich diese Einstellung so, als ob die Einstellung _Seite Gefundene Einsetzpunkte überspringen_ aktiviert ist.\nDiese Einstellung wird ignoriert, wenn ein Einsetzpunkt keinen passenden Ausschnitt/kein passendes Zwischenablagenelement hat."
+      }
+    }
+  },
+  "prefAutoLoadShortcuts": {
+    "note": "Bitte wähle die Kurzbefehle, die du automatisch laden möchtest, wenn dieser Kurzbefehl ausgeführt wird. Gehe zum Abbrechen einfach eine Seite zurück.",
+    "done": "Fertig"
+  },
+  "prefLanguage": {
+    "title": "Sprache ändern",
+    "message": "Bitte beachte, dass die Änderungen erst mit der Kurzbefehle-App gespeichert werden müssen, bevor die neue Sprache verwendet wird."
+  },
+  "confirmNewUpdate": {
+    "title": "Neues Update",
+    "changelog": "Änderungen",
+    "releaseDate": "Veröffentlicht:",
+    "ignored": "Du hast dieses Update ignoriert.",
+    "update": "Jetzt aktualisieren",
+    "ignore": "Dieses Update ignorieren",
+    "viewWebsite": "Auf RoutineHub anzeigen"
+  },
+  "listiCloudUrls": {
+    "title": "Erzeugte iCloud URLs",
+    "note": "Alle von diesem Kurzbefehl erzeugten iCloud URLs werden hier aufgelistet. Du kannst auf eine tippen, um sie zu öffnen und den Kurzbefehl erneut zu importieren oder den Link zu deaktivieren. Nach dem Deaktivieren musst du den Link hier manuell löschen und dann mit der Kurzbefehle-App speichern.",
+    "date": "Erstellt:",
+    "copy": "Kopiere",
+    "copySuccess": "Kopiert!",
+    "copyFailed": "Bitte kopiere den Link manuell:",
+    "deleteNote": "Möchtest du wirklich diese URL löschen?\nDanach musst du die Änderungen mit der Kurzbefehle-App speichern. Wenn du dies getan hast, gibt es keinen Weg mehr, die URL wiederherzustellen (ausgenommen, du hast sie selbst irgendwo gespeichert).",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "save": "In Kurzbefehle speichern"
+  },
+  "confirmAutoAnalyser": {
+    "title": "Automatisch geladene Kurzbefehle analysieren?",
+    "message": "Du hast ausgewählt, dass die automatisch geladenen Kurzbefehle automatisch analysiert werden sollen.\nMöchtest du fortfahren?",
+    "noShortcuts": "Du hast ausgewählt, dass die automatisch geladenen Kurzbefehle automatisch analysiert werden sollen, allerdings wurden keine Kurzbefehle ausgewählt oder sie wurden nicht gefunden.",
+    "loadedShortcuts": "Geladenen Kurzbefehle:",
+    "analyse": "Analysieren",
+    "selectAutoLoadShortcuts": "Kurzbefehle auswählen",
+    "disablePreference": "Einstellung deaktivieren",
+    "toMainMenu": "Zum Hauptmenü"
+  },
+  "helpMenu": {
+    "title": "Hilfe",
+    "getStarted": {
+      "title": "Erste Schritte",
+      "description": "Du hast keinen Plan, wie dieser Kurzbefehl funktioniert? Fang hier an!"
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Vielleicht ist die Antwort gleich hier"
+    },
+    "documentation": {
+      "title": "Dokumentation",
+      "description": "Alles über diesen Kurzbefehl"
+    },
+    "bugReport": {
+      "title": "Einen Fehler melden",
+      "description": "Hast du einen Fehler gefunden oder hast eine Idee für diesen Kurzbefehl?"
+    }
+  },
+  "helpGetStarted": {
+    "title": "Erste Schritte",
+    "html": "this is filled in by the languages merging script"
+  },
+  "helpFAQ": {
+    "title": "FAQ",
+    "html": "this is filled in by the languages merging script"
+  },
+  "helpDocumentation": {
+    "title": "Dokumentation",
+    "html": "this is filled in by the languages merging script"
+  },
+  "helpBugReport": {
+    "title": "Einen Fehler melden",
+    "html": "this is filled in by the languages merging script"
+  },
+  "missingShortcuts": {
+    "title": "Fehlende Kurzbefehle!",
+    "message": "Einige Kurzbefehle wurden nicht gefunden, hätten aber automatisch geladen werden sollen (vielleicht hast du sie umbennant oder gelöscht):",
+    "toPreference": "Zur Einstellung"
+  },
+  "firstRun": {
+    "greeting": "Hi!",
+    "message": "Danke, dass du meinen Kurzbefehl asuprobierst!\n\nEs sieht so aus, dass dies das erste Mal ist, dass du diesen Kurzbefehl ausführst. Möchtest du die _Ersten Schritte_ anzeigen?\n\nP.S.: Du kannst die Browser-Chronik verwenden, um zwischen den Menüs zu navigieren!",
+    "viewGetStarted": "_Erste Schritte_ anzeigen",
+    "close": "Ausblenden"
+  }
+}
