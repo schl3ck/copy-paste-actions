@@ -1,4 +1,5 @@
 const fs = require("fs");
+const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin");
 
 module.exports = {
   lintOnSave: "default",
@@ -22,6 +23,12 @@ module.exports = {
 
     config.plugins.delete("preload");
     config.plugins.delete("prefetch");
+
+    config.plugin("extra-watch").use(ExtraWatchWebpackPlugin, [
+      {
+        dirs: ["src/lang/"],
+      },
+    ]);
 
     config.module
       .rule("images")

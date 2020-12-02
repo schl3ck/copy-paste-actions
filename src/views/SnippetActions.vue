@@ -1,31 +1,35 @@
 <template>
-  <div>
-    <div class="fixed-top container pb-2">
-      <div class="d-flex justify-content-between align-items-end pb-2 w-100">
-        <h2 class="flex-grow-1 mb-0" :class="{ 'font-italic': hasNoName }">
-          {{ hasNoName ? lang.noSnippetName : title }}
-        </h2>
-        <button type="button" class="close" aria-label="Close" @click="close">
-          <span class="fs-2x text-secondary" aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="btn-group btn-group-sm w-100">
-        <button class="btn btn-outline-primary" @click="setZoom(-1)">
-          <IconSearchMinus />
-        </button>
-        <button class="btn btn-outline-primary" @click="setZoom(0)">
-          <BIcon icon="arrow-counterclockwise" />
-        </button>
-        <button class="btn btn-outline-primary" @click="setZoom(1)">
-          <IconSearchPlus />
-        </button>
-        <button class="btn btn-outline-primary" @click="saveZoom">
-          <IconSave />
-        </button>
+  <div class="width-maxcontent">
+    <div class="sticky-top sticky-left max-vw-100">
+      <div class="container">
+        <div
+          class="d-flex justify-content-between align-items-center pb-2 w-100"
+        >
+          <h2 class="flex-grow-1 mb-0" :class="{ 'font-italic': hasNoName }">
+            {{ hasNoName ? lang.noSnippetName : title }}
+          </h2>
+          <button type="button" class="close" aria-label="Close" @click="close">
+            <span class="fs-2x text-secondary" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="btn-group btn-group-sm w-100">
+          <button class="btn btn-outline-primary" @click="setZoom(-1)">
+            <IconSearchMinus />
+          </button>
+          <button class="btn btn-outline-primary" @click="setZoom(0)">
+            <BIcon icon="arrow-counterclockwise" />
+          </button>
+          <button class="btn btn-outline-primary" @click="setZoom(1)">
+            <IconSearchPlus />
+          </button>
+          <button class="btn btn-outline-primary" @click="saveZoom">
+            <IconSave />
+          </button>
+        </div>
       </div>
     </div>
     <pre
-      class="margin-for-fixed text-pre width-maxcontent bg-transparent"
+      class="text-pre width-maxcontent bg-transparent"
       :style="{ 'font-size': zoom + 'rem' }"
     ><code
       ref="code"
@@ -82,6 +86,12 @@ export default {
   },
   created() {
     this.zoom = this.preferences.codeZoom;
+  },
+  activated() {
+    this.$store.commit("useGlobalContainer", false);
+  },
+  deactivated() {
+    this.$store.commit("useGlobalContainer", true);
   },
   methods: {
     close() {

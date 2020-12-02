@@ -7,13 +7,14 @@ if (typeof MarkdownItAnchor !== "function" && "default" in MarkdownItAnchor) {
 }
 const md = new MarkdownIt({
   breaks: true,
+  linkify: true,
 })
   .use(MarkdownItAnchor, {
     level: 1,
     permalink: false,
   })
   .use(require("markdown-it-attrs"), {
-    allowedAttributes: ["class", "data-page"],
+    allowedAttributes: ["class", "data-page", "data-pref"],
   })
   .use(require("markdown-it-container"), "heads-up", {
     render: function(tokens, idx) {

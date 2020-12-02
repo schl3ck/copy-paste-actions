@@ -12,7 +12,7 @@
       ]"
       @click="$emit('click', $event)"
     >
-      <div class="mr-5">{{ title }}</div>
+      <div class="mr-5" v-html="title" />
       <slot name="header" />
     </label>
     <ul v-if="$scopedSlots.section" class="list-group list-group-flush">
@@ -25,7 +25,7 @@
         <div class="text-muted small mr-3">
           <p class="mb-1" v-html="description" />
           <p class="mb-0">
-            <b>{{ lang.defaultsTo }} </b>
+            <b>{{ lang.default }} </b>
             <span v-html="defaultValue" />
           </p>
         </div>

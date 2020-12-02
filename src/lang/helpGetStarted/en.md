@@ -58,5 +58,5 @@ The whole thing again in a simple list:
 * You can copy any action, even _If_ and _Repeat_ blocks.
 * All blocks are _validated_ so that the clipboard item can be pasted without breaking the resulting shortcut e.g. because of a missing _End If_ action.
 * To insert a whole shortcut into another, just place a copy function as the very first action and a paste function where you want to paste it. Since the copy function copies everything until the end of the shortcut by default there is nothing more to do (apart from running this shortcut of course)!
-* Don't analyse many big shortcuts at once. Safari might slow down when it has to handle a longer URL. As far as I know it should be able to load URLs up to a size of 50 MB, but Safari already stuttered while scrolling at around 4 MB on an iPhone 6s, especially when it hides/shows the bar at the top.
+* Don't analyse many big shortcuts at once. Safari might slow down when it has to handle a longer URL (this webpage and everything in it is transferred via a data URL). As far as I know it should be able to load URLs up to a size of 50 MB, but Safari already stuttered while scrolling at around 4 MB on an iPhone 6s, especially when it hides/shows the bar at the top where the URL address is shown.
 * The links from shortcuts uploaded to iCloud are saved and can be viewed from the main menu.

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="app" class="container">
+  <div id="app" ref="app" :class="{ container: useGlobalContainer }">
     <div v-if="showMainTitle" id="mainTitle" class="sticky-top">
       <span class="title text-warning">
         <svg viewBox="0 0 500 55" fill="currentColor">
@@ -138,6 +138,10 @@ export default {
     /** @returns {boolean} */
     showBackButton() {
       return this.$store.state.showBackButton;
+    },
+    /** @returns {boolean} */
+    useGlobalContainer() {
+      return this.$store.state.useGlobalContainer;
     },
     /** @returns {object} */
     lang() {
@@ -303,12 +307,22 @@ export default {
 @use "@/styles/markdownRendered";
 @use "@/styles/darkMode";
 
+h2 {
+  word-wrap: break-word;
+}
+
 .sticky-top {
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--background-color);
   padding-top: 0.5rem;
+}
+.sticky-left {
+  position: sticky;
+  left: 0;
+  z-index: 100;
+  background: var(--background-color);
 }
 .fixed-bottom {
   position: fixed;
@@ -359,6 +373,9 @@ export default {
 
 .mw-content {
   max-width: max-content !important;
+}
+.max-vw-100 {
+  max-width: 100vw;
 }
 
 .main-icon {

@@ -24,18 +24,24 @@ Possible values for `<function>` are
 * [`cut`](#cut-function)
 * [`save`](#save-function)
 * [`paste`](#paste-function)
-* [`instert`](#instert-function)
+* [`insert`](#insert-function)
+* [`end`](#end-function)
 * [`pause`](#pause-function)
 * [`resume`](#resume-function)
 
-Each of them is described down below.
+Some functions accept a number of how many actions should be affected by this function. This is called _action count_.
+
+Each of them is described in depth down below.
 
 `<snippet name>` is used to differentiate between multiple snippets and clipboard items. It is optional.
 
 ::: heads-up
 #### Heads up!
-To start the name of a snippet/clipboard item with `name` you must specify the line title `name:`.  
-E.g.: `name: name this snippet`
+To start the name of a snippet/clipboard item with `name` you must specify the line title `name:`. This is case-insensitive.
+
+Example:
+* `name this snippet` results in `this snippet`
+* `name: name this snippet` results in `name this snippet`
 :::
 
 ### `copy` function
@@ -82,7 +88,11 @@ If no number is given but `replace` is specified, it replaces all actions until 
 ```
 end [paste | insert]
 ```
-Marks the end of a snippet/clipboard item. When `paste` is specified it marks the end of a `paste replace` function and when `insert` is specified it marks the end of a `insert replace` function.
+Marks the end of a selection.
+
+When `paste` is specified it marks the end of a `paste replace` function and when `insert` is specified it marks the end of a `insert replace` function, otherwise it marks the end of a `copy`, `cut` or `save` function.
+
+When a selection was specified with an action count (e.g. `copy 5`) and an `end` function is encountered before the action count has reached 0 by counting down, the selection will then still be finished. This may result in an action count in the snippet which is less than the initially specified count at the start function. If the action count has hit 0 and then an `end`-function is found, it will be treated as an error, because the intention of the user is not clear of how many actions they wanted to copy.
 
 ### `pause` function
 ```
@@ -107,27 +117,26 @@ This function is only supported in selections started with `copy`, `cut` and `sa
 ## Counting actions
 There are some special rules about counting actions.
 
-* comment actions containing functions are never counted for their own selection.
-* if the preference `Exclude functions` is turned on, the comment actions containing functions are not counted, otherwise only functions concerning other selections are counted too.
+* comment actions containing functions are never counted for their own selection. Concerning other selections this is dependent on the preference [_Exclude functions_](#){data-pref="excludeAllCPAComments"}.
 * actions that are part of a block (e.g. `Otherwise`, `End If`, `End Repeat`, every `Choose from Menu` section) counts also as an action.  
 E.g.: a shortcut containing only a `Choose from Menu` block with two options and nothing else contains 4 actions (`Choose from Menu`, the first option, the second option and `End Choose from Menu`). A shortcut containing an empty `If` block contains 3 actions (`If`, `Otherwise` and `End If`).
 
 Counting is influenced by the `pause` and `resume` functions. It works like this:
 
-|            | action copied | copy count | pause count | resume count |
-|------------|:-------------:|:----------:|:-----------:|:------------:|
-| action     |               |            |             | 
-| `copy 5`   |               |            |             | 
-| action     | ✔️           | 1          |             |   {.table-success}
-| action     | ✔️           | 2          |             |   {.table-success}
-| `pause 2`  |               |            |             | 
-| action     | ❌           |            | 1           |   {.table-warning}
-| `resume 2` |               |            |             | 
-| action     | ✔️           | 3          |             | 1 {.table-success}
-| action     | ✔️           | 4          |             | 2 {.table-success}
-| action     | ❌           |            | 2           |   {.table-warning}
-| action     | ✔️           | 5          |             |   {.table-success}
-| action     |               |            |             | 
+|            | action copied | `copy` count | `pause` count | `resume` count |
+|------------|:-------------:|:------------:|:-------------:|:--------------:|
+| action     |               |              |               | 
+| `copy 5`   |               |              |               | 
+| action     | ✔️           | 1            |               |   {.table-success}
+| action     | ✔️           | 2            |               |   {.table-success}
+| `pause 2`  |               |              |               | 
+| action     | ❌           |              | 1             |   {.table-warning}
+| `resume 2` |               |              |               | 
+| action     | ✔️           | 3            |               | 1 {.table-success}
+| action     | ✔️           | 4            |               | 2 {.table-success}
+| action     | ❌           |              | 2             |   {.table-warning}
+| action     | ✔️           | 5            |               |   {.table-success}
+| action     |               |              |               | 
 
 {.table .table-responsive .table-sm .nowrap-first-column .mb-0}
 
@@ -157,5 +166,7 @@ Functions that remove actions will only remove a block when it is completely wit
 
 {.table .table-sm .table-striped .table-responsive}
 
+This also applies to selections that are limited by an action count. Because of this it is possible that a snippet may save more actions than what was specified at the start function.
+
 ## Magic variables
-In shortcuts you can use the output of an action as a magic variable in other actions. The action producing the result sets the variable and all other actions using it only store a reference to the variable. On insertion of an action the references are kept, but any action saving to a magic variable will be changed so that it doesn't override any existing magic variable.
+In shortcuts you can use the output of an action as a magic variable in other actions. The action producing the result sets the variable and all other actions using it only store a reference to the variable. On insertion of an action the references are kept, but any action saving to a magic variable will be changed so that it doesn't override any existing magic variable. Inside the snippet that is inserted, the references are kept intact, even when they are changed.

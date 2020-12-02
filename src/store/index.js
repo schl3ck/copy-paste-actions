@@ -20,6 +20,7 @@ export default new Vuex.Store({
     language: {},
     showMainTitle: true,
     showBackButton: false,
+    useGlobalContainer: true,
     /** @type {Store.ProcessResult[]} */
     processResult: [],
     globals: {
@@ -98,6 +99,9 @@ export default new Vuex.Store({
     },
     showBackButton(state, data) {
       state.showBackButton = data;
+    },
+    useGlobalContainer(state, data) {
+      state.useGlobalContainer = data;
     },
     processResult(state, data) {
       for (const shortcut of data.shortcuts) {

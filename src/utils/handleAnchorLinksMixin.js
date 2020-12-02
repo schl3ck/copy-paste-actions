@@ -26,6 +26,12 @@ export default Vue.extend({
             event.preventDefault();
             this.$root.$emit("navigate", page);
           });
+        } else if (element.hasAttribute("data-pref")) {
+          const pref = element.getAttribute("data-pref");
+          element.addEventListener("click", (event) => {
+            event.preventDefault();
+            this.$root.$emit("navigate", "Preferences", { scrollToPref: pref });
+          });
         }
       },
     );

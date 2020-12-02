@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="mt-2">
-      {{ lang.importing }}
+      {{ lang.title }}
     </h3>
     <div
       class="alert alert-warning"

@@ -1,6 +1,6 @@
 # Report a bug/request a feature
 
-Have you discovered a bug or thought about a new feature I could implement? Please report it to me so I can fix or implement it! But before you do, please have a look through the GitHub issues if somebody else has already found the same bug.
+Have you discovered a bug or thought about a new feature I could implement? Please report it to me so I can fix or implement it! But before you do, please have a look through the GitHub issues (link further down) if somebody else has already found the same bug.
 
 Please write to me in English or German. I can't gurantee that I answer on any message in any other language.
 
