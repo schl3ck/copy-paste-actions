@@ -34,6 +34,7 @@ import {
   BIconQuestionCircle,
   BIconBook,
   BIconBug,
+  BIconEmojiFrown,
 } from "bootstrap-vue";
 
 import store from "./store/index";
@@ -78,6 +79,7 @@ Vue.component("BIconInfoCircle", BIconInfoCircle);
 Vue.component("BIconQuestionCircle", BIconQuestionCircle);
 Vue.component("BIconBook", BIconBook);
 Vue.component("BIconBug", BIconBug);
+Vue.component("BIconEmojiFrown", BIconEmojiFrown);
 Vue.component("IconSearchMinus", IconSearchMinus);
 Vue.component("IconSearchPlus", IconSearchPlus);
 Vue.component("IconSave", IconSave);

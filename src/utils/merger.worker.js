@@ -2,6 +2,7 @@
 // Buffer is globally available
 const { v4: genUUID } = require("uuid");
 const bplist = require("./bplist");
+const plistParser = require("plist/lib/parse").parse;
 
 /**
  * @typedef {object} InputDict
@@ -48,7 +49,13 @@ function merge(dict) {
     const idsToExclude = [];
     const insertIntoShortcut = [];
 
-    shortcut.shortcut = bplist.parse(Buffer.from(shortcut.shortcut))[0];
+    const buf = Buffer.from(shortcut.shortcut);
+    if (buf.slice(0, "bplist".length).toString("utf-8") === "bplist") {
+      shortcut.shortcut = bplist.parse(buf)[0];
+    } else {
+      // not a bplist, try xml based plist
+      shortcut.shortcut = plistParser(buf.toString("utf-8"));
+    }
     shortcut.inserts = castArray(shortcut.inserts);
     shortcut.uuids.groups = castArray(shortcut.uuids.groups);
     shortcut.uuids.vars = castArray(shortcut.uuids.vars);

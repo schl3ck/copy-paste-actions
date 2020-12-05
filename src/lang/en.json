@@ -80,7 +80,8 @@
     "title": "Processing your shortcuts",
     "processing": "Processing...",
     "noShortcuts": "No shortcuts to process",
-    "noItemsFound": "No snippets or inserts were found.\nPlease check, if you have the correct syntax in the comment actions."
+    "noItemsFound": "No snippets or inserts were found.\nPlease check, if you have the correct syntax in the comment actions.",
+    "errorMessage": "There was an error while analysing your shortcuts:"
   },
   "analyserWarnings": {
     "title": "Warnings",
@@ -192,7 +193,8 @@
     "noShortcuts": "No shortcuts to process",
     "noItemsFound": "You're done! There is nothing to insert in any shortcut and no snippet or clipboard selection removed any actions.",
     "unsavedChanges": "However there are unsaved changes. To save them, the Shortcuts app has to be opened.",
-    "openApp": "Open Shortcuts"
+    "openApp": "Open Shortcuts",
+    "errorMessage": "There was an error while merging your snippets into the shortcuts:"
   },
   "importShortcuts": {
     "title": "Shortcuts to import",

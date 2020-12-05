@@ -1,14 +1,25 @@
 <template>
   <div>
     <div
-      v-if="noItems"
-      :class="
-        'fixed-top fixed-bottom container ' +
-          'd-flex flex-column justify-content-center align-items-center'
-      "
+      v-if="noItems || analyserError"
+      :class="[
+        'fixed-top fixed-bottom container',
+        'd-flex flex-column justify-content-center align-items-center',
+      ]"
     >
-      <span class="sad-face">:(</span>
-      <span class="text-center" v-html="lang.noItemsFound" />
+      <template v-if="noItems">
+        <div class="sad-face mb-2 mt-n5">
+          <b-icon icon="emoji-frown" />
+        </div>
+        <span class="text-center" v-html="lang.noItemsFound" />
+      </template>
+      <div v-else class="alert alert-danger d-flex flex-column">
+        <div class="sad-face mb-2">
+          <b-icon icon="emoji-frown" />
+        </div>
+        <div v-html="lang.errorMessage" />
+        <pre class="pre-wrap"><code>{{ analyserError }}</code></pre>
+      </div>
     </div>
     <ProcessBar
       v-else
@@ -36,6 +47,7 @@ export default {
       restoringState: false,
       done: false,
       noItems: false,
+      analyserError: null,
     };
   },
   computed: {
@@ -90,25 +102,31 @@ export default {
         this.status = this.lang.processing;
         worker("analyser", dict, (percent) => {
           this.percent = percent;
-        }).then((result) => {
-          result.shortcuts.forEach((s) => {
-            const other = this.shortcuts.find((other) => other.name === s.name);
-            if (other) {
-              s.image = other.image;
+        })
+          .then((result) => {
+            result.shortcuts.forEach((s) => {
+              const other = this.shortcuts.find(
+                (other) => other.name === s.name,
+              );
+              if (other) {
+                s.image = other.image;
+              }
+            });
+            this.done = true;
+            this.$store.commit("processResult", result);
+            if (result.warnings.length > 0) {
+              this.$root.$emit("navigate", "AnalyserWarnings");
+            } else if (result.nItems === 0) {
+              this.noItems = true;
+            } else if (result.shortcuts.some((s) => s.snippets.length > 0)) {
+              this.$root.$emit("navigate", "FoundSnippets");
+            } else {
+              this.$root.$emit("navigate", "FoundInserts");
             }
+          })
+          .catch((err) => {
+            this.analyserError = err.message || err;
           });
-          this.done = true;
-          this.$store.commit("processResult", result);
-          if (result.warnings.length > 0) {
-            this.$root.$emit("navigate", "AnalyserWarnings");
-          } else if (result.nItems === 0) {
-            this.noItems = true;
-          } else if (result.shortcuts.some((s) => s.snippets.length > 0)) {
-            this.$root.$emit("navigate", "FoundSnippets");
-          } else {
-            this.$root.$emit("navigate", "FoundInserts");
-          }
-        });
       } else {
         this.status = this.lang.noShortcuts;
       }
@@ -123,7 +141,8 @@ export default {
 <style lang="scss" scoped>
 .sad-face {
   font-size: 5rem;
-  margin-top: -3rem;
+  display: flex;
+  justify-content: center;
 }
 .no-items-text {
   text-align: center;

@@ -80,7 +80,8 @@
     "title": "Bearbeiten von deinen Kurzbefehlen",
     "processing": "Bearbeite...",
     "noShortcuts": "Keine Kurzbefehle zum Bearbeiten gefunden",
-    "noItemsFound": "Es wurden keine Ausschnitte oder Einsatzpunkt gefunden.\nBitte überprüfe, ob du die richtige Syntax in den Kommentaraktionen verwendet hast."
+    "noItemsFound": "Es wurden keine Ausschnitte oder Einsatzpunkt gefunden.\nBitte überprüfe, ob du die richtige Syntax in den Kommentaraktionen verwendet hast.",
+    "errorMessage": "Ein Fehler ist während dem Analysieren aufgetreten:"
   },
   "analyserWarnings": {
     "title": "Warnhinweise",
@@ -192,7 +193,8 @@
     "noShortcuts": "Keine Kurzbefehle zum Bearbeiten",
     "noItemsFound": "Fertig! Es wurde nichts zum Einfügen gefunden und kein Ausschnitt oder Zwischenablagenelement hat Aktionen entfernt.",
     "unsavedChanges": "Allerdings gibt es ungespeicherte Änderungen. Um diese zu Speichern muss die Kurzbefehle-App geöffnet werden.",
-    "openApp": "Öffne _Kurzbefehle_"
+    "openApp": "Öffne _Kurzbefehle_",
+    "errorMessage": "Ein Fehler ist während dem Einfügen der Ausschnitte aufgetreten:"
   },
   "importShortcuts": {
     "title": "Kurzbefehle zum Importieren",

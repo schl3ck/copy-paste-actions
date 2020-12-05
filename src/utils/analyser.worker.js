@@ -1,6 +1,7 @@
 // use CommonJS import for the tests
 // Buffer is globally available
 const bplist = require("./bplist");
+const plistParser = require("plist/lib/parse").parse;
 
 /**
  * Holds two boundaries that form a range
@@ -342,7 +343,12 @@ function analyse(dict) {
     const buf = Buffer.from(shortcut.shortcut);
     const shortcutName = shortcut.name;
 
-    shortcut = bplist.parse(buf)[0];
+    if (buf.slice(0, "bplist".length).toString("utf-8") === "bplist") {
+      shortcut = bplist.parse(buf)[0];
+    } else {
+      // not a bplist, try xml based plist
+      shortcut = plistParser(buf.toString("utf-8"));
+    }
 
     const uuids = {
       groups: new Set(),
