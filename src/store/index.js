@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { assign, groupBy, map, values } from "lodash";
-import FlexSearch from "flexsearch";
 import TarGZ from "@/utils/targz";
 import { Buffer } from "buffer";
 import { stringFromBinaryString } from "@/utils/binaryStringToUTF8";
@@ -223,6 +222,7 @@ export default new Vuex.Store({
           },
         );
       });
+      /** @type { {name: string, data: Buffer}[] } */
       const files = [];
       let selectedShortcuts = [];
 
@@ -240,7 +240,9 @@ export default new Vuex.Store({
         } else if (filename.endsWith(".png")) {
           const blob = new Blob([Buffer.from(data, "binary")]);
           files.push({
-            name: filename.replace(/\.png$/, ""),
+            name: stringFromBinaryString(
+              atob(filename.replace(/\.png$/, "").replace(/:/g, "/")),
+            ),
             image: URL.createObjectURL(blob),
           });
         } else if (
@@ -249,7 +251,11 @@ export default new Vuex.Store({
         ) {
           const content = Buffer.from(data, "binary");
           files.push({
-            name: filename.replace(/\.(shortcut|wflow)$/, ""),
+            name: stringFromBinaryString(
+              atob(
+                filename.replace(/\.(shortcut|wflow)$/, "").replace(/:/g, "/"),
+              ),
+            ),
             data: content,
           });
         } else if (filename === "snippets.json") {
@@ -280,36 +286,6 @@ export default new Vuex.Store({
         const name = i[0].name;
         return assign({ selected: selectedShortcuts.includes(name) }, ...i);
       });
-      if (process.env.NODE_ENV === "development") {
-        let noImage = shortcuts.filter((s) => !s.image);
-        let noSize = shortcuts.filter((s) => !s.size);
-        if (noImage.length || noSize.length) {
-          if (noImage.length === noSize.length) {
-            const fuzzy = new FlexSearch("match");
-            noImage.forEach((s, i) => fuzzy.add(i, s.name.replace(/\//g, ":")));
-            for (const i of noSize) {
-              const match = fuzzy.search(i.name);
-              if (match.length) {
-                noImage[match[0]].image = i.image;
-                shortcuts.splice(shortcuts.indexOf(i), 1);
-              }
-            }
-            noImage = shortcuts.filter((s) => !s.image);
-            noSize = shortcuts.filter((s) => !s.size);
-          }
-          if (noImage.length || noSize.length) {
-            // expose the two arrays for debugging
-            window.shortcutsNoImage = noImage;
-            window.shortcutsNoSize = noSize;
-            /* eslint-disable-next-line no-console */
-            console.warn(
-              `There are ${noImage.length}/${noSize.length} shortcuts without an image/a size:`,
-              noImage,
-              noSize,
-            );
-          }
-        }
-      }
       commit("shortcuts", shortcuts);
     },
     loadPreferences({ commit }) {
