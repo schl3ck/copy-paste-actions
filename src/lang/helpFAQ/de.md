@@ -3,6 +3,16 @@
 ### Wie kann ich Aktionen kopieren und einfügen?
 Bitte lies die [Ersten Schritte](#){data-page="HelpGetStarted"}
 
+### Nachdem ich einen einzelnen Kurzbefehl importiert habe, läuft der Kurzbefehl _CopyPaste Actions_ weiter.
+Dies ist vermutlich ein Fehler der Anzeige in der Kurzbefehle-App auf iOS 14.2. Du kannst wie gewohnt die App verwenden und auch Kurzbefehle ausführen, allerdings wird kein Fortschrittsindikator angezeigt. Um das Problem zu beheben, brauchst du nur die Kurzbefehle-App aus dem Programmumschalter/der Multitasking-Ansicht entfernen und erneut starten.
+
+### I habe auf _Link erstellen_ getippt, aber die Kurzbefehlevorschau wurde nicht angezeigt.
+Ich habe den Fehler selbst einmal erhalten. Es gab möglicherweise einen Fehler als die Kurzbefehle-App versucht hat, deinen Kurzbefehl zu laden.
+
+When der Ladeindikator angezeigt wurde, dann führe den Kurzbefehl _CopyPaste Actions_ erneut aus, tippe auf _iCloud URLs_ und der letze Eintrag sollte dein Kurzbefehl sein. Tippe darauf um ihn zu öffnen.
+
+Wenn der Ladeindikator nicht angezeigt wurde, dann gab es möglicherweise ein Problem beim Hochladen und Abrufen des Links zu deinem Kurzbefehl. Du kannst die gleichen Schritte wie oben probieren, aber wenn dein Kurzbefehl nicht in der Liste ist (vergleiche auch den Zeitstempel), dann lass ihn nocheinmal analysieren. Wenn dies mit dem selben Kurzbefehl öfters vorkommt, dann kontaktiere mich bitte über die _Einen Fehler melden_-Seite.
+
 ### Was ist der Unterschied zwischen einem Ausschnitt und einem Zwischenablagenelement?
 Es gibt keinen.
 
@@ -12,6 +22,9 @@ Ich hatte anfangs geplant, dass die Zwischenablagenelemente automatisch übersch
 Dies ist eine Limitation der Kurzbefehle-App. Es war bis inklusive iOS 12 möglich, Kurzbefehle als Datei direkt zu importieren, allerdings wurde das mit iOS 13 geändert, sodass es nur mehr über iCloud geht. Die erste Beta-Version von iOS 14 konnte die Dateien direkt importieren, allerdings wurde dies wieder wieder entfernt. Es sieht also so aus, dass das bei Apple so entschieden wurde und nicht aufgrund einer technischen Einschränkung basiert.
 
 Die Links werden in deiner iCloud Drive oder Dropbox gespeichert und du kannst sie jederzeit im Hauptmenü dieses Kurzbefehls anzeigen. Dort kannst du sie erneut öffnen, um den Kurzbefehl von iCloud mit der Kurzbefehle-App zu löschen und dann hier den Link zu löschen. Oder du kannst das auch als eine Art Backupsystem verwenden, allerdings rate ich davon ab.
+
+### Warum sind die importierten Kurzbefehle wie die Originalen benannt, haben aber am Ende noch `.shortcut` stehen?
+Dies ist vermutlich ein Fehler in der Kurzbefehle-App. Wenn ein Kurzbefehl in einem Kurzbefehl umbenannt wird, wird er mit `.shortcut` hinten angehängt hochgeladen. Es gibt im Moment leider nichts, was ich dagegen unternehmen kann.
 
 ### Warum ist das Interface eine Webseite in Safari und nicht mit Menüs in der Kurzbefehle-App umgesetzt?
 Letzteres habe ich versucht.

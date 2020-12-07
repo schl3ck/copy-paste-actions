@@ -3,6 +3,16 @@
 ### How do I copy and paste actions?
 Please refer to [Get Started](#){data-page="HelpGetStarted"}
 
+### After importing a single shortcut, the _CopyPaste Actions_ shortcut is still running.
+That appears to be a visual bug in Shortcuts on iOS 14.2. You can still use Shortcuts as you are used to and also run shortcuts, but they won't display a running indicator. To fix the problem, simply close the app from the app switcher and open it again.
+
+### I tapped _Create Link_ in Shortcuts but the shortcut preview wasn't opened.
+I got that bug once. There was probably an issue as Shortcuts tried to load your shortcut.
+
+When the loading indicator was shown, then simply run _CopyPaste Actions_ again, tap _iCloud URLs_  and the last entry should be your shortcut. Tap on it to open it.
+
+When the loading indicator wasn't shown, then there could have been an error while uploading and retrieving the link to your shortcut. Try the steps above and if your shortcut is not in the list (look also at the timestamp), just process it again. If this keeps happening with the same shortcut multiple times, please contact me through the _Report a bug/feature_ page.
+
 ### What is the difference between a clipboard item and a snippet?
 There is no difference.
 
@@ -12,6 +22,9 @@ I originally planned to automatically override any clipboard items and let the u
 This is a limitation of the Shortcuts app. It was possible to import shortcut files directly up to iOS 12, but that changed in iOS 13 to only allow the import through iCloud. The first beta of iOS 14 had the ability to import the files directly, but that again got removed so it looks like it is itentional by Apple and not a technical limitation.
 
 The links are saved to your iCloud Drive/Dropbox and you can view them anytime in the main menu of this shortcut. There you can open them again to remove the shortcut from iCloud via the Shortcuts app and then delete the link here. Or you can use it as some sort of a backup system, but I wouldn't recommend that.
+
+### Why are the imported shortcuts named like the original but with `.shortcut` appended?
+This appears to be a bug in Shortcuts. Whenever a shortcut was renamed within a shortcut, it will get uploaded with `.shortcut` appended. There is currently nothing I can do about.
 
 ### Why is the interface a webpage in Safari and not made with menus in shortcuts?
 I tried.
