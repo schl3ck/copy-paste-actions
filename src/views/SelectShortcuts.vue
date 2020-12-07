@@ -108,7 +108,9 @@
               class="mr-2 icon"
               alt="icon"
             >
-            <span>{{ shortcut.name }}<span class="sr-only">.</span></span>
+            <span class="mr-2">
+              {{ shortcut.name }}<span class="sr-only">.</span>
+            </span>
             <div class="ml-auto small text-secondary text-right">
               <div class="text-nowrap">
                 {{ shortcut.size | fileSize }}<span class="sr-only">.</span>
