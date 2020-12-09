@@ -119,7 +119,6 @@ export default {
                   "Preferences.get",
                   "Shortcuts.getNames",
                   "Snippets.get",
-                  "Snippets.save",
                   "Shortcuts.import",
                 ],
                 closePage: true,
