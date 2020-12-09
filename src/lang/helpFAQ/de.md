@@ -4,7 +4,7 @@
 Bitte lies die [Ersten Schritte](#){data-page="HelpGetStarted"}
 
 ### Nachdem ich einen einzelnen Kurzbefehl importiert habe, läuft der Kurzbefehl _CopyPaste Actions_ weiter.
-Dies ist vermutlich ein Fehler der Anzeige in der Kurzbefehle-App auf iOS 14.2. Du kannst wie gewohnt die App verwenden und auch Kurzbefehle ausführen, allerdings wird kein Fortschrittsindikator angezeigt. Um das Problem zu beheben, brauchst du nur die Kurzbefehle-App aus dem Programmumschalter/der Multitasking-Ansicht entfernen und erneut starten.
+Dies ist vermutlich ein Fehler der Anzeige in der Kurzbefehle-App auf iOS 14.2. Du kannst wie gewohnt die App verwenden und auch Kurzbefehle ausführen, allerdings wird kein Fortschrittsindikator angezeigt. Um das Problem zu beheben, brauchst du nur die Kurzbefehle-App aus dem Programmumschalter/der Multitasking-Ansicht entfernen und erneut starten. Du kannst auch zur Ordnerübersicht in der Kurzbefehle-App gehen und anschließend einen Kurzbefehl bearbeiten. Nachdem du wieder den Bearbeitungsmodus verlassen hast, sollte alles wieder beim alten sein.
 
 ### I habe auf _Link erstellen_ getippt, aber die Kurzbefehlevorschau wurde nicht angezeigt.
 Ich habe den Fehler selbst einmal erhalten. Es gab möglicherweise einen Fehler als die Kurzbefehle-App versucht hat, deinen Kurzbefehl zu laden.

@@ -4,7 +4,7 @@
 Please refer to [Get Started](#){data-page="HelpGetStarted"}
 
 ### After importing a single shortcut, the _CopyPaste Actions_ shortcut is still running.
-That appears to be a visual bug in Shortcuts on iOS 14.2. You can still use Shortcuts as you are used to and also run shortcuts, but they won't display a running indicator. To fix the problem, simply close the app from the app switcher and open it again.
+That appears to be a visual bug in Shortcuts on iOS 14.2. You can still use Shortcuts as you are used to and also run shortcuts, but they won't display a running indicator. To fix the problem, simply close the app from the app switcher and open it again. You can also go to the folders view and then open a shortcut for editing. After closing the edit screen, it should be back to normal.
 
 ### I tapped _Create Link_ in Shortcuts but the shortcut preview wasn't opened.
 I got that bug once. There was probably an issue as Shortcuts tried to load your shortcut.
