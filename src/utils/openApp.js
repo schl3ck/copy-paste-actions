@@ -60,7 +60,10 @@ export function navigateAndBuildZip(root, options) {
       options.data = options.data || [];
       options.data.push({
         name: "snippets.txt",
-        content: JSON.stringify(store.getters.snippetsForSaving),
+        content: JSON.stringify(store.getters.snippetsForSaving).replace(
+          /\ufffc/g,
+          "\\ufffc",
+        ),
       });
     }
 
