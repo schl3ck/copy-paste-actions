@@ -24,7 +24,7 @@ This is a limitation of the Shortcuts app. It was possible to import shortcut fi
 The links are saved to your iCloud Drive/Dropbox and you can view them anytime in the main menu of this shortcut. There you can open them again to remove the shortcut from iCloud via the Shortcuts app and then delete the link here. Or you can use it as some sort of a backup system, but I wouldn't recommend that.
 
 ### Why are the imported shortcuts named like the original but with `.shortcut` appended?
-This appears to be a bug in Shortcuts. Whenever a shortcut was renamed within a shortcut, it will get uploaded with `.shortcut` appended. There is currently nothing I can do about.
+This appears to be a bug in Shortcuts. Whenever a shortcut was renamed within a shortcut, it will get uploaded with `.shortcut` appended. There is currently nothing I can do about it.
 
 ### Why is the interface a webpage in Safari and not made with menus in shortcuts?
 I tried.
