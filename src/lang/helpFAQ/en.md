@@ -3,6 +3,16 @@
 ### How do I copy and paste actions?
 Please refer to [Get Started](#){data-page="HelpGetStarted"}
 
+### How do I enable quick mode?
+Quick mode is split into multiple preferences to give you as much control as possible:
+
+* [Load specific shortcuts every time](#){data-pref="autoLoadShortcuts"}
+* [Automatically analyse auto-loaded shortcuts](#){data-pref="autoAnalyseShortcuts"}
+* [Automatically open Shortcuts](#){data-pref="autoOpenApp"}
+* [Automatically save all snippets](#){data-pref="autoOverwriteSnippets"}
+* [Automatically accept all inserts](#){data-pref="autoAcceptInserts"}
+* [Skip _Found Inserts_ page](#){data-pref="skipFoundInsertsOnNoInsert"}
+
 ### After importing a single shortcut, the _CopyPaste Actions_ shortcut is still running.
 That appears to be a visual bug in Shortcuts on iOS 14.2. You can still use Shortcuts as you are used to and also run shortcuts, but they won't display a running indicator. To fix the problem, simply close the app from the app switcher and open it again. You can also go to the folders view and then open a shortcut for editing. After closing the edit screen, it should be back to normal.
 

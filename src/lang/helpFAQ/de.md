@@ -3,6 +3,16 @@
 ### Wie kann ich Aktionen kopieren und einfügen?
 Bitte lies die [Ersten Schritte](#){data-page="HelpGetStarted"}
 
+### Wie schalte ich den Quick Mode ein?
+Quick Mode ist in mehrere Einstellungen aufgeteilt, um dir die größtmögliche Kontrolle zu geben:
+
+* [Lade spezifische Kurzbefehle jedes mal](#){data-pref="autoLoadShortcuts"}
+* [Analysiere autmatisch die geladenen Kurzbefehle](#){data-pref="autoAnalyseShortcuts"}
+* [Automatisch die Kurzbefehle-App öffnen](#){data-pref="autoOpenApp"}
+* [Automatisch alle Ausschnitte speichern](#){data-pref="autoOverwriteSnippets"}
+* [Alle Einsetzpunkte automatisch aktzeptieren](#){data-pref="autoAcceptInserts"}
+* [Seite _Gefundene Einsetzpunkte_ überspringen](#){data-pref="skipFoundInsertsOnNoInsert"}
+
 ### Nachdem ich einen einzelnen Kurzbefehl importiert habe, läuft der Kurzbefehl _CopyPaste Actions_ weiter.
 Dies ist vermutlich ein Fehler der Anzeige in der Kurzbefehle-App auf iOS 14.2. Du kannst wie gewohnt die App verwenden und auch Kurzbefehle ausführen, allerdings wird kein Fortschrittsindikator angezeigt. Um das Problem zu beheben, brauchst du nur die Kurzbefehle-App aus dem Programmumschalter/der Multitasking-Ansicht entfernen und erneut starten. Du kannst auch zur Ordnerübersicht in der Kurzbefehle-App gehen und anschließend einen Kurzbefehl bearbeiten. Nachdem du wieder den Bearbeitungsmodus verlassen hast, sollte alles wieder beim alten sein.
 
