@@ -53,3 +53,6 @@ Other than that, no information is collected and send anywhere. I value your pri
 
 ### Where can I find the source code?
 The source code for the website part of this shortcut is available on GitHub: https://www.github.com/schl3ck/copy-paste-actions
+
+### How long did it take you to make this?
+I can't say how many working hours went into it, but the idea for the update came in February 2018 (the predecessor was released in summer 2017). I tried it in different ways and therefore I've spent many months on the discarded attempts (not in one go. There were certainly breaks of multiple weeks inbetween). During this time I also rewrote the analyser script from scratch, because the old one had too many bugs, not all features that I wanted and it looked impossible to implement them. This took me again 3-4 months. In March 2020 during the first Coronavirus lockdown I decided to make everything in JavaScript and worked from there on pretty much every time I could, except for one month, where I needed some time off. You can see this in the [commit activity on GitHub](https://github.com/schl3ck/copy-paste-actions/graphs/commit-activity).

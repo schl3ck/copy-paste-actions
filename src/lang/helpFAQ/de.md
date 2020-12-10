@@ -54,3 +54,6 @@ Außer diesen Information werden keine anderen Informationen gesammelt und irgen
 
 ### Wo kann ich den Source Code finden?
 Der Source Code für den Webseiten-Teil dieses Kurzbefehls ist auf GitHub verfügbar: https://www.github.com/schl3ck/copy-paste-actions
+
+### Wie lange hast du an diesem Kurzbefehl gearbeitet?
+Ich kann nicht genau sagen, wieviele Arbeitsstunden hier hineingeflossen sind, aber die Idee für das Update hatte ich im Februar 2018 (der Vorgänger war im Sommer 2017 fertig). Ich habe es mit verschiedenen Methoden probiert und dabei mehrere Monate in die verworfenen Versuche investiert (nicht durchgehend. Da waren immer wieder Pausen von mehreren Wochen dazwischen). In dieser Zeit habe ich auch einmal das Analysier-Skript komplett neu geschrieben, da es zu viele Fehler beinhielt, noch nicht alle Funktionen implementiert waren und es für mich unmöglich aussah, diese Funktionen hinzuzufügen. Dies brauchte wiederum 3 bis 4 Monate. Im März 2020, während dem ersten Coronavirus-Lockdown, habe ich mich dann schlussendlich dazu entschieden, alles in JavaScript zu machen und habe seit dem fast immer daran gearbeitet, wenn ich die Möglichkeit hatte, ausgenommen ein Monat lang, da habe ich eine Pause benötigt. Du kannst das in der [Commit Activity auf GitHub](https://github.com/schl3ck/copy-paste-actions/graphs/commit-activity) sehen.
