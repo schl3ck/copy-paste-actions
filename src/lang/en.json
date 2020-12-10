@@ -272,8 +272,8 @@
         "description": "Display a caption on switches like in iOS Settings app."
       },
       "skipFoundInsertsOnNoInsert": {
-        "title": "Skip Found Inserts page",
-        "description": "Skip the Found Inserts page when no insert was found in any shortcut."
+        "title": "Skip _Found Inserts_ page",
+        "description": "Skip the _Found Inserts_ page when no insert was found in any shortcut."
       },
       "autoOverwriteSnippets": {
         "title": "Automatically save all snippets",
