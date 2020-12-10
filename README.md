@@ -1,6 +1,6 @@
 # copy-paste-actions
 
-This is the repository for the JavaScript website part of the iOS shortcut [CopyPaste Actions](#). (TODO: add link)
+This is the repository for the JavaScript website part of the iOS shortcut [CopyPaste Actions](https://www.routinehub.co/shortcut/7742).
 
 In the issues section all issues regarding the shortcut are handled, not only the ones regarding the website.
 
@@ -18,7 +18,7 @@ npm run install
 ```
 npm run serve
 ```
-Note: To see an update after changing any language file you need to either cancel the command with Ctrl+C (Cmd+C on Mac) and run it again or change any other file in `src/`.
+Note: To see an update after changing any language file you need to refresh your browser. If this doesn't work, just restart this command.
 
 ### Build the page to include it in the shortcut
 ```
