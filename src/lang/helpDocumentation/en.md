@@ -33,7 +33,7 @@ Some functions accept a number of how many actions should be affected by this fu
 
 Each of them is described in depth down below.
 
-`<snippet name>` is used to differentiate between multiple snippets and clipboard items. It is optional.
+`<snippet name>` is used to differentiate between multiple snippets and clipboard items. It is optional, but you have to include it with every function, otherwise they are not assigned to the same selection!
 
 ::: heads-up
 #### Heads up!

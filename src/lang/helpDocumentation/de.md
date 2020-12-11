@@ -32,7 +32,7 @@ Bei manchen Funktionen kann eine Zahl angegeben werden, wieviele Aktionen davon 
 
 Jeder Wert ist weiter unten genauer beschrieben.
 
-`<Ausschnittname>` wird verwendet, um zwischen mehreren Zwischenablagenelementen/Ausschnitten zu unterscheiden. Die Angabe ist optional.
+`<Ausschnittname>` wird verwendet, um zwischen mehreren Zwischenablagenelementen/Ausschnitten zu unterscheiden. Die Angabe ist optional, aber du musst den Namen bei jeder Funktion verwenden, ansonsten werden die Funktionen nicht zur gleichen Auswahl gezählt!
 
 ::: heads-up
 #### Achtung!
