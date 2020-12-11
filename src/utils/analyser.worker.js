@@ -531,7 +531,8 @@ function analyse(dict) {
 
     /** amount of percent each name has */
     const percentagePerName = (percentPerShortcut * 0.7) / names.size;
-    names.forEach((comments, nameIndex) => {
+    let nameIndex = 0;
+    names.forEach((comments) => {
       // update percentage from 20 up to 90, but 90 won't be reached here
       // because nameIndex will never be equal to names.size
       /** the starting percentage of the current iteration */
@@ -1223,6 +1224,8 @@ function analyse(dict) {
 
         inserts.push(insert);
       }); // end current.inserts.forEach()
+
+      nameIndex++;
     }); // end names.forEach()
 
     updatePercentage(basePercentage + percentPerShortcut * 0.9);
