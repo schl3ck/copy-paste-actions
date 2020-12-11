@@ -86,7 +86,7 @@ module.exports = function() {
                   {
                     name: " ",
                     isClipboard: true,
-                    newShortcut: "",
+                    // newShortcut: "",
                     numberOfActions: 1,
                     uuids: extractUUIDs(sct.getActions(2, 1)),
                     actions: sct.getActions(2, 1),
@@ -376,7 +376,7 @@ module.exports = function() {
                   {
                     name: " ",
                     isClipboard: true,
-                    newShortcut: "",
+                    // newShortcut: "",
                     numberOfActions: 1,
                     uuids: extractUUIDs(sct.getActions(2, 1)),
                     actions: sct.getActions(2, 1),
@@ -658,7 +658,7 @@ module.exports = function() {
                   {
                     name: " ",
                     isClipboard: false,
-                    newShortcut: "",
+                    // newShortcut: "",
                     numberOfActions: 1,
                     uuids: extractUUIDs(sct.getActions(2, 1)),
                     actions: sct.getActions(2, 1),

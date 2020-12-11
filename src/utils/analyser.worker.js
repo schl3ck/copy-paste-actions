@@ -765,7 +765,7 @@ function analyse(dict) {
               name: comment.name,
               isClipboard: comment.isClipboard,
               removes: comment.removes,
-              newShortcut: comment.newShortut,
+              // newShortcut: comment.newShortut,
               ranges: [new ActionRange(startsRange, null)],
               leftover: {
                 pause: null,

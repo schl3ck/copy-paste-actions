@@ -265,7 +265,7 @@ module.exports = function(options) {
                       {
                         name: " ",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(1, 1)),
                         actions: sct.getActions(1, 1),
@@ -314,7 +314,7 @@ module.exports = function(options) {
                       {
                         name: "asdf",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(1, 1)),
                         actions: sct.getActions(1, 1),
@@ -366,7 +366,7 @@ module.exports = function(options) {
                       {
                         name: " ",
                         isClipboard: false,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(3, 1)),
                         actions: sct.getActions(3, 1),
@@ -415,7 +415,7 @@ module.exports = function(options) {
                       {
                         name: "asdf",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: 1,
                         uuids: extractUUIDs(sct.getActions(1, 1)),
                         actions: sct.getActions(1, 1),
@@ -468,7 +468,7 @@ module.exports = function(options) {
                       {
                         name: " ",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: 2,
                         uuids: extractUUIDs(sct.getActions([1, 1], [3, 1])),
                         actions: sct.getActions([1, 1], [3, 1]),
@@ -529,7 +529,7 @@ module.exports = function(options) {
                       {
                         name: "asdf",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: actions.length,
                         uuids: extractUUIDs(actions),
                         actions: actions,
@@ -582,7 +582,7 @@ module.exports = function(options) {
                       {
                         name: " ",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: 2,
                         uuids: extractUUIDs(sct.getActions([1, 1], [3, 1])),
                         actions: sct.getActions([1, 1], [3, 1]),
@@ -643,7 +643,7 @@ module.exports = function(options) {
                       {
                         name: "asdf",
                         isClipboard: true,
-                        newShortcut: "",
+                        // newShortcut: "",
                         numberOfActions: actions.length,
                         uuids: extractUUIDs(actions),
                         actions: actions,
@@ -712,7 +712,7 @@ module.exports = function(options) {
                         {
                           name: " ",
                           isClipboard: true,
-                          newShortcut: "",
+                          // newShortcut: "",
                           numberOfActions: 2,
                           uuids: extractUUIDs(sct.getActions([3, 1], [5, 1])),
                           actions: sct.getActions([3, 1], [5, 1]),
@@ -789,7 +789,7 @@ module.exports = function(options) {
                         {
                           name: "asdf",
                           isClipboard: true,
-                          newShortcut: "",
+                          // newShortcut: "",
                           numberOfActions: actions.length,
                           uuids: extractUUIDs(actions),
                           actions: actions,
@@ -856,7 +856,7 @@ module.exports = function(options) {
                         {
                           name: " ",
                           isClipboard: true,
-                          newShortcut: "",
+                          // newShortcut: "",
                           numberOfActions: 2,
                           uuids: extractUUIDs(sct.getActions([1, 1], [3, 1])),
                           actions: sct.getActions([1, 1], [3, 1]),
@@ -933,7 +933,7 @@ module.exports = function(options) {
                         {
                           name: "asdf",
                           isClipboard: true,
-                          newShortcut: "",
+                          // newShortcut: "",
                           numberOfActions: actions.length,
                           uuids: extractUUIDs(actions),
                           actions: actions,
@@ -1000,7 +1000,7 @@ module.exports = function(options) {
                         {
                           name: " ",
                           isClipboard: true,
-                          newShortcut: "",
+                          // newShortcut: "",
                           numberOfActions: 1,
                           uuids: extractUUIDs(sct.getActions(3, 1)),
                           actions: sct.getActions(3, 1),
@@ -1069,7 +1069,7 @@ module.exports = function(options) {
                         {
                           name: "asdf",
                           isClipboard: true,
-                          newShortcut: "",
+                          // newShortcut: "",
                           numberOfActions: actions.length,
                           uuids: extractUUIDs(actions),
                           actions: actions,

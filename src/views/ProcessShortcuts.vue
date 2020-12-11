@@ -93,8 +93,8 @@ export default {
           .excludeAllCPAComments,
         cleanUp: this.preferences.Preferences.cleanUp,
         commentMarker: this.preferences.Preferences.commentMarker,
-        defaultNewShortcutName: this.preferences.Preferences
-          .defaultNewShortcutName,
+        // defaultNewShortcutName: this.preferences.Preferences
+        //   .defaultNewShortcutName,
         noSnippetName: this.$store.state.globals.noSnippetName,
       };
 

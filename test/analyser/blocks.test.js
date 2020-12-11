@@ -132,7 +132,7 @@ module.exports = function() {
           let snippet = {
             name: " ",
             isClipboard: funcProps.isClipboard,
-            newShortcut: "",
+            // newShortcut: "",
             numberOfActions: 0,
             uuids: extractUUIDs([]),
             actions: [],
@@ -516,7 +516,7 @@ module.exports = function() {
                   {
                     name: " ",
                     isClipboard: true,
-                    newShortcut: "",
+                    // newShortcut: "",
                     numberOfActions: 6,
                     uuids: extractUUIDs(sct.getActions(7, 5)),
                     actions: sct

@@ -252,7 +252,7 @@ module.exports = function() {
                   {
                     name: "asdf",
                     isClipboard: true,
-                    newShortcut: "",
+                    // newShortcut: "",
                     numberOfActions: actions.length,
                     uuids: extractUUIDs(actions),
                     actions: actions,

@@ -84,7 +84,7 @@ function getParamForScript(shortcut) {
     cleanUp: 0,
     commentMarker: ":cpa:",
     noSnippetName: " ",
-    defaultNewShortcutName: "New Shortcut",
+    // defaultNewShortcutName: "New Shortcut",
   };
 }
 

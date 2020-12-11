@@ -11,7 +11,6 @@ declare namespace Store {
   interface Snippet {
     name: string;
     isClipboard: boolean;
-    newShortcut: string;
     numberOfActions: number;
     uuids: {
       groups: string[];

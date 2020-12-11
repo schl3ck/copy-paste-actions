@@ -90,9 +90,6 @@
                 ).replace(/\$number/g, snippet.numberOfActions)
               }}
             </div>
-            <div v-if="snippet.newShortcut">
-              {{ lang.newShortcut.replace(/\$name/g, snippet.newShortcut) }}
-            </div>
           </div>
         </div>
 
