@@ -46,12 +46,17 @@ body {
   }
   .table-primary,
   .table-secondary,
-  .table-success,
   .table-danger,
-  .table-warning,
   .table-info,
   .table-light {
+    // TODO: adjust background-color for these
     color: var(--light-text-color);
+  }
+  .table-success, .table-success td, .table-success th {
+    background-color: #1f3525;
+  }
+  .table-warning, .table-warning td, .table-warning th {
+    background-color: #514627;
   }
   .custom-control-label::before {
     background-color: var(--background-color);
@@ -93,11 +98,18 @@ body {
     background-color: #1a3237;
     border-color: #164e57;
   }
+  .alert-danger {
+    color: #f0aeb3;
+    background-color: #260003;
+  }
   .bg-warning {
     color: var(--light-text-color);
   }
   .close {
     text-shadow: none;
+  }
+  .text-body {
+    color: var(--text-color) !important;
   }
   .text-secondary {
     color: #acbbc9 !important;

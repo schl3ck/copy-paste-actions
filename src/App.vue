@@ -315,8 +315,10 @@ h2 {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--background-color);
   padding-top: 0.5rem;
+  &:not([class*="alert-"]) {
+    background: var(--background-color);
+  }
 }
 .sticky-left {
   position: sticky;
