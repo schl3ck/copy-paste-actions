@@ -25,6 +25,18 @@ export function checkForUpdate() {
         const curVersion = store.state.preferences.Version.split(".");
         const newVersion = file.Version.split(".");
 
+        if (curVersion.length !== newVersion.length) {
+          if (curVersion.length > newVersion.length) {
+            newVersion.push(
+              ..."0".repeat(curVersion.length - newVersion.length).split(""),
+            );
+          } else {
+            curVersion.push(
+              ..."0".repeat(newVersion.length - curVersion.length).split(""),
+            );
+          }
+        }
+
         let isNewer = false;
         for (const [c, n] of zip(curVersion, newVersion)) {
           if (parseInt(n) > parseInt(c)) {
