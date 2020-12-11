@@ -1,8 +1,8 @@
 {
   "result": "success",
-  "id": 23685,
-  "Version": "2.0.1",
-  "URL": "https://www.icloud.com/shortcuts/b0208c11f8f645d4ad80361f9c40faa3",
-  "Notes": "* Add clarification to selection names in documentation\r\n* Fix some styles in dark mode\r\n* Render analyser warnings with full Markdown\r\n* Fix bug related to names in functions confusing the UI logic. Thanks to u/00PT for reporting!",
+  "id": 23686,
+  "Version": "2.1.0",
+  "URL": "https://www.icloud.com/shortcuts/5a450ee5628740ada6b517ed574af81e",
+  "Notes": "* Fix update check comparing too little version parts\r\n* Fix style issue in update notes\r\n\r\nChanges in version 2.0.1:\r\n* Add clarification to selection names in documentation\r\n* Fix some styles in dark mode\r\n* Render analyser warnings with full Markdown\r\n* Fix bug related to names in functions confusing the UI logic. Thanks to u/00PT for reporting!",
   "Release": "December 11, 2020"
 }
