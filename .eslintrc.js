@@ -12,12 +12,14 @@ module.exports = {
       "error",
       {
         code: 80,
+        ignoreComments: true,
         ignoreStrings: true,
+        ignoreUrls: true,
         ignoreTemplateLiterals: true,
         ignoreRegExpLiterals: true,
       },
     ],
-    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     quotes: [
       "error",
