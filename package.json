@@ -15,10 +15,6 @@
     "getVersionFromRoutineHub": "node scripts/getVersionFromRoutineHub.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.31",
-    "@fortawesome/free-regular-svg-icons": "^5.15.0",
-    "@fortawesome/free-solid-svg-icons": "^5.15.0",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.17.3",
     "bplist-creator": "0.0.8",
@@ -28,7 +24,6 @@
     "flexsearch": "^0.6.32",
     "gzip-js": "^0.3.2",
     "highlight.js": "^10.2.0",
-    "jquery": "^3.5.1",
     "jszip": "^3.5.0",
     "lodash": "^4.17.20",
     "plist": "^3.0.1",
