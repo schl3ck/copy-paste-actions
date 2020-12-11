@@ -11,7 +11,8 @@
     "coverage": "nyc npm test",
     "remoteConsoleServer": "node scripts/remoteConsoleServer.js",
     "format": "prettier-eslint --write \"%INIT_CWD%/@(src|scripts|public|test)/**/*.@(js|ts|json|vue)\"",
-    "generateLanguageFile": "node scripts/generateLanguageFile.js"
+    "generateLanguageFile": "node scripts/generateLanguageFile.js",
+    "getVersionFromRoutineHub": "node scripts/getVersionFromRoutineHub.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
