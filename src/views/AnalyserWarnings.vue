@@ -17,7 +17,7 @@
         >
           <div class="card-body">
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <p class="card-text mb-2" v-html="printWarning(warning)" />
+            <p class="card-text mb-2 markdown" v-html="printWarning(warning)" />
             <p class="card-text mb-1">
               {{ atAction(warning.action) }}
             </p>
@@ -144,5 +144,10 @@ export default {
 .img {
   width: 40px;
   height: 40px;
+}
+.markdown ::v-deep {
+  p {
+    margin-bottom: 0.5rem;
+  }
 }
 </style>

@@ -34,6 +34,28 @@ const result = {
 const srcDir = "src/lang";
 const distDir = "dist";
 
+// render the analyser warnings with full markdown
+const noInlineWhitelist = [
+  "wrongFunction",
+  "pauseResumeInPaste",
+  "pauseResumeInInsert",
+  "duplicateClipboardNoName",
+  "duplicateClipboardWithName",
+  "duplicateSnippetNoName",
+  "duplicateSnippetWithName",
+  "pasteEndNoStart",
+  "insertEndNoStart",
+  "pasteEndInsertStart",
+  "insertEndPasteStart",
+  "funcNoStart",
+  "funcClipboardFinished",
+  "funcSnippetFinished",
+  "pauseWhilePauseClipboard",
+  "pauseWhilePauseSnippet",
+  "resumeWhileResumeClipboard",
+  "resumeWhileResumeSnippet",
+];
+
 for (const file of fs.readdirSync(path.resolve(srcDir), {
   withFileTypes: true,
 })) {
@@ -42,7 +64,9 @@ for (const file of fs.readdirSync(path.resolve(srcDir), {
       fs.readFileSync(path.resolve(srcDir, file.name), "utf-8"),
       function(key, value) {
         if (typeof value === "string") {
-          return md.renderInline(value);
+          return noInlineWhitelist.includes(key)
+            ? md.render(value)
+            : md.renderInline(value);
         } else {
           return value;
         }
