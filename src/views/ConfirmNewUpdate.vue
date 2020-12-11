@@ -6,9 +6,8 @@
       {{ updateData.version }}
     </h2>
     <h4>{{ lang.changelog }}</h4>
-    <p class="update-notes">
-      {{ updateData.notes }}
-    </p>
+    <!-- eslint-disable-next-line vue/singleline-html-element-content-newline-->
+    <p class="update-notes">{{ updateData.notes }}</p>
     <b class="mr-2">{{ lang.releaseDate }}</b>
     {{ updateData.release.toLocaleDateString() }}
     <template v-if="ignoredUpdate">
