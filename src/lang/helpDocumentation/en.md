@@ -2,6 +2,7 @@
 
 ## Contents
 * [Function syntax](#function-syntax)
+* [Examples](#examples)
 * [Counting actions](#counting-actions)
 * [Treatment of blocks in selections](#treatment-of-blocks-in-selections)
 * [Magic Variables](#magic-variables)
@@ -13,11 +14,11 @@ The overall syntax for the comment actions is
 function: <function>
 name: <snippet name>
 ```
-`:cpa:` is the abbreviation of this shortcuts' name _CopyPaste Actions_ surrounded by colons to differentiate it from normal text.
+`:cpa:` is the abbreviation of this shortcuts' name _CopyPaste Actions_ surrounded by colons to differentiate it from normal text. It can be changed with the preference [Comment marker](#){data-pref="commentMarker"}. This documentation uses the standard value in the examples though.
 
 The colon `:` after the line titles `function` and `name` is optional as well as the line titles `function` and `name` themself. So these are equivalent:
-* `function: copy` is the same as `copy`
-* `name: my snippet` is the same as `my snippet`
+* `function: copy` is the same as `function copy` and `copy`
+* `name: my snippet` is the same as `name my snippet` and `my snippet`
 
 Possible values for `<function>` are
 * [`copy`](#copy-function)
@@ -113,6 +114,38 @@ Resumes a paused clipboard item/snippet so the following actions are again inclu
 If no number is given, it resumes until the end of the shortcut or until an `end` function is found, whichever comes first.
 
 This function is only supported in selections started with `copy`, `cut` and `save` and valid only after a `pause` function.
+
+## Examples
+Here are some examples of the whole comment action content and a short explanation of what it does.
+
+#### Example 1
+```
+:cpa:
+copy 3
+boolean values
+```
+Copies the next 7 actions using the name `boolean values`.
+
+#### Example 2
+```
+:cpa:
+end
+```
+Ends a selection that was started with `cut`, `copy`, or `save` and no name was specified there. This would **not** end example 1 because of the different names!
+
+#### Example 3
+```
+:cpa:
+paste replace 4
+```
+Pastes the clipboard item that has no name, while also removing the next 4 actions.
+
+#### Example 4
+```
+:cpa:
+end paste
+```
+Ends a selection that was started with `paste` or `insert` and no name was specified there. This would end example 3!
 
 ## Counting actions
 There are some special rules about counting actions.

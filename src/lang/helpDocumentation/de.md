@@ -1,6 +1,7 @@
 # Dokumentation
 
 * [Funktionssyntax](#funktionssyntax)
+* [Beispiele](#beispiele)
 * [Zählenweise von Aktionen](#zählweise-von-aktionen)
 * [Behandlung von Blöcken in einer Auswahl](#behandlung-von-blöcken-in-einer-auswahl)
 * [Magische Variablen](#magische-variablen)
@@ -12,11 +13,11 @@ Die generelle Syntax für die Kommentaraktionen ist
 function: <Funktion>
 name: <Ausschnitname>
 ```
-`:cpa:` ist die Abkürzung des Kurzbefehlnamens _CopyPaste Actions_, umschlossen von Doppelpunkten, um es vom normalen Text zu unterscheiden.
+`:cpa:` ist die Abkürzung des Kurzbefehlnamens _CopyPaste Actions_, umschlossen von Doppelpunkten, um es vom normalen Text zu unterscheiden. Dies kann mit der Einstellung [Kommentarmarkierung](#){data-pref="commentMarker"} geändert werden. Diese Dokumentation verwendet aber die Standardeinstellung in den folgenden Beispielen.
 
 Der Doppelpunkt `:` nach den Zeilentitel `function` und `name` ist optional, sowie die Zeilentitel `function` und `name` selbst. Ein paar Beispiele:
-* `function: copy` ist das gleiche wie `copy`
-* `name: my snippet` ist das gleiche wie `my snippet`
+* `function: copy` ist das gleiche wie `function copy` und `copy`
+* `name: my snippet` ist das gleiche wie `name my snippet` und `my snippet`
 
 Mögliche Werte für `<Funktion>` sind
 * [`copy`](#copy-funktion)
@@ -113,6 +114,38 @@ Setzt eine Zwischenablagenelement- oder Ausschnittauswahl fort, sodass die nachf
 Wenn keine Anzahl angegeben ist, wird fortgesetzt, bis entweder das Ende des Kurzbefehls, eine `pause`-Funktion oder eine `end`-Funktion erreicht wurde, was auch immer zuerst der Fall ist.
 
 Diese Funktion ist nur in einer Auswahl gültig, die durch `copy`, `cut` oder `save` begonnen wurde und wenn sie nach einer `pause`-Funktion eingesetzt wird.
+
+## Beispiele
+Hier ein paar Beispiele mit dem gesamten Kommentarinhalt und eine kurze Erklärung, was es bewirkt.
+
+#### Beispiel 1
+```
+:cpa:
+copy 3
+boolsche werte
+```
+Kopiert die nächsten 7 Aktionen und verwendet den Namen `boolsche werte`.
+
+#### Beispiel 2
+```
+:cpa:
+end
+```
+Beendet eine Auswahl die mit `cut`, `copy`, oder `save` begonnen wurde und dort kein Name angegeben ist. Dies würde **nicht** das Beispiel 1 beenden, da die Namen sich unterscheiden!
+
+#### Beispiel 3
+```
+:cpa:
+paste replace 4
+```
+Fügt das Zwischenablagenelement, welches keinen Namen hat, ein, während die nächsten 4 Aktionen entfernt werden.
+
+#### Beispiel 4
+```
+:cpa:
+end paste
+```
+Beendet eine Auswahl, die mit `paste` oder `insert` begonnen wurde und dort kein Name angegeben ist. Dies würde das Beispiel 3 beenden!
 
 ## Zählweise von Aktionen
 Es gibt einige spezielle Regeln betreffend dem Zählen von Aktionen
