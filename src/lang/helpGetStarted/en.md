@@ -34,9 +34,14 @@ in it. Like with most other clipboards, you can paste the actions multiple times
 This is the _paste function_.
 
 ## Example
-We want to copy two actions, so we put a copy function before them and an end function after them. Then we insert a paste function where we want to paste the actions.
+We want to copy two actions, so we put a copy function before them and an end function after them.
 
-#example1screenshot
+#example1copying
+
+Then we insert a paste function where we want to paste the actions. In this case this is a new shortcut, but it actually can be anywhere where a comment can be inserted!
+
+#example1pasting
+
 
 ## Running this shortcut
 After placing the functions (the comment actions) you exit the editing screen of your shortcut and run this shortcut. It will open your default browser with the main menu of this shortcut. Tap on _Select Shortcuts_, search and select your shortcut and click _Process_. You will be taken back to the Shortcuts app, running this shortcut again and after a few moments again back to your browser.  

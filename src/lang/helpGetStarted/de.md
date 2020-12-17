@@ -34,9 +34,13 @@ hinein. So wie die meisten anderen Zwischenablagen funktionieren, kannst du die 
 Dies ist die _Einfügefunktion_.
 
 ## Beispiel
-Wir möchten zwei Aktionen kopieren, also fügen wir eine Kopierfunktion davor ein und eine Endfunktion danach. Anschließend fügen wir auch noch eine Einfügefunktion dort ein, wo wir die Aktionen später einsetzen möchten.
+Wir möchten zwei Aktionen kopieren, also fügen wir eine Kopierfunktion davor ein und eine Endfunktion danach.
 
-#example1screenshot
+#example1copying
+
+Anschließend fügen wir auch noch eine Einfügefunktion dort ein, wo wir die Aktionen später einsetzen möchten. In diesem Beispiel ist es ein neuer Kurzbefehl, aber das kann auch an jeder anderen Stelle sein, wo ein Kommentar platziert werden kann!
+
+#example1pasting
 
 ## Ausführen dieses Kurzbefehls
 Nachdem die Funktionen (die Kommentaraktionen) eingesetzt sind, verlässt du den Editiermodus deines Kurzbefehls und startest den Kurzbefehl _CopyPaste Actions_. Es öffnet sich nun dein Browser mit dem Hauptmenü. Tippe auf _Kurzbefehle auswählen_, suche nach deinem Kurzbefehl, wähle ihn aus und tippe auf _Ausgewählte berabeiten_. Du wirst nun wieder zurück zur Kurzbefehle-App geleitet, sodass dein Kurzbefehl geladen wird und du erneut zum Browser zurück gebracht wirst.  
