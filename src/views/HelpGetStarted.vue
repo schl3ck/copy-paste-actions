@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import example1screenshot from "@/assets/example1screenshot.jpg";
+import example1copying from "@/assets/example1copying.jpg";
+import example1pasting from "@/assets/example1pasting.jpg";
 
 export default {
   name: "HelpGetStarted",
@@ -14,10 +15,15 @@ export default {
     },
     /** @returns {string} */
     html() {
-      return this.lang.html.replace(
-        /<p>#example1screenshot<\/p>/gm,
-        `<p><img class="example-image" src="${example1screenshot}"></p>`,
-      );
+      return this.lang.html
+        .replace(
+          /<p>#example1copying<\/p>/gm,
+          `<p><img class="example-image" src="${example1copying}"></p>`,
+        )
+        .replace(
+          /<p>#example1pasting<\/p>/gm,
+          `<p><img class="example-image" src="${example1pasting}"></p>`,
+        );
     },
   },
   activated() {
