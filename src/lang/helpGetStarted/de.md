@@ -13,13 +13,19 @@ Das geht sehr einfach. Du fügst eine Kommentaraktion vor der Aktion ein, die du
 :cpa:
 copy
 ```
-hinein. Die Zeile `:cpa:` markiert diesen Kommentar, sodass er von diesem Kurzbefehl bearbeitet wird. Jeder Kommentar, der bearbeitet werden soll, muss damit auf der ersten Zeile beginnen. Du kannst dir es als Abkürzung des Kurzbefehlnamens _CopyPaste Actions_ merken, wobei die Abkürzung durch Doppelpunkte umgeben ist, damit das ganze leichter von normalem Text unterschieden werden kann.  
+hinein.
+
+#copyFunction
+
+Die Zeile `:cpa:` markiert diesen Kommentar, sodass er von diesem Kurzbefehl bearbeitet wird. Jeder Kommentar, der bearbeitet werden soll, muss damit auf der ersten Zeile beginnen. Du kannst dir es als Abkürzung des Kurzbefehlnamens _CopyPaste Actions_ merken, wobei die Abkürzung durch Doppelpunkte umgeben ist, damit das ganze leichter von normalem Text unterschieden werden kann.  
 Auf der nächsten Zeile gibt `copy` an, dass die nächsten Aktionen kopiert werden sollen. Wie viele? Alle bis zum Ende des Kurzbefehls. Wenn du das nicht möchtest, dann kannst du eine weitere Kommentaraktion nach der letzten Aktion einfügen, die du kopieren möchtest und
 ```
 :cpa:
 end
 ```
 hinein schreiben.
+
+#endFunction
 
 Diese Kommentare heißen _Funktionen_. Hier kamen die _Kopierfunktion_ und _Endfunktion_ vor. Die Funktion ist einfach nach dem benannt, was in der zweiten Zeile steht.
 
@@ -29,7 +35,11 @@ Das Einfügen von Aktionen geht sehr ähnlich wie das Kopieren. Du fügst eine K
 :cpa:
 paste
 ```
-hinein. So wie die meisten anderen Zwischenablagen funktionieren, kannst du die Aktionen auch öfters und an verschiedenen Orten einfügen. Füge einfach an jedem Punkt, wo du die Aktionen einfügen möchtest, einen Kommentar mit diesen beiden Zeilen ein.
+hinein.
+
+#pasteFunction
+
+So wie die meisten anderen Zwischenablagen funktionieren, kannst du die Aktionen auch öfters und an verschiedenen Orten einfügen. Füge einfach an jedem Punkt, wo du die Aktionen einfügen möchtest, einen Kommentar mit diesen beiden Zeilen ein.
 
 Dies ist die _Einfügefunktion_.
 

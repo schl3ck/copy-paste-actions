@@ -13,13 +13,19 @@ That's really simple. You insert a comment action before the action you want to 
 :cpa:
 copy
 ```
-in it. The line with `:cpa:` tells the shortcut to process this comment. Every comment which should be picked up by this shortcut starts with this on the first line. You can remember it as the abbreviation of this shortcuts' name _CopyPaste Actions_ surrounded by colons to differentiate it from normal text.  
+in it.
+
+#copyFunction
+
+The line with `:cpa:` tells the shortcut to process this comment. Every comment which should be picked up by this shortcut starts with this on the first line. You can remember it as the abbreviation of this shortcuts' name _CopyPaste Actions_ surrounded by colons to differentiate it from normal text.  
 The following line `copy` tells the shortcut to copy the next actions. How many? All of them until the end of the shortcut. If you don't want that, then you insert another comment after the last action you want to copy and write
 ```
 :cpa:
 end
 ```
 in it.
+
+#endFunction
 
 Let's call these comment actions _functions_. Here we got to know the _copy function_ and _end function_. It's simply the phrase on the second line that names the function.
 
@@ -29,7 +35,11 @@ Pasting actions is done similar to copying them. You insert a comment action whe
 :cpa:
 paste
 ```
-in it. Like with most other clipboards, you can paste the actions multiple times at different locations. For every location you want to paste at simply insert a comment action with these two lines.
+in it.
+
+#pasteFunction
+
+Like with most other clipboards, you can paste the actions multiple times at different locations. For every location you want to paste at simply insert a comment action with these two lines.
 
 This is the _paste function_.
 
