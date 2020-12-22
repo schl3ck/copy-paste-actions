@@ -3,6 +3,6 @@
   "id": 23974,
   "Version": "2.1.1",
   "URL": "https://www.icloud.com/shortcuts/e6f5bb59d1354adfa338196ea962eada",
-  "Notes": "* Change example in Getting Started\r\n* Add more screenshots to Getting Started\r\n* Add examples to Documentation\r\n* Fix crash when refreshing shortcuts icon cache (thanks to /u/Dastefster for reporting)",
+  "Notes": "* Change example in Getting Started\n* Add more screenshots to Getting Started\n* Add examples to Documentation\n* Fix crash when refreshing shortcuts icon cache (thanks to /u/Dastefster for reporting)",
   "Release": "December 22, 2020"
 }

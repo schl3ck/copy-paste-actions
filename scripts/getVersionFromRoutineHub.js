@@ -10,7 +10,13 @@ https.get(url, (res) => {
     body += data;
   });
   res.on("end", () => {
-    body = JSON.parse(body);
+    body = JSON.parse(body, (key, value) => {
+      if (typeof value === "string") {
+        return value.replace(/\r\n|\r/g, "\n");
+      } else {
+        return value;
+      }
+    });
     const version = body.Version;
     fs.writeFileSync("version.json", JSON.stringify(body, null, 2) + "\n", {
       encoding: "utf-8",
