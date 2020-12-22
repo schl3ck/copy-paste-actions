@@ -29,6 +29,15 @@ https.get(url, (res) => {
         encoding: "utf-8",
       },
     );
+    const prefs = JSON.parse(
+      fs.readFileSync("src/assets/preferences.json", "utf-8"),
+    );
+    prefs.Version = version;
+    fs.writeFileSync(
+      "src/assets/preferences.json",
+      JSON.stringify(prefs, null, 2) + "\n",
+      { encoding: "utf-8" },
+    );
 
     console.log("Updated to version " + version);
   });

@@ -1,8 +1,8 @@
 {
   "result": "success",
-  "id": 23686,
-  "Version": "2.1.0",
-  "URL": "https://www.icloud.com/shortcuts/5a450ee5628740ada6b517ed574af81e",
-  "Notes": "* Fix update check comparing too little version parts\r\n* Fix style issue in update notes\r\n\r\nChanges in version 2.0.1:\r\n* Add clarification to selection names in documentation\r\n* Fix some styles in dark mode\r\n* Render analyser warnings with full Markdown\r\n* Fix bug related to names in functions confusing the UI logic. Thanks to u/00PT for reporting!",
-  "Release": "December 11, 2020"
+  "id": 23974,
+  "Version": "2.1.1",
+  "URL": "https://www.icloud.com/shortcuts/e6f5bb59d1354adfa338196ea962eada",
+  "Notes": "* Change example in Getting Started\r\n* Add more screenshots to Getting Started\r\n* Add examples to Documentation\r\n* Fix crash when refreshing shortcuts icon cache (thanks to /u/Dastefster for reporting)",
+  "Release": "December 22, 2020"
 }
