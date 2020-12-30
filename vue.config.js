@@ -1,5 +1,7 @@
 const fs = require("fs");
 const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 module.exports = {
   lintOnSave: "default",
@@ -27,6 +29,13 @@ module.exports = {
     config.plugin("extra-watch").use(ExtraWatchWebpackPlugin, [
       {
         dirs: ["src/lang/"],
+      },
+    ]);
+
+    config.plugin("bundle-analyzer").use(BundleAnalyzerPlugin, [
+      {
+        analyzerMode: "static",
+        openAnalyzer: false, // process.env.NODE_ENV === "production",
       },
     ]);
 
