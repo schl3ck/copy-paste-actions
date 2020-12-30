@@ -80,6 +80,7 @@ module.exports = {
         },
       },
     ],
+    "standard/no-callback-literal": "off",
     "vue/max-attributes-per-line": [
       "error",
       {
