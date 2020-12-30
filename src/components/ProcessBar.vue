@@ -5,7 +5,7 @@
         'align-items-center'
     "
   >
-    <transition :name="props.restoringState ? '' : 'fade'">
+    <transition name="fade">
       <div
         v-if="props.done"
         key="doneBlock"
@@ -39,7 +39,7 @@
         class="w-100 d-flex flex-column align-items-center"
       >
         <div class="w-75 margin text-center status-icon">
-          <transition :name="props.restoringState ? '' : 'fade'">
+          <transition name="fade">
             <div
               v-if="props.percent === null"
               key="spinner"
@@ -74,7 +74,6 @@
 export default {
   name: "ProcessBar",
   props: {
-    restoringState: Boolean,
     done: Boolean,
     percent: {
       type: Number,

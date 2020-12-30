@@ -1,7 +1,6 @@
 <template>
   <div>
     <ProcessBar
-      :restoringState="restoringState"
       :done="done"
       :percent="percent"
       :doneButtonLabel="lang.openApp"
@@ -39,7 +38,6 @@ export default {
         messages: [],
       },
       base64: "",
-      restoringState: false,
     };
   },
   computed: {
@@ -70,11 +68,7 @@ export default {
   },
   watch: {
     base64(newV) {
-      if (
-        newV
-        && !this.restoringState
-        && this.preferences.Preferences.autoOpenApp
-      ) {
+      if (newV && this.preferences.Preferences.autoOpenApp) {
         this.openNow();
       }
     },

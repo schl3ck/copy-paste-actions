@@ -21,13 +21,7 @@
         <pre class="pre-wrap"><code>{{ analyserError }}</code></pre>
       </div>
     </div>
-    <ProcessBar
-      v-else
-      :restoringState="restoringState"
-      :percent="percent"
-      :done="done"
-      :statusLabel="status"
-    />
+    <ProcessBar v-else :percent="percent" :done="done" :statusLabel="status" />
   </div>
 </template>
 
@@ -44,7 +38,6 @@ export default {
     return {
       percent: null,
       status: "\u00A0",
-      restoringState: false,
       done: false,
       noItems: false,
       analyserError: null,

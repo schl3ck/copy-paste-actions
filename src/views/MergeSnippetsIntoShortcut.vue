@@ -28,7 +28,6 @@
     </div>
     <ProcessBar
       v-else-if="!unsavedChanges"
-      :restoringState="restoringState"
       :percent="percent"
       :done="done"
       :statusLabel="status"
@@ -50,7 +49,6 @@ export default {
     return {
       percent: null,
       status: "\u00A0",
-      restoringState: false,
       done: false,
       noItems: false,
       mergerError: null,
