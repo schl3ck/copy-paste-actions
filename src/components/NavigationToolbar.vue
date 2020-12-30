@@ -13,6 +13,7 @@
           class="btn"
           :class="canGoBack ? 'btn-outline-primary' : 'btn-outline-secondary'"
           :disabled="!canGoBack"
+          :title="lang.back"
           @click="back"
         >
           <BIcon icon="chevron-left" />
@@ -23,6 +24,7 @@
             canGoMainMenu ? 'btn-outline-primary' : 'btn-outline-secondary',
           ]"
           :disabled="!canGoMainMenu"
+          :title="lang.mainMenu"
           @click="mainMenu"
         >
           <BIcon icon="house-fill" />
@@ -35,6 +37,7 @@
               : 'btn-outline-secondary'
           "
           :disabled="!canGoHistoryOverview"
+          :title="lang.navigationHistory"
           @click="historyOverview"
         >
           <BIcon icon="list-ol" />
@@ -45,6 +48,7 @@
             canGoForward ? 'btn-outline-primary' : 'btn-outline-secondary',
           ]"
           :disabled="!canGoForward"
+          :title="lang.forward"
           @click="forward"
         >
           <BIcon icon="chevron-left" rotate="180" />
@@ -93,6 +97,10 @@ export default {
     };
   },
   computed: {
+    /** @return {object} */
+    lang() {
+      return this.$store.state.language.navigationToolbar;
+    },
     /** @returns {boolean} */
     canGoBack() {
       return this.historyIndex > 0;

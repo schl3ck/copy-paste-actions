@@ -9,6 +9,12 @@
     "text": "The state of this page is probably outdated. Please close it and run this shortcut again.",
     "link": "Dismiss"
   },
+  "navigationToolbar": {
+    "back": "Back",
+    "mainMenu": "Main menu",
+    "navigationHistory": "Navigation history",
+    "forward": "Forward"
+  },
   "mainMenu": {
     "title": "Main Menu",
     "selectShortcuts": {

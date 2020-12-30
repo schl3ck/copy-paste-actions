@@ -9,6 +9,12 @@
     "text": "Der Zustand dieser Seite is vermutlich nicht mehr aktuell. Bitte schließe sie und starte den Kurzbefehl erneut.",
     "link": "Ausblenden"
   },
+  "navigationToolbar": {
+    "back": "Zurück",
+    "mainMenu": "Hauptmenü",
+    "navigationHistory": "Verlauf",
+    "forward": "Vorwärts"
+  },
   "mainMenu": {
     "title": "Hauptmenü",
     "selectShortcuts": {
