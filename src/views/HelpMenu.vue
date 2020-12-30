@@ -2,17 +2,23 @@
   <div>
     <h2>{{ lang.title }}</h2>
 
-    <MenuList :items="menuItems" :columns="2" />
+    <div ref="content">
+      <MenuList :items="menuItems" :columns="2" />
+    </div>
+
+    <NavigationToolbar contentRefName="content" />
   </div>
 </template>
 
 <script>
 import MenuList from "@/components/MenuList.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "HelpMenu",
   components: {
     MenuList,
+    NavigationToolbar,
   },
   computed: {
     /** @returns {object} */
@@ -26,28 +32,28 @@ export default {
           ...this.lang.getStarted,
           icon: "info-circle",
           click: () => {
-            this.$root.$emit("navigate", "HelpGetStarted");
+            this.$router.push({ name: "HelpGetStarted" });
           },
         },
         {
           ...this.lang.faq,
           icon: "question-circle",
           click: () => {
-            this.$root.$emit("navigate", "HelpFAQ");
+            this.$router.push({ name: "HelpFAQ" });
           },
         },
         {
           ...this.lang.documentation,
           icon: "book",
           click: () => {
-            this.$root.$emit("navigate", "HelpDocumentation");
+            this.$router.push({ name: "HelpDocumentation" });
           },
         },
         {
           ...this.lang.bugReport,
           icon: "bug",
           click: () => {
-            this.$root.$emit("navigate", "HelpBugReport");
+            this.$router.push({ name: "HelpBugReport" });
           },
         },
       ];
@@ -55,7 +61,6 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackButton", false);
   },
 };
 </script>

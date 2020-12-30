@@ -22,17 +22,21 @@
       </div>
     </div>
     <ProcessBar v-else :percent="percent" :done="done" :statusLabel="status" />
+
+    <NavigationToolbar />
   </div>
 </template>
 
 <script>
 import ProcessBar from "@/components/ProcessBar.vue";
 import worker from "@/utils/worker";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "ProcessShortcuts",
   components: {
     ProcessBar,
+    NavigationToolbar,
   },
   data() {
     return {
@@ -60,9 +64,6 @@ export default {
     preferences() {
       return this.$store.state.preferences;
     },
-    historyReplaceState() {
-      return true;
-    },
   },
   activated() {
     if (this.shortcuts.length) {
@@ -71,7 +72,6 @@ export default {
       this.$root.$once("loadShortcutsFinished", this.init);
     }
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", true);
   },
   methods: {
     init() {
@@ -108,13 +108,13 @@ export default {
             this.done = true;
             this.$store.commit("processResult", result);
             if (result.warnings.length > 0) {
-              this.$root.$emit("navigate", "AnalyserWarnings");
+              this.$router.replace({ name: "AnalyserWarnings" });
             } else if (result.nItems === 0) {
               this.noItems = true;
             } else if (result.shortcuts.some((s) => s.snippets.length > 0)) {
-              this.$root.$emit("navigate", "FoundSnippets");
+              this.$router.replace({ name: "FoundSnippets" });
             } else {
-              this.$root.$emit("navigate", "FoundInserts");
+              this.$router.replace({ name: "FoundInserts" });
             }
           })
           .catch((err) => {
@@ -123,9 +123,6 @@ export default {
       } else {
         this.status = this.lang.noShortcuts;
       }
-    },
-    toMainMenu() {
-      this.$root.$emit("navigate", "MainMenu");
     },
   },
 };

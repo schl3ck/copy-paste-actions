@@ -1,17 +1,14 @@
 <template>
   <div>
     <div
-      :class="
-        'fixed-top fixed-bottom container d-flex flex-column ' +
-          'align-items-center justify-content-center'
-      "
+      :class="[
+        'fixed-top fixed-bottom container d-flex flex-column',
+        'align-items-center justify-content-center',
+      ]"
     >
       <template v-if="loaded || large">
         <div
-          :class="
-            'flex-grow-1 d-flex flex-column align-items-center ' +
-              'justify-content-center'
-          "
+          class="d-flex flex-column align-items-center justify-content-center"
         >
           <BIcon
             :icon="loaded ? 'file-earmark-fill' : 'exclamation-circle-fill'"
@@ -22,7 +19,8 @@
             v-html="loaded ? lang.shortcutsLoaded : shortcutsSizeLarge"
           />
         </div>
-        <ButtonBar :buttons="buttons" />
+
+        <NavigationToolbar :buttons="buttons" />
       </template>
     </div>
   </div>
@@ -30,12 +28,12 @@
 
 <script>
 import { navigateAndBuildZip } from "@/utils/openApp";
-import ButtonBar from "@/components/ButtonBar.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "ConfirmSelectedShortcuts",
   components: {
-    ButtonBar,
+    NavigationToolbar,
   },
   data() {
     return {
@@ -50,9 +48,9 @@ export default {
     selected() {
       return this.$store.state.shortcuts.filter((s) => s.selected);
     },
-    /** @returns {true} */
-    historyReplaceState() {
-      return true;
+    /** @returns {"replace"} */
+    routerMethod() {
+      return "replace";
     },
     /** @returns {object} */
     lang() {
@@ -99,12 +97,6 @@ export default {
       this.large = size;
       this.buttons = [
         {
-          class: "btn-primary",
-          icon: "chevron-left",
-          text: this.lang.back,
-          click: this.goBack.bind(this),
-        },
-        {
           class: "btn-warning",
           icon: "play-fill",
           text: this.lang.continue,
@@ -120,7 +112,7 @@ export default {
     load() {
       const names = this.selected.map((s) => s.name);
 
-      navigateAndBuildZip(this.$root, {
+      navigateAndBuildZip({
         closePage: process.env.NODE_ENV !== "development",
         actions: [
           "Preferences.get",
@@ -129,6 +121,7 @@ export default {
           "Snippets.get",
           "Build.processShortcuts",
         ],
+        routerMethod: this.routerMethod,
         data: [
           {
             name: "selectedShortcuts.json",
@@ -138,10 +131,7 @@ export default {
       });
     },
     useCached() {
-      this.$root.$emit("navigate", "ProcessShortcuts");
-    },
-    goBack() {
-      window.history.back();
+      this.$router[this.routerMethod]({ name: "ProcessShortcuts" });
     },
   },
 };

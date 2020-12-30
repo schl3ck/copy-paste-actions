@@ -28,24 +28,20 @@
       </div>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container bg-opaque">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar :buttons="buttons" contentRefName="content" />
   </div>
 </template>
 
 <script>
-import ButtonBar from "@/components/ButtonBar.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import MissingShortcuts from "@/components/MissingShortcuts.vue";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "ConfirmAutoAnalyser",
   components: {
-    ButtonBar,
+    NavigationToolbar,
     MissingShortcuts,
   },
-  mixins: [handleButtonToolbarMixin("content", "toolbar")],
   data() {
     return {
       noShortcuts: false,
@@ -74,16 +70,23 @@ export default {
           class: "btn-primary",
           icon: "list-check",
           click: () => {
-            this.$root.$once("navigated.MainMenu", () => {
-              this.$root.$emit("navigate", "Preferences");
-            });
-            this.$root.$once("navigated.Preferences", (comp) => {
-              const pref = comp.prefsWithLang.find(
-                (p) => p.key === "autoLoadShortcuts",
-              );
-              comp.openPrefSettings(pref);
-            });
-            this.$root.$emit("navigate", "MainMenu");
+            this.$router
+              .push({ name: "MainMenu" })
+              .then(() => {
+                return this.$router.push({
+                  name: "Preferences",
+                  params: {
+                    scrollToPref: "autoLoadShortcuts",
+                  },
+                });
+              })
+              .then(() => {
+                const comp = this.$store.state.activeRouterView;
+                const pref = comp.prefsWithLang.find(
+                  (p) => p.key === "autoLoadShortcuts",
+                );
+                comp.openPrefSettings(pref);
+              });
           },
         });
       } else {
@@ -95,7 +98,7 @@ export default {
             scale: 1.25,
           },
           click: () => {
-            this.$root.$emit("navigate", "ProcessShortcuts");
+            this.$router.push({ name: "ProcessShortcuts" });
           },
         });
       }
@@ -111,15 +114,7 @@ export default {
             this.$store.commit("userPreferences", {
               autoAnalyseShortcuts: false,
             });
-            this.$root.$emit("navigate", "MainMenu");
-          },
-        },
-        {
-          text: this.lang.toMainMenu,
-          class: "btn-outline-primary",
-          icon: "chevron-left",
-          click: () => {
-            this.$root.$emit("navigate", "MainMenu");
+            this.$router.push({ name: "MainMenu" });
           },
         },
       ]);
@@ -138,7 +133,6 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackButton", false);
   },
   methods: {
     checkShortcuts() {
@@ -152,8 +146,5 @@ export default {
 .icon {
   width: 30px;
   height: 30px;
-}
-.bg-opaque {
-  background: var(--background-color);
 }
 </style>

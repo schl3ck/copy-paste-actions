@@ -80,17 +80,18 @@ export default {
           class: "btn-primary",
           icon: "gear-wide-connected",
           click: () => {
-            const root = this.$root;
             const toPref = () => {
-              root.$emit("navigate", "Preferences", {
-                scrollToPref: "autoLoadShortcuts",
+              this.$router.push({
+                name: "Preferences",
+                params: {
+                  scrollToPref: "autoLoadShortcuts",
+                },
               });
             };
             if (this.skipMainMenu) {
               toPref();
             } else {
-              root.$once("navigated.MainMenu", toPref);
-              root.$emit("navigate", "MainMenu");
+              this.$router.push({ name: "MainMenu" }).then(toPref);
             }
           },
         },

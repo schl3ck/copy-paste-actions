@@ -44,9 +44,7 @@
       </button>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar :buttons="buttons" contentRefName="list" />
 
     <transition name="fade">
       <div
@@ -116,16 +114,16 @@
 <script>
 import Vue from "vue";
 import ButtonBar from "@/components/ButtonBar.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import { copyTextToClipboard } from "@/utils/utils";
 import { navigateAndBuildZip } from "@/utils/openApp";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "ListiCloudUrls",
   components: {
     ButtonBar,
+    NavigationToolbar,
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       copySuccessfull: null,
@@ -182,7 +180,7 @@ export default {
             icon: { component: "IconSave" },
             click: () => {
               // let the function add all necessary data from the store
-              navigateAndBuildZip(this.$root, {
+              navigateAndBuildZip({
                 actions: ["Build.toSafari"],
                 toMainMenu: true,
                 closePage: false,
@@ -204,14 +202,9 @@ export default {
         this.urlToCopy = "";
       }
     },
-    buttons() {
-      const height = this.$refs.toolbar.clientHeight;
-      this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
-    },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
   },
   methods: {
     /** @param {Store.ICloudShortcut} shortcut */

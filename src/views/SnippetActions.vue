@@ -9,7 +9,7 @@
             {{ hasNoName ? lang.noSnippetName : title }}
           </h2>
           <button type="button" class="close" aria-label="Close" @click="close">
-            <span class="fs-2x text-secondary" aria-hidden="true">&times;</span>
+            <BIcon icon="x" class="fs-2x text-secondary" aria-hidden="true" />
           </button>
         </div>
         <div class="btn-group btn-group-sm w-100">
@@ -28,24 +28,30 @@
         </div>
       </div>
     </div>
-    <pre
-      class="text-pre width-maxcontent bg-transparent"
-      :style="{ 'font-size': zoom + 'rem' }"
-    ><code
+    <div ref="content">
+      <pre
+        class="text-pre width-maxcontent bg-transparent"
+        :style="{ 'font-size': zoom + 'rem' }"
+      ><code
       ref="code"
       class="lang-json"
       v-html="actionsHighlighted"
-    /></pre>
+      /></pre>
+    </div>
+
+    <NavigationToolbar contentRefName="content" />
   </div>
 </template>
 
 <script>
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 hljs.registerLanguage("json", json);
 
 export default {
   name: "SnippetActions",
+  components: { NavigationToolbar },
   props: {
     title: {
       type: String,
@@ -95,7 +101,7 @@ export default {
   },
   methods: {
     close() {
-      history.back();
+      this.$router.back();
     },
     setZoom(dir) {
       let inc;

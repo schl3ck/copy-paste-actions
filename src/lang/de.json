@@ -63,18 +63,13 @@
     "shortcutsSizeLarge": "Die ausgewählten Kurzbefehle sind recht groß ($size). Die Kurzbefehle-App oder Safari stürzt möglicherweise ab, wenn zu viele Daten übertragen werden.\nMöchtest du fortfahren?",
     "shortcutsLoaded": "Alle ausgewählten Kurzbefehle sind bereits geladen.\nMöchtest du fortfahren und die Geladenen verwenden oder möchtest du sie neu laden?\n\nBeachte, dass eine alte Version geladen ist, wenn du die Kurzebfehle seit dem Starten dieses Kurzbefehls verändert hast!",
     "reload": "Neu laden",
-    "continue": "Weiter",
-    "back": "Zurück"
+    "continue": "Weiter"
   },
   "openApp": {
     "title": "Kurzbefehle-App öffnen",
     "buildingUrl": "URL um die Kurzbefehle-App zu öffnen wird erstellt...",
     "done": "Fertig",
-    "openApp": "Kurzbefehle-App öffnen",
-    "closingIn": "Diese Seite wird in $seconds Sekunden geschlossen",
-    "closingNow": "Diese Seite schließt jetzt...",
-    "returningToMainMenuIn": "Kehre automatisch zum Hauptmenü in $seconds Sekunden zurück...",
-    "cancel": "Abbrechen"
+    "openApp": "Kurzbefehle-App öffnen"
   },
   "processShortcuts": {
     "title": "Bearbeiten von deinen Kurzbefehlen",
@@ -137,7 +132,7 @@
     },
     "name": "Name:",
     "description": "Beschreibung",
-    "showActions": "Zeige Aktionen an (JSON)",
+    "showActions": "Zeige Aktionen (JSON)",
     "discard": "Verwerfen",
     "overrides": {
       "normal": {
@@ -336,8 +331,7 @@
     "loadedShortcuts": "Geladenen Kurzbefehle:",
     "analyse": "Analysieren",
     "selectAutoLoadShortcuts": "Kurzbefehle auswählen",
-    "disablePreference": "Einstellung deaktivieren",
-    "toMainMenu": "Zum Hauptmenü"
+    "disablePreference": "Einstellung deaktivieren"
   },
   "helpMenu": {
     "title": "Hilfe",
@@ -384,5 +378,11 @@
     "message": "Danke, dass du meinen Kurzbefehl asuprobierst!\n\nEs sieht so aus, dass dies das erste Mal ist, dass du diesen Kurzbefehl ausführst. Möchtest du die _Ersten Schritte_ anzeigen?\n\nP.S.: Du kannst die Browser-Chronik verwenden, um zwischen den Menüs zu navigieren!",
     "viewGetStarted": "_Erste Schritte_ anzeigen",
     "close": "Ausblenden"
+  },
+  "historyOverview": {
+    "title": "Verlauf"
+  },
+  "snippetActions": {
+    "title": "Ausschnittinhalt"
   }
 }

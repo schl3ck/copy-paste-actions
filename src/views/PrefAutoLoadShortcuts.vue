@@ -17,10 +17,6 @@ export default {
     lang() {
       return this.$store.state.language.prefAutoLoadShortcuts;
     },
-    /** @returns {true} */
-    historyReplaceState() {
-      return true;
-    },
     /** @returns {Store.Shortcut[]} */
     shortcuts() {
       return this.$store.state.shortcuts;
@@ -38,22 +34,25 @@ export default {
       const s = this.shortcuts.find((s) => s.name === shortcut);
       s && (s.selected = true);
     }
-    this.$root.$emit("navigate", "SelectShortcuts", {
-      message: this.lang.note,
-      messageVariant: "alert-info",
-      acceptNoSelection: true,
-      continueLabel: this.lang.done,
-      continueIcon: "check",
-      continue: () => {
-        const selectedShortcuts = this.shortcuts.filter((s) => s.selected);
-        this.save(selectedShortcuts.map((s) => s.name));
-        for (const shortcut of selectedShortcuts) {
-          shortcut.selected = false;
-        }
-        for (const shortcut of normalSelectedShortcuts) {
-          shortcut.selected = true;
-        }
-        history.back();
+    this.$router.replace({
+      name: "SelectShortcuts",
+      params: {
+        message: this.lang.note,
+        messageVariant: "alert-info",
+        acceptNoSelection: true,
+        continueLabel: this.lang.done,
+        continueIcon: "check",
+        continue: () => {
+          const selectedShortcuts = this.shortcuts.filter((s) => s.selected);
+          this.save(selectedShortcuts.map((s) => s.name));
+          for (const shortcut of selectedShortcuts) {
+            shortcut.selected = false;
+          }
+          for (const shortcut of normalSelectedShortcuts) {
+            shortcut.selected = true;
+          }
+          this.$router.back();
+        },
       },
     });
   },

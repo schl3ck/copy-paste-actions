@@ -63,18 +63,13 @@
     "shortcutsSizeLarge": "The selected shortcuts are quite large ($size). The Shortcuts app or Safari may crash if too much data is transferred.\nDo you want to continue?",
     "shortcutsLoaded": "All selected shortcuts are already loaded.\nDo you want to continue and use them or reload them?\n\nNote that they are outdated when you've changed them since starting this Shortcut!",
     "reload": "Reload",
-    "continue": "Continue",
-    "back": "Back"
+    "continue": "Continue"
   },
   "openApp": {
     "title": "Open Shortcuts app",
     "buildingUrl": "Building URL to open Shortcuts...",
     "done": "Done",
-    "openApp": "Open Shortcuts",
-    "closingIn": "Closing page in $seconds s",
-    "closingNow": "Closing page now...",
-    "returningToMainMenuIn": "Returning to Main Menu in $seconds s",
-    "cancel": "Cancel"
+    "openApp": "Open Shortcuts"
   },
   "processShortcuts": {
     "title": "Processing your shortcuts",
@@ -336,8 +331,7 @@
     "loadedShortcuts": "Loaded shortcuts:",
     "analyse": "Analyse",
     "selectAutoLoadShortcuts": "Select Shortcuts to Auto-Load",
-    "disablePreference": "Disable Preference",
-    "toMainMenu": "To Main Menu"
+    "disablePreference": "Disable Preference"
   },
   "helpMenu": {
     "title": "Help",
@@ -384,5 +378,11 @@
     "message": "Thank you for checking out my shortcut!\n\nIt seems like this is the first time you're executing this shortcut. Do you want to view the _Get Started_ guide?\n\nP.S.: You can use the browser history to navigate between the menus!",
     "viewGetStarted": "View _Get Started_",
     "close": "Dismiss"
+  },
+  "historyOverview": {
+    "title": "History"
+  },
+  "snippetActions": {
+    "title": "Snippet actions"
   }
 }

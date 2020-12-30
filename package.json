@@ -31,6 +31,7 @@
     "tarballjs": "git+https://github.com/schl3ck/tarballjs.git#v0.2.1",
     "uuid": "^8.3.0",
     "vue": "^2.6.12",
+    "vue-router": "^3.4.9",
     "vuex": "^3.5.1"
   },
   "devDependencies": {

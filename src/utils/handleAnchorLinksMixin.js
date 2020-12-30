@@ -24,13 +24,16 @@ export default Vue.extend({
           const page = element.getAttribute("data-page");
           element.addEventListener("click", (event) => {
             event.preventDefault();
-            this.$root.$emit("navigate", page);
+            this.$router.push({ name: page });
           });
         } else if (element.hasAttribute("data-pref")) {
           const pref = element.getAttribute("data-pref");
           element.addEventListener("click", (event) => {
             event.preventDefault();
-            this.$root.$emit("navigate", "Preferences", { scrollToPref: pref });
+            this.$router.push({
+              name: "Preferences",
+              params: { scrollToPref: pref },
+            });
           });
         }
       },

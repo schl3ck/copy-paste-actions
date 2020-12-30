@@ -31,23 +31,20 @@
         {{ lang.noItemsFound }}
       </h4>
     </div>
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+
+    <NavigationToolbar :buttons="buttons" contentRefName="list" />
   </div>
 </template>
 
 <script>
 import { groupBy, mapValues } from "lodash";
-import ButtonBar from "@/components/ButtonBar.vue";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "AnalyserWarnings",
   components: {
-    ButtonBar,
+    NavigationToolbar,
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       /** @type {ButtonBar.Button[]} */
@@ -86,28 +83,20 @@ export default {
     },
   },
   created() {
-    this.buttons = [
-      {
-        class: "btn-outline-primary",
-        icon: "chevron-left",
-        text: this.$store.getters.langToMainMenu,
-        click: () => this.$root.$emit("navigate", "MainMenu"),
-      },
-    ];
+    this.buttons = [];
     if (this.hasItems) {
-      this.buttons.unshift({
+      this.buttons.push({
         class: "btn-warning",
         icon: "play-fill",
         iconOptions: {
           scale: 1.5,
         },
         text: this.lang.ignoreContinue,
-        click: () => this.$root.$emit("navigate", "FoundSnippets"),
+        click: () => this.$router.push({ name: "FoundSnippets" }),
       });
     }
   },
   activated() {
-    this.$store.commit("showBackButton", false);
     this.$store.commit("showMainTitle", false);
   },
   methods: {

@@ -93,24 +93,24 @@
       </div>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar
+      :buttons="buttons"
+      contentRefName="list"
+      :routerMethod="routerMethod"
+    />
   </div>
 </template>
 
 <script>
 import SnippetListItem from "@/components/SnippetListItem.vue";
-import ButtonBar from "@/components/ButtonBar.vue";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "FoundInserts",
   components: {
     SnippetListItem,
-    ButtonBar,
+    NavigationToolbar,
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   computed: {
     /** @returns {object} */
     lang() {
@@ -148,15 +148,9 @@ export default {
 
             this.assignSnippetsToInserts();
 
-            this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
-          },
-        },
-        {
-          text: this.$store.getters.langToMainMenu,
-          class: "btn-outline-primary",
-          icon: "chevron-left",
-          click: () => {
-            this.$root.$emit("navigate", "MainMenu");
+            this.$router[this.routerMethod]({
+              name: "MergeSnippetsIntoShortcut",
+            });
           },
         },
       ];
@@ -187,6 +181,10 @@ export default {
         || this.autoAcceptInserts
       );
     },
+    /** @returns {"replace" | "push"} */
+    routerMethod() {
+      return this.historyReplaceState ? "replace" : "push";
+    },
   },
   activated() {
     if (this.historyReplaceState) {
@@ -194,12 +192,11 @@ export default {
         this.assignSnippetsToInserts();
       }
 
-      this.$root.$emit("navigate", "MergeSnippetsIntoShortcut");
+      this.$router[this.routerMethod]({ name: "MergeSnippetsIntoShortcut" });
       return;
     }
 
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
   },
   methods: {
     noSnippetName(val) {
@@ -216,14 +213,18 @@ export default {
       );
     },
     selectSnippet(insert) {
-      this.$root.$emit("navigate", "ListSnippets", {
-        editable: false,
-        clipboardFirst: insert.isClipboard,
-        highlight: this.getSnippet(insert),
-        onSelect(snippet) {
-          insert.name = snippet.name;
-          insert.isClipboard = snippet.isClipboard;
-          window.history.back();
+      const router = this.$router;
+      router.push({
+        name: "ListSnippets",
+        params: {
+          editable: false,
+          clipboardFirst: insert.isClipboard,
+          highlight: this.getSnippet(insert),
+          onSelect(snippet) {
+            insert.name = snippet.name;
+            insert.isClipboard = snippet.isClipboard;
+            router.back();
+          },
         },
       });
     },

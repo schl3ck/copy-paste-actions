@@ -32,11 +32,14 @@
       :done="done"
       :statusLabel="status"
     />
+
+    <NavigationToolbar :routerMethod="routerMethod" />
   </div>
 </template>
 
 <script>
 import ProcessBar from "@/components/ProcessBar.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import worker from "@/utils/worker";
 import { navigateAndBuildZip, openNow } from "@/utils/openApp";
 
@@ -44,6 +47,7 @@ export default {
   name: "MergeSnippetsIntoShortcut",
   components: {
     ProcessBar,
+    NavigationToolbar,
   },
   data() {
     return {
@@ -83,16 +87,17 @@ export default {
           };
         });
     },
-    historyReplaceState() {
-      return true;
+    /** @returns {"replace"} */
+    routerMethod() {
+      return "replace";
     },
+    /** @returns {boolean} */
     unsavedChanges() {
       return this.$store.getters.hasUnsavedChanges;
     },
   },
   activated() {
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", true);
     this.init();
   },
   methods: {
@@ -112,7 +117,7 @@ export default {
              * } result */
             (result) => {
               this.done = true;
-              navigateAndBuildZip(this.$root, {
+              navigateAndBuildZip({
                 actions: [
                   "Preferences.get",
                   "Shortcuts.getNames",
@@ -120,6 +125,7 @@ export default {
                   "Shortcuts.import",
                 ],
                 closePage: true,
+                routerMethod: this.routerMethod,
                 data: result.shortcuts.map((s) => {
                   return {
                     name: s.name + ".shortcut",
@@ -138,22 +144,21 @@ export default {
 
         if (this.unsavedChanges) {
           this.done = true;
-          navigateAndBuildZip(this.$root, {
+          navigateAndBuildZip({
             // rely on automatic injection of unsaved settings/snippets
             actions: ["Build.toSafari"],
             closePage: false,
             messages: [this.lang.noItemsFound, this.lang.unsavedChanges],
+            routerMethod: this.routerMethod,
           });
         }
       }
     },
-    toMainMenu() {
-      this.$root.$emit("navigate", "MainMenu");
-    },
     openApp() {
-      openNow(this.$root, "", {
+      openNow("", {
         closePage: true,
         doNotRun: true,
+        routerMethod: this.routerMethod,
       });
     },
   },

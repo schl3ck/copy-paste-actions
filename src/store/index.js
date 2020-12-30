@@ -11,6 +11,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    /** @type {Vue} */
+    activeRouterView: null,
+    showHistoryOverview: false,
     /** @type {Store.Shortcut[]} */
     shortcuts: [],
     /** @type {Store.AppSettings} */
@@ -18,7 +21,6 @@ export default new Vuex.Store({
     prefConstraints: Object.assign({}, prefConstraints),
     language: {},
     showMainTitle: true,
-    showBackButton: false,
     useGlobalContainer: true,
     /** @type {Store.ProcessResult[]} */
     processResult: [],
@@ -48,6 +50,7 @@ export default new Vuex.Store({
     //   notes: "new version notes should go here. how about\nline breaks?",
     //   release: new Date()
     // },
+    hideUpdateBanner: false,
     probablyOutdated: false,
     /** @type {Store.ICloudUrl[]} */
     icloudUrls: [
@@ -66,6 +69,12 @@ export default new Vuex.Store({
     changedAutoLoadShortcuts: false,
   },
   mutations: {
+    activeRouterView(state, component) {
+      state.activeRouterView = component;
+    },
+    showHistoryOverview(state, value) {
+      state.showHistoryOverview = value;
+    },
     shortcuts(state, data) {
       state.shortcuts = data;
       state.shortcuts.sort((a, b) =>
@@ -95,9 +104,6 @@ export default new Vuex.Store({
     },
     showMainTitle(state, data) {
       state.showMainTitle = data;
-    },
-    showBackButton(state, data) {
-      state.showBackButton = data;
     },
     useGlobalContainer(state, data) {
       state.useGlobalContainer = data;
@@ -171,6 +177,9 @@ export default new Vuex.Store({
     },
     updateAvailable(state, data) {
       state.updateAvailable = data;
+    },
+    hideUpdateBanner(state) {
+      state.hideUpdateBanner = true;
     },
     userChangesSaved(state) {
       state.userPreferencesChanged = false;

@@ -33,23 +33,19 @@
       </button>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar :buttons="buttons" contentRefName="list" />
   </div>
 </template>
 
 <script>
-import ButtonBar from "@/components/ButtonBar.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import { openURLAndCloseSelf } from "@/utils/openApp";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "ImportShortcuts",
   components: {
-    ButtonBar,
+    NavigationToolbar,
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       /** @type {Store.ShortcutToImport[]} */
@@ -76,12 +72,6 @@ export default {
             this.open(this.toImport.find((s) => !s.done));
           },
         },
-        {
-          text: this.$store.getters.langToMainMenu,
-          class: "btn-outline-primary",
-          icon: "chevron-left",
-          click: () => this.$root.$emit("navigate", "MainMenu"),
-        },
       ];
     },
   },
@@ -90,7 +80,6 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
   },
   methods: {
     init() {

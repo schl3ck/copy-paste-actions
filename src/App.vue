@@ -15,11 +15,9 @@
       <hr class="mt-1">
     </div>
     <keep-alive>
-      <component :is="componentToDisplay" v-bind="compProps" />
+      <HistoryOverview v-if="showHistoryOverview" />
+      <router-view v-else />
     </keep-alive>
-    <div v-if="showBackButton" ref="backBtn" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
 
     <transition name="slide-down">
       <div
@@ -48,82 +46,18 @@
 </template>
 
 <script>
-import Vue from "vue";
-import MainMenu from "@/views/MainMenu.vue";
-import SelectShortcuts from "@/views/SelectShortcuts.vue";
-import ConfirmSelectedShortcuts from "@/views/ConfirmSelectedShortcuts";
-import OpenApp from "@/views/OpenApp.vue";
-import ProcessShortcuts from "@/views/ProcessShortcuts.vue";
-import AnalyserWarnings from "@/views/AnalyserWarnings.vue";
-import FoundSnippets from "@/views/FoundSnippets.vue";
-import SnippetActions from "@/views/SnippetActions.vue";
-import FoundInserts from "@/views/FoundInserts.vue";
-import ListSnippets from "@/views/ListSnippets.vue";
-import MergeSnippetsIntoShortcut from "@/views/MergeSnippetsIntoShortcut.vue";
-import ImportShortcuts from "@/views/ImportShortcuts.vue";
-import Preferences from "@/views/Preferences.vue";
-import PrefAutoLoadShortcuts from "@/views/PrefAutoLoadShortcuts.vue";
-import PrefLanguage from "@/views/PrefLanguage.vue";
-import ConfirmNewUpdate from "@/views/ConfirmNewUpdate.vue";
-import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
-import ConfirmAutoAnalyser from "@/views/ConfirmAutoAnalyser.vue";
-import HelpMenu from "@/views/HelpMenu.vue";
-import HelpGetStarted from "@/views/HelpGetStarted.vue";
-import HelpFAQ from "@/views/HelpFAQ.vue";
-import HelpDocumentation from "@/views/HelpDocumentation.vue";
-import HelpBugReport from "@/views/HelpBugReport.vue";
-import ButtonBar from "@/components/ButtonBar.vue";
-
 import MainIcon from "@/icons/mainIcon.png";
-
-class Popstate {
-  constructor(state) {
-    this.state = state;
-  }
-}
+import HistoryOverview from "./views/HistoryOverview.vue";
 
 export default {
   name: "App",
-  components: {
-    MainMenu,
-    SelectShortcuts,
-    ConfirmSelectedShortcuts,
-    OpenApp,
-    ProcessShortcuts,
-    AnalyserWarnings,
-    FoundSnippets,
-    SnippetActions,
-    FoundInserts,
-    ListSnippets,
-    MergeSnippetsIntoShortcut,
-    ImportShortcuts,
-    Preferences,
-    PrefAutoLoadShortcuts,
-    PrefLanguage,
-    ConfirmNewUpdate,
-    ListiCloudUrls,
-    ConfirmAutoAnalyser,
-    HelpMenu,
-    HelpGetStarted,
-    HelpFAQ,
-    HelpDocumentation,
-    HelpBugReport,
-    ButtonBar,
-  },
+  components: { HistoryOverview },
   data() {
     return {
-      componentToDisplay: "MainMenu",
-      /** @type {ButtonBar.Button[]} */
-      buttons: [],
-      /** @type {
-       * Map<Vue, {scrollPos: {x: number, y: number}, props: object}>
-       * } */
-      compSettings: new Map(),
-      compProps: {},
-      hideUpdateBanner: false,
       showProbablyOutdated: false,
       probablyOutdatedTimeouts: [],
       mainIcon: MainIcon,
+      testoutput: "",
     };
   },
   computed: {
@@ -134,10 +68,6 @@ export default {
     /** @returns {boolean} */
     showMainTitle() {
       return this.$store.state.showMainTitle;
-    },
-    /** @returns {boolean} */
-    showBackButton() {
-      return this.$store.state.showBackButton;
     },
     /** @returns {boolean} */
     useGlobalContainer() {
@@ -157,21 +87,18 @@ export default {
     },
     /** @returns {boolean} */
     showUpdateBanner() {
-      return this.updateAvailable && !this.hideUpdateBanner;
+      return this.updateAvailable && !this.$store.state.hideUpdateBanner;
     },
     /** @returns {boolean} */
     probablyOutdated() {
       return this.$store.state.probablyOutdated;
     },
+    /** @returns {boolean} */
+    showHistoryOverview() {
+      return this.$store.state.showHistoryOverview;
+    },
   },
   watch: {
-    showBackButton(val) {
-      Vue.nextTick(() => {
-        this.$refs.app.style.paddingBottom = val
-          ? `calc(${this.$refs.backBtn.clientHeight}px + 0.25rem)`
-          : null;
-      });
-    },
     probablyOutdated(val) {
       if (val) {
         const id = setTimeout(() => {
@@ -194,14 +121,6 @@ export default {
     },
   },
   created() {
-    this.$root.$on("navigate", this.navigate);
-    window.addEventListener("popstate", (event) => {
-      const comp =
-        (event && event.state && event.state.componentToDisplay)
-        || this.preferences.componentToDisplay;
-      this.navigate(comp, new Popstate(event.state));
-    });
-
     const component = this.preferences.componentToDisplay;
     // "navigate" to the predefined page to push a state onto the history stack
     if (component) {
@@ -209,95 +128,15 @@ export default {
         this.$store.state.preferences.Preferences.autoAnalyseShortcuts
         && component === "MainMenu"
       ) {
-        this.$root.$emit("navigate", "ConfirmAutoAnalyser");
+        this.$router.push({ name: "ConfirmAutoAnalyser" });
       } else {
-        this.$root.$emit("navigate", component);
+        this.$router.push({ name: component });
       }
     }
-
-    this.buttons = [
-      {
-        class: "btn-outline-primary",
-        icon: "chevron-left",
-        text: this.lang.toMainMenu,
-        click: this.toMainMenu,
-      },
-    ];
   },
   methods: {
-    /** @param {string} componentName */
-    navigate(componentName, options) {
-      if (componentName === "ConfirmNewUpdate") {
-        this.hideUpdateBanner = true;
-      }
-
-      /** @type {"pushState" | "replaceState"} */
-      let historyStateMethod = "pushState";
-      const comp = this.getCurrentComponent();
-      if (!(options instanceof Popstate)) {
-        // get the method for the History API
-        historyStateMethod =
-          comp && comp.historyReplaceState
-            ? "replaceState"
-            : historyStateMethod;
-      }
-      if (comp) {
-        this.compSettings.set(this.componentToDisplay, {
-          scrollPos: {
-            x: window.scrollX,
-            y: window.scrollY,
-          },
-          props: this.compProps,
-        });
-      }
-
-      // now load the new component
-      this.compProps =
-        options instanceof Popstate
-          ? this.compSettings.has(componentName)
-            ? this.compSettings.get(componentName).props
-            : {}
-          : options;
-      this.componentToDisplay = componentName;
-
-      // call that with a slight delay so that Vue has mounted the component
-      Vue.nextTick(() => {
-        const comp = this.getCurrentComponent();
-        let scrollPos =
-          this.compSettings.has(componentName)
-          && this.compSettings.get(componentName).scrollPos;
-        if (!(options instanceof Popstate)) {
-          window.history[historyStateMethod](
-            { componentToDisplay: componentName },
-            componentName,
-          );
-          scrollPos = null;
-        }
-        const compLang = this.lang[
-          componentName[0].toLowerCase() + componentName.substr(1)
-        ];
-        document.title =
-          "CopyPaste Actions - "
-          + ((compLang && compLang.title) || componentName);
-        window.scrollTo({
-          left: scrollPos ? scrollPos.x : 0,
-          top: scrollPos ? scrollPos.y : 0,
-          behavior: "auto",
-        });
-        this.$root.$emit("navigated." + componentName, comp);
-      });
-    },
-    getCurrentComponent() {
-      return this.$children.find(
-        (c) => c.$options.name === this.componentToDisplay,
-      );
-    },
-    toMainMenu() {
-      this.$root.$emit("toMainMenu");
-      this.$root.$emit("navigate", "MainMenu");
-    },
     toUpdate() {
-      this.$root.$emit("navigate", "ConfirmNewUpdate");
+      this.$router.push({ name: "ConfirmNewUpdate" });
     },
   },
 };

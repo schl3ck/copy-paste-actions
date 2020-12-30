@@ -1,5 +1,9 @@
 <template>
-  <div class="markdown-content" v-html="html" />
+  <div>
+    <div ref="content" class="markdown-content" v-html="html" />
+
+    <NavigationToolbar contentRefName="content" />
+  </div>
 </template>
 
 <script>
@@ -8,9 +12,11 @@ import example1pasting from "@/assets/example1pasting.jpg";
 import copyFunction from "@/assets/copyFunction.jpg";
 import endFunction from "@/assets/endFunction.jpg";
 import pasteFunction from "@/assets/pasteFunction.jpg";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "HelpGetStarted",
+  components: { NavigationToolbar },
   computed: {
     /** @returns {object} */
     lang() {
@@ -43,7 +49,6 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackButton", false);
   },
 };
 </script>

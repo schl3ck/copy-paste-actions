@@ -8,7 +8,7 @@
       {{ lang.message }}
     </div>
 
-    <div class="list-group list-group-custom-flush">
+    <div ref="content" class="list-group list-group-custom-flush">
       <button
         v-for="[language, langCode] of availableLanguages"
         :key="langCode"
@@ -32,12 +32,16 @@
         />
       </button>
     </div>
+
+    <NavigationToolbar contentRefName="content" />
   </div>
 </template>
 
 <script>
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 export default {
   name: "PrefLanguage",
+  components: { NavigationToolbar },
   props: {
     /** @type {import("vue").PropOptions<Preferences.PrefWithLang>} */
     pref: {
@@ -86,7 +90,7 @@ export default {
     },
     saveLang(language) {
       this.save(language);
-      history.back();
+      this.$router.back();
     },
   },
 };

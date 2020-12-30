@@ -141,17 +141,14 @@
       </div>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar :buttons="buttons" contentRefName="list" />
   </div>
 </template>
 
 <script>
 import FlexSearch from "flexsearch";
 import { debounce } from "lodash";
-import ButtonBar from "@/components/ButtonBar.vue";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 function splitLanguageString(str) {
   // ensure that there are 2 parts every time
@@ -169,7 +166,7 @@ function splitLanguageString(str) {
 export default {
   name: "SelectShortcuts",
   components: {
-    ButtonBar,
+    NavigationToolbar,
   },
   filters: {
     fileSize(size) {
@@ -183,7 +180,6 @@ export default {
       return Math.round(size * 100) / 100 + unit;
     },
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   props: {
     continue: {
       type: Function,
@@ -318,7 +314,6 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
   },
   methods: {
     init() {
@@ -352,7 +347,7 @@ export default {
       if (this.continue) {
         this.continue();
       } else {
-        this.$root.$emit("navigate", "ConfirmSelectedShortcuts");
+        this.$router.push({ name: "ConfirmSelectedShortcuts" });
       }
     },
     /** @param {ShowMode} mode */

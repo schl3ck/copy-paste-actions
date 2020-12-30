@@ -67,26 +67,26 @@
       </div>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar
+      :buttons="buttons"
+      contentRefName="list"
+      :routerMethod="routerMethod"
+    />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import SnippetListItem from "@/components/SnippetListItem.vue";
-import ButtonBar from "@/components/ButtonBar.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import { getFullHeight } from "@/utils/utils";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "FoundSnippets",
   components: {
     SnippetListItem,
-    ButtonBar,
+    NavigationToolbar,
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   data() {
     return {
       editingElemTop: 0,
@@ -171,14 +171,6 @@ export default {
             this.saveAndContinue();
           },
         },
-        {
-          text: this.$store.state.language.toMainMenu,
-          class: "btn-outline-primary",
-          icon: "chevron-left",
-          click: () => {
-            this.$root.$emit("navigate", "MainMenu");
-          },
-        },
       ];
     },
     /** @returns {boolean} */
@@ -187,6 +179,10 @@ export default {
         this.$store.state.preferences.Preferences.autoOverwriteSnippets
         && !this.hasConflicts
       );
+    },
+    /** @returns {"replace" | "push"} */
+    routerMethod() {
+      return this.historyReplaceState ? "replace" : "push";
     },
   },
   watch: {
@@ -221,7 +217,6 @@ export default {
     }
 
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
     this.$root.$on("snippetBeginEdit", this.onSnippetEdit);
   },
   deactivated() {
@@ -264,7 +259,7 @@ export default {
       if (snippets.length > 0) {
         this.$store.commit("replaceSnippets", snippets);
       }
-      this.$root.$emit("navigate", "FoundInserts");
+      this.$router[this.routerMethod]({ name: "FoundInserts" });
     },
   },
 };

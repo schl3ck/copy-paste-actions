@@ -379,9 +379,12 @@ export default {
       this.cancelEdit();
     },
     showActions() {
-      this.$root.$emit("navigate", "SnippetActions", {
-        title: this.snippet.name,
-        actions: this.snippet.actions,
+      this.$router.push({
+        name: "SnippetActions",
+        params: {
+          title: this.snippet.name,
+          actions: this.snippet.actions,
+        },
       });
     },
     formatDescription(desc) {

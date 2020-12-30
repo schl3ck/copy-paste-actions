@@ -1,5 +1,6 @@
 import smoothscroll from "smoothscroll-polyfill";
 import Vue from "vue";
+import VueRouter from "vue-router";
 import "bootstrap.css";
 import "bootstrap.reboot";
 import "@/styles/highlightjs.scss";
@@ -35,9 +36,12 @@ import {
   BIconBook,
   BIconBug,
   BIconEmojiFrown,
+  BIconHouseFill,
+  BIconListOl,
 } from "bootstrap-vue";
 
 import store from "./store/index";
+import router from "@/router";
 import App from "./App.vue";
 import IconSearchMinus from "@/icons/IconSearchMinus.vue";
 import IconSearchPlus from "@/icons/IconSearchPlus.vue";
@@ -50,6 +54,8 @@ import { Buffer } from "buffer";
 window.Buffer = Buffer;
 
 smoothscroll.polyfill();
+
+Vue.use(VueRouter);
 
 Vue.component("BIcon", BIcon);
 Vue.component("BIconstack", BIconstack);
@@ -80,6 +86,8 @@ Vue.component("BIconQuestionCircle", BIconQuestionCircle);
 Vue.component("BIconBook", BIconBook);
 Vue.component("BIconBug", BIconBug);
 Vue.component("BIconEmojiFrown", BIconEmojiFrown);
+Vue.component("BIconHouseFill", BIconHouseFill);
+Vue.component("BIconListOl", BIconListOl);
 Vue.component("IconSearchMinus", IconSearchMinus);
 Vue.component("IconSearchPlus", IconSearchPlus);
 Vue.component("IconSave", IconSave);
@@ -87,6 +95,14 @@ Vue.component("IconCloudLink", IconCloudLink);
 
 Vue.config.productionTip = false;
 Vue.config.performace = process.env.NODE_ENV === "development";
+
+Vue.mixin({
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      store.commit("activeRouterView", vm);
+    });
+  },
+});
 
 let root;
 
@@ -96,6 +112,7 @@ store.dispatch("loadLanguage");
 store.dispatch("loadPreferences").then(() => {
   root = new Vue({
     store,
+    router,
     render: (h) => h(App),
   }).$mount("#app");
   checkForUpdate();

@@ -1,33 +1,36 @@
 <template>
   <div>
-    <h2 class="mb-4">
-      {{ preferences.Version }}
-      <BIcon icon="arrow-right" class="" />
-      {{ updateData.version }}
-    </h2>
-    <h4>{{ lang.changelog }}</h4>
-    <!-- eslint-disable-next-line vue/singleline-html-element-content-newline-->
-    <p class="update-notes">{{ updateData.notes }}</p>
-    <b class="mr-2">{{ lang.releaseDate }}</b>
-    {{ updateData.release.toLocaleDateString() }}
-    <template v-if="ignoredUpdate">
-      <br>{{ lang.ignored }}
-    </template>
-
-    <div class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
+    <div ref="content">
+      <h2 class="mb-4">
+        {{ preferences.Version }}
+        <BIcon icon="arrow-right" class="" />
+        {{ updateData.version }}
+      </h2>
+      <h4>{{ lang.changelog }}</h4>
+      <!-- eslint-disable-next-line max-len --- for the comment *facepalm* -->
+      <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
+      <p class="update-notes">
+        {{ updateData.notes }}
+      </p>
+      <b class="mr-2">{{ lang.releaseDate }}</b>
+      {{ updateData.release.toLocaleDateString() }}
+      <template v-if="ignoredUpdate">
+        <br>{{ lang.ignored }}
+      </template>
     </div>
+
+    <NavigationToolbar :buttons="buttons" contentRefName="content" />
   </div>
 </template>
 
 <script>
-import ButtonBar from "@/components/ButtonBar.vue";
 import RoutineHubIcon from "@/icons/routinehub.png";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "ConfirmNewUpdate",
   components: {
-    ButtonBar,
+    NavigationToolbar,
   },
   computed: {
     /** @returns {object} */
@@ -81,7 +84,7 @@ export default {
             this.$store.commit("userPreferences", {
               ignoreVersion: this.updateData.version,
             });
-            window.history.back();
+            this.$router.back();
           },
         });
       }
@@ -90,7 +93,7 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackbutton", false);
+    this.$store.commit("hideUpdateBanner");
   },
 };
 </script>

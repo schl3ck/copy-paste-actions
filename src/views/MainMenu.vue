@@ -1,29 +1,33 @@
 <template>
   <div>
-    <MissingShortcuts skipMainMenu />
-    <template v-if="hasUnsavedChanges">
-      <div class="card bg-warning mb-2">
-        <div class="card-header font-weight-bold">
-          {{ mainMenu.unsavedChanges.title }}
+    <div ref="content">
+      <MissingShortcuts skipMainMenu />
+      <template v-if="hasUnsavedChanges">
+        <div class="card bg-warning mb-2">
+          <div class="card-header font-weight-bold">
+            {{ mainMenu.unsavedChanges.title }}
+          </div>
+          <div class="card-body pt-3">
+            <p>
+              {{ unsavedMessage }}
+            </p>
+            <p>
+              {{ mainMenu.unsavedChanges.looseChanges }}
+            </p>
+            <button class="btn btn-block btn-success" @click="saveChanges">
+              <span class="mr-2">
+                <IconSave />
+              </span>
+              {{ mainMenu.unsavedChanges.save }}
+            </button>
+          </div>
         </div>
-        <div class="card-body pt-3">
-          <p>
-            {{ unsavedMessage }}
-          </p>
-          <p>
-            {{ mainMenu.unsavedChanges.looseChanges }}
-          </p>
-          <button class="btn btn-block btn-success" @click="saveChanges">
-            <span class="mr-2">
-              <IconSave />
-            </span>
-            {{ mainMenu.unsavedChanges.save }}
-          </button>
-        </div>
-      </div>
-      <hr>
-    </template>
-    <MenuList :items="menuItems" :columns="2" />
+        <hr>
+      </template>
+      <MenuList :items="menuItems" :columns="2" />
+    </div>
+
+    <NavigationToolbar contentRefName="content" />
 
     <FirstRun v-if="firstRun" />
   </div>
@@ -33,6 +37,7 @@
 import MenuList from "@/components/MenuList.vue";
 import MissingShortcuts from "@/components/MissingShortcuts.vue";
 import FirstRun from "@/components/FirstRun.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable } from "@/utils/utils";
 
@@ -42,6 +47,7 @@ export default {
     MenuList,
     MissingShortcuts,
     FirstRun,
+    NavigationToolbar,
   },
   computed: {
     /** @returns {object} */
@@ -88,16 +94,19 @@ export default {
         {
           icon: "list-check",
           click() {
-            self.$root.$emit("navigate", "SelectShortcuts");
+            self.$router.push({ name: "SelectShortcuts" });
           },
           ...this.mainMenu.selectShortcuts,
         },
         {
           icon: "pencil-fill",
           click() {
-            self.$root.$emit("navigate", "ListSnippets", {
-              editable: true,
-              clipboardFirst: true,
+            self.$router.push({
+              name: "ListSnippets",
+              params: {
+                editable: true,
+                clipboardFirst: true,
+              },
             });
           },
           ...this.mainMenu.editSnippets,
@@ -105,14 +114,14 @@ export default {
         {
           icon: "gear-wide-connected",
           click() {
-            self.$root.$emit("navigate", "Preferences");
+            self.$router.push({ name: "Preferences" });
           },
           ...this.mainMenu.preferences,
         },
         {
           icon: "question-circle",
           click() {
-            self.$root.$emit("navigate", "HelpMenu");
+            self.$router.push({ name: "HelpMenu" });
           },
           ...this.mainMenu.help,
         },
@@ -122,7 +131,7 @@ export default {
         res.splice(2, 0, {
           icon: { component: "IconCloudLink" },
           click() {
-            self.$root.$emit("navigate", "ListiCloudUrls");
+            self.$router.push({ name: "ListiCloudUrls" });
           },
           ...this.mainMenu.icloudUrls,
         });
@@ -140,12 +149,11 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackButton", false);
   },
   methods: {
     saveChanges() {
       // let the method itself append all changes
-      navigateAndBuildZip(this.$root, {
+      navigateAndBuildZip({
         actions: ["Build.toSafari"],
         toMainMenu: true,
         closePage: false,

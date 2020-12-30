@@ -39,7 +39,7 @@ export default {
           text: this.lang.viewGetStarted,
           class: "btn-success",
           click: () => {
-            this.$root.$emit("navigate", "HelpGetStarted");
+            this.$router.push({ name: "HelpGetStarted" });
             this.$store.commit("firstRun");
           },
         },

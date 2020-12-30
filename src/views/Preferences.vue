@@ -212,9 +212,11 @@
       </div>
     </div>
 
-    <div ref="toolbar" class="fixed-bottom container">
-      <ButtonBar :buttons="buttons" />
-    </div>
+    <NavigationToolbar
+      :buttons="buttons"
+      contentRefName="list"
+      @resize="setToolbarClearing"
+    />
   </div>
 </template>
 
@@ -223,17 +225,17 @@ import Vue from "vue";
 import deepEqual from "deep-eql";
 import ButtonBar from "@/components/ButtonBar.vue";
 import PrefItem from "@/components/PrefItem.vue";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 import { navigateAndBuildZip } from "@/utils/openApp";
 import { joinReadable, escapeHTML } from "@/utils/utils";
-import handleButtonToolbarMixin from "@/utils/handleButtonToolbarMixin";
 
 export default {
   name: "Preferences",
   components: {
     ButtonBar,
     PrefItem,
+    NavigationToolbar,
   },
-  mixins: [handleButtonToolbarMixin("list", "toolbar")],
   props: {
     scrollToPref: {
       type: String,
@@ -244,7 +246,7 @@ export default {
     return {
       /** @type {Store.Preferences} */
       preferences: {},
-      lastChanged: false,
+      lastPrefChanged: false,
       /** @type {false | string} */
       openedSubPage: false,
     };
@@ -401,7 +403,7 @@ export default {
           icon: { component: "IconSave" },
           click: () => {
             this.$store.commit("userPreferences", this.preferences);
-            navigateAndBuildZip(this.$root, {
+            navigateAndBuildZip({
               actions: ["Build.toSafari"],
               closePage: false,
               toMainMenu: true,
@@ -485,7 +487,7 @@ export default {
           class: "btn-success",
           icon: "arrow-counterclockwise",
           click: () => {
-            navigateAndBuildZip(this.$root, {
+            navigateAndBuildZip({
               actions: [
                 "Preferences.get",
                 "Snippets.get",
@@ -502,7 +504,7 @@ export default {
           class: "btn-danger",
           icon: "trash",
           click: () => {
-            navigateAndBuildZip(this.$root, {
+            navigateAndBuildZip({
               actions: ["Shortcuts.clearImages", "Build.toSafari"],
               closePage: true,
             });
@@ -515,14 +517,8 @@ export default {
       return this.$store.getters.loadedShortcuts;
     },
   },
-  watch: {
-    buttons() {
-      this.setToolbarClearing();
-    },
-  },
   activated() {
     this.$store.commit("showMainTitle", false);
-    this.$store.commit("showBackButton", false);
     if (this.openedSubPage) {
       this.openedSubPage = false;
       this.$nextTick(() => {
@@ -542,40 +538,34 @@ export default {
     reset(key) {
       this.preferences[key] = this.prefDefault[key];
     },
-    setToolbarClearing() {
-      const prevHeight = this.$refs.toolbar.clientHeight;
-      Vue.nextTick(() => {
-        const height = this.$refs.toolbar.clientHeight;
-        if (prevHeight < height) {
-          this.$refs.list.style.transition = "none";
-          Vue.nextTick(() => {
-            this.$refs.list.style.transition = null;
-          });
-        }
-        this.$refs.list.style.paddingBottom = `calc(${height}px + 0.25rem)`;
-        if (this.lastChanged && prevHeight < height) {
-          window.scrollBy({
-            left: 0,
-            top: height - prevHeight,
-            behavior: "smooth",
-          });
-        }
-        this.lastChanged = false;
-      });
+    setToolbarClearing(prevHeight, height) {
+      if (prevHeight < height) {
+        this.$refs.list.style.transition = "none";
+        Vue.nextTick(() => {
+          this.$refs.list.style.transition = null;
+        });
+      }
+      if (this.lastPrefChanged && prevHeight < height) {
+        window.scrollBy({
+          left: 0,
+          top: height - prevHeight,
+          behavior: "smooth",
+        });
+      }
+      this.lastPrefChanged = false;
     },
     prefChanged(index) {
-      this.lastChanged = index === this.prefsWithLang.length - 1;
+      this.lastPrefChanged = index === this.prefsWithLang.length - 1;
     },
     showUpdate() {
-      this.$root.$emit("navigate", "ConfirmNewUpdate");
+      this.$router.push({ name: "ConfirmNewUpdate" });
     },
     /** @param {Preferences.PrefWithLang} pref */
     openPrefSettings(pref) {
       this.openedSubPage = pref.key;
-      this.$root.$emit(
-        "navigate",
-        "Pref" + pref.key[0].toUpperCase() + pref.key.substring(1),
-        {
+      this.$router.push({
+        name: "Pref" + pref.key[0].toUpperCase() + pref.key.substring(1),
+        params: {
           pref,
           save: (newValue) => {
             this.preferences[pref.key] = newValue;
@@ -588,7 +578,7 @@ export default {
             }
           },
         },
-      );
+      });
     },
     /** @param {string} pref */
     scrollTo(pref) {

@@ -2,10 +2,10 @@ import tarball from "tarballjs";
 import gzip from "gzip-js";
 import { Buffer } from "buffer";
 import store from "@/store/index";
+import router from "@/router";
 
 /**
  * Opens the Shortcut to perform some actions
- * @param {import("vue").default} root
  * @param {object} options
  * @param {string[]} options.actions Array of actions the Shortcut should
  * perform
@@ -14,27 +14,39 @@ import store from "@/store/index";
  * @param {boolean} [options.toMainMenu] If `true`, switches to main menu after
  * the user has been redirected to the app
  * @param {string[]} [options.messages] Messages that should be displayed
+ * @param {"push" | "replace"} [options.routerMethod] The router method to use.
+ * Defaults to `"push"`
  * @param {object[]} [options.data] Array of files that are passed as data to
  * the Shortcut
  * @param {string} options.data[].name Filename
- * @param {
- *    string | ArrayBuffer | Uint8Array | Buffer | Blob
- * } options.data[].content Content of the file
+ * @param {string | ArrayBuffer | Uint8Array | Buffer | Blob
+ *    } options.data[].content Content of the file
  * @param {object} [options.data[].tarOptions] Options for JSZip
  * @see https://github.com/schl3ck/tarballjs/blob/master/tarball.js#L380
  */
-export function navigateAndBuildZip(root, options) {
-  if (!root) {
-    throw new TypeError("Missing parameter 'root'");
+export function navigateAndBuildZip(options) {
+  if (!options) {
+    throw new TypeError("navigateAndBuildZip: missing options");
   }
   if (!options.actions) {
-    throw new TypeError("Missing property 'actions'");
+    throw new TypeError(
+      "navigateAndBuildZip: missing options property 'actions'",
+    );
+  }
+  if (
+    options.routerMethod
+    && options.routerMethod !== "push"
+    && options.routerMethod !== "replace"
+  ) {
+    throw new TypeError(
+      'navigateAndBuildZip: routerMethod has to be either "push" or "replace"',
+    );
   }
 
-  root.$once("navigated.OpenApp", navigated);
-  root.$emit("navigate", "OpenApp");
+  router[options.routerMethod || "push"]({ name: "OpenApp" }).then(navigated);
 
-  async function navigated(OpenApp) {
+  async function navigated() {
+    const OpenApp = store.state.activeRouterView;
     OpenApp.options = options;
     OpenApp.base64 = "";
     OpenApp.done = false;
@@ -115,39 +127,42 @@ export function navigateAndBuildZip(root, options) {
   }
 }
 
-const timeoutIds = [];
-
 /**
  * Open the shortcuts app now
- * @param {import("vue")} $root The root Vue instance
  * @param {string} shortcutInput A string that is passed to the shortcut
- * @param {
- *    {closePage?: boolean, toMainMenu?: boolean, doNotRun?: boolean}
- * } options
+ * @param {object} [options]
+ * @param {boolean} [options.closePage] `true` when the window/tab should be
+ * closed after opening the app
+ * @param {boolean} [options.toMainMenu] `true` when it should return to the
+ * main menu after opening the app
+ * @param {boolean} [options.doNotRun] `true` when only the app should be opened
+ * but the shortcut should not be executed
+ * @param {"push" | "replace"} [options.routerMethod] The method to use for
+ * navigating to the main menu. Defaults to `"push"`
  */
-export function openNow($root, shortcutInput, options) {
-  const close = () => {
-    timeoutIds.push(
-      setInterval(() => {
-        window.close();
-      }, 250),
-    );
+export function openNow(shortcutInput, options) {
+  options = options || {};
+  const closeTab = () => {
+    window.close();
   };
   const mainMenu = () => {
-    $root.$emit("navigate", "MainMenu");
+    router[options.routerMethod || "push"]({ name: "MainMenu" });
   };
   const timeout = (callback) => {
-    timeoutIds.push(setTimeout(callback, 2000));
+    setTimeout(callback, 2000);
   };
 
   const action = options.closePage
-    ? close
+    ? closeTab
     : options.toMainMenu
       ? mainMenu
       : null;
   if (options.closePage) {
     store.commit("probablyOutdated", true);
   }
+  timeout(() => {
+    action && action();
+  });
   if (options.doNotRun) {
     // eslint-disable-next-line no-console
     console.log("switching to app");
@@ -164,11 +179,6 @@ export function openNow($root, shortcutInput, options) {
     console.log("switching to app with url", url);
     location.href = url;
   }
-  timeout(() => {
-    action && action();
-  });
-
-  return timeoutIds;
 }
 
 /**

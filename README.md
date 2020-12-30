@@ -53,3 +53,9 @@ On macOS you can easily debug a webpage on iOS with Safari on the Mac, but on Wi
 3. Create a file `remoteConsoleUrl.local` in the root of this repo with the URL shown after startup of the previous step (no final line feed character!)
 4. Start the webpack-dev-server with `npm run serve`
 5. Use the website on your iOS device and all custom console messages are send to your Mac/PC
+
+## Notes about vue-router
+I've discovered that when using the History API, the browser will assume that the page wasn't opened by a script and therefore prevent closing it with `window.close()` (see #1). To enable closing of the window, the History API therefore cannot be used. Because of this, vue-router is used in _abstract_ mode and the navigation is written from ground up. For this to work I'm relying on some internal properties and functionalities and that in turn leads to the fixed version of vue-router. When you update it, check that:
+
+* the methods `back` and `forward` call `this.go(-1)` and `this.go(1)` respectively. I've only hooked into `go` to detect history navigation. If these calls are removed, also add the hook to `back` and `forward` (affects file ./src/router.js).
+* the history handler is mounted on `router.history` and has the properties `stack` and `index` which contain the history items and the current position respectively. If this is changed in vue-router, it has to be adapted in the code, possibly also with a complete rewrite (search for router.history in all files).

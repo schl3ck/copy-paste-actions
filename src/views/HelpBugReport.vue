@@ -1,12 +1,18 @@
 <template>
-  <div class="markdown-content" v-html="html" />
+  <div>
+    <div ref="content" class="markdown-content" v-html="html" />
+
+    <NavigationToolbar contentRefName="content" />
+  </div>
 </template>
 
 <script>
 import handleAnchorLinksMixin from "@/utils/handleAnchorLinksMixin";
+import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
   name: "HelpBugReport",
+  components: { NavigationToolbar },
   mixins: [handleAnchorLinksMixin],
   computed: {
     /** @returns {object} */
@@ -20,7 +26,6 @@ export default {
   },
   activated() {
     this.$store.commit("showMainTitle", true);
-    this.$store.commit("showBackButton", false);
   },
 };
 </script>
