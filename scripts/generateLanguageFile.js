@@ -94,9 +94,12 @@ for (const folder of fs.readdirSync(path.resolve(srcDir), {
           "utf-8",
         );
         const langCode = file.name.replace(/\.md$/, "");
-        result[langCode][folder.name] = {
-          html: md.render(content),
-        };
+        if (!result[langCode][folder.name]) {
+          throw new Error(
+            `Missing entry for language "${langCode}" and folder "${folder.name}"`,
+          );
+        }
+        result[langCode][folder.name].html = md.render(content);
       }
     }
   }
