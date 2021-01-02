@@ -47,7 +47,7 @@
 
 <script>
 import MainIcon from "@/icons/mainIcon.png";
-import HistoryOverview from "./views/HistoryOverview.vue";
+import HistoryOverview from "@/views/HistoryOverview.vue";
 
 export default {
   name: "App",
