@@ -95,6 +95,7 @@ export default {
   },
   activated() {
     this.$store.commit("useGlobalContainer", false);
+    this.$store.commit("showMainTitle", false);
   },
   deactivated() {
     this.$store.commit("useGlobalContainer", true);
