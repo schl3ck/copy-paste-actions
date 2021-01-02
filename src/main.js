@@ -33,6 +33,7 @@ import {
   BIconClipboardPlus,
   BIconInfoCircle,
   BIconQuestionCircle,
+  BIconKeyboard,
   BIconBook,
   BIconBug,
   BIconEmojiFrown,
@@ -48,6 +49,7 @@ import IconSearchPlus from "@/icons/IconSearchPlus.vue";
 import IconSave from "@/icons/IconSave.vue";
 import IconCloudLink from "@/icons/IconCloudLink.vue";
 import { checkForUpdate } from "@/utils/checkForUpdate";
+import setupKeyboardNavigation from "@/utils/keyboardNavigation";
 
 // make buffer globally available
 import { Buffer } from "buffer";
@@ -83,6 +85,7 @@ Vue.component("BIconLink", BIconLink);
 Vue.component("BIconClipboardPlus", BIconClipboardPlus);
 Vue.component("BIconInfoCircle", BIconInfoCircle);
 Vue.component("BIconQuestionCircle", BIconQuestionCircle);
+Vue.component("BIconKeyboard", BIconKeyboard);
 Vue.component("BIconBook", BIconBook);
 Vue.component("BIconBug", BIconBug);
 Vue.component("BIconEmojiFrown", BIconEmojiFrown);
@@ -103,6 +106,8 @@ Vue.mixin({
     });
   },
 });
+
+setupKeyboardNavigation();
 
 let root;
 

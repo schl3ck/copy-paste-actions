@@ -353,6 +353,10 @@
       "title": "Dokumentation",
       "description": "Alles über diesen Kurzbefehl"
     },
+    "keyboardShortcuts": {
+      "title": "Tastaturkürzel",
+      "description": "Kürzel für Bluetoothtastaturen"
+    },
     "bugReport": {
       "title": "Einen Fehler melden",
       "description": "Hast du einen Fehler gefunden oder hast eine Idee für diesen Kurzbefehl?"
@@ -369,6 +373,17 @@
   "helpDocumentation": {
     "title": "Dokumentation",
     "html": "this is filled in by the languages merging script"
+  },
+  "helpKeyboardShortcuts": {
+    "title": "Tastaturkürzel",
+    "description": "Da die Navigation über den Browser leider nicht möglich ist, habe ich ein paar Tastaturkürzel für die Navigation hinzugefügt. Sie sollten überall af dieser Webseite funktionieren.",
+    "action": "Aktion",
+    "shortcuts": "Kürzel",
+    "back": "Zurück",
+    "forward": "Vorwärts",
+    "mainMenu": "Hauptmenü",
+    "altKey": "Alt",
+    "ctrlKey": "Strg"
   },
   "helpBugReport": {
     "title": "Einen Fehler melden",

@@ -50,6 +50,13 @@ export default {
           },
         },
         {
+          ...this.lang.keyboardShortcuts,
+          icon: "keyboard",
+          click: () => {
+            this.$router.push({ name: "HelpKeyboardShortcuts" });
+          },
+        },
+        {
           ...this.lang.bugReport,
           icon: "bug",
           click: () => {

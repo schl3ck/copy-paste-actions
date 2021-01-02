@@ -113,3 +113,8 @@ export function joinReadable(array, separator, separatorLast) {
     return [ar.join(separator), last].join(separatorLast);
   }
 }
+
+/**
+ * Returns `true` when this is run on an iPad, iPhone or Mac
+ */
+export const isiPadiPhoneMac = /iPad|iPhone|Mac/.test(navigator.userAgent);

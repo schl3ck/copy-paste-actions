@@ -353,6 +353,10 @@
       "title": "Documentation",
       "description": "Everything about this shortcut"
     },
+    "keyboardShortcuts": {
+      "title": "Keyboard shortcuts",
+      "description": "Shortcuts for bluetooth keyboards"
+    },
     "bugReport": {
       "title": "Report a bug/feature",
       "description": "Found a bug or have an idea for this shortcut?"
@@ -369,6 +373,17 @@
   "helpDocumentation": {
     "title": "Documentation",
     "html": "this is filled in by the languages merging script"
+  },
+  "helpKeyboardShortcuts": {
+    "title": "Keyboard Shortcuts",
+    "description": "Since navigation with the browser is not possible, I've added a few keyboard shortcuts to aid in navigation. They should work everywhere on this website.",
+    "action": "Action",
+    "shortcuts": "Shortcuts",
+    "back": "Back",
+    "forward": "Forward",
+    "mainMenu": "Main menu",
+    "altKey": "Alt",
+    "ctrlKey": "Ctrl"
   },
   "helpBugReport": {
     "title": "Report a bug/feature",

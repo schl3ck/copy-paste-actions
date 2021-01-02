@@ -14,13 +14,17 @@ body {
 body {
   --background-color: var(--light-background-color);
   --darken-background: var(--light-darken-background);
+  --darken-background-light: var(--light-darken-background-light);
   --code-bg: var(--light-code-bg);
+  --text-color: var(--light-text-color);
+  --inverted-text-color: var(--dark-text-color);
 }
 
 @media screen and (prefers-color-scheme: dark) {
   body {
     --background-color: var(--dark-background-color);
     --text-color: var(--dark-text-color);
+    --inverted-text-color: var(--light-text-color);
     --darken-background: var(--dark-darken-background);
     --darken-background-light: var(--dark-darken-background-light);
     --code-bg: var(--dark-code-bg);

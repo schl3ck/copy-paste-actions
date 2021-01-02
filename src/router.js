@@ -11,6 +11,7 @@ import HelpBugReport from "@/views/HelpBugReport.vue";
 import HelpDocumentation from "@/views/HelpDocumentation.vue";
 import HelpFAQ from "@/views/HelpFAQ.vue";
 import HelpGetStarted from "@/views/HelpGetStarted.vue";
+import HelpKeyboardShortcuts from "@/views/HelpKeyboardShortcuts.vue";
 import HelpMenu from "@/views/HelpMenu.vue";
 import ImportShortcuts from "@/views/ImportShortcuts.vue";
 import ListiCloudUrls from "@/views/ListiCloudUrls.vue";
@@ -37,6 +38,7 @@ const comps = [
   HelpDocumentation,
   HelpFAQ,
   HelpGetStarted,
+  HelpKeyboardShortcuts,
   HelpMenu,
   ImportShortcuts,
   ListiCloudUrls,
