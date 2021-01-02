@@ -32,9 +32,11 @@
         <button
           class="btn"
           :class="
-            canGoHistoryOverview
-              ? 'btn-outline-primary'
-              : 'btn-outline-secondary'
+            showHistoryOverview
+              ? 'btn-success'
+              : canGoHistoryOverview
+                ? 'btn-outline-primary'
+                : 'btn-outline-secondary'
           "
           :disabled="!canGoHistoryOverview"
           :title="lang.navigationHistory"
