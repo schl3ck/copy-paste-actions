@@ -62,6 +62,9 @@ body {
   .table-warning, .table-warning td, .table-warning th {
     background-color: #514627;
   }
+  .table-striped tbody tr:nth-of-type(2n+1) {
+    background-color: var(--darken-background-light);
+  }
   .custom-control-label::before {
     background-color: var(--background-color);
   }
@@ -84,6 +87,10 @@ body {
   .list-group-item-action:focus {
     background: var(--darken-background);
     color: var(--text-color);
+  }
+  .list-group-item-success {
+    color: #35cc5e;
+    background-color: #1f3525;
   }
   [class*="btn-outline-"] {
     border-width: 2px;
