@@ -1,8 +1,8 @@
 {
   "result": "success",
-  "id": 23974,
-  "Version": "2.1.1",
-  "URL": "https://www.icloud.com/shortcuts/e6f5bb59d1354adfa338196ea962eada",
-  "Notes": "* Change example in Getting Started\n* Add more screenshots to Getting Started\n* Add examples to Documentation\n* Fix crash when refreshing shortcuts icon cache (thanks to /u/Dastefster for reporting)",
-  "Release": "December 22, 2020"
+  "id": 24443,
+  "Version": "2.2.0",
+  "URL": "https://www.icloud.com/shortcuts/81142885fdaa47cbbc4fe1311126754b",
+  "Notes": "This update fixes the issue where the page was not automatically closed after navigating to shortcuts. This required me to implement the forward/back navigation using a library instead of the browser itself. If you have troubles with the swipe gestures, please report it to me. I've also added keyboard shortcuts for navigation which you can find in the help menu.",
+  "Release": "January 10, 2021"
 }
