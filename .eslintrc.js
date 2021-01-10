@@ -1,7 +1,9 @@
+/* eslint-env node */
+
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: false,
   },
   extends: ["plugin:vue/recommended", "@vue/standard"],
   parserOptions: {
@@ -86,7 +88,6 @@ module.exports = {
         ignoreComments: true,
       },
     ],
-    "standard/no-callback-literal": "off",
     "vue/max-attributes-per-line": [
       "error",
       {
@@ -98,5 +99,6 @@ module.exports = {
       },
     ],
     "vue/attribute-hyphenation": ["off"],
+    "vue/no-mutating-props": "warn",
   },
 };

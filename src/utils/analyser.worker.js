@@ -1,3 +1,4 @@
+/* eslint-env node */
 // use CommonJS import for the tests
 // Buffer is globally available
 const bplist = require("./bplist");
