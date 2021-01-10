@@ -43,9 +43,6 @@ The first version from the days where Shortcuts was called _Workflow_ worked com
 
 I then tried to make a webpage since some parts already ran with JavaScript and open it in Shortcuts, but no user interaction was possible, so I ended up opening it in the browser.
 
-### Why do I have to close the page/tab myself?
-It _should_ close itself. In my tests with websites containing only the logic to close themself it just works, but for no apparent reason it doesn't work here. Since I don't own a Mac, I can't really debug the website and have stopped investigating the problem to finish the rest of the shortcut and deal with it later. If you want to help, please check out the [GitHub issue](https://github.com/schl3ck/copy-paste-actions/issues/1).
-
 ### What about privacy?
 This shortcut only uploads the finished shortcuts to iCloud with your consent to import them, because of the limitation described above. Preferences and snippets as well as the iCloud URLs of the uploaded shortcuts are stored in your iCloud Drive/Dropbox. When running the shortcut and it opens your browser, it loads a file from the GitHub repository to check for a new version ([this file](https://github.com/schl3ck/copy-paste-actions/blob/master/version.json)). In this process, GitHub may store your IP address and/or other information. Please look up the [privacy policy from GitHub](https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-privacy-statement) for more information.
 

@@ -44,9 +44,6 @@ Die erste Version des geplanten Updates hätte auch komplett in der Kurzbefehle-
 
 Ich hab dann versucht, das ganze in einer Webseite zu machen, da bereits ein paar Teile mit JavaScript liefen. Dies wollte ich direkt in der Kurzbefehle-App öffnen, allerdings war leider keine Interaktion möglich, also blieb mir nicht viel anderes über, als die Webseite im Browser zu öffnen.
 
-### Warum muss ich den Tab der Webseite selbst schließen?
-Er _sollte_ sich von selbst schließen. In meinen Tests mit Webseiten, die nur die Logik beinhalten, sich selbst zu schließen, funktioniert es einfach. Allerdings funktioniert es ohne ersichtlichen Grund hier nicht. Da ich keinen Mac besitze, kann ich nicht wirklich die Webseite debuggen und hab deswegen aufgehört, nach einer Lösung zu suchen. Ich wollte ja den Rest des Kurzbefehls auch fertig kriegen und habe mich entschieden, das Problem später wieder aufzugreifen. Wenn du helfen möchtest, schau bitte auf [Github Issues](https://github.com/schl3ck/copy-paste-actions/issues/1).
-
 ### Wie stehts mit dem Datenschutz?
 Dieser Kurzbefehl ladet nur die fertigen Kurzbefehle mit deiner Zustimmung in iCloud hoch, um sie zu Importieren. Dies ist leider wegen der weiter oben beschriebenen Einschränkung notwendig. Die Einstellungen und Ausschnitte, sowie die iCloud URLs der hochgeladenen Kurzbefehle werden in deiner iCloud Drive oder Dropbox gespeichert, je nachdem was du beim Importieren meines Kurzbefehls ausgewählt hast. Wenn du diesen Kurzbefehl ausführst und der Browser geöffnet wird, wird eine Datei aus meinem GitHub Repository geladen, um auf eine neue Version zu überprüfen ([diese Datei](https://github.com/schl3ck/copy-paste-actions/blob/master/version.json)). Dabei speichert GitHub möglicherweise deine IP-Adresse und/oder andere Information. Bitte lies die [Datenschutzrichtlinie von GitHub](https://docs.github.com/de/free-pro-team@latest/github/site-policy/github-privacy-statement) für mehr Informationen.
 
