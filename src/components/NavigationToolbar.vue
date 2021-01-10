@@ -133,20 +133,17 @@ export default {
     },
   },
   activated() {
-    console.log("activated");
     window.addEventListener("resize", this.onToolbarResize);
     this.onToolbarResize();
     this.unhookRouter = this.$router.afterEach(this.refreshHistory);
     this.refreshHistory();
   },
   deactivated() {
-    console.log("deactivated");
     window.removeEventListener("resize", this.onToolbarResize);
     this.unhookRouter?.();
     this.unhookRouter = null;
   },
   destroyed() {
-    console.log("destroyed");
     window.removeEventListener("resize", this.onToolbarResize);
   },
   methods: {

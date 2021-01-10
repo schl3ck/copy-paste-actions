@@ -113,7 +113,6 @@ function scrollBehavior(to, from) {
   if (historyNavigation && compSettings.has(to.name)) {
     position = compSettings.get(to.name).scrollPos;
   }
-  console.log("returning scroll pos", position);
   return position;
 }
 
