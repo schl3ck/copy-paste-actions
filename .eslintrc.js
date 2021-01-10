@@ -2,8 +2,9 @@
 
 module.exports = {
   root: true,
-  env: {
-    node: false,
+  globals: {
+    process: "readonly",
+    Buffer: "readonly",
   },
   extends: ["plugin:vue/recommended", "@vue/standard"],
   parserOptions: {

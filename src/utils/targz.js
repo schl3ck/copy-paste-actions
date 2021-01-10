@@ -1,5 +1,6 @@
+/* eslint-env node */
 /* eslint-disable new-cap, no-lone-blocks, no-array-constructor, camelcase,
-   eqeqeq */
+   eqeqeq, no-var */
 // from https://gist.github.com/fkloft/29c29f1c99ca04e42873, modified
 const TarGZ = function() {};
 
