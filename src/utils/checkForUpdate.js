@@ -42,6 +42,8 @@ export function checkForUpdate() {
           if (parseInt(n) > parseInt(c)) {
             isNewer = true;
             break;
+          } else if (parseInt(n) < parseInt(c)) {
+            break;
           }
         }
         if (isNewer) {
