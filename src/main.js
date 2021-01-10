@@ -50,6 +50,7 @@ import IconSave from "@/icons/IconSave.vue";
 import IconCloudLink from "@/icons/IconCloudLink.vue";
 import { checkForUpdate } from "@/utils/checkForUpdate";
 import setupKeyboardNavigation from "@/utils/keyboardNavigation";
+import setupTouchNavigation from "@/utils/touchNavigation";
 
 // make buffer globally available
 import { Buffer } from "buffer";
@@ -108,6 +109,7 @@ Vue.mixin({
 });
 
 setupKeyboardNavigation();
+setupTouchNavigation();
 
 let root;
 
