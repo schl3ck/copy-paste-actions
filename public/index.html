@@ -48,11 +48,13 @@
     <% } %>
     <!-- split here -->
     <!-- built files will be auto injected -->
+    <% if (NODE_ENV == "development") { %>
     <script>
       let el = document.createElement("div");
       el.innerText = "Build time <%= new Date().toLocaleString() %>";
       document.body.insertBefore(el, document.getElementById("app"));
     </script>
+    <% } %>
     <% if (NODE_ENV == "production") {
         for (const asset of htmlWebpackPlugin.files.js) { %>
     <script><%= compilation.assets[asset.substring(1)].source().replace(/<\/script/g, "</scri\pt") %></script>
