@@ -80,6 +80,12 @@ module.exports = {
         },
       },
     ],
+    "no-trailing-spaces": [
+      "error",
+      {
+        ignoreComments: true,
+      },
+    ],
     "standard/no-callback-literal": "off",
     "vue/max-attributes-per-line": [
       "error",
