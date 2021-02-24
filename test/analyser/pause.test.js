@@ -73,6 +73,11 @@ module.exports = function() {
                   ? [1, 2, 3, 4, 9, 5, 8, 10]
                   : [1, 5, 8, 10];
                 break;
+              case 3:
+                actionsToRemove = mode.removesActions
+                  ? [1, 2, 3, 4, 9, 5, 8, 10]
+                  : [];
+                break;
             }
 
             expectReturnObject(res, {
@@ -124,6 +129,9 @@ module.exports = function() {
                 break;
               case 2:
                 actionsToRemove = [0, 1, 3];
+                break;
+              case 3:
+                actionsToRemove = [];
                 break;
             }
 
@@ -181,6 +189,9 @@ module.exports = function() {
                   ? [0, 1, 5, 6, 2]
                   : [0, 2];
                 break;
+              case 3:
+                actionsToRemove = mode.removesActions ? [0, 1, 5, 6, 2] : [];
+                break;
             }
 
             expectReturnObject(res, {
@@ -237,6 +248,9 @@ module.exports = function() {
                 actionsToRemove = mode.removesActions
                   ? [0, 1, 6, 7, 2, 5]
                   : [0, 2, 5];
+                break;
+              case 3:
+                actionsToRemove = mode.removesActions ? [0, 1, 6, 7, 2, 5] : [];
                 break;
             }
 
@@ -297,6 +311,9 @@ module.exports = function() {
                   ? [0, 1, 7, 8, 2, 6]
                   : [0, 2, 6];
                 break;
+              case 3:
+                actionsToRemove = mode.removesActions ? [0, 1, 7, 8, 2, 6] : [];
+                break;
             }
 
             expectReturnObject(res, {
@@ -354,6 +371,9 @@ module.exports = function() {
                 actionsToRemove = mode.removesActions
                   ? [0, 1, 6, 7, 2]
                   : [0, 2];
+                break;
+              case 3:
+                actionsToRemove = mode.removesActions ? [0, 1, 6, 7, 2] : [];
                 break;
             }
 
@@ -418,6 +438,11 @@ module.exports = function() {
                   ? [0, 1, 6, 10, 2, 5, 9]
                   : [0, 2, 5, 9];
                 break;
+              case 3:
+                actionsToRemove = mode.removesActions
+                  ? [0, 1, 6, 10, 2, 5, 9]
+                  : [];
+                break;
             }
 
             expectReturnObject(res, {
@@ -479,6 +504,9 @@ module.exports = function() {
                   ? [0, 1, 6, 2, 5, 7]
                   : [0, 2, 5, 7];
                 break;
+              case 3:
+                actionsToRemove = mode.removesActions ? [0, 1, 6, 2, 5, 7] : [];
+                break;
             }
 
             expectReturnObject(res, {
@@ -535,6 +563,9 @@ module.exports = function() {
                 actionsToRemove = mode.removesActions
                   ? [0, 1, 4, 5, 2, 3]
                   : [0, 2, 3];
+                break;
+              case 3:
+                actionsToRemove = mode.removesActions ? [0, 1, 4, 5, 2, 3] : [];
                 break;
             }
 

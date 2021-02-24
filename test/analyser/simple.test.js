@@ -308,6 +308,7 @@ module.exports = function() {
               actionsToRemove = [2, 3, 4];
               break;
             case 2:
+            case 3:
               actionsToRemove = [1, 2, 3, 4];
               break;
           }
@@ -359,6 +360,7 @@ module.exports = function() {
               actionsToRemove = [2];
               break;
             case 2:
+            case 3:
               actionsToRemove = [1, 2];
               break;
           }
@@ -416,7 +418,7 @@ module.exports = function() {
               {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
-                  params.cleanUp === 2 ? [3, 4, 5, 6] : [4, 5, 6],
+                  params.cleanUp >= 2 ? [3, 4, 5, 6] : [4, 5, 6],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
@@ -462,7 +464,7 @@ module.exports = function() {
               {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
-                  params.cleanUp === 2
+                  params.cleanUp >= 2
                     ? [3, 4, 5, 6, 7, 8, 9]
                     : [4, 5, 6, 7, 8, 9],
                 ),
@@ -512,6 +514,7 @@ module.exports = function() {
               actionsToRemove = [4, 5, 6, 7];
               break;
             case 2:
+            case 3:
               actionsToRemove = [3, 4, 5, 6, 7];
               break;
           }
@@ -564,7 +567,7 @@ module.exports = function() {
               {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
-                  params.cleanUp === 2 ? [1, 2, 3, 4, 5, 6] : [2, 3, 4, 5, 6],
+                  params.cleanUp >= 2 ? [1, 2, 3, 4, 5, 6] : [2, 3, 4, 5, 6],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [],
@@ -822,6 +825,7 @@ module.exports = function() {
               actionsToRemove = [2, 3, 4, 5, 6, 7, 8, 9];
               break;
             case 2:
+            case 3:
               actionsToRemove = [1, 2, 3, 4, 5, 6, 7, 8, 9];
               break;
           }
@@ -936,7 +940,9 @@ module.exports = function() {
               actionsToRemove = [2, 3, 4, 5];
               break;
             case 2:
+            case 3:
               actionsToRemove = [1, 2, 3, 4, 5];
+              break;
           }
 
           expectReturnObject(res, {
@@ -989,7 +995,7 @@ module.exports = function() {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
                   null,
-                  params.cleanUp === 2 ? [0, 1, 2, 3] : [1, 2, 3],
+                  params.cleanUp >= 2 ? [0, 1, 2, 3] : [1, 2, 3],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [
@@ -1030,7 +1036,7 @@ module.exports = function() {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
                   null,
-                  params.cleanUp === 2 ? [0, 1, 2, 3] : [1, 2, 3],
+                  params.cleanUp >= 2 ? [0, 1, 2, 3] : [1, 2, 3],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [
@@ -1071,7 +1077,7 @@ module.exports = function() {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
                   null,
-                  params.cleanUp === 2 ? [0, 1, 2, 3] : [1, 2, 3],
+                  params.cleanUp >= 2 ? [0, 1, 2, 3] : [1, 2, 3],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [
@@ -1220,7 +1226,9 @@ module.exports = function() {
               actionsToRemove = [2, 3, 4, 5];
               break;
             case 2:
+            case 3:
               actionsToRemove = [1, 2, 3, 4, 5];
+              break;
           }
 
           expectReturnObject(res, {
@@ -1273,7 +1281,7 @@ module.exports = function() {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
                   null,
-                  params.cleanUp === 2 ? [0, 1, 2, 3] : [1, 2, 3],
+                  params.cleanUp >= 2 ? [0, 1, 2, 3] : [1, 2, 3],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [
@@ -1314,7 +1322,7 @@ module.exports = function() {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
                   null,
-                  params.cleanUp === 2 ? [0, 1, 2, 3] : [1, 2, 3],
+                  params.cleanUp >= 2 ? [0, 1, 2, 3] : [1, 2, 3],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [
@@ -1355,7 +1363,7 @@ module.exports = function() {
                 name: getParamForScript(sct).shortcuts.name,
                 actionsToRemove: constructActionsToRemove(
                   null,
-                  params.cleanUp === 2 ? [0, 1, 2, 3] : [1, 2, 3],
+                  params.cleanUp >= 2 ? [0, 1, 2, 3] : [1, 2, 3],
                 ),
                 uuids: extractUUIDs(sct.getActions()),
                 inserts: [

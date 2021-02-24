@@ -60,6 +60,7 @@ module.exports = function() {
           ? permutationToAction.getFuncs
           : permutationToAction.getBlock)(i.occurrence, options);
       });
+      /** @type { (string | {id: string, params: {GroupingIdentifier: string}})[] } */
       const res = [];
       perm.forEach((p) => {
         let o = map.get(p).actions.shift();
@@ -71,6 +72,10 @@ module.exports = function() {
       });
       return res;
     }
+    /**
+     * @param {number} length
+     * @param {Parameters<typeof permutationToAction>[1]} options
+     */
     permutationToAction.getFuncs = function(length, options) {
       return [
         options.startFunc,
@@ -84,11 +89,16 @@ module.exports = function() {
         ).trim(),
       ].filter((i) => i.length);
     };
+    /**
+     * @param {number} length
+     * @param {Parameters<typeof permutationToAction>[1]} options
+     */
     permutationToAction.getBlock = function(length, options) {
       const groupUUID = genUUID();
       const varUUID = genUUID();
       const ctor = (id) => {
         const o = {
+          /** @type {string} */
           id,
           params: {
             GroupingIdentifier: groupUUID,
@@ -104,22 +114,31 @@ module.exports = function() {
         }
         return ar;
       };
-      return {
-        Repeat: ["Repeat", "EndRepeat"].map(ctor),
-        RepeatEach: ["RepeatEach", "EndRepeatEach"].map(ctor),
-        If: ["If", length === 3 ? "Otherwise" : "", "EndIf"]
-          .filter((i) => i.length)
-          .map(ctor),
-        ChooseMenu: [
-          "ChooseMenu",
-          ...repeat("ChooseMenuItem", length - 1),
-          "EndChooseMenu",
-        ]
-          .filter((i) => i.length)
-          .map(ctor),
-      }[options.block];
+      switch (options.block) {
+        case "Repeat":
+          return ["Repeat", "EndRepeat"].map(ctor);
+        case "RepeatEach":
+          return ["RepeatEach", "EndRepeatEach"].map(ctor);
+        case "If":
+          return ["If", length === 3 ? "Otherwise" : "", "EndIf"]
+            .filter((i) => i.length)
+            .map(ctor);
+        case "ChooseMenu":
+          return [
+            "ChooseMenu",
+            ...repeat("ChooseMenuItem", length - 1),
+            "EndChooseMenu",
+          ]
+            .filter((i) => i.length)
+            .map(ctor);
+      }
     };
 
+    /**
+     *
+     * @param { {isClipboard: boolean, removes: boolean, inserts: boolean} } funcProps
+     * @param {ReturnType<typeof permutationToAction>} actions
+     */
     function test(funcProps, actions) {
       for (const params of allPossibleScriptParams) {
         it(JSON.stringify(params), function() {
@@ -169,14 +188,20 @@ module.exports = function() {
                 // down below, the count is correct
                 if (funcProps.removes) {
                   insert.replacesNActions =
-                    actionsToRemove.length - (params.cleanUp === 2 ? 1 : 0);
+                    actionsToRemove.length - (params.cleanUp >= 2 ? 1 : 0);
                 } else {
                   insert.replacesNActions = 0;
                 }
               }
               insideFunc = !insideFunc;
-              if (params.cleanUp === 2) addLastActionToRemove();
-              else if (
+              if (
+                params.cleanUp === 2
+                // no need to worry about other snippets modifying the shortcut,
+                // because there are none
+                || (params.cleanUp === 3 && funcProps.removes)
+              ) {
+                addLastActionToRemove();
+              } else if (
                 params.cleanUp === 1
                 && funcProps.removes
                 && /^(resume|pause|end)/.test(action)
@@ -487,6 +512,8 @@ module.exports = function() {
               actionsToRemove.insert = [1, 2, 3, 4, 5, 7, 8, 9, 10];
               break;
             case 2:
+            case 3:
+              // option `3` because the `paste replace` modifies the shortcut
               actionsToRemove.insert = [0, 1, 2, 3, 4, 5, 7, 8, 9, 10];
               actionsToRemove.snippet = [6, 12];
               break;

@@ -253,7 +253,8 @@
         "values": {
           "0": "Keine Funktionen entfernen",
           "1": "Nur die Funktionen `pause`, `resume` und `end` entfernen, wenn sie Teil einer Auswahl sind, die mit `cut`, `save remove`, `paste replace` oder `insert replace` begonnen wurde",
-          "2": "Alle Funktionen entfernen"
+          "2": "Alle Funktionen entfernen",
+          "3": "Alle Funktionen entfernen, aber nur wenn andere Aktionen hinzugefügt oder entfernt werden"
         }
       },
       "commentMarker": {

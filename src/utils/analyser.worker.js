@@ -47,7 +47,8 @@ ActionRange.prototype.isValid = function() {
   return this.isComplete() && this.start <= this.end;
 };
 
-/** @typedef {object} InputDict
+/**
+ * @typedef {object} InputDict
  * @property {object[]} shortcuts
  * @property {string} shortcuts[].name Name of Shortcut
  * @property {Buffer} shortcuts[].shortcut
@@ -57,7 +58,7 @@ ActionRange.prototype.isValid = function() {
  * `true`: do not include
  *
  * default: `true`
- * @property {0 | 1 | 2} cleanUp
+ * @property {0 | 1 | 2 | 3} cleanUp
  * `0`: no clean up, all comments are left in
  *
  * `1` (default): the functions "pause", "resume" and "end" are removed, if the
@@ -70,6 +71,117 @@ ActionRange.prototype.isValid = function() {
  * @property {string} noSnippetName name of new snippet, when no one was
  * provided
  * @property {string} defaultNewShortcutName default: "New Shortcut"
+ */
+
+/**
+ * @typedef {object} Action
+ * @property {number} index Index in the shortcut
+ * @property {number} modifiedIndex Index if a snippet/insert is currently
+ *    processed. The comments of this snippet/insert are ignored
+ * @property {string} WFWorkflowActionIdentifier
+ * @property {object} WFWorkflowActionParameters
+ * @property {string} WFWorkflowActionParameters.UUID
+ */
+/**
+ * @typedef {object} CommentAction
+ * @property {number} index Index in the shortcut
+ * @property {number} modifiedIndex Index if a snippet/insert is currently
+ *    processed. The comments of this snippet/insert are ignored
+ * @property {string} name Name from parsed CPA function
+ * @property {"is.workflow.actions.comment"} WFWorkflowActionIdentifier
+ * @property {object} WFWorkflowActionParameters
+ * @property {string} WFWorkflowActionParameters.WFCommentActionText
+ */
+/**
+ * @typedef {object} BlockAction
+ * @property {number} index Index in the shortcut
+ * @property {number} modifiedIndex Index if a snippet/insert is currently
+ *    processed. The comments of this snippet/insert are ignored
+ * @property {"is.workflow.actions.choosefrommenu" |
+ *    "is.workflow.actions.repeat.count" |
+ *    "is.workflow.actions.repeat.each" |
+ *    "is.workflow.actions.conditional"} WFWorkflowActionIdentifier
+ * @property {object} WFWorkflowActionParameters
+ * @property {string} WFWorkflowActionParameters.UUID
+ * @property {string} WFWorkflowActionParameters.GroupingIdentifier
+ */
+/**
+ * @typedef {object} CPAComment
+ * @property {string} function
+ * @property {number} funcN
+ * @property {boolean} endsInsert
+ * @property {string} name
+ * @property {string} newShortut
+ * @property {boolean} isClipboard
+ * @property {boolean} removes
+ * @property {string[]} text
+ * @property {string} textForWarning
+ * @property {CommentAction} action
+ */
+/**
+ * @typedef {object} Leftover
+ * @property {number} pause Pause after this number of actions
+ * @property {number} resume Resume after this number of actions
+ * @property {number} end End after this number of actions
+ */
+/**
+ * @typedef {object} uuidCollection
+ * @property {Set} groups
+ * @property {Set} vars
+ */
+/**
+ * @typedef {object} Snippet
+ * @property {string} name
+ * @property {boolean} isClipboard
+ * @property {boolean} removes
+ * @property {ActionRange[]} ranges
+ * @property {Leftover} leftover
+ * @property {string} newShortcut
+ * @property {boolean} finished
+ * @property {object} functionPositions
+ * @property {number} functionPositions.start
+ * @property {number[]} functionPositions.pauseResume
+ * @property {number} functionPositions.end
+ * @property {Action[]} actions
+ * @property {uuidCollection} uuids
+ */
+/**
+ * @typedef {object} Insert
+ * @property {string} name
+ * @property {boolean} isClipboard
+ * @property {boolean} removes
+ * @property {number} id
+ * @property {ActionRange[]} ranges
+ * @property {Leftover} leftover
+ * @property {object} functionPositions
+ * @property {number} functionPositions.start
+ * @property {number} functionPositions.end
+ */
+/**
+ * @typedef {object} ActionToRemove
+ * @property {number} action The 0-based index of the action
+ * @property {number[]} excludedBy The id of the insert that removed this
+ *    action or -1 if it is removed by a snippet
+ * @property {boolean} isFunction `true`, when it is a CPA function
+ */
+/**
+ * @typedef {object} Warning
+ * @property {string} shortcut Name of shortcut
+ * @property {number} action Index position of comment action
+ * @property {string} commentText Whole text from comment action
+ * @property {"incomplete" |
+ * "wrongFunction" |
+ * "pauseResumeInPaste" | "pauseResumeInInsert" |
+ * "duplicateClipboardNoName" | "duplicateClipboardWithName" |
+ * "duplicateSnippetNoName" | "duplicateSnippetWithName" |
+ * "pasteEndNoStart" | "insertEndNoStart" | "pasteEndInsertStart" |
+ * "insertEndPasteStart" |
+ * "funcNoStart" |
+ * "funcClipboardFinished" | "funcSnippetFinished" |
+ * "pauseWhilePauseClipboard" | "pauseWhilePauseSnippet" |
+ * "resumeWhileResumeClipboard" | "resumeWhileResumeSnippet"} type Error type
+ * @property {object} [payload] Some additional info to insert into the error
+ * message
  */
 
 /**
@@ -204,7 +316,7 @@ function analyse(dict) {
     // prettier-ignore
     typeof dict.cleanUp !== "number"
     || dict.cleanUp < 0
-    || dict.cleanUp > 2
+    || dict.cleanUp > 3
   ) {
     dict.cleanUp = 1;
   }
@@ -220,116 +332,6 @@ function analyse(dict) {
   dict.commentMarker = dict.commentMarker.toLowerCase();
   // const allUsedNewShortcutNames = [];
 
-  /**
-   * @typedef {object} Action
-   * @property {number} index Index in the shortcut
-   * @property {number} modifiedIndex Index if a snippet/insert is currently
-   *    processed. The comments of this snippet/insert are ignored
-   * @property {string} WFWorkflowActionIdentifier
-   * @property {object} WFWorkflowActionParameters
-   * @property {string} WFWorkflowActionParameters.UUID
-   */
-  /**
-   * @typedef {object} CommentAction
-   * @property {number} index Index in the shortcut
-   * @property {number} modifiedIndex Index if a snippet/insert is currently
-   *    processed. The comments of this snippet/insert are ignored
-   * @property {string} name Name from parsed CPA function
-   * @property {"is.workflow.actions.comment"} WFWorkflowActionIdentifier
-   * @property {object} WFWorkflowActionParameters
-   * @property {string} WFWorkflowActionParameters.WFCommentActionText
-   */
-  /**
-   * @typedef {object} BlockAction
-   * @property {number} index Index in the shortcut
-   * @property {number} modifiedIndex Index if a snippet/insert is currently
-   *    processed. The comments of this snippet/insert are ignored
-   * @property {"is.workflow.actions.choosefrommenu" |
-   *    "is.workflow.actions.repeat.count" |
-   *    "is.workflow.actions.repeat.each" |
-   *    "is.workflow.actions.conditional"} WFWorkflowActionIdentifier
-   * @property {object} WFWorkflowActionParameters
-   * @property {string} WFWorkflowActionParameters.UUID
-   * @property {string} WFWorkflowActionParameters.GroupingIdentifier
-   */
-  /**
-   * @typedef {object} CPAComment
-   * @property {string} function
-   * @property {number} funcN
-   * @property {boolean} endsInsert
-   * @property {string} name
-   * @property {string} newShortut
-   * @property {boolean} isClipboard
-   * @property {boolean} removes
-   * @property {string[]} text
-   * @property {string} textForWarning
-   * @property {CommentAction} action
-   */
-  /**
-   * @typedef {object} Leftover
-   * @property {number} pause Pause after this number of actions
-   * @property {number} resume Resume after this number of actions
-   * @property {number} end End after this number of actions
-   */
-  /**
-   * @typedef {object} uuidCollection
-   * @property {Set} groups
-   * @property {Set} vars
-   */
-  /**
-   * @typedef {object} Snippet
-   * @property {string} name
-   * @property {boolean} isClipboard
-   * @property {boolean} removes
-   * @property {ActionRange[]} ranges
-   * @property {Leftover} leftover
-   * @property {string} newShortcut
-   * @property {boolean} finished
-   * @property {object} functionPositions
-   * @property {number} functionPositions.start
-   * @property {number[]} functionPositions.pauseResume
-   * @property {number} functionPositions.end
-   * @property {Action[]} actions
-   * @property {uuidCollection} uuids
-   */
-  /**
-   * @typedef {object} Insert
-   * @property {string} name
-   * @property {boolean} isClipboard
-   * @property {boolean} removes
-   * @property {number} id
-   * @property {ActionRange[]} ranges
-   * @property {Leftover} leftover
-   * @property {object} functionPositions
-   * @property {number} functionPositions.start
-   * @property {number} functionPositions.end
-   */
-  /**
-   * @typedef {object} ActionToRemove
-   * @property {number} action The 0-based index of the action
-   * @property {number[]} excludedBy The id of the insert that removed this
-   *    action or -1 if it is removed by a snippet
-   */
-  /**
-   * @typedef {object} Warning
-   * @property {string} shortcut Name of shortcut
-   * @property {number} action Index position of comment action
-   * @property {string} commentText Whole text from comment action
-   * @property {"incomplete" |
-   * "wrongFunction" |
-   * "pauseResumeInPaste" | "pauseResumeInInsert" |
-   * "duplicateClipboardNoName" | "duplicateClipboardWithName" |
-   * "duplicateSnippetNoName" | "duplicateSnippetWithName" |
-   * "pasteEndNoStart" | "insertEndNoStart" | "pasteEndInsertStart" |
-   * "insertEndPasteStart" |
-   * "funcNoStart" |
-   * "funcClipboardFinished" | "funcSnippetFinished" |
-   * "pauseWhilePauseClipboard" | "pauseWhilePauseSnippet" |
-   * "resumeWhileResumeClipboard" | "resumeWhileResumeSnippet"} type Error type
-   * @property {object} [payload] Some additional info to insert into the error
-   * message
-   */
-
   const result = [];
   let insertIdMax = -1;
   /** @type {Warning[]} */
@@ -344,6 +346,7 @@ function analyse(dict) {
     const buf = Buffer.from(shortcut.shortcut);
     const shortcutName = shortcut.name;
 
+    /* istanbul ignore else reason: we can't test this */
     if (buf.slice(0, "bplist".length).toString("utf-8") === "bplist") {
       shortcut = bplist.parse(buf)[0];
     } else {
@@ -544,13 +547,14 @@ function analyse(dict) {
         + percentagePerName * nameIndex;
       updatePercentage(basePercentageNames);
 
+      const commentIndices = comments.map((c) => c.action.index);
+
       // reindex actions to ignore current function comments, only when not
       // already all were excluded
       if (!dict.excludeAllCPAComments) {
         (function() {
           modifiedActions = [];
           let index = 0;
-          const commentIndices = comments.map((c) => c.action.index);
           actions.forEach(
             /**
              * @param {Action | CommentAction} action
@@ -1029,7 +1033,11 @@ function analyse(dict) {
                 blockUUIDS[gi].push(modifiedActions[j].index);
               } else if (current.snippet.removes) {
                 // is not a block action, save for removal
-                addToActionsToRemove(actionsToRemove, modifiedActions[j].index);
+                addToActionsToRemove(
+                  actionsToRemove,
+                  modifiedActions[j].index,
+                  commentIndices.includes(modifiedActions[j].index),
+                );
               }
               current.snippet.actions.push(modifiedActions[j]);
               // prettier-ignore
@@ -1083,7 +1091,11 @@ function analyse(dict) {
                */
               (a) => {
                 if (a.WFWorkflowActionParameters.GroupingIdentifier === gi) {
-                  addToActionsToRemove(actionsToRemove, a.index);
+                  addToActionsToRemove(
+                    actionsToRemove,
+                    a.index,
+                    false, // a block is never a function
+                  );
                 }
               },
             );
@@ -1099,23 +1111,24 @@ function analyse(dict) {
             // remove everything except the start, if the snippet removes
             // actions
             if (current.snippet.removes) {
-              current.snippet.functionPositions.pauseResume.forEach((a) =>
-                addToActionsToRemove(actionsToRemove, a),
-              );
+              current.snippet.functionPositions.pauseResume.forEach((a) => {
+                addToActionsToRemove(actionsToRemove, a, true);
+              });
               // prettier-ignore
               addToActionsToRemove(
                 actionsToRemove,
                 current.snippet.functionPositions.end,
+                true,
               );
             }
             break;
           case 2:
+          case 3:
+            // option `3` is decided later. the shortcut might still be modified
             // remove everything
-            // prettier-ignore
-            functionPositions.forEach((a) =>
-              // eslint-disable-next-line comma-dangle
-              addToActionsToRemove(actionsToRemove, a)
-            );
+            functionPositions.forEach((a) => {
+              addToActionsToRemove(actionsToRemove, a, true);
+            });
             break;
         }
 
@@ -1149,10 +1162,11 @@ function analyse(dict) {
                   blockUUIDS[gi].push(modifiedActions[j].index);
                 } else {
                   // is not a block action, save for removal
-                  // prettier-ignore
                   addToActionsToRemove(
                     actionsToRemove,
-                    modifiedActions[j].index, insert.id,
+                    modifiedActions[j].index,
+                    commentIndices.includes(modifiedActions[j].index),
+                    insert.id,
                   );
                 }
               }
@@ -1187,7 +1201,12 @@ function analyse(dict) {
                */
               (a) => {
                 if (a.WFWorkflowActionParameters.GroupingIdentifier === gi) {
-                  addToActionsToRemove(actionsToRemove, a.index, insert.id);
+                  addToActionsToRemove(
+                    actionsToRemove,
+                    a.index,
+                    false, // a block is never a function
+                    insert.id,
+                  );
                 }
               },
             );
@@ -1200,24 +1219,27 @@ function analyse(dict) {
             break;
           case 1:
             if (insert.removes) {
-              // prettier-ignore
               addToActionsToRemove(
                 actionsToRemove,
-                insert.functionPositions.end, insert.id,
+                insert.functionPositions.end,
+                true,
+                insert.id,
               );
             }
             break;
           case 2:
-            // prettier-ignore
+          case 3:
+            // option `3` is decided later. the shortcut might still be modified
             addToActionsToRemove(
               actionsToRemove,
               insert.functionPositions.start,
+              true,
               insert.id,
             );
-            // prettier-ignore
             addToActionsToRemove(
               actionsToRemove,
               insert.functionPositions.end,
+              true,
               insert.id,
             );
             break;
@@ -1265,7 +1287,18 @@ function analyse(dict) {
       delete insert.removes;
     });
 
+    // options `3` => functions should only be removed when the shortcut is
+    // being modified
+    if (dict.cleanUp === 3 && actionsToRemove.every((a) => a.isFunction)) {
+      // only functions are marked to be removed => remove nothing
+      actionsToRemove.splice(0, actionsToRemove.length);
+    }
+
     actionsToRemove.sort((a, b) => a.action - b.action);
+
+    actionsToRemove.forEach((a) => {
+      delete a.isFunction;
+    });
 
     result.push({
       snippets: snippets,
@@ -1325,16 +1358,20 @@ function uuidsToPlainObject(o) {
  *
  * @param {ActionToRemove[]} actionsToRemove
  * @param {number} index
- * @param {number} id
+ * @param {boolean} isFunction
+ * @param {number} [id]
  */
-function addToActionsToRemove(actionsToRemove, index, id) {
+function addToActionsToRemove(actionsToRemove, index, isFunction, id) {
   if (typeof index !== "number") return;
   let atr = actionsToRemove.find((a) => a.action === index);
   if (!atr) {
-    actionsToRemove.push((atr = { action: index, excludedBy: [] }));
+    actionsToRemove.push(
+      (atr = { action: index, excludedBy: [], isFunction: isFunction }),
+    );
   }
   atr.excludedBy.push(typeof id === "number" ? id : -1);
   atr.excludedBy.sort();
+  atr.isFunction = isFunction;
 }
 
 /**

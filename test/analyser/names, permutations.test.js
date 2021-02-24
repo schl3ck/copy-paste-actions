@@ -175,8 +175,8 @@ module.exports = function(options) {
                             break;
                         }
 
-                        snippets.forEach((snip, i) => {
-                          if (snip.recording) {
+                        snippets.forEach((snippet, i) => {
+                          if (snippet.recording) {
                             let toAdd = -1;
                             if (
                               i !== o.itemNumber
@@ -184,7 +184,9 @@ module.exports = function(options) {
                             ) {
                               toAdd = -2;
                             }
-                            snip.result.actions.push(...sct.getActions(toAdd));
+                            snippet.result.actions.push(
+                              ...sct.getActions(toAdd),
+                            );
                           }
                         });
                       });
@@ -209,6 +211,8 @@ module.exports = function(options) {
                             name: getParamForScript(sct).shortcuts.name,
                             actionsToRemove: constructActionsToRemove(
                               params.cleanUp === 2 ? actionsToRemove : [],
+                              // option `3` doesn't remove anything bc the
+                              // shortcut isn't modified
                             ),
                             uuids: extractUUIDs(sct.getActions()),
                             inserts: [],
@@ -250,6 +254,8 @@ module.exports = function(options) {
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
                       params.cleanUp === 2 ? [2] : [],
+                      // option `3` doesn't remove anything bc the
+                      // shortcut isn't modified
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -299,6 +305,8 @@ module.exports = function(options) {
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0] : [],
                       params.cleanUp === 2 ? [2] : [],
+                      // option `3` doesn't remove anything bc the
+                      // shortcut isn't modified
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -349,8 +357,8 @@ module.exports = function(options) {
                   {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
-                      params.cleanUp === 2 ? [2] : [],
-                      params.cleanUp === 2 ? [0, 1] : [1],
+                      params.cleanUp >= 2 ? [2] : [],
+                      params.cleanUp >= 2 ? [0, 1] : [1],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -398,8 +406,8 @@ module.exports = function(options) {
                   {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
-                      params.cleanUp === 2 ? [0] : [],
-                      params.cleanUp === 2 ? [2, 3] : [3],
+                      params.cleanUp >= 2 ? [0] : [],
+                      params.cleanUp >= 2 ? [2, 3] : [3],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -453,6 +461,8 @@ module.exports = function(options) {
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
                       params.cleanUp === 2 ? [2] : [],
+                      // option `3` doesn't remove anything bc the
+                      // shortcut isn't modified
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -495,15 +505,9 @@ module.exports = function(options) {
               _.assign(dict, params);
               const res = script(dict);
 
-              const actions = sct.getActions.apply(
-                sct,
-                params.excludeAllCPAComments
-                  ? [
-                    [1, 1],
-                    [3, 1],
-                  ]
-                  : [1, 3],
-              );
+              const actions = params.excludeAllCPAComments
+                ? sct.getActions([1, 1], [3, 1])
+                : sct.getActions(1, 3);
 
               expectReturnObject(res, {
                 nItems: 2,
@@ -514,6 +518,8 @@ module.exports = function(options) {
                     actionsToRemove: constructActionsToRemove(
                       params.cleanUp === 2 ? [0, 4] : [],
                       params.cleanUp === 2 ? [2] : [],
+                      // option `3` doesn't remove anything bc the
+                      // shortcut isn't modified
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -565,8 +571,8 @@ module.exports = function(options) {
                   {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
-                      params.cleanUp === 2 ? [0, 4] : [],
-                      params.cleanUp === 2 ? [2, 3] : [3],
+                      params.cleanUp >= 2 ? [0, 4] : [],
+                      params.cleanUp >= 2 ? [2, 3] : [3],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -609,15 +615,9 @@ module.exports = function(options) {
               _.assign(dict, params);
               const res = script(dict);
 
-              const actions = sct.getActions.apply(
-                sct,
-                params.excludeAllCPAComments
-                  ? [
-                    [1, 1],
-                    [3, 1],
-                  ]
-                  : [1, 3],
-              );
+              const actions = params.excludeAllCPAComments
+                ? sct.getActions([1, 1], [3, 1])
+                : sct.getActions(1, 3);
 
               expectReturnObject(res, {
                 nItems: 2,
@@ -626,8 +626,8 @@ module.exports = function(options) {
                   {
                     name: getParamForScript(sct).shortcuts.name,
                     actionsToRemove: constructActionsToRemove(
-                      params.cleanUp === 2 ? [0, 4] : [],
-                      params.cleanUp === 2 ? [2, 3] : [3],
+                      params.cleanUp >= 2 ? [0, 4] : [],
+                      params.cleanUp >= 2 ? [2, 3] : [3],
                     ),
                     uuids: extractUUIDs(sct.getActions()),
                     inserts: [
@@ -686,7 +686,7 @@ module.exports = function(options) {
 
                 const actionsToRemove = [1, 3];
                 if (params.cleanUp > 0) actionsToRemove.push(4);
-                if (params.cleanUp === 2) actionsToRemove.push(0);
+                if (params.cleanUp >= 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
                   nItems: 2,
@@ -695,7 +695,7 @@ module.exports = function(options) {
                     {
                       name: getParamForScript(sct).shortcuts.name,
                       actionsToRemove: constructActionsToRemove(
-                        params.cleanUp === 2 ? [2, 6] : [],
+                        params.cleanUp >= 2 ? [2, 6] : [],
                         actionsToRemove,
                       ),
                       uuids: extractUUIDs(sct.getActions()),
@@ -749,19 +749,13 @@ module.exports = function(options) {
                 _.assign(dict, params);
                 const res = script(dict);
 
-                const actions = sct.getActions.apply(
-                  sct,
-                  params.excludeAllCPAComments
-                    ? [
-                      [3, 1],
-                      [5, 1],
-                    ]
-                    : [3, 3],
-                );
+                const actions = params.excludeAllCPAComments
+                  ? sct.getActions([3, 1], [5, 1])
+                  : sct.getActions(3, 3);
                 const actionsToRemove = [1, 3];
                 if (!params.excludeAllCPAComments) actionsToRemove.push(2);
                 if (params.cleanUp > 0) actionsToRemove.push(4);
-                if (params.cleanUp === 2) actionsToRemove.push(0);
+                if (params.cleanUp >= 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
                   nItems: 2,
@@ -770,7 +764,7 @@ module.exports = function(options) {
                     {
                       name: getParamForScript(sct).shortcuts.name,
                       actionsToRemove: constructActionsToRemove(
-                        params.cleanUp === 2 ? [2, 6] : [],
+                        params.cleanUp >= 2 ? [2, 6] : [],
                         actionsToRemove,
                       ),
                       uuids: extractUUIDs(sct.getActions()),
@@ -830,7 +824,7 @@ module.exports = function(options) {
 
                 const actionsToRemove = [3, 5];
                 if (params.cleanUp > 0) actionsToRemove.push(6);
-                if (params.cleanUp === 2) actionsToRemove.push(2);
+                if (params.cleanUp >= 2) actionsToRemove.push(2);
 
                 expectReturnObject(res, {
                   nItems: 2,
@@ -839,7 +833,7 @@ module.exports = function(options) {
                     {
                       name: getParamForScript(sct).shortcuts.name,
                       actionsToRemove: constructActionsToRemove(
-                        params.cleanUp === 2 ? [0, 4] : [],
+                        params.cleanUp >= 2 ? [0, 4] : [],
                         actionsToRemove,
                       ),
                       uuids: extractUUIDs(sct.getActions()),
@@ -893,19 +887,13 @@ module.exports = function(options) {
                 _.assign(dict, params);
                 const res = script(dict);
 
-                const actions = sct.getActions.apply(
-                  sct,
-                  params.excludeAllCPAComments
-                    ? [
-                      [1, 1],
-                      [3, 1],
-                    ]
-                    : [1, 3],
-                );
+                const actions = params.excludeAllCPAComments
+                  ? sct.getActions([1, 1], [3, 1])
+                  : sct.getActions(1, 3);
                 const actionsToRemove = [3, 5];
                 if (!params.excludeAllCPAComments) actionsToRemove.push(4);
                 if (params.cleanUp > 0) actionsToRemove.push(6);
-                if (params.cleanUp === 2) actionsToRemove.push(2);
+                if (params.cleanUp >= 2) actionsToRemove.push(2);
 
                 expectReturnObject(res, {
                   nItems: 2,
@@ -914,7 +902,7 @@ module.exports = function(options) {
                     {
                       name: getParamForScript(sct).shortcuts.name,
                       actionsToRemove: constructActionsToRemove(
-                        params.cleanUp === 2 ? [0, 4] : [],
+                        params.cleanUp >= 2 ? [0, 4] : [],
                         actionsToRemove,
                       ),
                       uuids: extractUUIDs(sct.getActions()),
@@ -974,7 +962,7 @@ module.exports = function(options) {
 
                 const actionsToRemove = [1, 3, 5];
                 if (params.cleanUp > 0) actionsToRemove.push(6);
-                if (params.cleanUp === 2) actionsToRemove.push(0);
+                if (params.cleanUp >= 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
                   nItems: 2,
@@ -983,7 +971,7 @@ module.exports = function(options) {
                     {
                       name: getParamForScript(sct).shortcuts.name,
                       actionsToRemove: constructActionsToRemove(
-                        params.cleanUp === 2 ? [2, 4] : [],
+                        params.cleanUp >= 2 ? [2, 4] : [],
                         actionsToRemove,
                       ),
                       uuids: extractUUIDs(sct.getActions()),
@@ -1041,7 +1029,7 @@ module.exports = function(options) {
                 const actionsToRemove = [1, 3, 5];
                 if (!params.excludeAllCPAComments) actionsToRemove.push(2, 4);
                 if (params.cleanUp > 0) actionsToRemove.push(6);
-                if (params.cleanUp === 2) actionsToRemove.push(0);
+                if (params.cleanUp >= 2) actionsToRemove.push(0);
 
                 expectReturnObject(res, {
                   nItems: 2,
@@ -1050,7 +1038,7 @@ module.exports = function(options) {
                     {
                       name: getParamForScript(sct).shortcuts.name,
                       actionsToRemove: constructActionsToRemove(
-                        params.cleanUp === 2 ? [2, 4] : [],
+                        params.cleanUp >= 2 ? [2, 4] : [],
                         actionsToRemove,
                       ),
                       uuids: extractUUIDs(sct.getActions()),

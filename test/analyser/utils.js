@@ -28,12 +28,10 @@ const script = require("../../src/utils/analyser.worker");
 
 const possibleScriptParams = {
   excludeAllCPAComments: [false, true],
-  cleanUp: [0, 1, 2],
+  cleanUp: [0, 1, 2, 3],
 };
 /**
- * @typedef {
- *    Pick<Parameters<typeof script>[0], "excludeAllCPAComments" | "cleanUp">
- * } PossibleParams
+ * @typedef {Pick<Parameters<typeof script>[0], "excludeAllCPAComments" | "cleanUp">} PossibleParams
  */
 /** @type {PossibleParams[]} */
 const allPossibleScriptParams = [];

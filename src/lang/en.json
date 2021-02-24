@@ -253,7 +253,8 @@
         "values": {
           "0": "Remove none",
           "1": "Remove functions `pause`, `resume` and `end` when they are part of a selection started with `cut`, `save remove`, `paste replace` or `insert replace`",
-          "2": "Remove all"
+          "2": "Remove all",
+          "3": "Remove all, but only when other actions are added or removed"
         }
       },
       "commentMarker": {
