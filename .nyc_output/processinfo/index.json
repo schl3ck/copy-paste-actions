@@ -1,1 +1,25 @@
-{"processes":{"45d15c21-bc02-4dd4-b871-e04499747e82":{"parent":null,"children":["eacc5fd6-66b2-4c3e-9078-f66680c65057"]},"5183533b-4441-4882-bb9a-2cc75d80c89b":{"parent":null,"children":[]},"eacc5fd6-66b2-4c3e-9078-f66680c65057":{"parent":"45d15c21-bc02-4dd4-b871-e04499747e82","children":[]}},"files":{"F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\bplist.js":["eacc5fd6-66b2-4c3e-9078-f66680c65057"],"F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\analyser.worker.js":["eacc5fd6-66b2-4c3e-9078-f66680c65057"],"F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\merger.worker.js":["eacc5fd6-66b2-4c3e-9078-f66680c65057"]},"externalIds":{}}
+{
+  "processes": {
+    "2c4e3cbf-3439-486b-b14e-f94998efdc71": { "parent": null, "children": [] },
+    "cf747ad3-fa8b-457f-9a85-4dd94f0c8a05": {
+      "parent": "ef318e03-5bba-448c-a61c-e9e8cfbc2095",
+      "children": []
+    },
+    "ef318e03-5bba-448c-a61c-e9e8cfbc2095": {
+      "parent": null,
+      "children": ["cf747ad3-fa8b-457f-9a85-4dd94f0c8a05"]
+    }
+  },
+  "files": {
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\bplist.js": [
+      "cf747ad3-fa8b-457f-9a85-4dd94f0c8a05"
+    ],
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\analyser.worker.js": [
+      "cf747ad3-fa8b-457f-9a85-4dd94f0c8a05"
+    ],
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\merger.worker.js": [
+      "cf747ad3-fa8b-457f-9a85-4dd94f0c8a05"
+    ]
+  },
+  "externalIds": {}
+}

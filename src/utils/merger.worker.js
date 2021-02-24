@@ -51,6 +51,7 @@ function merge(dict) {
     const insertIntoShortcut = [];
 
     const buf = Buffer.from(shortcut.shortcut);
+    /* istanbul ignore else reason: we can't test this */
     if (buf.slice(0, "bplist".length).toString("utf-8") === "bplist") {
       shortcut.shortcut = bplist.parse(buf)[0];
     } else {

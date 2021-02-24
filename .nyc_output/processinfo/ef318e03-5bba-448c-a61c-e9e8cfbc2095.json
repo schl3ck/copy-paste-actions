@@ -1,0 +1,19 @@
+{
+  "parent": null,
+  "pid": 14252,
+  "argv": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+    "test",
+    "--",
+    "-a"
+  ],
+  "execArgv": [],
+  "cwd": "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions",
+  "time": 1614206593792,
+  "ppid": 940,
+  "coverageFilename": "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\.nyc_output\\ef318e03-5bba-448c-a61c-e9e8cfbc2095.json",
+  "externalId": "",
+  "uuid": "ef318e03-5bba-448c-a61c-e9e8cfbc2095",
+  "files": []
+}

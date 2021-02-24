@@ -1,0 +1,21 @@
+{
+  "parent": "ef318e03-5bba-448c-a61c-e9e8cfbc2095",
+  "pid": 17288,
+  "argv": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\test\\test-starter.js",
+    "-a"
+  ],
+  "execArgv": [],
+  "cwd": "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions",
+  "time": 1614206594628,
+  "ppid": 6588,
+  "coverageFilename": "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\.nyc_output\\cf747ad3-fa8b-457f-9a85-4dd94f0c8a05.json",
+  "externalId": "",
+  "uuid": "cf747ad3-fa8b-457f-9a85-4dd94f0c8a05",
+  "files": [
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\bplist.js",
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\analyser.worker.js",
+    "F:\\Benutzer\\Bernhard\\Documents\\Office\\GitHub\\copy-paste-actions\\src\\utils\\merger.worker.js"
+  ]
+}
