@@ -75,7 +75,9 @@
     "title": "Kurzbefehle-App öffnen",
     "buildingUrl": "URL um die Kurzbefehle-App zu öffnen wird erstellt...",
     "done": "Fertig",
-    "openApp": "Kurzbefehle-App öffnen"
+    "openApp": "Kurzbefehle-App öffnen",
+    "closingPageIn": "Diese Seite wird in $remaining Sekunden geschlossen...",
+    "cancel": "Abbrechen"
   },
   "processShortcuts": {
     "title": "Bearbeiten von deinen Kurzbefehlen",
