@@ -77,7 +77,9 @@
     "done": "Done",
     "openApp": "Open Shortcuts",
     "closingPageIn": "Closing page in $remaining seconds...",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "rebuildInfo": "Have you got a `gzip decompression failed` error?\nTry it again or",
+    "rebuild": "rebuild the archive"
   },
   "processShortcuts": {
     "title": "Processing your shortcuts",
@@ -301,6 +303,10 @@
       "autoAcceptInserts": {
         "title": "Automatically accept all inserts",
         "description": "Automatically accept all found inserts with their matching snippet/clipboard item. If there are none then this acts also as if the preference _Skip Found Inserts page_ is enabled.\nThis preference is ignored when there are inserts with no matching snippet/clipboard item."
+      },
+      "closePageTimeout": {
+        "title": "Close page automatically after",
+        "description": "The page is closed automatically after this amount of seconds after you have been redirected to the shortcuts app. If you get the `gzip decompression failed` error and the page was already closed as you switched back to Safari then increase this. Keep in mind that if this is too long Safari might already be unloaded by iOS and therefore the tab won't be closed."
       }
     }
   },

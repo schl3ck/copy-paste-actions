@@ -6,9 +6,6 @@ import router from "@/router";
 
 let closePageTimeoutId = 0;
 
-/** in ms */
-export const closePageTimeout = 10000;
-
 /**
  * Opens the Shortcut to perform some actions
  * @param {object} options
@@ -48,7 +45,11 @@ export function navigateAndBuildZip(options) {
     );
   }
 
-  router[options.routerMethod || "push"]({ name: "OpenApp" }).then(navigated);
+  if (router.currentRoute.name === "OpenApp") {
+    navigated();
+  } else {
+    router[options.routerMethod || "push"]({ name: "OpenApp" }).then(navigated);
+  }
 
   async function navigated() {
     const OpenApp = store.state.activeRouterView;
@@ -56,6 +57,7 @@ export function navigateAndBuildZip(options) {
     OpenApp.base64 = "";
     OpenApp.done = false;
     OpenApp.percent = null;
+    OpenApp.offerArchiveRebuild = false;
 
     if (
       store.state.userPreferencesChanged
@@ -149,7 +151,10 @@ export function openNow(shortcutInput, options) {
   options = options || {};
 
   const closeTab = () => {
-    closePageTimeoutId = setTimeout(window.close, closePageTimeout - 2000);
+    closePageTimeoutId = setTimeout(
+      window.close,
+      store.state.preferences.Preferences.closePageTimeout * 1000 - 2000,
+    );
   };
   const mainMenu = () => {
     router[options.routerMethod || "push"]({ name: "MainMenu" });
@@ -197,7 +202,7 @@ export function openURLAndCloseSelf(url) {
   location.href = url;
   closePageTimeoutId = setTimeout(() => {
     window.close();
-  }, closePageTimeout);
+  }, store.state.preferences.Preferences.closePageTimeout * 1000);
 }
 
 /**

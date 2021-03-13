@@ -19,7 +19,8 @@
     "autoOverwriteSnippets": false,
     "autoLoadShortcuts": [],
     "autoAnalyseShortcuts": false,
-    "autoAcceptInserts": false
+    "autoAcceptInserts": false,
+    "closePageTimeout": 10
   },
   "iOS Version": "13.4",
   "Preferences": {
@@ -36,7 +37,8 @@
     "autoOverwriteSnippets": false,
     "autoLoadShortcuts": [],
     "autoAnalyseShortcuts": false,
-    "autoAcceptInserts": false
+    "autoAcceptInserts": false,
+    "closePageTimeout": 10
   },
   "componentToDisplay": "MainMenu",
   "availableLanguages": {

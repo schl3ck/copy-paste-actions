@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="opened"
+      v-if="closingAt"
       :class="[
         'fixed-top fixed-bottom d-flex flex-column',
         'justify-content-center align-items-center',
@@ -21,7 +21,15 @@
       :statusLabel="lang.buildingUrl"
       :messages="options.messages"
       @doneButtonClick="openNow"
-    />
+    >
+      <div v-if="offerArchiveRebuild" class="container text-center mt-2">
+        <span v-html="lang.rebuildInfo" />
+        <br>
+        <button class="btn btn-primary btn-sm" @click="rebuildArchive">
+          {{ lang.rebuild }}
+        </button>
+      </div>
+    </ProcessBar>
 
     <NavigationToolbar />
   </div>
@@ -29,7 +37,7 @@
 
 <script>
 import ProcessBar from "@/components/ProcessBar.vue";
-import { openNow, closePageTimeout, cancelClosing } from "@/utils/openApp";
+import { openNow, cancelClosing, navigateAndBuildZip } from "@/utils/openApp";
 import NavigationToolbar from "@/components/NavigationToolbar.vue";
 
 export default {
@@ -49,9 +57,10 @@ export default {
       },
       base64: "",
       /** @type {Date} timestamp when the page should be closed */
-      opened: null,
+      closingAt: null,
       closePageTimeoutId: 0,
       closePageRemaining: 0,
+      offerArchiveRebuild: false,
     };
   },
   computed: {
@@ -59,9 +68,9 @@ export default {
     lang() {
       return this.$store.state.language.openApp;
     },
-    /** @returns {object} */
+    /** @returns {Store.Preferences} */
     preferences() {
-      return this.$store.state.preferences;
+      return this.$store.state.preferences.Preferences;
     },
     /** @returns {boolean} */
     historyReplaceState() {
@@ -77,18 +86,18 @@ export default {
   },
   watch: {
     base64(newV) {
-      if (newV && this.preferences.Preferences.autoOpenApp) {
+      if (newV && this.preferences.autoOpenApp) {
         this.openNow();
       }
     },
-    opened(val) {
+    closingAt(val) {
       if (val) {
         this.closePageTimeoutId = setInterval(() => {
           this.closePageRemaining = Math.ceil(
-            (this.opened - new Date()) / 1000,
+            (this.closingAt - new Date()) / 1000,
           );
           if (this.closePageRemaining < 0) {
-            this.opened = null;
+            this.closingAt = null;
           }
         }, 200);
       } else {
@@ -103,7 +112,7 @@ export default {
     this.$store.commit("showMainTitle", false);
   },
   deactivated() {
-    this.opened = null;
+    this.closingAt = null;
   },
   methods: {
     openNow() {
@@ -114,13 +123,23 @@ export default {
       openNow(this.base64, options);
       if (options.closePage) {
         const d = new Date();
-        d.setMilliseconds(d.getMilliseconds() + closePageTimeout);
-        this.opened = d;
+        d.setMilliseconds(
+          d.getMilliseconds() + this.preferences.closePageTimeout * 1000,
+        );
+        this.closingAt = d;
+      } else {
+        setTimeout(() => {
+          this.offerArchiveRebuild = true;
+        }, 2000);
       }
     },
     cancelClosing() {
       cancelClosing();
-      this.opened = null;
+      this.closingAt = null;
+      this.offerArchiveRebuild = true;
+    },
+    rebuildArchive() {
+      navigateAndBuildZip(this.options);
     },
   },
 };

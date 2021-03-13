@@ -61,6 +61,7 @@ declare namespace Store {
     autoLoadShortcuts: string[];
     autoAnalyseShortcuts: boolean;
     autoAcceptInserts: boolean;
+    closePageTimeout: number;
   }
   interface AppSettings {
     "Shortcut Name": string;

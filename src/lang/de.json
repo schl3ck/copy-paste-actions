@@ -77,7 +77,9 @@
     "done": "Fertig",
     "openApp": "Kurzbefehle-App öffnen",
     "closingPageIn": "Diese Seite wird in $remaining Sekunden geschlossen...",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "rebuildInfo": "Hast du einen `gzip decompression failed`-Fehler bekommen?\nVersuche es erneut oder",
+    "rebuild": "erstelle das Archiv neu"
   },
   "processShortcuts": {
     "title": "Bearbeiten von deinen Kurzbefehlen",
