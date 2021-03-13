@@ -6,6 +6,11 @@ module.exports = {
     process: "readonly",
     Buffer: "readonly",
   },
+  env: {
+    browser: true,
+    es2020: true,
+    worker: true,
+  },
   extends: ["plugin:vue/recommended", "@vue/standard"],
   parserOptions: {
     parser: "babel-eslint",

@@ -75,7 +75,9 @@
     "title": "Open Shortcuts app",
     "buildingUrl": "Building URL to open Shortcuts...",
     "done": "Done",
-    "openApp": "Open Shortcuts"
+    "openApp": "Open Shortcuts",
+    "closingPageIn": "Closing page in $remaining seconds...",
+    "cancel": "Cancel"
   },
   "processShortcuts": {
     "title": "Processing your shortcuts",
