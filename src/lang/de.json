@@ -303,6 +303,10 @@
       "autoAcceptInserts": {
         "title": "Alle Einsetzpunkte automatisch aktzeptieren",
         "description": "Alle gefundenen Einsetzpunkte werden automatisch mit den zusammenpassenden Ausschnitten/Zwischenablagenelementen aktzeptiert. Wenn keine Einsetzpunkte gefunden wurden, verhält sich diese Einstellung so, als ob die Einstellung _Seite Gefundene Einsetzpunkte überspringen_ aktiviert ist.\nDiese Einstellung wird ignoriert, wenn ein Einsetzpunkt keinen passenden Ausschnitt/kein passendes Zwischenablagenelement hat."
+      },
+      "closePageTimeout": {
+        "title": "Schließe die Seite automatisch nach",
+        "description": "Die Seite wird automatisch nach den angegebenen Sekunden geschlossen, nachdem du zur Kurzbefehle-App geleitet wurdest. Wenn du den `gzip decompression failed`-Fehler bekommst und die Seite bereits geschlossen wurde wie du wieder zu Safari gewechselt hast, dann kannst du diese Wartezeit erhöhen. Beachte allerdings, dass Safari möglicherweise durch iOS geschlossen wurde und dadurch die Seite nicht mehr geschlossen wird, wenn dieser Wert zu hoch ist."
       }
     }
   },
