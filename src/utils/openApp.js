@@ -4,6 +4,11 @@ import { Buffer } from "buffer";
 import store from "@/store/index";
 import router from "@/router";
 
+let closePageTimeoutId = 0;
+
+/** in ms */
+export const closePageTimeout = 10000;
+
 /**
  * Opens the Shortcut to perform some actions
  * @param {object} options
@@ -142,8 +147,9 @@ export function navigateAndBuildZip(options) {
  */
 export function openNow(shortcutInput, options) {
   options = options || {};
+
   const closeTab = () => {
-    window.close();
+    closePageTimeoutId = setTimeout(window.close, closePageTimeout - 2000);
   };
   const mainMenu = () => {
     router[options.routerMethod || "push"]({ name: "MainMenu" });
@@ -166,18 +172,20 @@ export function openNow(shortcutInput, options) {
   if (options.doNotRun) {
     // eslint-disable-next-line no-console
     console.log("switching to app");
-    location.href = "workflow://";
+    location.href = "shortcuts://";
   } else {
     // assume that the method `navigateAndBuildZip` built the .tar.gz so there
     // are any unsaved changes in it
     store.commit("userChangesSaved");
 
-    const url = `workflow://run-workflow?name=${encodeURIComponent(
+    const url = `shortcuts://run-shortcut?name=${encodeURIComponent(
       store.state.preferences["Shortcut Name"],
-    )}&input=text&text=${shortcutInput}`;
+    )}&input=${shortcutInput}`;
     // eslint-disable-next-line no-console
     console.log("switching to app with url", url);
-    location.href = url;
+    if (process.env.NODE_ENV !== "development") {
+      location.href = url;
+    }
   }
 }
 
@@ -187,7 +195,21 @@ export function openNow(shortcutInput, options) {
  */
 export function openURLAndCloseSelf(url) {
   location.href = url;
-  return setInterval(() => {
+  closePageTimeoutId = setTimeout(() => {
     window.close();
-  }, 250);
+  }, closePageTimeout);
+}
+
+/**
+ * Cancels the timeout which will close this page
+ * @returns `true` when there was a timeout to cancel, `false` otherwise
+ */
+export function cancelClosing() {
+  if (closePageTimeoutId) {
+    clearTimeout(closePageTimeoutId);
+    closePageTimeoutId = 0;
+    return true;
+  } else {
+    return false;
+  }
 }

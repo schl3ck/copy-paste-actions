@@ -247,7 +247,7 @@
       },
       "excludeAllCPAComments": {
         "title": "Exclude functions",
-        "description": "Exclude the functions (special comment actions) this shortcut works with from being included in other snippets and clipboard items. When deaktivated, the comment actions will be copied, if they are included in a selection."
+        "description": "Exclude the functions (special comment actions) this shortcut works with from being included in other snippets and clipboard items. When deactivated, the comment actions will be copied, if they are included in a selection."
       },
       "cleanUp": {
         "title": "Clean up of functions",
