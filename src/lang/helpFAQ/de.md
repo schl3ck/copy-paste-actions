@@ -16,6 +16,10 @@ Quick Mode ist in mehrere Einstellungen aufgeteilt, um dir die größtmögliche 
 ### Nachdem ich einen einzelnen Kurzbefehl importiert habe, läuft der Kurzbefehl _CopyPaste Actions_ weiter.
 Dies ist vermutlich ein Fehler der Anzeige in der Kurzbefehle-App auf iOS 14.2. Du kannst wie gewohnt die App verwenden und auch Kurzbefehle ausführen, allerdings wird kein Fortschrittsindikator angezeigt. Um das Problem zu beheben, brauchst du nur die Kurzbefehle-App aus dem Programmumschalter/der Multitasking-Ansicht entfernen und erneut starten. Du kannst auch zur Ordnerübersicht in der Kurzbefehle-App gehen und anschließend einen Kurzbefehl bearbeiten. Nachdem du wieder den Bearbeitungsmodus verlassen hast, sollte alles wieder beim alten sein.
 
+### I bekomme einen `gzip decompression failed`-Fehler.
+Die Fehlermeldung ist möglicherweise auch auf Deutsch verfasst.
+Ich konnte keine Lösung für diesen Fehler finden. Es scheint, dass manchmal ein _.tar.gz_ Archiv gerneriert wird, welches von der Kurzbefehle-App nicht entpackt werden kann. Wenn du diesen Fehler bekommst, wechsle schnell zu Safari zurück und breche das automatische Schließen der Seite ab. Du kannst dann es erneut versuchen, indem du auf _Kurzbefehle-App öffnen_ tippst oder falls dies nicht funktioniert, dann tippe auf _erstelle das Archiv neu_. Bei meinen Tests wurde das Archiv nicht komplett identisch generiert (Ich denke, dass das an der Komprimierung liegt).
+
 ### I habe auf _Link erstellen_ getippt, aber die Kurzbefehlevorschau wurde nicht angezeigt.
 Ich habe den Fehler selbst einmal erhalten. Es gab möglicherweise einen Fehler als die Kurzbefehle-App versucht hat, deinen Kurzbefehl zu laden.
 

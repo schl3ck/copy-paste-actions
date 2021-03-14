@@ -16,6 +16,9 @@ Quick mode is split into multiple preferences to give you as much control as pos
 ### After importing a single shortcut, the _CopyPaste Actions_ shortcut is still running.
 That appears to be a visual bug in Shortcuts on iOS 14.2. You can still use Shortcuts as you are used to and also run shortcuts, but they won't display a running indicator. To fix the problem, simply close the app from the app switcher and open it again. You can also go to the folders view and then open a shortcut for editing. After closing the edit screen, it should be back to normal.
 
+### I got a `gzip decompression failed` error.
+I couldn't find a solution to this bug. It seems that sometimes a _.tar.gz_ archive is generated that the Shortcuts app can't decompress. When you get the error, quickly switch back to Safari and cancel the automatic closing of the page. You can then try again by tapping _Open Shortcuts_ or if that doesn't work tap _rebuild the archive_ to build it again. In my tests the archive isn't built the same every time (I think because of the compression).
+
 ### I tapped _Create Link_ in Shortcuts but the shortcut preview wasn't opened.
 I got that bug once. There was probably an issue as Shortcuts tried to load your shortcut.
 
