@@ -13,6 +13,8 @@
     "back": "Zurück",
     "mainMenu": "Hauptmenü",
     "navigationHistory": "Verlauf",
+    "scrollToTop": "Zum Anfang scrollen",
+    "scrollToBottom": "Zum Ende scrollen",
     "forward": "Vorwärts"
   },
   "mainMenu": {

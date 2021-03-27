@@ -48,6 +48,7 @@ import IconSearchMinus from "@/icons/IconSearchMinus.vue";
 import IconSearchPlus from "@/icons/IconSearchPlus.vue";
 import IconSave from "@/icons/IconSave.vue";
 import IconCloudLink from "@/icons/IconCloudLink.vue";
+import IconArrowUpToBar from "@/icons/IconArrowUpToBar.vue";
 import { checkForUpdate } from "@/utils/checkForUpdate";
 import setupKeyboardNavigation from "@/utils/keyboardNavigation";
 import setupTouchNavigation from "@/utils/touchNavigation";
@@ -96,6 +97,7 @@ Vue.component("IconSearchMinus", IconSearchMinus);
 Vue.component("IconSearchPlus", IconSearchPlus);
 Vue.component("IconSave", IconSave);
 Vue.component("IconCloudLink", IconCloudLink);
+Vue.component("IconArrowUpToBar", IconArrowUpToBar);
 
 Vue.config.productionTip = false;
 Vue.config.performace = process.env.NODE_ENV === "development";
