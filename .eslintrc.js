@@ -10,6 +10,7 @@ module.exports = {
     browser: true,
     es2020: true,
     worker: true,
+    node: false,
   },
   extends: ["plugin:vue/recommended", "@vue/standard"],
   parserOptions: {
