@@ -160,7 +160,7 @@ export default {
                 alert(this.lang.finishEditing);
                 top = this.editingElemTop;
               }
-              window.scrollTo({
+              document.getElementById("app").scrollTo({
                 left: 0,
                 top: top,
                 behavior: "smooth",
@@ -187,16 +187,17 @@ export default {
   },
   watch: {
     hasConflicts(newVal) {
-      const scrollTop = window.scrollY;
+      const el = document.getElementById("app");
+      const scrollTop = el.scrollY;
       let height = 0;
       const getHeight = () => {
         height = getFullHeight(this.$refs.conflicts);
       };
       const correctScrollPos = () => {
         // the browser already corrected it
-        if (scrollTop !== window.scrollY) return;
+        if (scrollTop !== el.scrollY) return;
 
-        window.scrollBy({ top: newVal ? height : -height, behavior: "auto" });
+        el.scrollBy({ top: newVal ? height : -height, behavior: "auto" });
       };
 
       if (newVal) {

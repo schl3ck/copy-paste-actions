@@ -1,6 +1,6 @@
 <template>
-  <div ref="toolbar" class="fixed-bottom pb-2 bg-opaque">
-    <div class="container">
+  <div ref="toolbar" class="fixed-bottom container pb-2 bg-transparent">
+    <div class="bg-opaque">
       <ButtonBar
         v-if="buttons && buttons.length"
         :buttons="buttons"
