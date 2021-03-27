@@ -1,6 +1,8 @@
 /* eslint-env node */
 
-module.exports = {
+const { extractConfig, disablePlugins } = require("eslint-disable");
+
+const baseConfig = {
   root: true,
   globals: {
     process: "readonly",
@@ -109,3 +111,5 @@ module.exports = {
     "vue/no-mutating-props": "warn",
   },
 };
+
+module.exports = disablePlugins(extractConfig(baseConfig), ["node"]);
