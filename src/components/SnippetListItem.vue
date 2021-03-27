@@ -372,10 +372,15 @@ export default {
         isClipboard: this.isClipboard,
         description: this.description,
       };
-      this.$store.commit("updateSnippet", {
-        snippet: this.snippet,
-        new: props,
-      });
+      if (this.$store.state.snippets.find((s) => s === this.snippet)) {
+        this.$store.commit("updateSnippet", {
+          snippet: this.snippet,
+          new: props,
+        });
+      } else {
+        // snippet was not saved yet
+        Object.assign(this.snippet, props);
+      }
       this.cancelEdit();
     },
     showActions() {
