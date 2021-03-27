@@ -11,8 +11,8 @@
 
         <template v-if="clipboard && clipboard.length">
           <SnippetListItem
-            v-for="(snippet, index) in clipboard"
-            :key="'clip' + index"
+            v-for="snippet in clipboard"
+            :key="'clip' + snippet.name"
             :snippet="snippet"
             :editable="editable"
             showActionsBtnOutline
@@ -35,8 +35,8 @@
 
         <template v-if="snippets && snippets.length">
           <SnippetListItem
-            v-for="(snippet, index) in snippets"
-            :key="'clip' + index"
+            v-for="snippet in snippets"
+            :key="'clip' + snippet.name"
             :snippet="snippet"
             :editable="editable"
             showActionsBtnOutline
