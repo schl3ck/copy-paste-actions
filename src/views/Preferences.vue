@@ -545,13 +545,13 @@ export default {
           this.$refs.list.style.transition = null;
         });
       }
-      if (this.lastPrefChanged && prevHeight < height) {
-        document.getElementById("app").scrollBy({
-          left: 0,
-          top: height - prevHeight,
-          behavior: "smooth",
-        });
-      }
+      // if (this.lastPrefChanged && prevHeight < height) {
+      //   document.getElementById("app").scrollBy({
+      //     left: 0,
+      //     top: height - prevHeight,
+      //     behavior: "smooth",
+      //   });
+      // }
       this.lastPrefChanged = false;
     },
     prefChanged(index) {
