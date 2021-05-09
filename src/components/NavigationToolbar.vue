@@ -47,28 +47,6 @@
         <button
           class="btn"
           :class="[
-            canScrollUp ? 'btn-outline-primary' : 'btn-outline-secondary',
-          ]"
-          :disabled="!canScrollUp"
-          :title="lang.scrollToTop"
-          @click="scrollToTop"
-        >
-          <IconArrowUpToBar />
-        </button>
-        <button
-          class="btn"
-          :class="[
-            canScrollDown ? 'btn-outline-primary' : 'btn-outline-secondary',
-          ]"
-          :disabled="!canScrollDown"
-          :title="lang.scrollToBottom"
-          @click="scrollToBottom"
-        >
-          <IconArrowUpToBar rotate="180" />
-        </button>
-        <button
-          class="btn"
-          :class="[
             canGoForward ? 'btn-outline-primary' : 'btn-outline-secondary',
           ]"
           :disabled="!canGoForward"
@@ -84,10 +62,6 @@
 
 <script>
 import ButtonBar from "@/components/ButtonBar.vue";
-
-function getScrollElement() {
-  return document.getElementById("app");
-}
 
 export default {
   name: "NavigationToolbar",
@@ -122,9 +96,6 @@ export default {
       historyIndex: null,
       /** @type {Function} */
       unhookRouter: null,
-      canScrollUp: false,
-      canScrollDown: false,
-      canScrollIntervalId: null,
     };
   },
   computed: {
@@ -166,22 +137,14 @@ export default {
     this.onToolbarResize();
     this.unhookRouter = this.$router.afterEach(this.refreshHistory);
     this.refreshHistory();
-    this.canScrollIntervalId = setInterval(this.updateCanScroll, 500);
-    getScrollElement().addEventListener("touchmove", this.updateCanScroll, {
-      passive: true,
-    });
   },
   deactivated() {
     window.removeEventListener("resize", this.onToolbarResize);
-    clearInterval(this.canScrollIntervalId);
-    getScrollElement().removeEventListener("touchmove", this.updateCanScroll);
     this.unhookRouter?.();
     this.unhookRouter = null;
   },
   destroyed() {
     window.removeEventListener("resize", this.onToolbarResize);
-    clearInterval(this.canScrollIntervalId);
-    getScrollElement().removeEventListener("touchmove", this.updateCanScroll);
   },
   methods: {
     async onToolbarResize() {
@@ -218,29 +181,6 @@ export default {
     },
     historyOverview() {
       this.$store.commit("showHistoryOverview", !this.showHistoryOverview);
-    },
-    updateCanScroll() {
-      const scrollElement = getScrollElement();
-      const top = scrollElement.scrollTop;
-      const bottom = top + scrollElement.offsetHeight;
-      this.canScrollUp = top > 0;
-      this.canScrollDown = bottom < scrollElement.scrollHeight;
-    },
-    scrollToTop() {
-      const scrollElement = getScrollElement();
-      scrollElement.scrollTo({
-        left: 0,
-        top: 0,
-        behavior: "smooth",
-      });
-    },
-    scrollToBottom() {
-      const scrollElement = getScrollElement();
-      scrollElement.scrollTo({
-        left: 0,
-        top: scrollElement.scrollHeight - scrollElement.offsetHeight,
-        behavior: "smooth",
-      });
     },
   },
 };
