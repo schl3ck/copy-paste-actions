@@ -546,7 +546,7 @@ export default {
         });
       }
       if (this.lastPrefChanged && prevHeight < height) {
-        document.getElementById("app").scrollBy({
+        window.scrollBy({
           left: 0,
           top: height - prevHeight,
           behavior: "smooth",
@@ -584,7 +584,7 @@ export default {
     scrollTo(pref) {
       const el = document.getElementById(pref + "Card");
       if (el) {
-        document.getElementById("app").scrollTo({
+        window.scrollTo({
           left: 0,
           top: el.offsetTop,
           behavior: "smooth",

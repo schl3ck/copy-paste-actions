@@ -42,8 +42,6 @@
         </div>
       </div>
     </transition>
-
-    <div class="bottom-pusher" />
   </div>
 </template>
 
@@ -148,24 +146,26 @@ export default {
 @use "@/styles/markdownRendered";
 @use "@/styles/darkMode";
 
-body {
-  overflow: hidden;
-  max-height: 100vh;
+@mixin box-shadow-replacement($side) {
+  background: linear-gradient(to $side, gray, 1%, #0000);
+  content: "";
+  position: absolute;
+  #{$side}: -0.5rem;
+  height: 100vh;
+  width: 0.5rem;
+  top: 0;
 }
-#app {
-  overflow: scroll;
-  max-height: 100vh;
-  -webkit-overflow-scrolling: touch;
-}
-.bottom-pusher {
-  height: 6.25rem;
-}
-#app.touch-gesture {
+
+body.touch-gesture {
   position: relative;
-  box-shadow: 0 0 0.5rem gray;
-  pointer-events: none;
-  min-height: 100vh;
-  overflow: hidden;
+  // box-shadow dosn't work on iOS. at least not on the body
+  // box-shadow: 0 0 0.5rem gray;
+  &::before {
+    @include box-shadow-replacement(left);
+  }
+  &::after {
+    @include box-shadow-replacement(right);
+  }
   &.touch-gesture-transition {
     transition: left 0.2s cubic-bezier(0, 1, 1, 1),
       right 0.2s cubic-bezier(0, 1, 1, 1);

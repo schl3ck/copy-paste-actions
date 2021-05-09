@@ -131,10 +131,7 @@ router.afterEach((to, from) => {
   const pos = scrollBehavior(to, from);
   if (pos) {
     setTimeout(
-      () =>
-        document
-          .getElementById("app")
-          .scrollTo({ left: pos.x, top: pos.y, behavior: "auto" }),
+      () => window.scrollTo({ left: pos.x, top: pos.y, behavior: "auto" }),
       0,
     );
   }

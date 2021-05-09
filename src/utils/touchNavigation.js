@@ -29,12 +29,6 @@ let backGesture = 0;
  */
 let forwardGesture = 0;
 const successfulCallbackQueue = [];
-/** @type {HTMLDivElement} */
-let appEl = null;
-
-function setElement() {
-  appEl = document.getElementById("app");
-}
 
 // ============= router methods ================
 function back() {
@@ -59,27 +53,28 @@ function canGoForward() {
 
 // ============= methods for styling (w/ callback queue) ================
 function startGesture() {
-  setElement();
-  appEl.classList.add("touch-gesture");
-  // perform any actions that are still waiting for the animation end
+  document.body.classList.add("touch-gesture");
   while (successfulCallbackQueue.length) {
     successfulCallbackQueue.shift()();
   }
 }
 /** @param {number} offset */
 function setOffset(offset) {
-  appEl.style[offset > 0 ? "left" : "right"] = Math.abs(offset) + "px";
+  document.body.style[offset > 0 ? "left" : "right"] = Math.abs(offset) + "px";
 }
 /** @param {Function} callback */
 function successfulGesture(callback) {
   if (callback) successfulCallbackQueue.push(callback);
   const side = backGesture === 2 ? "left" : "right";
-  appEl.classList.add("touch-gesture-transition");
-  appEl.addEventListener(
+  document.body.classList.add("touch-gesture-transition");
+  document.body.addEventListener(
     "transitionend",
     () => {
-      appEl.classList.remove("touch-gesture", "touch-gesture-transition");
-      appEl.style[side] = null;
+      document.body.classList.remove(
+        "touch-gesture",
+        "touch-gesture-transition",
+      );
+      document.body.style[side] = null;
       let i;
       if (callback && (i = successfulCallbackQueue.indexOf(callback)) >= 0) {
         successfulCallbackQueue.splice(i, 1);
@@ -88,20 +83,23 @@ function successfulGesture(callback) {
     },
     { once: true },
   );
-  appEl.style[side] = "100%";
+  document.body.style[side] = "100%";
 }
 function cancelGesture() {
   const side = backGesture === 2 ? "left" : "right";
-  appEl.classList.add("touch-gesture-transition");
-  appEl.addEventListener(
+  document.body.classList.add("touch-gesture-transition");
+  document.body.addEventListener(
     "transitionend",
     () => {
-      appEl.classList.remove("touch-gesture", "touch-gesture-transition");
-      appEl.style[side] = null;
+      document.body.classList.remove(
+        "touch-gesture",
+        "touch-gesture-transition",
+      );
+      document.body.style[side] = null;
     },
     { once: true },
   );
-  appEl.style[side] = "0px";
+  document.body.style[side] = "0px";
 }
 
 // ============= touch handlers & helpers ================
@@ -126,27 +124,21 @@ function windowWidth() {
  * @param {TouchEvent} evt
  */
 function handleStart(evt) {
-  if (evt.touches.length === 1) {
-    forwardGesture = 0;
-    backGesture = 0;
-    setElement();
+  forwardGesture = 0;
+  backGesture = 0;
 
+  if (evt.touches.length === 1) {
     /** @type {Touch} */
     const touch = evt.touches[0];
     // gesture has to start at the edges
-    if (touch.pageX - appEl.offsetLeft <= gestureMargin) {
+    if (touch.pageX <= gestureMargin) {
       backGesture = 1;
-    } else if (
-      touch.pageX + appEl.offsetLeft
-      >= windowWidth() - gestureMargin
-    ) {
+    } else if (touch.pageX >= windowWidth() - gestureMargin) {
       forwardGesture = 1;
     }
-    if (backGesture || forwardGesture) {
-      initialTouch = copyTouch(touch);
-      lastTouch = copyTouch(touch);
-      lastTouchTimestamp = Date.now();
-    }
+    initialTouch = copyTouch(touch);
+    lastTouch = copyTouch(touch);
+    lastTouchTimestamp = Date.now();
   } else {
     cancelGesture();
     backGesture = forwardGesture = 0;

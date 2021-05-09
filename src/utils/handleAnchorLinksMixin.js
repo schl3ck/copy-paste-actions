@@ -14,7 +14,7 @@ export default Vue.extend({
             if (this.$store.state.showMainTitle) {
               top -= document.getElementById("mainTitle").offsetHeight;
             }
-            document.getElementById("app").scrollTo({
+            window.scrollTo({
               left: 0,
               top: top,
               behavior: "auto",
