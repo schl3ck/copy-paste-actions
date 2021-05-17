@@ -1,5 +1,9 @@
 <template>
-  <div ref="toolbar" class="fixed-bottom pb-2 bg-opaque">
+  <div
+    ref="toolbar"
+    class="pb-2 bg-opaque"
+    :class="{ 'fixed-bottom': !notFixed }"
+  >
     <div class="container">
       <ButtonBar
         v-if="buttons && buttons.length"
@@ -14,7 +18,7 @@
           :class="canGoBack ? 'btn-outline-primary' : 'btn-outline-secondary'"
           :disabled="!canGoBack"
           :title="lang.back"
-          @click="back"
+          @click.prevent="back"
         >
           <BIcon icon="chevron-left" />
         </button>
@@ -25,7 +29,7 @@
           ]"
           :disabled="!canGoMainMenu"
           :title="lang.mainMenu"
-          @click="mainMenu"
+          @click.prevent="mainMenu"
         >
           <BIcon icon="house-fill" />
         </button>
@@ -40,7 +44,7 @@
           "
           :disabled="!canGoHistoryOverview"
           :title="lang.navigationHistory"
-          @click="historyOverview"
+          @click.prevent="historyOverview"
         >
           <BIcon icon="list-ol" />
         </button>
@@ -51,7 +55,7 @@
           ]"
           :disabled="!canGoForward"
           :title="lang.forward"
-          @click="forward"
+          @click.prevent="forward"
         >
           <BIcon icon="chevron-left" rotate="180" />
         </button>
@@ -86,6 +90,10 @@ export default {
         return value === "push" || value === "replace";
       },
       default: "push",
+    },
+    notFixed: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

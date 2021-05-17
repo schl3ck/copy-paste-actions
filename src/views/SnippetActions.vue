@@ -1,45 +1,47 @@
 <template>
-  <div class="width-maxcontent">
-    <div class="sticky-top sticky-left max-vw-100">
-      <div class="container">
-        <div
-          class="d-flex justify-content-between align-items-center pb-2 w-100"
+  <div class="container">
+    <div class="sticky-top">
+      <div class="d-flex justify-content-between align-items-center pb-2 w-100">
+        <h2 class="flex-grow-1 mb-0" :class="{ 'font-italic': hasNoName }">
+          {{ hasNoName ? lang.noSnippetName : title }}
+        </h2>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          @click.prevent="close"
         >
-          <h2 class="flex-grow-1 mb-0" :class="{ 'font-italic': hasNoName }">
-            {{ hasNoName ? lang.noSnippetName : title }}
-          </h2>
-          <button type="button" class="close" aria-label="Close" @click="close">
-            <BIcon icon="x" class="fs-2x text-secondary" aria-hidden="true" />
-          </button>
-        </div>
-        <div class="btn-group btn-group-sm w-100">
-          <button class="btn btn-outline-primary" @click="setZoom(-1)">
-            <IconSearchMinus />
-          </button>
-          <button class="btn btn-outline-primary" @click="setZoom(0)">
-            <BIcon icon="arrow-counterclockwise" />
-          </button>
-          <button class="btn btn-outline-primary" @click="setZoom(1)">
-            <IconSearchPlus />
-          </button>
-          <button class="btn btn-outline-primary" @click="saveZoom">
-            <IconSave />
-          </button>
-        </div>
+          <BIcon icon="x" class="fs-2x text-secondary" aria-hidden="true" />
+        </button>
+      </div>
+      <div class="btn-group btn-group-sm w-100">
+        <button class="btn btn-outline-primary" @click.prevent="setZoom(-1)">
+          <IconSearchMinus />
+        </button>
+        <button class="btn btn-outline-primary" @click.prevent="setZoom(0)">
+          <BIcon icon="arrow-counterclockwise" />
+        </button>
+        <button class="btn btn-outline-primary" @click.prevent="setZoom(1)">
+          <IconSearchPlus />
+        </button>
+        <button class="btn btn-outline-primary" @click.prevent="saveZoom">
+          <IconSave />
+        </button>
       </div>
     </div>
-    <div ref="content">
-      <pre
-        class="text-pre width-maxcontent bg-transparent"
-        :style="{ 'font-size': zoom + 'rem' }"
-      ><code
-      ref="code"
-      class="lang-json"
-      v-html="actionsHighlighted"
-      /></pre>
+    <div ref="content" class="max-vw-100 overflow-scroll">
+      <div class="mw-content">
+        <pre
+          class="text-pre bg-transparent p-0 w-maxcontent"
+          :style="{ 'font-size': zoom + 'rem' }"
+        ><code
+          ref="code"
+          class="lang-json"
+          v-html="actionsHighlighted"
+        /></pre>
+      </div>
     </div>
-
-    <NavigationToolbar contentRefName="content" />
+    <NavigationToolbar ref="toolbar" />
   </div>
 </template>
 
@@ -66,6 +68,7 @@ export default {
   data() {
     return {
       zoom: 1,
+      checkHeightIntervalId: 0,
     };
   },
   computed: {
@@ -90,15 +93,15 @@ export default {
       return this.$store.state.preferences.Preferences;
     },
   },
-  created() {
-    this.zoom = this.preferences.codeZoom;
-  },
   activated() {
+    this.zoom = this.preferences.codeZoom;
     this.$store.commit("useGlobalContainer", false);
     this.$store.commit("showMainTitle", false);
+    this.checkHeightIntervalId = setInterval(this.checkAvailableHeight, 250);
   },
   deactivated() {
     this.$store.commit("useGlobalContainer", true);
+    if (this.checkHeightIntervalId) clearInterval(this.checkHeightIntervalId);
   },
   methods: {
     close() {
@@ -134,6 +137,17 @@ export default {
     },
     saveZoom() {
       this.$store.commit("userPreferences", { codeZoom: this.zoom });
+    },
+    checkAvailableHeight() {
+      /** @type {HTMLDivElement} */
+      const content = this.$refs.content;
+      /** @type {import("vue").default} */
+      const toolbar = this.$refs.toolbar;
+
+      const top = content.offsetTop;
+      const bottom = toolbar.$el.offsetTop;
+
+      content.style.maxHeight = `${bottom - top}px`;
     },
   },
 };

@@ -27,7 +27,7 @@
         <div
           v-if="showUpdateBanner"
           class="alert alert-info overlay-message update-available"
-          @click="toUpdate"
+          @click.prevent="toUpdate"
         >
           {{ lang.updateAvailable.text }}
           <span class="link-style">{{ lang.updateAvailable.link }}</span>
@@ -35,7 +35,7 @@
         <div
           v-if="showProbablyOutdated"
           class="alert alert-danger overlay-message"
-          @click="showProbablyOutdated = false"
+          @click.prevent="showProbablyOutdated = false"
         >
           {{ lang.probablyOutdated.text }}
           <span class="link-style">{{ lang.probablyOutdated.link }}</span>
@@ -146,29 +146,42 @@ export default {
 @use "@/styles/markdownRendered";
 @use "@/styles/darkMode";
 
-@mixin box-shadow-replacement($side) {
-  background: linear-gradient(to $side, gray, 1%, #0000);
-  content: "";
-  position: absolute;
-  #{$side}: -0.5rem;
-  height: 100vh;
-  width: 0.5rem;
-  top: 0;
-}
-
-body.touch-gesture {
-  position: relative;
-  // box-shadow dosn't work on iOS. at least not on the body
-  // box-shadow: 0 0 0.5rem gray;
-  &::before {
-    @include box-shadow-replacement(left);
-  }
-  &::after {
-    @include box-shadow-replacement(right);
+.touch-gesture {
+  @at-root body#{&} {
+    position: relative;
   }
   &.touch-gesture-transition {
     transition: left 0.2s cubic-bezier(0, 1, 1, 1),
       right 0.2s cubic-bezier(0, 1, 1, 1);
+  }
+}
+
+.navigation-overlay {
+  display: none;
+  position: fixed;
+  top: -1rem;
+  bottom: -1rem;
+  left: 0px;
+  right: 0px;
+  z-index: 1029;
+
+  &.touch-gesture {
+    display: block;
+  }
+  .left,
+  .right {
+    position: absolute;
+    top: -1rem;
+    bottom: -1rem;
+    width: calc(100vw + 1rem);
+    box-shadow: inset 0 0 0.5rem gray;
+    background: var(--background-color);
+  }
+  .left {
+    left: calc(-100vw - 1rem);
+  }
+  .right {
+    right: calc(-100vw - 1rem);
   }
 }
 
@@ -241,11 +254,21 @@ h2 {
   white-space: pre-wrap;
 }
 
+.w-maxcontent {
+  width: max-content !important;
+}
 .mw-content {
   max-width: max-content !important;
 }
 .max-vw-100 {
   max-width: 100vw;
+}
+.max-vh-100 {
+  max-height: 100vh;
+}
+
+.overflow-scroll {
+  overflow: scroll !important;
 }
 
 .main-icon {
