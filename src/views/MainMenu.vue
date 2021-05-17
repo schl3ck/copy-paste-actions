@@ -14,7 +14,10 @@
             <p>
               {{ mainMenu.unsavedChanges.looseChanges }}
             </p>
-            <button class="btn btn-block btn-success" @click="saveChanges">
+            <button
+              class="btn btn-block btn-success"
+              @click.prevent="saveChanges"
+            >
               <span class="mr-2">
                 <IconSave />
               </span>

@@ -10,7 +10,7 @@
           type="button"
           class="close"
           aria-label="Close"
-          @click="buttons[1].click"
+          @click.prevent="buttons[1].click"
         >
           <span class="fs-2x text-secondary" aria-hidden="true">&times;</span>
         </button>

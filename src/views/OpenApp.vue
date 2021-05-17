@@ -9,7 +9,7 @@
       ]"
     >
       <h4>{{ closingPageIn }}</h4>
-      <button class="btn btn-warning btn-lg" @click="cancelClosing">
+      <button class="btn btn-warning btn-lg" @click.prevent="cancelClosing">
         {{ lang.cancel }}
       </button>
     </div>
@@ -25,7 +25,7 @@
       <div v-if="offerArchiveRebuild" class="container text-center mt-2">
         <span v-html="lang.rebuildInfo" />
         <br>
-        <button class="btn btn-primary btn-sm" @click="rebuildArchive">
+        <button class="btn btn-primary btn-sm" @click.prevent="rebuildArchive">
           {{ lang.rebuild }}
         </button>
       </div>

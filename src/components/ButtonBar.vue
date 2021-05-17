@@ -19,7 +19,7 @@
           buttonSizeClass,
         ]"
         :disabled="!button.click || button.disabled"
-        @click="button.click"
+        @click.prevent="button.click"
       >
         <span
           v-if="typeof button.icon === 'object' && 'component' in button.icon"

@@ -78,7 +78,7 @@
                   </div>
                   <button
                     class="btn btn-block btn-primary mt-2"
-                    @click="selectSnippet(insert)"
+                    @click.prevent="selectSnippet(insert)"
                   >
                     {{ lang.selectSnippet }}
                   </button>

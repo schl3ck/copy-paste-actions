@@ -10,7 +10,7 @@
         'justify-content-between',
         'align-items-center',
       ]"
-      @click="$emit('click', $event)"
+      @click.prevent="$emit('click', $event)"
     >
       <div class="mr-5" v-html="title" />
       <slot name="header" />
@@ -33,7 +33,7 @@
           <button
             type="button"
             class="btn btn-outline-danger btn-sm"
-            @click="$emit('reset', pref)"
+            @click.prevent="$emit('reset', pref)"
           >
             <BIcon icon="arrow-counterclockwise" />
           </button>

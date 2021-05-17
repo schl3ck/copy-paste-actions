@@ -15,7 +15,7 @@
           'list-group-item list-group-item-action custom-list-group-item ' +
             'd-flex align-items-center cursor-pointer text-left'
         "
-        @click="openUrl(shortcut)"
+        @click.prevent="openUrl(shortcut)"
       >
         <img
           v-show="shortcut.image"
@@ -32,11 +32,17 @@
           >{{ lang.date }} {{ shortcut.date.toLocaleString() }}</span>
         </div>
         <div class="btn-group ml-auto">
-          <button class="btn btn-outline-dark" @click.stop="copyUrl(shortcut)">
+          <button
+            class="btn btn-outline-dark"
+            @click.stop.prevent="copyUrl(shortcut)"
+          >
             <BIcon icon="clipboard-plus" />
             <span class="sr-only">{{ lang.copy }}.</span>
           </button>
-          <button class="btn btn-danger" @click.stop="askDeletion = shortcut">
+          <button
+            class="btn btn-danger"
+            @click.stop.prevent="askDeletion = shortcut"
+          >
             <BIcon icon="trash" />
             <span class="sr-only">{{ lang.delete }}.</span>
           </button>
@@ -50,7 +56,7 @@
       <div
         v-if="askDeletion !== null"
         class="backdrop"
-        @click="askDeletion = null"
+        @click.prevent="askDeletion = null"
       />
     </transition>
 

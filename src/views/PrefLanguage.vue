@@ -21,7 +21,7 @@
           'flex-row',
           'align-items-center',
         ]"
-        @click="saveLang(language)"
+        @click.prevent="saveLang(language)"
       >
         <span class="fs-2x mr-2 my-n3">{{ getEmojiFlag(langCode) }}</span>
         {{ language }}

@@ -4,7 +4,12 @@
       <h2 class="mb-0">
         {{ lang.title }}
       </h2>
-      <button type="button" class="close" aria-label="Close" @click="close">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        @click.prevent="close"
+      >
         <BIcon icon="x" class="text-secondary fs-2x" aria-hidden="true" />
       </button>
     </div>
@@ -15,7 +20,7 @@
         :key="route.name + index"
         class="list-group-item d-flex align-items-baseline"
         :class="{ 'list-group-item-success': index === reversehistoryIndex }"
-        @click="go(index)"
+        @click.prevent="go(index)"
       >
         <div
           class="marker"

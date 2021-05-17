@@ -19,7 +19,7 @@
         <button
           v-if="listeners.doneButtonClick"
           class="btn btn-success btn-lg"
-          @click="listeners.doneButtonClick"
+          @click.prevent="listeners.doneButtonClick"
         >
           {{ props.doneButtonLabel }}
         </button>

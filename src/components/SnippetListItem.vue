@@ -97,7 +97,7 @@
           v-if="canEdit"
           class="col-auto d-flex align-items-center justify-content-center"
         >
-          <button class="btn btn-outline-dark" @click="startEdit">
+          <button class="btn btn-outline-dark" @click.prevent="startEdit">
             <BIcon icon="pencil-fill" />
             <span class="sr-only">{{ lang.edit }}</span>
           </button>
@@ -149,7 +149,7 @@
           'btn-primary': !showActionsBtnOutline,
           'btn-outline-primary': showActionsBtnOutline,
         }"
-        @click="showActions"
+        @click.prevent="showActions"
       >
         {{ lang.showActions }}
       </button>
@@ -157,7 +157,7 @@
       <button
         v-if="onSelect && !askDeletion"
         class="btn btn-block mt-2 btn-success"
-        @click="onSelect(snippet)"
+        @click.prevent="onSelect(snippet)"
       >
         <BIcon icon="check" scale="1.75" class="mr-1" />
         {{ lang.selectSnippet }}

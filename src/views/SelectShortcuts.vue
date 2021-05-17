@@ -32,7 +32,7 @@
               <button
                 type="button"
                 class="btn px-2"
-                @click="toggleShowMode('selected')"
+                @click.prevent="toggleShowMode('selected')"
               >
                 <BIcon icon="list-check" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowSelected }}</span>
@@ -49,7 +49,7 @@
               <button
                 type="button"
                 class="btn px-2"
-                @click="toggleShowMode('loaded')"
+                @click.prevent="toggleShowMode('loaded')"
               >
                 <BIcon icon="file-earmark-fill" class="mr-1" />
                 <span class="sr-only">{{ lang.srShowLoaded }}</span>
@@ -94,7 +94,7 @@
               'list-group-item list-group-item-action custom-list-group-item ' +
                 'd-flex align-items-center cursor-pointer text-left'
             "
-            @click="toggleSelection(shortcut)"
+            @click.prevent="toggleSelection(shortcut)"
           >
             <BIcon
               icon="check"

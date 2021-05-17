@@ -25,7 +25,7 @@
             <br>{{ lang.updateAvailable.ignored }}
           </template>
         </div>
-        <button class="btn btn-outline-dark" @click="showUpdate">
+        <button class="btn btn-outline-dark" @click.prevent="showUpdate">
           <BIcon icon="chevron-left" class="rotate-180" />
         </button>
       </div>
@@ -90,7 +90,7 @@
           :title="pref.lang.title"
           :description="pref.lang.description"
           :defaultValue="pref.default"
-          @click="openPrefSettings(pref)"
+          @click.prevent="openPrefSettings(pref)"
           @reset="reset"
         >
           <template #header>
@@ -120,7 +120,7 @@
           :title="pref.lang.title"
           :description="pref.lang.description"
           :defaultValue="pref.default"
-          @click="openPrefSettings(pref)"
+          @click.prevent="openPrefSettings(pref)"
           @reset="reset"
         >
           <template #header>

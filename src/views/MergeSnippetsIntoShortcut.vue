@@ -14,7 +14,7 @@
           class="center-icon text-success"
         />
         <span class="text-center">{{ lang.noItemsFound }}</span>
-        <button class="btn btn-primary" @click="openApp">
+        <button class="btn btn-primary" @click.prevent="openApp">
           {{ lang.openApp }}
         </button>
       </template>
