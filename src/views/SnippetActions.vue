@@ -82,7 +82,9 @@ export default {
     },
     /** @returns {object} */
     highlighted() {
-      return hljs.highlight("json", JSON.stringify(this.actions, null, 2));
+      return hljs.highlight(JSON.stringify(this.actions, null, 2), {
+        language: "json",
+      });
     },
     /** @returns {string} */
     actionsHighlighted() {
