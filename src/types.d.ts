@@ -81,6 +81,7 @@ declare namespace Store {
     version: string;
     url: string;
     notes: string;
+    notesHtml: string;
     release: Date;
   }
   type UpdateAvailable = false | UpdateData;

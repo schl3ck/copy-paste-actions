@@ -45,10 +45,11 @@ export default new Vuex.Store({
     /** @type {Store.UpdateAvailable} */
     updateAvailable: false,
     // {
-    //   version: "2.1",
+    //   version: "2.2",
     //   url: "localhost:8080/update",
     //   notes: "new version notes should go here. how about\nline breaks?",
-    //   release: new Date()
+    //   notesHtml: "<ul><li>a bullet</li><li>another bullet<br>with a line break</li></ul>",
+    //   release: new Date(),
     // },
     hideUpdateBanner: false,
     probablyOutdated: false,
