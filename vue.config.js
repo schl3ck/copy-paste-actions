@@ -1,3 +1,4 @@
+/* eslint-env node */
 const fs = require("fs");
 const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
@@ -36,6 +37,7 @@ module.exports = {
       {
         analyzerMode: "static",
         openAnalyzer: false, // process.env.NODE_ENV === "production",
+        generateStatsFile: true,
       },
     ]);
 
