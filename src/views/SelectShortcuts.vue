@@ -86,7 +86,7 @@
             {{ displayShortcuts.noItemsLang }}<span class="sr-only">.</span>
           </i>
         </div>
-        <template v-show="displayShortcuts.shortcuts.length > 0">
+        <template v-if="displayShortcuts.shortcuts.length > 0">
           <button
             v-for="shortcut in displayShortcuts.shortcuts"
             :key="shortcut.name"
