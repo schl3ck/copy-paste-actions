@@ -28,6 +28,7 @@ const baseConfig = {
         ignoreUrls: true,
         ignoreTemplateLiterals: true,
         ignoreRegExpLiterals: true,
+        ignorePattern: "^\\s*<!--.*-->$",
       },
     ],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
@@ -109,6 +110,18 @@ const baseConfig = {
     ],
     "vue/attribute-hyphenation": ["off"],
     "vue/no-mutating-props": "warn",
+    "vue/max-len": [
+      "error",
+      {
+        code: 80,
+        ignoreComments: true,
+        ignoreStrings: true,
+        ignoreUrls: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
+        ignorePattern: "^\\s*<!--.*-->$",
+      },
+    ],
   },
 };
 
