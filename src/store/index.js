@@ -238,7 +238,9 @@ export default new Vuex.Store({
 
       zipFiles.forEach(({ filename, data }) => {
         if (filename.endsWith("data.json")) {
-          const content = JSON.parse(stringFromBinaryString(data));
+          const content = JSON.parse(
+            decodeOptionalURI(stringFromBinaryString(data)),
+          );
           files.push(
             ...content.names.map((n, i) => {
               return {
@@ -269,15 +271,21 @@ export default new Vuex.Store({
             data: content,
           });
         } else if (filename === "snippets.json") {
-          const snippets = JSON.parse(stringFromBinaryString(data));
+          const snippets = JSON.parse(
+            decodeOptionalURI(stringFromBinaryString(data)),
+          );
           if (snippets && snippets.snippets && snippets.snippets.length) {
             commit("snippets", snippets.snippets);
           }
         } else if (filename === "import urls.json") {
-          const content = JSON.parse(stringFromBinaryString(data));
+          const content = JSON.parse(
+            decodeOptionalURI(stringFromBinaryString(data)),
+          );
           commit("importURLs", content);
         } else if (filename === "icloud urls.json") {
-          let content = JSON.parse(stringFromBinaryString(data));
+          let content = JSON.parse(
+            decodeOptionalURI(stringFromBinaryString(data)),
+          );
           content = Array.isArray(content.urls) ? content.urls : [content.urls];
           commit(
             "icloudUrls",
@@ -287,7 +295,9 @@ export default new Vuex.Store({
             }),
           );
         } else if (filename === "selectedShortcuts.json") {
-          const content = JSON.parse(stringFromBinaryString(data));
+          const content = JSON.parse(
+            decodeOptionalURI(stringFromBinaryString(data)),
+          );
           selectedShortcuts = content.names;
         }
       });
@@ -302,7 +312,7 @@ export default new Vuex.Store({
       const prefsData = document.getElementById("preferences").innerText.trim();
       if (!prefsData) return;
 
-      const prefs = JSON.parse(prefsData);
+      const prefs = JSON.parse(decodeOptionalURI(prefsData));
       if (!prefs) return;
 
       commit("preferences", prefs);
@@ -311,7 +321,7 @@ export default new Vuex.Store({
       const prefsData = document.getElementById("language").innerText.trim();
       if (!prefsData) return;
 
-      const prefs = JSON.parse(prefsData);
+      const prefs = JSON.parse(decodeOptionalURI(prefsData));
       if (!prefs) return;
 
       commit("language", prefs);
@@ -376,3 +386,14 @@ export default new Vuex.Store({
     },
   },
 });
+
+/**
+ * @param {string} str
+ */
+function decodeOptionalURI(str) {
+  if (str.startsWith("%7b")) {
+    return decodeURI(str);
+  } else {
+    return str;
+  }
+}
