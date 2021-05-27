@@ -23,7 +23,6 @@
         >
           {{ props.doneButtonLabel }}
         </button>
-        <slot />
         <div class="container">
           <p
             v-for="message in props.messages"
@@ -33,6 +32,7 @@
             {{ message }}
           </p>
         </div>
+        <slot />
       </div>
       <div
         v-else

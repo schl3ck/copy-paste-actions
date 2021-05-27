@@ -22,12 +22,18 @@
       :messages="options.messages"
       @doneButtonClick="openNow"
     >
-      <div v-if="offerArchiveRebuild" class="container text-center mt-2">
-        <span v-html="lang.rebuildInfo" />
+      <div v-if="offerArchiveRebuild" class="container text-center">
+        <hr v-if="options.messages && options.messages.length">
+        <span v-html="lang.rebuildInfo.message" />
         <br>
         <button class="btn btn-primary btn-sm" @click.prevent="rebuildArchive">
-          {{ lang.rebuild }}
+          {{ lang.rebuildInfo.button }}
         </button>
+        <br>
+        <span
+          v-if="!options.closePage"
+          v-html="lang.rebuildInfo.suggestGoToMainMenu"
+        />
       </div>
     </ProcessBar>
 

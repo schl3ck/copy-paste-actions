@@ -78,8 +78,11 @@
     "openApp": "Open Shortcuts",
     "closingPageIn": "Closing page in $remaining seconds...",
     "cancel": "Cancel",
-    "rebuildInfo": "Have you got a `gzip decompression failed` error?\nTry it again or",
-    "rebuild": "rebuild the archive"
+    "rebuildInfo": {
+      "message": "Have you got a `gzip decompression failed` error?\nTry it again or",
+      "button": "rebuild the archive",
+      "suggestGoToMainMenu": "Otherwise just go to the main menu with the button down below"
+    }
   },
   "processShortcuts": {
     "title": "Processing your shortcuts",
