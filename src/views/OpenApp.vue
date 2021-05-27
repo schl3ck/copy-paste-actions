@@ -22,7 +22,11 @@
       :messages="options.messages"
       @doneButtonClick="openNow"
     >
-      <div v-if="offerArchiveRebuild" class="container text-center">
+      <div
+        v-if="offerArchiveRebuild"
+        class="container text-center"
+        :class="{ 'mt-2': !options.messages || !options.messages.length }"
+      >
         <hr v-if="options.messages && options.messages.length">
         <span v-html="lang.rebuildInfo.message" />
         <br>
