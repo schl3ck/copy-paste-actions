@@ -391,8 +391,8 @@ export default new Vuex.Store({
  * @param {string} str
  */
 function decodeOptionalURI(str) {
-  if (str.startsWith("%7b")) {
-    return decodeURI(str);
+  if (str.startsWith("%7b") || str.startsWith("%7B")) {
+    return decodeURIComponent(str);
   } else {
     return str;
   }
