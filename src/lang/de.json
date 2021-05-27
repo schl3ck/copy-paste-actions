@@ -408,7 +408,7 @@
   },
   "firstRun": {
     "greeting": "Hi!",
-    "message": "Danke, dass du meinen Kurzbefehl asuprobierst!\n\nEs sieht so aus, dass dies das erste Mal ist, dass du diesen Kurzbefehl ausführst. Möchtest du die _Ersten Schritte_ anzeigen?\n\nP.S.: Du kannst die Browser-Chronik verwenden, um zwischen den Menüs zu navigieren!",
+    "message": "Danke, dass du meinen Kurzbefehl asuprobierst!\n\nEs sieht so aus, dass dies das erste Mal ist, dass du diesen Kurzbefehl ausführst. Möchtest du die _Ersten Schritte_ anzeigen?\n\nP.S.: Du kannst die Schaltflächen am unteren Rand verwenden, um zwischen den Menüs zu navigieren!",
     "viewGetStarted": "_Erste Schritte_ anzeigen",
     "close": "Ausblenden"
   },

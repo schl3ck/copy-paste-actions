@@ -408,7 +408,7 @@
   },
   "firstRun": {
     "greeting": "Hi!",
-    "message": "Thank you for checking out my shortcut!\n\nIt seems like this is the first time you're executing this shortcut. Do you want to view the _Get Started_ guide?\n\nP.S.: You can use the browser history to navigate between the menus!",
+    "message": "Thank you for checking out my shortcut!\n\nIt seems like this is the first time you're executing this shortcut. Do you want to view the _Get Started_ guide?\n\nP.S.: You can use the buttons below to navigate between the menus!",
     "viewGetStarted": "View _Get Started_",
     "close": "Dismiss"
   },
