@@ -141,7 +141,7 @@
       "snippet": "Möchtest du wirklich diesen Ausschnitt löschen?\nDie Änderungen müssen manuell mit der Kurzbefehle-App gespeichert werden! Du kannst diesen Ausschnitt so lange wiederherstellen, indem du diese Seite schließt und den Kurzbefehl erneut ausführst, so lange du die Änderungen nicht gespeichert hast."
     },
     "name": "Name:",
-    "description": "Beschreibung",
+    "description": "Beschreibung:",
     "showActions": "Zeige Aktionen (JSON)",
     "discard": "Verwerfen",
     "overrides": {

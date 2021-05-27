@@ -141,7 +141,7 @@
       "snippet": "Do you really want to delete this snippet?\nThe change needs to be saved manually to the shortcuts app! You can restore this snippet by closing this page and running the shortcut again as long as you haven't saved the changes."
     },
     "name": "Name:",
-    "description": "Description",
+    "description": "Description:",
     "showActions": "Show actions (JSON)",
     "discard": "Discard this",
     "overrides": {

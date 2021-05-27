@@ -109,14 +109,9 @@
           <div v-if="snippet.description && !editing">
             {{ lang.description }}<br>
             <div
-              class="card bg-transparent"
-              :class="{ 'border border-dark': snippet.discard }"
-            >
-              <div
-                class="card-body px-2 py-1"
-                v-html="formatDescription(snippet.description)"
-              />
-            </div>
+              class="border-left pl-2 pb-1"
+              v-html="formatDescription(snippet.description)"
+            />
           </div>
           <div v-else-if="editing">
             <label for="description">{{ lang.description }}</label>
