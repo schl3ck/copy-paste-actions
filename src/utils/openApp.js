@@ -3,6 +3,7 @@ import gzip from "gzip-js";
 import { Buffer } from "buffer";
 import store from "@/store/index";
 import router from "@/router";
+import { stringToUtf8ByteArray } from "./binaryStringToUTF8";
 
 let closePageTimeoutId = 0;
 
@@ -103,7 +104,11 @@ export function navigateAndBuildZip(options) {
     if (options.data && options.data.length) {
       for (const item of options.data) {
         if (typeof item.content === "string") {
-          tar.addTextFile(item.name, item.content, item.tarOptions);
+          tar.addFileArrayBuffer(
+            item.name,
+            new Uint8Array(stringToUtf8ByteArray(item.content)),
+            item.tarOptions,
+          );
         } else {
           tar.addFileArrayBuffer(
             item.name,
