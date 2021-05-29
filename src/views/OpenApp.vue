@@ -149,6 +149,7 @@ export default {
       this.offerArchiveRebuild = true;
     },
     rebuildArchive() {
+      this.options.noCompression = true;
       navigateAndBuildZip(this.options);
     },
   },

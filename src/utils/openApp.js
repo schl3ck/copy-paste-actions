@@ -19,6 +19,8 @@ let closePageTimeoutId = 0;
  * @param {string[]} [options.messages] Messages that should be displayed
  * @param {"push" | "replace"} [options.routerMethod] The router method to use.
  * Defaults to `"push"`
+ * @param {boolean} [options.noCompression] Wether or not to compress the .tar
+ * file
  * @param {object[]} [options.data] Array of files that are passed as data to
  * the Shortcut
  * @param {string} options.data[].name Filename
@@ -122,27 +124,31 @@ export function navigateAndBuildZip(options) {
     const arr = await tar.write((percent) => {
       OpenApp.percent = percent;
     });
-    // check if resulting gziped archive can be decompressed to prevent the
-    // "gzip decompression failed"-error in Shortcuts
     let buffer;
-    let threw = false;
-    let level = 9;
-    do {
-      threw = false;
-      buffer = Buffer.from(gzip.zip(arr, { level: level }));
-      // check if we can decompress. if not, decrease level
-      try {
-        gzip.unzip(buffer);
-      } catch (err) {
-        threw = true;
-        level--;
-        if (level < 1) {
-          // no compression worked. just transfer .tar archive
-          buffer = Buffer.from(arr);
-          break;
+    if (options.noCompression) {
+      buffer = Buffer.from(arr);
+    } else {
+      // check if resulting gziped archive can be decompressed to prevent the
+      // "gzip decompression failed"-error in Shortcuts
+      let threw = false;
+      let level = 9;
+      do {
+        threw = false;
+        buffer = Buffer.from(gzip.zip(arr, { level: level }));
+        // check if we can decompress. if not, decrease level
+        try {
+          gzip.unzip(buffer);
+        } catch (err) {
+          threw = true;
+          level--;
+          if (level < 1) {
+            // no compression worked. just transfer .tar archive
+            buffer = Buffer.from(arr);
+            break;
+          }
         }
-      }
-    } while (threw);
+      } while (threw);
+    }
 
     OpenApp.done = true;
     OpenApp.base64 = buffer.toString("base64");
