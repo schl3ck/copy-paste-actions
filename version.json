@@ -1,8 +1,9 @@
 {
   "result": "success",
-  "id": 24443,
-  "Version": "2.2.0",
-  "URL": "https://www.icloud.com/shortcuts/81142885fdaa47cbbc4fe1311126754b",
-  "Notes": "This update fixes the issue where the page was not automatically closed after navigating to shortcuts. This required me to implement the forward/back navigation using a library instead of the browser itself. If you have troubles with the swipe gestures, please report it to me. I've also added keyboard shortcuts for navigation which you can find in the help menu.",
-  "Release": "January 10, 2021"
+  "id": 27772,
+  "Version": "2.3.0",
+  "URL": "https://www.icloud.com/shortcuts/d0bdea2867df4beabee8da3cf88e9ca7",
+  "Notes": "* add option to \"Cleanup of functions\" to remove the functions only when other actions are added or removed.\n* fix again a crash when refreshing the icon cache (hopefully, pelase let me know!)\n* fix a mysterious bug that saved the snippets file in the wrong format resulting in blank pages in Safari\nThanks to reddit.com/u/Dastefster for suggesting/helping fix these things!\n\n* fix \"gzip decompression failed\" error in Shortcuts. Big thanks to reddit.com/u/tamaracks for providing me a reproducible case!\n\n* add button on page \"Open app\" to cancel the self-closing in case a \"gzip decompression failed\" error still occurs\n* add button on page \"Open app\" to rebuild the archive in case a \"gzip decompression failed\" error still occurs\n* improve handling of navigation gestures\n* add formatting to the changelog for future updates\n* add an error message when there was an error parsing any data from Shortcuts",
+  "Release": "May 29, 2021",
+  "NotesHTML": "<ul>\n<li>add option to <em>Cleanup of functions</em> to remove the functions only when other actions are added or removed</li>\n<li>fix again a crash when refreshing the icon cache (hopefully, pelase let me know!)</li>\n<li>fix a mysterious bug that saved the snippets file in the wrong format resulting in blank pages in Safari</li>\n</ul>\n<p>Thanks to <a href=\"http://reddit.com/u/Dastefster\">reddit.com/u/Dastefster</a> for suggesting/helping fix these things!</p>\n<ul>\n<li>fix <em>gzip decompression failed</em> error in Shortcuts.<br>\nBig thanks to <a href=\"http://reddit.com/u/tamaracks\">reddit.com/u/tamaracks</a> for providing me a reproducible case!</li>\n</ul>\n<p> </p>\n<ul>\n<li>add button on page &quot;Open app&quot; to cancel the self-closing in case a <em>gzip decompression failed</em> error still occurs</li>\n<li>add button on page &quot;Open app&quot; to rebuild the archive in case a <em>gzip decompression failed</em> error still occurs</li>\n<li>improve handling of navigation gestures</li>\n<li>add formatting to changelog for future updates</li>\n<li>add an error message when there was an error parsing any data from Shortcuts</li>\n</ul>\n"
 }
