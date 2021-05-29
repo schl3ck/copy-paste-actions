@@ -122,9 +122,30 @@ export function navigateAndBuildZip(options) {
     const arr = await tar.write((percent) => {
       OpenApp.percent = percent;
     });
-    const base64 = Buffer.from(gzip.zip(arr, { level: 9 })).toString("base64");
+    // check if resulting gziped archive can be decompressed to prevent the
+    // "gzip decompression failed"-error in Shortcuts
+    let buffer;
+    let threw = false;
+    let level = 9;
+    do {
+      threw = false;
+      buffer = Buffer.from(gzip.zip(arr, { level: level }));
+      // check if we can decompress. if not, decrease level
+      try {
+        gzip.unzip(buffer);
+      } catch (err) {
+        threw = true;
+        level--;
+        if (level < 1) {
+          // no compression worked. just transfer .tar archive
+          buffer = Buffer.from(arr);
+          break;
+        }
+      }
+    } while (threw);
+
     OpenApp.done = true;
-    OpenApp.base64 = base64;
+    OpenApp.base64 = buffer.toString("base64");
 
     // setTimeout(() => {
     //   OpenApp.percent = 0;
