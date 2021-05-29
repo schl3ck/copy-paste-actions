@@ -237,7 +237,7 @@
       "pluralIconSingularShortcut": "Derzeit sind $icons Icons im Cache und $shortcuts Kurzbefehl ohne einem Icon.",
       "pluralIconPluralShortcut": "Derzeit sind $icons Icons im Cache und $shortcuts Kurzbefehle ohne einem Icon."
     },
-    "refreshIconCacheNote": "Den Cach zu erneuern kann mehrere Minuten in anspruch nehmen, je nachdem wieviele Kurzbefehle auf deinem Gerät vorhanden sind.",
+    "refreshIconCacheNote": "Den Cach zu erneuern kann mehrere Minuten in anspruch nehmen, je nachdem wieviele Kurzbefehle auf deinem Gerät vorhanden sind. Falls die Kurzbefehle-App während des Erneuerns abstürzt, starte den Kurzbefehl einfach erneut und folge den Anweisungen.",
     "refreshIconCache": "Iconcache erneuern",
     "clearIconCache": "Iconcache löschen",
     "defaultArray": {

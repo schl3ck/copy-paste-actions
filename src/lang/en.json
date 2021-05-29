@@ -237,7 +237,7 @@
       "pluralIconSingularShortcut": "Currently there are $icons icons in the cache and $shortcuts shortcut without an icon.",
       "pluralIconPluralShortcut": "Currently there are $icons icons in the cache and $shortcuts shortcuts without an icon."
     },
-    "refreshIconCacheNote": "Refreshing the cache may take several minutes depending on the number of shortcuts on your device.",
+    "refreshIconCacheNote": "Refreshing the cache may take several minutes depending on the number of shortcuts on your device. If the Shortcuts app crashes during this refresh, just run this shortcut again and follow the instructions.",
     "refreshIconCache": "Refresh icon cache",
     "clearIconCache": "Clear icon cache",
     "defaultArray": {
