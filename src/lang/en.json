@@ -9,6 +9,16 @@
     "text": "The state of this page is probably outdated. Please close it and run this shortcut again.",
     "link": "Dismiss"
   },
+  "parsingErrors": {
+    "message": "There was an error while parsing $items. This shortcut may therefore not work as intended.",
+    "snippets": "your snippets",
+    "importUrls": "the URLs to import your shortcuts",
+    "icloudUrls": "your iCloud URLs",
+    "selectedShortcuts": "the selected shortcuts",
+    "itemSeparator": ", ",
+    "lastItemSeparator": " and ",
+    "link": "Dismiss"
+  },
   "navigationToolbar": {
     "back": "Back",
     "mainMenu": "Main menu",

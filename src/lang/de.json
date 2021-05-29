@@ -9,6 +9,16 @@
     "text": "Der Zustand dieser Seite is vermutlich nicht mehr aktuell. Bitte schließe sie und starte den Kurzbefehl erneut.",
     "link": "Ausblenden"
   },
+  "parsingErrors": {
+    "message": "Es gab einen Fehler wärend $items analysiert wurden. Dieser Kurzbefehl funktioniert deswegen möglicherweise nicht wie gewünscht.",
+    "snippets": "deine Ausschnitte",
+    "importUrls": "die URLs zum Importieren deiner Kurzbefehle",
+    "icloudUrls": "deine iCloud URLs",
+    "selectedShortcuts": "die ausgewählten Kurzbefehle",
+    "itemSeparator": ", ",
+    "lastItemSeparator": " und ",
+    "link": "Ausblenden"
+  },
   "navigationToolbar": {
     "back": "Zurück",
     "mainMenu": "Hauptmenü",

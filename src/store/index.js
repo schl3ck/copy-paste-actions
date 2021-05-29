@@ -68,6 +68,12 @@ export default new Vuex.Store({
     ],
     icloudUrlsChanged: false,
     changedAutoLoadShortcuts: false,
+    parsingErrors: {
+      snippets: false,
+      importUrls: false,
+      icloudUrls: false,
+      selectedShortcuts: false,
+    },
   },
   mutations: {
     activeRouterView(state, component) {
@@ -203,6 +209,18 @@ export default new Vuex.Store({
     changedAutoLoadShortcuts(state) {
       state.changedAutoLoadShortcuts = true;
     },
+    /**
+     * @param {"snippets"
+     *  | "importUrls"
+     *  | "icloudUrls"
+     *  | "selectedShortcuts"
+     * } what
+     */
+    parsingErrors(state, what) {
+      if (what in state.parsingErrors) {
+        state.parsingErrors[what] = true;
+      }
+    },
   },
   actions: {
     async loadShortcuts({ commit }) {
@@ -271,34 +289,52 @@ export default new Vuex.Store({
             data: content,
           });
         } else if (filename === "snippets.json") {
-          const snippets = JSON.parse(
-            decodeOptionalURI(stringFromBinaryString(data)),
-          );
-          if (snippets && snippets.snippets && snippets.snippets.length) {
-            commit("snippets", snippets.snippets);
+          try {
+            const snippets = JSON.parse(
+              decodeOptionalURI(stringFromBinaryString(data)),
+            );
+            if (snippets && snippets.snippets && snippets.snippets.length) {
+              commit("snippets", snippets.snippets);
+            }
+          } catch (err) {
+            commit("parsingErrors", "snippets");
           }
         } else if (filename === "import urls.json") {
-          const content = JSON.parse(
-            decodeOptionalURI(stringFromBinaryString(data)),
-          );
-          commit("importURLs", content);
+          try {
+            const content = JSON.parse(
+              decodeOptionalURI(stringFromBinaryString(data)),
+            );
+            commit("importURLs", content);
+          } catch (err) {
+            commit("parsingErrors", "importUrls");
+          }
         } else if (filename === "icloud urls.json") {
-          let content = JSON.parse(
-            decodeOptionalURI(stringFromBinaryString(data)),
-          );
-          content = Array.isArray(content.urls) ? content.urls : [content.urls];
-          commit(
-            "icloudUrls",
-            content.map((i) => {
-              i.date = new Date(i.date);
-              return i;
-            }),
-          );
+          try {
+            let content = JSON.parse(
+              decodeOptionalURI(stringFromBinaryString(data)),
+            );
+            content = Array.isArray(content.urls)
+              ? content.urls
+              : [content.urls];
+            commit(
+              "icloudUrls",
+              content.map((i) => {
+                i.date = new Date(i.date);
+                return i;
+              }),
+            );
+          } catch (err) {
+            commit("parsingErrors", "icloudUrls");
+          }
         } else if (filename === "selectedShortcuts.json") {
-          const content = JSON.parse(
-            decodeOptionalURI(stringFromBinaryString(data)),
-          );
-          selectedShortcuts = content.names;
+          try {
+            const content = JSON.parse(
+              decodeOptionalURI(stringFromBinaryString(data)),
+            );
+            selectedShortcuts = content.names;
+          } catch (err) {
+            commit("parsingErrors", "selectedShortcuts");
+          }
         }
       });
 

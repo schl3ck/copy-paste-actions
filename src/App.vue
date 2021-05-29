@@ -20,10 +20,7 @@
     </keep-alive>
 
     <transition name="slide-down">
-      <div
-        v-if="showUpdateBanner || showProbablyOutdated"
-        class="fixed-top text-center stacked-borders"
-      >
+      <div v-if="showSlideDown" class="fixed-top text-center stacked-borders">
         <div
           v-if="showUpdateBanner"
           class="alert alert-info overlay-message update-available"
@@ -40,6 +37,14 @@
           {{ lang.probablyOutdated.text }}
           <span class="link-style">{{ lang.probablyOutdated.link }}</span>
         </div>
+        <div
+          v-if="parsingErrorString"
+          class="alert alert-danger overlay-message"
+          @click.prevent="hideParsingErrors = true"
+        >
+          {{ parsingErrorString }}
+          <span class="link-style">{{ lang.parsingErrors.link }}</span>
+        </div>
       </div>
     </transition>
   </div>
@@ -48,6 +53,7 @@
 <script>
 import MainIcon from "@/icons/mainIcon.png";
 import HistoryOverview from "@/views/HistoryOverview.vue";
+import { joinReadable } from "./utils/utils";
 
 export default {
   name: "App",
@@ -58,6 +64,7 @@ export default {
       probablyOutdatedTimeouts: [],
       mainIcon: MainIcon,
       testoutput: "",
+      hideParsingErrors: false,
     };
   },
   computed: {
@@ -96,6 +103,27 @@ export default {
     /** @returns {boolean} */
     showHistoryOverview() {
       return this.$store.state.showHistoryOverview;
+    },
+    /** @returns {string} */
+    parsingErrorString() {
+      const lang = this.lang.parsingErrors;
+      const items = Object.entries(this.$store.state.parsingErrors)
+        .filter(([key, val]) => val)
+        .map(([key, val]) => lang[key]);
+      return items.length
+        ? lang.message.replace(
+            /\$items/g,
+            joinReadable(items, lang.itemSeparator, lang.lastItemSeparator),
+        )
+        : null;
+    },
+    /** @returns {boolean} */
+    showSlideDown() {
+      return (
+        this.showUpdateBanner
+        || this.probablyOutdated
+        || (Boolean(this.parsingErrorString) && !this.hideParsingErrors)
+      );
     },
   },
   watch: {
