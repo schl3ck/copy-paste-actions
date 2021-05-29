@@ -37,7 +37,7 @@ module.exports = {
       {
         analyzerMode: "static",
         openAnalyzer: false, // process.env.NODE_ENV === "production",
-        generateStatsFile: true,
+        generateStatsFile: false,
       },
     ]);
 
