@@ -51,6 +51,7 @@ export function checkForUpdate() {
             version: newVersion.join("."),
             url: file.URL,
             notes: file.Notes,
+            notesHtml: file.NotesHTML,
             release: new Date(file.Release),
           });
         }
