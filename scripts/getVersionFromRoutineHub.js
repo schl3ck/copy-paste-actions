@@ -1,5 +1,11 @@
 const https = require("https");
 const fs = require("fs");
+const MarkdownIt = require("markdown-it");
+
+const md = new MarkdownIt({
+  breaks: true,
+  linkify: true,
+});
 
 const url = "https://www.routinehub.co/api/v1/shortcuts/7742/versions/latest";
 
@@ -10,40 +16,35 @@ https.get(url, (res) => {
     body += data;
   });
   res.on("end", () => {
-    body = JSON.parse(body, (key, value) => {
+    const json = JSON.parse(body, (key, value) => {
       if (typeof value === "string") {
         return value.replace(/\r\n|\r/g, "\n");
       } else {
         return value;
       }
     });
-    const version = body.Version;
-    fs.writeFileSync("version.json", JSON.stringify(body, null, 2) + "\n", {
+
+    json.NotesHTML = md.render(fs.readFileSync("futureChangelog.md", "utf-8"));
+    fs.writeFileSync("version.json", JSON.stringify(json, null, 2) + "\n", {
       encoding: "utf-8",
     });
-    let pack = JSON.parse(fs.readFileSync("package.json", "utf-8"));
-    pack.version = version;
-    fs.writeFileSync("package.json", JSON.stringify(pack, null, 2) + "\n", {
-      encoding: "utf-8",
-    });
-    pack = JSON.parse(fs.readFileSync("package-lock.json", "utf-8"));
-    pack.version = version;
-    fs.writeFileSync(
+
+    const version = json.Version;
+    for (const file of [
+      "package.json",
       "package-lock.json",
-      JSON.stringify(pack, null, 2) + "\n",
-      {
-        encoding: "utf-8",
-      },
-    );
-    const prefs = JSON.parse(
-      fs.readFileSync("src/assets/preferences.json", "utf-8"),
-    );
-    prefs.Version = version;
-    fs.writeFileSync(
       "src/assets/preferences.json",
-      JSON.stringify(prefs, null, 2) + "\n",
-      { encoding: "utf-8" },
-    );
+    ]) {
+      const pack = JSON.parse(fs.readFileSync(file, "utf-8"));
+      if (file.includes("preferences.json")) {
+        pack.Version = version;
+      } else {
+        pack.version = version;
+      }
+      fs.writeFileSync(file, JSON.stringify(pack, null, 2) + "\n", {
+        encoding: "utf-8",
+      });
+    }
 
     console.log("Updated to version " + version);
   });
